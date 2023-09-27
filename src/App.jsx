@@ -10,12 +10,13 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LoginPages/>} />
-        {/* <Route path="/LoginPage" element={<LoginPages/>} /> */}
         <Route path="/HomePage" element={<HomePages/>} />
-        <Route path="*" element={<>PAGE NOT FOUND</>} />
+        <Route path="/BlankPage" element={<>INTERFACE ON PROGRESS</>} />
       </Routes>
     </Router>
   )
 }
 
 export default App
+
+{/* <Route path="/LoginPage" element={<LoginPages/>} /> */}

@@ -7,7 +7,7 @@ export default function Table() {
 
         //PROFILE SALESMAN
         <>
-             <div className="border-2 mt-10 flex border-gray-300 rounded-2xl w-full h-80">
+             <div className="border-2 mt-10 flex border-gray-300 rounded-2xl w-9/12 h-80">
                 <div className="row ms-4 m-2 w-full">
                     <div className="noId flex text-primary font-semibold text-3xl">
                         <p>User id : </p>

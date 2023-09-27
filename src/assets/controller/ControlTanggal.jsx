@@ -37,6 +37,7 @@ class DateControl extends React.Component {
     const bulan = now.toLocaleString("default", { month: "long" });
     const tahun = now.getFullYear();
     const formattedDate = `${tanggal} ${bulan} ${tahun}`;
+    
     return (
       <div>
         {formattedDate}

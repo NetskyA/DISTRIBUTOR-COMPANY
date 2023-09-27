@@ -13,13 +13,13 @@ function LoopMenu() {
      if(i==0){
        a.push(<DataNavbar img={LogoProfile} title="Profil" link="HomePage" />)
     }else if(i==1){
-       a.push(<DataNavbar img={LogoAdd} title="Pesan" link=""/>)
+       a.push(<DataNavbar img={LogoAdd} title="Pesan" link="BlankPage"/>)
       }else if(i==2){
          a.push(<DataNavbar img={LogoCatalog} title="Catalog" link="HomePage"/>)
       } if(i==3){
-        a.push(<DataNavbar img={LogoRetur} title="Retur" link=""/>)
+        a.push(<DataNavbar img={LogoRetur} title="Retur" link="BlankPage"/>)
    }else if(i==4){
-        a.push(<DataNavbar img={LogoHistory} title="Histori" link=""/>)
+        a.push(<DataNavbar img={LogoHistory} title="Histori" link="BlankPage"/>)
    }else if(i==5){
         a.push(<DataNavbar dou img={LogoLogout} title="Keluar" link=""/>)
    }
