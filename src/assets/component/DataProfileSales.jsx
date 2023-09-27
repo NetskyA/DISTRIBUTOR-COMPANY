@@ -7,7 +7,7 @@ export default function Table() {
 
         //PROFILE SALESMAN
         <>
-             <div className="border-2 mt-10 flex border-gray-300 rounded-2xl w-1/2 h-80">
+             <div className="border-2 mt-10 flex border-gray-300 rounded-2xl w-full h-80">
                 <div className="row ms-4 m-2 w-full">
                     <div className="noId flex text-primary font-semibold text-3xl">
                         <p>User id : </p>
@@ -28,14 +28,14 @@ export default function Table() {
                     </div>
                     <div className="Adress flex mt-4 text-primary font-semibold text-3xl">
                     <p>Alamat : </p>
-                        <p className="ms-4">Kutisati indah Utara IV NO 8 Surabaya</p>
+                        <p className="ms-4">Jl. Cisitu Lama No. 54 Dago Coblong Bandung Jawa Barat</p>
                     </div>
                     <div className="MngSales flex mt-4 text-primary font-semibold text-3xl">
                         <p>Manager Sales : </p>
                         <p className="ms-4">Alvin</p>
                     </div>
                 </div>
-                <div className="row m-1 bg-gray-300 rounded-xl w-1/3">
+                <div className="row m-1 bg-gray-300 rounded-xl w-1/4">
                     <div className="noId">
                         <img className="w-72 m-2 mx-auto" src={FotoProfile} alt="foto profile" />
                     </div>
