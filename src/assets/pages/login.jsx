@@ -10,50 +10,27 @@ import 'aos/dist/aos.css';
 // import {Container} from "postcss";
 
 function Loginfunction() {
+    //Animasi Aos ===================
     useEffect(() => {
         AOS.init();
     }, [])
-    // navigate
+    //Animasi Aos ===================
+
+
+    // Pindah halaman ================
     const Navigate = useNavigate();
-    const handleRedirect = () => {
-        Navigate("./HomePage")
-    }
-    //navigate
-
-    // //joi validation
-    // const [contact, setContact] = useState({
-    //     username:"",
-    //     password:0
-    // });
-
-    // const schema = Joi.object({
-    //     username: Joi.string().alphanum().min(3).max(30).required(),
-    //     password: Joi.number().required(),
-    // });
-    
-
-    // const {
-    //     register,handleSubmit,formState: { errors },
-    // } = useForm({
-    //     resolver: joiResolver(schema),
-    // });
-    // //joi validation
-
-    // function submitForm(data) {
-    //     setContact({
-    //       username: data.username,
-    //       password: data.password,
-    //     });
+    // const handleRedirect = () => {
+    //     Navigate("./HomePage")
     // }
+    //Pindah halaman =================
 
+    //Pengecekan Joi =================
     const [formData, setFormData] = useState({
         username: '',
         password: ''
-      });
-    
-      const [errors, setErrors] = useState({});
-    
-      const schema = Joi.object({
+    });
+    const [errors, setErrors] = useState({});
+    const schema = Joi.object({
         username: Joi.string()
           .regex(/^[a-zA-Z]+$/)
           .message("* Username hanya boleh mengandung angka")
@@ -62,18 +39,14 @@ function Loginfunction() {
           .alphanum()
           .message("* Password hanya boleh mengandung huruf dan angka")
           .required()
-      });
-    
-      const handleChange = (e) => {
+    });
+    const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-      };
-    
-      const handleSubmit = (e) => {
+    };
+    const handleSubmit = (e) => {
         e.preventDefault();
-    
         const validation = schema.validate(formData, { abortEarly: false });
-    
         if (validation.error) {
           const newErrors = {};
           validation.error.details.forEach((detail) => {
@@ -85,7 +58,9 @@ function Loginfunction() {
           console.log('Data berhasil divalidasi:', formData);
           Navigate("./HomePage")
         }
-      };
+    };
+    //Pengecekan Joi =================
+
 
     return (
         <> < div className = "cover mx-auto bg-white"> <section className="h-screen">

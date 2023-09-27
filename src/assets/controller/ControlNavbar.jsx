@@ -1,4 +1,5 @@
-function NavbarSideCard({img,title,link}) {
+/* eslint-disable*/
+function DataNavigationMenu({img,title,link}) {
     return (
         <ul className="content-center mt-5 mb-5 m-1 border rounded-xl hover:bg-gray-300">
                 <li className="content-center m-2 hover:text-white">
@@ -11,4 +12,4 @@ function NavbarSideCard({img,title,link}) {
     )
 }
 
-export default NavbarSideCard;
+export default DataNavigationMenu;

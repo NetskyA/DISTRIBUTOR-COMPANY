@@ -1,3 +1,5 @@
+/* eslint-disable*/
+
 import { useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import LogoutLogo from "../images/image-navbar/logout.png"

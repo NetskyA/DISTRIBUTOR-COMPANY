@@ -1,3 +1,5 @@
+/* eslint-disable*/
+
 import React, { useState, useEffect } from 'react';
 function TimeUpdate() {
   // Define a state variable to store the current time
