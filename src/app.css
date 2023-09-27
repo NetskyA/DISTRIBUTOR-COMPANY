@@ -1,0 +1,55 @@
+.covers{
+    background-image: url(assets/images/background_ljc.png);
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+body { 
+    overflow-x: hidden
+}
+
+
+.header{
+    color: #f97316;
+}
+
+.footer{
+    position: fixed;
+    bottom: 0;
+}
+
+.coverfooter{
+    background-color: #f97316;
+}
+
+.exit{
+    background-color: #f97316;
+}
+
+.exit:hover{
+    background-color: rgb(114, 114, 114);
+}
+
+#btnind{
+    background-color: #f97316;
+
+}
+#btnmn{
+    background-color: #f97316;
+
+}
+#btnotr{
+    background-color: #f97316;
+
+}
+#btnsmn{
+    background-color: #f97316;
+
+}
+
+#btnsubmit{
+    background-color: #f97316;
+}
+
