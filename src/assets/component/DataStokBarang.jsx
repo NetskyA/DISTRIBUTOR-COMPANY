@@ -16,12 +16,13 @@ const Table = () => {
     $(tableRef.current).DataTable({
       data: dataSet,
       columns: [
-        { title: "Name" },
-        { title: "Occupation" },
-        { title: "City" },
-        { title: "ZIP" },
-        { title: "Birthday" },
-        { title: "Salary" },
+        { title: "ID Barang" },
+        { title: "Nama Barang" },
+        { title: "Stok Karton" },
+        { title: "Stok Pies" },
+        { title: "Harga Karton" },
+        { title: "Harga Pies" },
+        { title: "Expired" },
       ],
     });
   }, []);

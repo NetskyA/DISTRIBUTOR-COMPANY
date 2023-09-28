@@ -26,8 +26,8 @@ function HomeFunction() {
                     <TargetData/>
                 </div>
                 <div className="cover mb-36 max-h-full mt-10" style={{width:"100%"}}>
-                    {/* <CatalogBarang/> */}
-                    <ProfileSales/>
+                    <CatalogBarang/>
+                    {/* <ProfileSales/> */}
                 </div>
             </div>
         </div>
