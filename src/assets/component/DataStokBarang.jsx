@@ -31,7 +31,7 @@ const Table = () => {
   return (
   <> 
     <div className="cover" style={{width:"100%"}}>
-        <table className="border-2 border-primary-600 rounded-lg" ref={tableRef}></table>
+        <table className="border-2 border-gray rounded-lg" ref={tableRef}></table>
     </div>
   </>
   )
