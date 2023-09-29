@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import $ from "jquery";
 import DataTables from "datatables.net";
+import DataTarget from "../component/DataTarget"
 
 
 import "datatables.net-dt/css/jquery.dataTables.min.css";
@@ -19,9 +20,9 @@ const Table = () => {
         { title: "ID Barang" },
         { title: "Nama Barang" },
         { title: "Stok Karton" },
-        { title: "Stok Pies" },
+        { title: "Stok Pcs" },
         { title: "Harga Karton" },
-        { title: "Harga Pies" },
+        { title: "Harga Pcs" },
         { title: "Expired" },
       ],
     });
@@ -30,7 +31,15 @@ const Table = () => {
   // Create a reference for the table
   return (
   <> 
-    <div className="cover" style={{width:"100%"}}>
+    <div className="cover flex">
+                <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
+                    <p>Katalog</p>
+                </div>
+                <div className="rounded-xl lg:w-1/2 float-right mx-auto text-2xl font-semibold">
+                    <DataTarget/>
+                </div>
+    </div>
+    <div className="cover mt-10" style={{width:"100%"}}>
         <table className="border-2 border-gray rounded-lg" ref={tableRef}></table>
     </div>
   </>

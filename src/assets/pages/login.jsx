@@ -30,7 +30,7 @@ function Loginfunction() {
     // Pindah halaman ================
     const Navigate = useNavigate();
     // const handleRedirect = () => {
-    //     Navigate("./HomePage")
+    //     Navigate("./CatalogBarang")
     // }
     //Pindah halaman =================
 
@@ -138,7 +138,7 @@ function Loginfunction() {
                                         onSubmit={handleSubmit}
                                         value="Login"
                                         name="login"
-                                        className="w-4/5 h-14 mt-3 text-gray font-medium text-2xl bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-center bg-gray-400 hover:bg-primary hover:text-white">login</button>
+                                        className="w-4/5 h-14 mt-3 text-gray font-medium text-2xl bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-center hover:bg-gray-400 bg-primary hover:text-white">login</button>
                                 </form>
                             </div>
 

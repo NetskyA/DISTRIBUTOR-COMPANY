@@ -3,22 +3,17 @@
 function targetData() {
     return(
         <>
-        <div className="flex">
-            <div className="header w-1/2 text-primary text-4xl font-semibold pt-2">
-                <p>(menu) nama sesuai dengan menu</p>
-            </div>
-                <div className="header w-1/2 mr-5 text-2xl font-semibold ps-3 pt-2">
-                    <p className="float-right ">
-                        / Rp.1.000.000 )
-                    </p>
-                    <p className="float-right ms-4 text-gray-600">
-                        ( Rp.300.000
-                    </p>
-                    <p className="float-right text-primary">
-                        Target bulanan
-                    </p>
+                <div className="header float-right flex text-3xl font-semibold m-2">
+                        <div className="text-primary">
+                            Target bulanan
+                        </div>
+                        <div className="ms-4 text-gray-600">
+                            ( Rp.37.538.000 
+                        </div>
+                        <div className="text-primary">
+                            / Rp.350.000.000 )
+                        </div>
                 </div>
-            </div>
         </>
     )
 }

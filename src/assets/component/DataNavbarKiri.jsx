@@ -15,7 +15,7 @@ function LoopMenu() {
     }else if(i==1){
        a.push(<DataNavbar img={LogoAdd} title="Pesan" link="BlankPage"/>)
       }else if(i==2){
-         a.push(<DataNavbar img={LogoCatalog} title="Catalog" link="HomePage"/>)
+         a.push(<DataNavbar img={LogoCatalog} title="Katalog" link="CatalogBarang"/>)
       } if(i==3){
         a.push(<DataNavbar img={LogoRetur} title="Retur" link="BlankPage"/>)
    }else if(i==4){

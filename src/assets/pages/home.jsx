@@ -28,12 +28,10 @@ function HomeFunction({move}) {
                 <DataNavbarAtas/>
             </div>
             <div className="w-full" style={{height: "71vh"}}>
-                <div className="valueTarget">
+                {/* <div className="valueTarget">
                     <TargetData/>
-                </div>
+                </div> */}
                 <div className="cover mb-36 max-h-full mt-10" style={{width:"100%"}}>
-                    {/* <CatalogBarang/>
-                    <ProfileSales/> */}
                 {dataMenu}
                 </div>
             </div>
