@@ -8,7 +8,13 @@ import DataNavbarAtas from "../component/DataNavbarAtas"
 import TargetData from "../component/DataTarget"
 
 
-function HomeFunction() {
+function HomeFunction({move}) {
+    let dataMenu;
+    if(move=="Profile"){ 
+        dataMenu = <CatalogBarang/>
+    }else if(move=="Katalog") {
+        dataMenu = <ProfileSales/>
+    } 
   return (
     <>
     <header className="flex mb-40">
@@ -26,8 +32,9 @@ function HomeFunction() {
                     <TargetData/>
                 </div>
                 <div className="cover mb-36 max-h-full mt-10" style={{width:"100%"}}>
-                    <CatalogBarang/>
-                    {/* <ProfileSales/> */}
+                    {/* <CatalogBarang/>
+                    <ProfileSales/> */}
+                {dataMenu}
                 </div>
             </div>
         </div>

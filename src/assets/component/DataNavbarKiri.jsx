@@ -11,7 +11,7 @@ function LoopMenu() {
     let a = [];
     for (let i = 0; i < 6; i++) {
      if(i==0){
-       a.push(<DataNavbar img={LogoProfile} title="Profil" link="HomePage" />)
+       a.push(<DataNavbar img={LogoProfile} title="Profil" link="ProfileSalesman" />)
     }else if(i==1){
        a.push(<DataNavbar img={LogoAdd} title="Pesan" link="BlankPage"/>)
       }else if(i==2){

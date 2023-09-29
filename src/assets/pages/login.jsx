@@ -67,7 +67,7 @@ function Loginfunction() {
         } else {
           // Kirim data ke server atau lakukan tindakan lainnya
           console.log('Data berhasil divalidasi:', formData);
-          Navigate("./HomePage")
+          Navigate("./ProfileSalesman")
         }
     };
     //Pengecekan Joi =================

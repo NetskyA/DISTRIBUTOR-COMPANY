@@ -10,8 +10,9 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LoginPages/>} />
-        <Route path="/HomePage" element={<HomePages/>} />
+        <Route path="/HomePage" element={<HomePages move={"Profile"}/>} />
         <Route path="/BlankPage" element={<>INTERFACE ON PROGRESS</>} />
+        <Route path="/ProfileSalesman" element={<HomePages move={"Katalog"}/>} />
       </Routes>
     </Router>
   )
