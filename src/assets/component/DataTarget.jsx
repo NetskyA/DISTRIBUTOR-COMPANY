@@ -3,7 +3,7 @@
 function targetData() {
     return(
         <>
-                <div className="header float-right flex text-3xl font-semibold m-2">
+                <div className="header float-right flex text-2xl font-semibold m-2">
                         <div className="text-primary">
                             Target bulanan
                         </div>

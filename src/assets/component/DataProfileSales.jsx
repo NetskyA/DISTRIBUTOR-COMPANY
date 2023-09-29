@@ -1,14 +1,25 @@
 /* eslint-disable*/
-import React from "react";
+import React, {useEffect} from "react";
 import FotoProfile from "../images/image-modal/foto-profile.png"
 import DataTarget from "../component/DataTarget"
 
 export default function Table() {
+    useEffect(() => {
+        // Disable text selection for elements
+        // with class "no-select"
+        const noSelectElements = document.querySelectorAll(".selectdisable");
+            noSelectElements.forEach((element) => {
+            element.style.webkitUserSelect = "none";
+            element.style.mozUserSelect = "none";
+            element.style.msUserSelect = "none";
+            element.style.userSelect = "none";
+        });
+    }, []);
     return (
 
         //PROFILE SALESMAN
         <>
-        <div className="cover flex">
+        <div className="cover selectdisable flex">
                 <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
                     <p>Profile</p>
                 </div>
@@ -16,7 +27,7 @@ export default function Table() {
                     <DataTarget/>
                 </div>
         </div>
-            <div className="border-2 mt-10 flex border-gray-300 rounded-2xl w-full h-80">
+            <div className="selectdisable border-2 mt-10 flex border-gray-300 rounded-2xl w-full h-80">
                 <div className="row ms-4 m-2 w-full">
                     <div className="noId flex text-primary font-semibold text-2xl">
                         <p>User id : </p>
