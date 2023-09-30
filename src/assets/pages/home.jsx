@@ -1,11 +1,11 @@
 /* eslint-disable*/
 
-import CatalogBarang from "../component/DataStokBarang"
-import ProfileSales from "../component/DataProfileSales"
+import CatalogBarang from "../component/Salesman/DataStokBarang"
+import ProfileSales from "../component/Salesman/DataProfileSales"
 import DataTimeControl from "../controller/ControlWaktu"
-import DataNavbarKiri from "../component/DataNavbarKiri"
-import DataNavbarAtas from "../component/DataNavbarAtas"
-import TargetData from "../component/DataTarget"
+import DataNavbarKiri from "../component/Salesman/DataNavbarKiri"
+import DataNavbarAtas from "../component/Salesman/DataNavbarAtas"
+import TargetData from "../component/Salesman/DataTarget"
 
 
 function HomeFunction({move}) {

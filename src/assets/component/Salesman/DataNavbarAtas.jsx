@@ -1,5 +1,5 @@
 // import { useState } from 'react';
-import DateControl from "../controller/ControlTanggal"
+import DateControl from "../../controller/ControlTanggal"
 // import ModalExit from "../controller/ModalExit"
 
 function NavBarUp() {

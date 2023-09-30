@@ -1,7 +1,7 @@
 /* eslint-disable*/
 import React, {useEffect} from "react";
-import FotoProfile from "../images/image-modal/foto-profile.png"
-import DataTarget from "../component/DataTarget"
+import FotoProfile from "../../images/image-modal/fotoprofile.png"
+import DataTarget from "../../component/Salesman/DataTarget"
 
 export default function Table() {
     useEffect(() => {

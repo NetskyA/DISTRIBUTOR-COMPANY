@@ -1,10 +1,10 @@
-import DataNavbar from "../controller/ControlNavbar"
-import LogoProfile from "../images/image-navbar/staff.png"
-import LogoRetur from "../images/image-navbar/return.png"
-import LogoAdd from "../images/image-navbar/add.png"
-import LogoHistory from "../images/image-navbar/history.png"
-import LogoLogout from "../images/image-navbar/logout2.png"
-import LogoCatalog from "../images/image-navbar/writing.png"
+import DataNavbar from "../Salesman/DataNavbarElement"
+import LogoProfile from "../../images/image-navbar/staff.png"
+import LogoRetur from "../../images/image-navbar/return.png"
+import LogoAdd from "../../images/image-navbar/add.png"
+import LogoHistory from "../../images/image-navbar/history.png"
+import LogoLogout from "../../images/image-navbar/logout2.png"
+import LogoCatalog from "../../images/image-navbar/writing.png"
 
 
 function LoopMenu() {
