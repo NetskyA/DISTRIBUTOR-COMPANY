@@ -2,7 +2,7 @@
 
 export default {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}","./src/**/*.{html,js}","./node_modules/tw-elements/dist/js/**/*.js","node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}"
+    "./src/**/*.{js,jsx,ts,tsx}","./src/**/*.{html,js}","./node_modules/tw-elements/dist/js/**/*.js","node_modules/flowbite-react/**/*.{js,jsx,ts,tsx},./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
     container: {

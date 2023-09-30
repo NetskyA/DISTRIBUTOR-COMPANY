@@ -11,8 +11,9 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPages/>} />
         <Route path="/CatalogBarang" element={<HomePages move={"Profile"}/>} />
-        <Route path="/BlankPage" element={<>INTERFACE ON PROGRESS</>} />
         <Route path="/ProfileSalesman" element={<HomePages move={"Katalog"}/>} />
+        <Route path="/OrderBarang" element={<HomePages move={"Order"}/>} />
+        <Route path="/BlankPage" element={<>INTERFACE ON PROGRESS</>} />
       </Routes>
     </Router>
   )

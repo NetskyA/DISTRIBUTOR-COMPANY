@@ -11,17 +11,12 @@ const DatePickerComponent = () => {
   };
 
   return (
-    <div>
+    <div className="ms-3 mb-1">
       <DatePicker
         selected={selectedDate}
         onChange={handleChange}
         dateFormat="dd/MM/yyyy"
       />
-      {selectedDate && (
-        <p>
-          {selectedDate.getDate()}/{selectedDate.getMonth() + 1}/{selectedDate.getFullYear()}
-        </p>
-      )}
     </div>
   );
 };

@@ -3,10 +3,7 @@ import { useEffect, useRef } from "react";
 import $ from "jquery";
 import DataTables from "datatables.net";
 import DataTarget from "../../component/Salesman/DataTarget"
-
-
 import "datatables.net-dt/css/jquery.dataTables.min.css";
-
 import dataSet from "./dataSet";
 
 const Table = () => {

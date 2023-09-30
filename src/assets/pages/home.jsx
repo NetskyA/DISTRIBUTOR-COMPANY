@@ -1,7 +1,8 @@
 /* eslint-disable*/
 
-import CatalogBarang from "../component/Salesman/DataStokBarang"
 import ProfileSales from "../component/Salesman/DataProfileSales"
+import OrderBarang from "../component/Salesman/DataOrderBarang"
+import CatalogBarang from "../component/Salesman/DataStokBarang"
 import DataTimeControl from "../controller/ControlWaktu"
 import DataNavbarKiri from "../component/Salesman/DataNavbarKiri"
 import DataNavbarAtas from "../component/Salesman/DataNavbarAtas"
@@ -14,7 +15,9 @@ function HomeFunction({move}) {
         dataMenu = <CatalogBarang/>
     }else if(move=="Katalog") {
         dataMenu = <ProfileSales/>
-    } 
+    }else if (move == "Order"){
+        dataMenu = <OrderBarang/>
+    }
   return (
     <>
     <header className="flex mb-40">
