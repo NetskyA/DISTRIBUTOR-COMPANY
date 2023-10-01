@@ -78,16 +78,16 @@ export default function Loginfunction() {
                 <div className="container h-full px-6 py-24">
                     <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
                         
-                        //gambat login sebelah kiri
+                        {/* //gambat login sebelah kiri */}
                         <div className="mb-12 md:mb-0 md:w-8/12 lg:w-6/12" data-aos="fade-right" data-aos-duration="1000">
                             <img
                                 src={LogoLogin}
                                 className="w-full"
                                 alt="logologin"/>
                         </div>
-                        //gambat login sebelah kiri
+                        {/* //gambat login sebelah kiri */}
 
-                        //form untuk login ke landing page
+                        {/* //form untuk login ke landing page */}
                         <div className="md:w-8/12 lg:ml-6 lg:w-5/12" data-aos="fade-up" data-aos-duration="1000">
                             <div className="cover">
                                 <div className="w-4/5 flex flex-col items-center justify-center mb-14">
@@ -143,7 +143,7 @@ export default function Loginfunction() {
                                 </form>
                             </div>
                         </div>
-                        //form untuk login ke landing page
+                        {/* //form untuk login ke landing page */}
 
                     </div>
                 </div>
