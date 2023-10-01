@@ -34,7 +34,7 @@ export default function Table() {
                 {/* untuk memanggil function controller target salesman */}
 
         </div>
-            <div className="selectdisable border-2 mt-10 flex border-gray-300 rounded-2xl w-full h-80">
+            <div className="selectdisable border-2 mt-10 flex border-gray-300 rounded-2xl w-full h-80" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
 
                 {/* berisi biodata salesman */}
                 <div className="row ms-4 m-2 w-full">

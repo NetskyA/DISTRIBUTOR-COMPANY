@@ -3,6 +3,7 @@
 import ProfileSales from "../component/Salesman/DataProfileSales"
 import OrderBarang from "../component/Salesman/DataOrderBarang"
 import CatalogBarang from "../component/Salesman/DataStokBarang"
+import ReturBarang from "../component/Salesman/DataReturBarang"
 import DataTimeControl from "../controller/ControlWaktu"
 import DataNavbarKiri from "../component/Salesman/DataNavbarKiri"
 import DataNavbarAtas from "../component/Salesman/DataNavbarAtas"
@@ -17,6 +18,8 @@ function HomeFunction({move}) {
         dataMenu = <ProfileSales/>
     }else if (move == "Order"){
         dataMenu = <OrderBarang/>
+    }else if (move == "Retur"){
+        dataMenu = <ReturBarang/>
     }
   return (
     <>

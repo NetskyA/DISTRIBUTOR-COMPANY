@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import dataSet from "../../component/Salesman/DataOrder";
-import CheckBox from "./temps";
 import DataTarget from "../../component/Salesman/DataTarget"
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import { useReactToPrint } from "react-to-print";
@@ -15,7 +14,7 @@ export default function DataOrderBarang() {
             temp.push(<td key={j}>{data[i]}</td>)
             j++
         }
-        temp.push(<td key={j}><input type="text" name={data[0]} defaultValue="0"/></td>)
+        temp.push(<td key={j}><input className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" type="text" name={data[0]} defaultValue="0"/></td>)
         return <>{temp}</>
     }
 
@@ -36,7 +35,7 @@ export default function DataOrderBarang() {
                 targets: [5]
             }
         ]
-    });;
+    });
 
     const test = ()=>{
         var data = table.$('input').serialize()
@@ -76,18 +75,18 @@ export default function DataOrderBarang() {
         <>
             <form action="" className="mb-16">
                 {/* navbaratas */}
-                <div className="cover flex">
+                <div className="cover flex" >
                     <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
                         <p>Order</p>
                     </div>
-                    <div className="rounded-xlnpm lg:w-1/2 float-right mx-auto text-2xl font-semibold">
+                    <div className="rounded-xl lg:w-1/2 float-right mx-auto text-2xl font-semibold">
                         <DataTarget />
                     </div>
                 </div>
                 {/* navbaratas */}
 
                 {/* form input order */}
-                <div className="selectdisable border-2 mt-10 flex border-gray-400 rounded-2xl w-5/12 h-full">
+                <div className="selectdisable border-2 mt-10 flex rounded-2xl w-5/12 h-full" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
                     <div className="row ms-4 m-2 w-full">
                         <div className="noId flex text-primary text-2xl">
                             <p className="pt-1 pr-2">Nama Pelanggan : </p>
@@ -111,7 +110,7 @@ export default function DataOrderBarang() {
                             <p className="pt-1 pr-2">Email : </p>
                             <input type="email" placeholder="email" className="border-0 w-1/2 text-xl h-10" name="email" id="email" />
                         </div>
-                        <div className="Email flex mt-3 bottom-0 text-primary  text-2xl">
+                        <div className="Email flex mt-3 bottom-0 text-primary text-2xl">
                             <p className="pt-1 pr-2">Tanggal : </p>
                             <input type="datetime-local" placeholder="tanggal" className="border-0 text-xl h-10" name="date" id="date" />
                         </div>
@@ -171,7 +170,7 @@ export default function DataOrderBarang() {
             <hr className="h-px my-8 rounded-2xl bg-gray-500 border-2" />
 
             {/* subtotal */}
-            <div className="w-full mt-10 border rounded-xl border-gray-500">
+            <div className="w-full mt-10 border rounded-xl " style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
                 <div className="m-2">
                     <div className="noId flex text-primary  text-2xl">
                         <p>Total harga : </p>

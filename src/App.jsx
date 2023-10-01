@@ -13,6 +13,7 @@ function App() {
         <Route path="/CatalogBarang" element={<HomePages move={"Profile"}/>} />
         <Route path="/ProfileSalesman" element={<HomePages move={"Katalog"}/>} />
         <Route path="/OrderBarang" element={<HomePages move={"Order"}/>} />
+        <Route path="/ReturBarang" element={<HomePages move={"Retur"}/>} />
         <Route path="/BlankPage" element={<>INTERFACE ON PROGRESS</>} />
       </Routes>
     </Router>
