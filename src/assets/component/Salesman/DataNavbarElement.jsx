@@ -1,6 +1,7 @@
 /* eslint-disable*/
-function DataNavigationMenu({img,title,link}) {
+export default function DataNavigationMenu({img,title,link}) {
     return (
+        // membuat per silice untuk navbar
         <ul className="content-center mt-5 mb-5 m-1 border rounded-xl hover:bg-gray-300">
                 <li className="content-center m-2 hover:text-white">
                     <a href={"#/"+link} style={{textDecoration:"none"}}>
@@ -9,7 +10,7 @@ function DataNavigationMenu({img,title,link}) {
                     </a>
                 </li>
          </ul>
+        // membuat per silice untuk navbar
     )
 }
 
-export default DataNavigationMenu;

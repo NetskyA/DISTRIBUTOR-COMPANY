@@ -2,21 +2,25 @@
 import DateControl from "../../controller/ControlTanggal"
 // import ModalExit from "../controller/ModalExit"
 
-function NavBarUp() {
+export default function NavBarUp() {
     return(
         <>
         <div className="mt-2 font-semibold text-sm text-gray-500 flex float-right">
-        <div>
-            <p className="text-2xl mr-5 mt-4 font-semibold">
-                Aldi A. (Sales)
-            </p>
-        </div>
-                <div className="text-2xl mr-5 mt-4 font-semibold" style={{color:"#f97316"}}>
-                    <DateControl/>
-                </div>
+            {/* nanti digunakan memanggil nama sesuai akun*/}
+            <div>
+                <p className="text-2xl mr-5 mt-4 font-semibold">
+                    Aldi A. (Sales)
+                </p>
+            </div>
+            {/* nanti digunakan memanggil nama sesuai akun */}
+
+            {/* untuk memanggil function controller target salesman */}             
+            <div className="text-2xl mr-5 mt-4 font-semibold" style={{color:"#f97316"}}>
+                <DateControl/>
+            </div>
+            {/* untuk memanggil function controller target salesman */}
         </div>
         </>
     )
 }
 
-export default NavBarUp;

@@ -8,7 +8,6 @@ import "datatables.net-dt/css/jquery.dataTables.min.css";
 import $ from "jquery";
 
 export default function DataOrderBarang(){
-    // const conponentPDF= useRef();
 
     const tableRef = useRef();
     useEffect(() => {
@@ -31,12 +30,7 @@ export default function DataOrderBarang(){
         () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
         [selectedKeys]
     );
-    // const generatePDF = useReactToPrint({
-    //     content:() => conponentPDF.current,
-    //     documentTitle:"Export Pdf",
-    //     onBeforePrint:()=>alert("sure for download"),
-    //     // onAfterPrint:()=> alert("Data saved in PDF")
-    //   });
+
     return(
         <>
         <form action="" className="mb-16">

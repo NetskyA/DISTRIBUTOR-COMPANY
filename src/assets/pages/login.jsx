@@ -10,7 +10,7 @@ import Joi from "joi";
 import 'aos/dist/aos.css';
 // import {Container} from "postcss";
 
-function Loginfunction() {
+export default function Loginfunction() {
     //Animasi Aos ===================
     useEffect(() => {
         AOS.init();
@@ -26,7 +26,6 @@ function Loginfunction() {
     }, []);
     //Animasi Aos ===================
 
-
     // Pindah halaman ================
     const Navigate = useNavigate();
     // const handleRedirect = () => {
@@ -35,7 +34,6 @@ function Loginfunction() {
     //Pindah halaman =================
 
     //Pengecekan Joi =================
-
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -79,14 +77,17 @@ function Loginfunction() {
             <section className="h-screen">
                 <div className="container h-full px-6 py-24">
                     <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
-
+                        
+                        //gambat login sebelah kiri
                         <div className="mb-12 md:mb-0 md:w-8/12 lg:w-6/12" data-aos="fade-right" data-aos-duration="1000">
                             <img
                                 src={LogoLogin}
                                 className="w-full"
-                                alt="Phone image"/>
+                                alt="logologin"/>
                         </div>
+                        //gambat login sebelah kiri
 
+                        //form untuk login ke landing page
                         <div className="md:w-8/12 lg:ml-6 lg:w-5/12" data-aos="fade-up" data-aos-duration="1000">
                             <div className="cover">
                                 <div className="w-4/5 flex flex-col items-center justify-center mb-14">
@@ -141,8 +142,9 @@ function Loginfunction() {
                                         className="w-4/5 h-14 text-gray font-medium text-2xl bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-center hover:bg-gray-400 bg-primary hover:text-white">login</button>
                                 </form>
                             </div>
-
                         </div>
+                        //form untuk login ke landing page
+
                     </div>
                 </div>
             </section>
@@ -151,5 +153,3 @@ function Loginfunction() {
 
     )
 }
-
-export default Loginfunction;

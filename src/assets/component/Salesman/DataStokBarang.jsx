@@ -3,7 +3,7 @@ import $ from "jquery";
 import DataTables from "datatables.net";
 import DataTarget from "../../component/Salesman/DataTarget";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
-import dataSet from "./dataSet";
+import dataSet from "../../component/Salesman/DataSet";
 import * as XLSX from "xlsx";
 
 import "datatables.net-buttons";

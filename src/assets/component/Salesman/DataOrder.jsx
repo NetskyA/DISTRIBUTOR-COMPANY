@@ -1,5 +1,3 @@
-import CheckBox from "./temps";
-
 export default [
     [
       "Kecap Manis Bango 12 ml",
