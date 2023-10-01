@@ -42,7 +42,7 @@ function HomeFunction({move}) {
     </header>
     <div className="footer mt-24 w-full">
         <div className="coverfooter h-16 w-full">
-            <p className="font-semibold text-3xl text-white float-left mt-4 ms-10">CV. Rusak Bersama</p>
+            <p className="font-semibold text-3xl text-white float-left mt-4 ms-10">CV. LAJU JAYA CEMERLANG</p>
             <div className="footerleft float-right mt-4">
                 <div className="watch flex">
                 <div className="text-2xl mr-6 z-10 text-white font-semibold">

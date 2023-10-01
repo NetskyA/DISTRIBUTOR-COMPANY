@@ -135,9 +135,9 @@ export default function ReturnBarang(){
             </div>
             <p className="pr-2 pt-4 text-md italic text-primary">*pastikan no order sama dengan histori & pengembalian</p>
 
-            <hr className="h-px my-8 mt-16 rounded-xl bg-gray-400 border" />
+            <hr className="h-px my-8 mt-8 rounded-xl bg-gray-400 border" />
 
-            <div className="cover mt-16 mb-5" style={{ width: "100%" }}>
+            <div className="cover mt-8 mb-5" style={{ width: "100%" }}>
                 {/* <table className="border-2 border-gray rounded-lg" ref={tableRef}></table> */}
                 <table id="example" className="display border-2 border-gray rounded-lg">
                     <thead>
