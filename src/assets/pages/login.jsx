@@ -129,7 +129,7 @@ function Loginfunction() {
                                             aria-describedby="remember"
                                             type="checkbox"
                                             className="w-5 h-5 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                                            required=""/>
+                                            required="remember"/>
                                             <p className="text-gray-600 pt-2 ms-2">Remember me</p>
                                     </div>
                                     <button
@@ -138,7 +138,7 @@ function Loginfunction() {
                                         onSubmit={handleSubmit}
                                         value="Login"
                                         name="login"
-                                        className="w-4/5 h-14 mt-3 text-gray font-medium text-2xl bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-center hover:bg-gray-400 bg-primary hover:text-white">login</button>
+                                        className="w-4/5 h-14 text-gray font-medium text-2xl bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-center hover:bg-gray-400 bg-primary hover:text-white">login</button>
                                 </form>
                             </div>
 

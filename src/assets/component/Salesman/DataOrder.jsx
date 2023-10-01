@@ -1,10 +1,11 @@
+import CheckBox from "./temps";
+
 export default [
     [
-      
       "Kecap Manis Bango 12 ml",
       "100",
-      "1100",
-      "Rp. 120.000",
+      "Rp. 125.000",
+      "1120",
       "Rp. 12.000",
       "0",
     ],
@@ -21,8 +22,8 @@ export default [
       
       "Kecap Manis Bango 12 ml",
       "100",
-      "1100",
-      "Rp. 120.000",
+      "Rp. 125.000",
+      "1120",
       "Rp. 12.000",
       "0",
     ],
@@ -39,8 +40,8 @@ export default [
       
       "Kecap Manis Bango 12 ml",
       "100",
-      "1100",
-      "Rp. 120.000",
+      "Rp. 125.000",
+      "1120",
       "Rp. 12.000",
       "0",
     ],
@@ -57,8 +58,8 @@ export default [
       
       "Kecap Manis Bango 12 ml",
       "100",
-      "1100",
-      "Rp. 120.000",
+      "Rp. 125.000",
+      "1120",
       "Rp. 12.000",
       "0",
     ],
@@ -75,8 +76,8 @@ export default [
       
       "Kecap Manis Bango 12 ml",
       "100",
-      "1100",
-      "Rp. 120.000",
+      "Rp. 125.000",
+      "1120",
       "Rp. 12.000",
       "0",
     ],
@@ -93,8 +94,8 @@ export default [
       
       "Kecap Manis Bango 12 ml",
       "100",
-      "1100",
-      "Rp. 120.000",
+      "Rp. 125.000",
+      "1120",
       "Rp. 12.000",
       "0",
     ],
@@ -120,8 +121,8 @@ export default [
       
       "Kecap Manis Bango 12 ml",
       "100",
-      "1100",
-      "Rp. 120.000",
+      "Rp. 125.000",
+      "1120",
       "Rp. 12.000",
       "0",
     ],
@@ -138,8 +139,8 @@ export default [
       
       "Kecap Manis Bango 12 ml",
       "100",
-      "1100",
-      "Rp. 120.000",
+      "Rp. 125.000",
+      "1120",
       "Rp. 12.000",
       "0",
     ],
@@ -156,8 +157,8 @@ export default [
       
       "Kecap Manis Bango 12 ml",
       "100",
-      "1100",
-      "Rp. 120.000",
+      "Rp. 125.000",
+      "1120",
       "Rp. 12.000",
       "0",
     ],
@@ -182,8 +183,8 @@ export default [
       
       "Kecap Manis Bango 12 ml",
       "100",
-      "1100",
-      "Rp. 120.000",
+      "Rp. 125.000",
+      "1120",
       "Rp. 12.000",
       "0",
     ],
@@ -200,8 +201,8 @@ export default [
       
       "Kecap Manis Bango 12 ml",
       "100",
-      "1100",
-      "Rp. 120.000",
+      "Rp. 125.000",
+      "1120",
       "Rp. 12.000",
       "0",
     ],
@@ -218,8 +219,8 @@ export default [
       
       "Kecap Manis Bango 12 ml",
       "100",
-      "1100",
-      "Rp. 120.000",
+      "Rp. 125.000",
+      "1120",
       "Rp. 12.000",
       "0",
     ],

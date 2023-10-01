@@ -1,5 +1,6 @@
 import React, {useEffect,useRef,useState} from "react";
 import dataSet from "../../component/Salesman/DataOrder";
+import CheckBox from "./temps";
 import DataTarget from "../../component/Salesman/DataTarget"
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
 import { useReactToPrint } from "react-to-print";
@@ -8,17 +9,17 @@ import $ from "jquery";
 
 export default function DataOrderBarang(){
     // const conponentPDF= useRef();
+
     const tableRef = useRef();
     useEffect(() => {
       // Initialize DataTables within the component
       $(tableRef.current).DataTable({
         data: dataSet,
         columns: [
-
           { title: "Nama Barang", field:"namabarang"},
           { title: "Stok Karton", field:"stokkarton" },
-          { title: "Stok Pcs", field:"stopcs" },
           { title: "Harga Karton", field:"hargakarton" },
+          { title: "Stok Pcs", field:"stopcs" },
           { title: "Harga Pcs", field:"hargapcs" },
           { title: "Qty", field:"qty" },
         ],
@@ -39,14 +40,18 @@ export default function DataOrderBarang(){
     return(
         <>
         <form action="" className="mb-16">
+            {/* navbaratas */}
             <div className="cover flex">
-                    <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
-                        <p>Order</p>
-                    </div>
-                    <div className="rounded-xlnpm lg:w-1/2 float-right mx-auto text-2xl font-semibold">
-                        <DataTarget/>
-                    </div>
+                <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
+                    <p>Order</p>
+                </div>
+                <div className="rounded-xlnpm lg:w-1/2 float-right mx-auto text-2xl font-semibold">
+                    <DataTarget/>
+                </div>
             </div>
+            {/* navbaratas */}
+
+            {/* form input order */}
             <div className="selectdisable border-2 mt-10 flex border-gray-400 rounded-2xl w-5/12 h-full">
                 <div className="row ms-4 m-2 w-full">
                     <div className="noId flex text-primary text-2xl">
@@ -63,7 +68,9 @@ export default function DataOrderBarang(){
                     </div>
                     <div className="PhoneNumber flex mt-3 text-primary  text-2xl">
                         <p className="pt-1 pr-2">No. Hp : </p>
-                        <input type="number" placeholder="no hp" className="border-0 w-1/2 text-xl h-10" name="nohp" id="nohp" />
+                        <input type="number" placeholder="no 1" required="number" className="border-0 w-72 text-xl h-10" name="nohp" id="nohp" />
+                        <p className="pt-1 pr-2 ps-2"> & </p>
+                        <input type="number" placeholder="no 2" className="border-0 w-72 text-xl h-10" name="nohp" id="nohp" />
                     </div>
                     <div className="Email flex mt-3 text-primary  text-2xl">
                         <p className="pt-1 pr-2">Email : </p>
@@ -101,11 +108,19 @@ export default function DataOrderBarang(){
                 </div>
             </div>
             </form>
+            {/* form input order */}
+
             <hr className="h-px my-8 rounded-xl bg-gray-500 border"/>
+
+            {/* datatable */}
             <div className="cover mt-16 mb-10" style={{width:"100%"}}>
                 <table className="border-2 border-gray rounded-lg" ref={tableRef}></table>
             </div>
+            {/* datatable */}
+
             <hr className="h-px my-8 rounded-2xl bg-gray-500 border-2"/>
+
+            {/* subtotal */}
             <div className="w-full mt-10 border rounded-xl border-gray-500">
                 <div className="m-2">
                     <div className="noId flex text-primary  text-2xl">
@@ -126,11 +141,15 @@ export default function DataOrderBarang(){
                     </div>
                 </div>
             </div>
+            {/* subtotal */}
+
+            {/* submit kirim kranjang */}
             <div className="w w-52 float-left mt-8 mb-5">
                 <button className="bg-primary w-52 h-16 rounded-xl hover:bg-slate-400 text-white hover:text-primary font-bold py-2 px-4">
                 Submit
                 </button>
             </div>
+            {/* submit kirim kranjang */}
 
         </>
 
