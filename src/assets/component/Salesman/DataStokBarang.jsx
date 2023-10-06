@@ -66,7 +66,7 @@ const Table = () => {
           <DataTarget />
         </div>
       </div>
-      <div className="cover mt-10 border-2 rounded-xl" style={{ width: "100%",boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
+      <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%",boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
       <p className="pt-5 text-4xl font-semibold text-center text-primary">Data Barang</p>
         <div className="cover mb-28">
           <div className="covertable m-2">

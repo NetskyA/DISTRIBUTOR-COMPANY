@@ -85,7 +85,7 @@ export default function DataHistoriPenjualan(){
                 </div>
             </div>
 
-            <div className="cover mt-12 border-2 rounded-xl" style={{ width: "100%",boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
+            <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%",boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                 <p className="pt-8 text-4xl font-semibold text-center text-primary">Data Barang</p>
                 <div className="cover m-2">
                 <table id="example" className="display border-2 border-gray rounded-lg">

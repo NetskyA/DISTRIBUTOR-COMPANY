@@ -25,7 +25,7 @@ export default function CheckBox (){
                         <p className="ms-4">Yurtan</p>
                     </div>
                     <div className="PhoneNumber flex mt-4 text-primary font-semibold text-2xl md:text-2xl">
-                        <p>Nama Toko</p>
+                        <p>Nama Toko : </p>
                         <p className="ms-4">TK. Senin-Minggu</p>
                     </div>
                     <div className="Adress flex mt-4 text-primary font-semibold text-2xl md:text-2xl">
@@ -65,6 +65,7 @@ export default function CheckBox (){
 
             </div>
             <div className="w-full mt-16 mb-28 mx-auto border-2 rounded-xl" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
+                <p className="pt-5 text-3xl font-semibold text-center text-primary">Barang Retur (JIKA ADA)</p>
                 <div className="cover m-5">
                     <table className="text-left text-2xl font-light border rounded-xl w-full" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
                         <thead className="border-b font-medium dark:border-neutral-500">
