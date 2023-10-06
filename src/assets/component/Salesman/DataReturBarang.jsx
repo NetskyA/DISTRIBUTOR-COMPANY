@@ -29,14 +29,7 @@ export default function ReturnBarang(){
         return <>{cetak}</>;
     }
     const tableRef = useRef();
-    var table=$('#example').DataTable({
-        columnDefs: [
-            {
-                orderable: false,
-                targets: [6]
-            }
-        ]
-    });
+    var table;
 
     const test = ()=>{
         var data = table.$('input').serialize()
@@ -57,7 +50,7 @@ export default function ReturnBarang(){
                 { title: "Qty Retur", field: "qtyretur" },
             ],
         });
-        table = $('#example').DataTable({
+        table = new $('#example').DataTable({
             columnDefs: [
                 {
                     orderable: false,

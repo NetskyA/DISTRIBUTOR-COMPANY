@@ -28,14 +28,7 @@ export default function DataOrderBarang() {
         return <>{cetak}</>;
     }
     const tableRef = useRef();
-    var table=$('#example').DataTable({
-        columnDefs: [
-            {
-                orderable: false,
-                targets: [5]
-            }
-        ]
-    });
+    var table;
 
     const test = ()=>{
         var data = table.$('input').serialize()
@@ -55,7 +48,7 @@ export default function DataOrderBarang() {
                 { title: "Qty", field: "qty" },
             ],
         });
-        table = $('#example').DataTable({
+        table = new $('#example').DataTable({
             columnDefs: [
                 {
                     orderable: false,
