@@ -62,15 +62,17 @@ const Table = () => {
         <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
           <p>Katalog</p>
         </div>
-        <div className="rounded-xl lg:w-1/2 float-right mx-auto text-2xl font-semibold">
+        <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
           <DataTarget />
         </div>
       </div>
-      <div className="cover mt-10" style={{ width: "100%" }}>
-        <table
-          className="border-2 border-gray rounded-lg"
-          ref={tableRef}
-        ></table>
+      <div className="cover mt-10 border-2 rounded-xl" style={{ width: "100%",boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
+      <p className="pt-5 text-4xl font-semibold text-center text-primary">Data Barang</p>
+        <div className="cover mb-28">
+          <div className="covertable m-2">
+            <table className="border-2 border-gray rounded-lg" ref={tableRef}></table>
+          </div>
+        </div>
       </div>
     </>
   );

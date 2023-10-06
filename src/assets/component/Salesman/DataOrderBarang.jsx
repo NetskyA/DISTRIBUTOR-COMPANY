@@ -72,15 +72,15 @@ export default function DataOrderBarang() {
                     <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
                         <p>Order</p>
                     </div>
-                    <div className="rounded-xl lg:w-1/2 float-right mx-auto text-2xl font-semibold">
+                    <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
                         <DataTarget />
                     </div>
                 </div>
                 {/* navbaratas */}
 
                 {/* form input order */}
-                <div className="selectdisable border-2 mt-10 flex rounded-2xl w-5/12 h-full" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
-                    <div className="row ms-4 m-2 w-full">
+                <div className="selectdisable w-6/12 border-2 mt-10 flex rounded-2xl h-full" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
+                    <div className="row ms-4 m-4 w-full">
                         <div className="noId flex text-primary text-2xl">
                             <p className="pt-1 pr-2">Nama Pelanggan : </p>
                             <input type="text" placeholder="nama" className="border-0 w-1/2 text-2xl h-10" name="nama" id="nama" />
@@ -95,9 +95,9 @@ export default function DataOrderBarang() {
                         </div>
                         <div className="PhoneNumber flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 pr-2">No. Hp : </p>
-                            <input type="number" placeholder="no 1" required="number" className="border-0 w-72 text-xl h-10" name="nohp" id="nohp" />
+                            <input type="number" placeholder="no 1" required="number" className="border-0 w-64 text-xl h-10" name="nohp" id="nohp" />
                             <p className="pt-1 pr-2 ps-2"> & </p>
-                            <input type="number" placeholder="no 2" className="border-0 w-72 text-xl h-10" name="nohp" id="nohp" />
+                            <input type="number" placeholder="no 2" className="border-0 w-64 text-xl h-10" name="nohp" id="nohp" />
                         </div>
                         <div className="Email flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 pr-2">Email : </p>
@@ -131,16 +131,15 @@ export default function DataOrderBarang() {
                                 </DropdownMenu>
                             </Dropdown> */}
                         </div>
-
                     </div>
                 </div>
+            <p className="pr-2 pt-4 text-md italic text-primary">*perhatikan tanggal pemesanan & metode pembayaran</p>
             </form>
+
             {/* form input order */}
 
-            <hr className="h-px my-8 rounded-xl bg-gray-500 border" />
-
             {/* datatable */}
-            <div className="cover mt-16 border-2 rounded-xl mb-10" style={{ width: "100%" }}>
+            <div className="cover mt-16 border-2 rounded-xl mb-10" style={{ width: "100%",boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                 {/* <table className="border-2 border-gray rounded-lg" ref={tableRef}></table> */}
                 <p className="pt-8 text-4xl font-semibold text-center text-primary">Data Barang</p>
                 <div className="cover m-2">
@@ -162,8 +161,6 @@ export default function DataOrderBarang() {
                 </div>
             </div>
             {/* datatable */}
-
-            <hr className="h-px my-8 rounded-2xl bg-gray-500 border-2" />
 
             {/* subtotal */}
             <div className="w-full mt-10 border rounded-xl " style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
@@ -190,7 +187,7 @@ export default function DataOrderBarang() {
 
             {/* submit kirim kranjang */}
             <div className="w w-52 float-left mt-8 mb-5">
-                <button onClick={test} className="bg-primary w-52 h-16 rounded-xl hover:bg-slate-400 text-white hover:text-primary font-bold py-2 px-4">
+                <button onClick={test} className="bg-primary w-52 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                     Submit
                 </button>
             </div>

@@ -65,7 +65,7 @@ export default function Loginfunction() {
         } else {
           // Kirim data ke server atau lakukan tindakan lainnya
           console.log('Data berhasil divalidasi:', formData);
-          Navigate("./ProfileSalesman")
+          Navigate("./Profile-Salesman")
         }
     };
     //Pengecekan Joi =================
@@ -73,13 +73,13 @@ export default function Loginfunction() {
 
     return (
     <> 
-        <div className = "cover selectdisable mx-auto bg-white"> 
+        <div className = "cover selectdisable mx-auto mb-32 bg-white"> 
             <section className="h-screen">
-                <div className="container h-full px-6 py-24">
-                    <div className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
+                <div className="h-full px-6 py-24">
+                    <div className="g-6 container flex h-full flex-wrap items-center justify-center lg:justify-between">
                         
                         {/* //gambat login sebelah kiri */}
-                        <div className="mb-12 md:mb-0 md:w-8/12 lg:w-6/12" data-aos="fade-right" data-aos-duration="1000">
+                        <div className="mb-12 md:mb-0 md:w-8/12 lg:w-6/12" data-aos="fade-right" data-aos-duration="1500">
                             <img
                                 src={LogoLogin}
                                 className="w-full"
@@ -88,7 +88,7 @@ export default function Loginfunction() {
                         {/* //gambat login sebelah kiri */}
 
                         {/* //form untuk login ke landing page */}
-                        <div className="md:w-8/12 lg:ml-6 lg:w-5/12" data-aos="fade-up" data-aos-duration="1000">
+                        <div className="md:w-8/12 lg:ml-6 lg:w-5/12" data-aos="fade-up" data-aos-duration="1500">
                             <div className="cover">
                                 <div className="w-4/5 flex flex-col items-center justify-center mb-14">
                                     <div className="text-4xl text-primary font-semibold">Data Centers</div>

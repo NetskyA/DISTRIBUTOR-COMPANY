@@ -20,24 +20,19 @@ export default function Table() {
         //PROFILE SALESMAN
         <>
         <div className="cover selectdisable flex">
-                
                 {/* nanti digunakan memanggil nama sesuai akun*/}
                 <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
-                    <p>Profile</p>
-                </div>
-                {/* nanti digunakan memanggil nama sesuai akun*/}
-
-                {/* untuk memanggil function controller target salesman */}                
-                <div className="rounded-xl lg:w-1/2 float-right mx-auto text-2xl font-semibold">
-                    <DataTarget/>
-                </div>
+                        <p>Profil</p>
+                    </div>
+                    <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
+                        <DataTarget />
+                    </div>                
                 {/* untuk memanggil function controller target salesman */}
-
         </div>
-            <div className="selectdisable border-2 mt-10 flex border-gray-300 rounded-2xl w-full h-80" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
+            <div className="selectdisable border-2 mt-10 flex border-gray-300 rounded-2xl w-full h-full" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
 
                 {/* berisi biodata salesman */}
-                <div className="row ms-4 m-2 w-full">
+                <div className="row ms-6 m-4 w-full">
                     <div className="noId flex text-primary font-semibold text-2xl">
                         <p>User id : </p>
                         <p className="ms-4">S0001</p>

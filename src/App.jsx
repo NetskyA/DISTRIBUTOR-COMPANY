@@ -10,10 +10,12 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LoginPages/>} />
-        <Route path="/CatalogBarang" element={<HomePages move={"Profile"}/>} />
-        <Route path="/ProfileSalesman" element={<HomePages move={"Katalog"}/>} />
-        <Route path="/OrderBarang" element={<HomePages move={"Order"}/>} />
-        <Route path="/ReturBarang" element={<HomePages move={"Retur"}/>} />
+        <Route path="/Catalog-Barang" element={<HomePages move={"Profile"}/>} />
+        <Route path="/Profile-Salesman" element={<HomePages move={"Katalog"}/>} />
+        <Route path="/Order-Barang" element={<HomePages move={"Order"}/>} />
+        <Route path="/Retur-Barang" element={<HomePages move={"Retur"}/>} />
+        <Route path="/History-Penjualan-Salesman" element={<HomePages move={"Histori"}/>} />
+        <Route path="/Detail-Penjualan-Salesman" element={<HomePages move={"Detail"}/>} />
         <Route path="/BlankPage" element={<>INTERFACE ON PROGRESS</>} />
       </Routes>
     </Router>

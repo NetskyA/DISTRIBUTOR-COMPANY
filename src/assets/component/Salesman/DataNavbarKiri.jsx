@@ -12,15 +12,15 @@ function LoopMenu() {
     let a = [];
     for (let i = 0; i < 6; i++) {
         if(i==0){
-            a.push(<DataNavbar img={LogoProfile} title="Profil" link="ProfileSalesman" />)
+            a.push(<DataNavbar img={LogoProfile} title="Profil" link="Profile-Salesman" />)
         }else if(i==1){
-            a.push(<DataNavbar img={LogoAdd} title="Order" link="OrderBarang"/>)
+            a.push(<DataNavbar img={LogoAdd} title="Order" link="Order-Barang"/>)
         }else if(i==2){
-            a.push(<DataNavbar img={LogoCatalog} title="Katalog" link="CatalogBarang"/>)
-        } if(i==3){
-            a.push(<DataNavbar img={LogoRetur} title="Retur" link="ReturBarang"/>)
+            a.push(<DataNavbar img={LogoCatalog} title="Katalog" link="Catalog-Barang"/>)
+        }else if(i==3){
+            a.push(<DataNavbar img={LogoHistory} title="Histori" link="History-Penjualan-Salesman"/>)
         }else if(i==4){
-            a.push(<DataNavbar img={LogoHistory} title="Histori" link="BlankPage"/>)
+            a.push(<DataNavbar img={LogoRetur} title="Retur" link="Retur-Barang"/>)
         }else if(i==5){
             a.push(<DataNavbar dou img={LogoLogout} title="Keluar" link=""/>)
         }
