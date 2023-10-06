@@ -99,7 +99,8 @@ export default function ReturnBarang(){
                         </div>
                         <div className="flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 pr-2">Nomer pemesanan : </p>
-                            <input type="text" placeholder="No. pemesanan" className="border rounded-md w-72 text-2xl h-10" name="idpemesanan" id="idpemesanan" />
+                            <input type="text" placeholder="No. pemesanan" className="border rounded-md border-primary w-72 text-2xl h-10" name="idpemesanan" id="idpemesanan" />
+                            <button type="button" className="bg-primary ms-6 w-32 rounded-lg hover:bg-gray-300 hover:text-primary">Save</button>
                         </div>
                         <div className="flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 pr-2">Nama Pelanggan : </p>
@@ -137,8 +138,10 @@ export default function ReturnBarang(){
 
             <hr className="h-px my-8 mt-8 rounded-xl bg-gray-400 border" />
 
-            <div className="cover mt-8 mb-5" style={{ width: "100%" }}>
+            <div className="cover mt-8 mb-5 border-2 rounded-xl" style={{ width: "100%" }}>
+            <p className="pt-8 text-4xl font-semibold text-center text-primary">Data Barang</p>
                 {/* <table className="border-2 border-gray rounded-lg" ref={tableRef}></table> */}
+                <div className="cover m-2">
                 <table id="example" className="display border-2 border-gray rounded-lg">
                     <thead>
                         <tr>
@@ -155,6 +158,7 @@ export default function ReturnBarang(){
                         <Tabel /> 
                     </tbody>
                 </table>
+                </div>
             </div>
 
             <hr className="h-px my-8 rounded-xl bg-gray-400 border" />

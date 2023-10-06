@@ -116,7 +116,7 @@ export default function DataOrderBarang() {
                         </div>
                         <div className="MngSales flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 pr-2">Metode Pembayaran : </p>
-                            <Dropdown>
+                            {/* <Dropdown>
                                 <DropdownTrigger>
                                     <Button
                                         variant="bordered"
@@ -136,7 +136,7 @@ export default function DataOrderBarang() {
                                     <DropdownItem key="tunai">Tunai</DropdownItem>
                                     <DropdownItem key="transfer">Transfer</DropdownItem>
                                 </DropdownMenu>
-                            </Dropdown>
+                            </Dropdown> */}
                         </div>
 
                     </div>
@@ -147,8 +147,10 @@ export default function DataOrderBarang() {
             <hr className="h-px my-8 rounded-xl bg-gray-500 border" />
 
             {/* datatable */}
-            <div className="cover mt-16 mb-10" style={{ width: "100%" }}>
+            <div className="cover mt-16 border-2 rounded-xl mb-10" style={{ width: "100%" }}>
                 {/* <table className="border-2 border-gray rounded-lg" ref={tableRef}></table> */}
+                <p className="pt-8 text-4xl font-semibold text-center text-primary">Data Barang</p>
+                <div className="cover m-2">
                 <table id="example" className="display border-2 border-gray rounded-lg">
                     <thead>
                         <tr>
@@ -164,6 +166,7 @@ export default function DataOrderBarang() {
                         <Tabel /> 
                     </tbody>
                 </table>
+                </div>
             </div>
             {/* datatable */}
 
