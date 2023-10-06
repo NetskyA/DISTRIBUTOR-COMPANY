@@ -97,7 +97,7 @@ export default function DataHistoriPenjualan(){
                             <th>Tanggal</th>
                             <th>Jumlah Transaksi</th>
                             <th>Status</th>
-                            <th>Detail</th>
+                            <th>Detail Penjualan</th>
                         </tr>
                     </thead>
                     <tbody>

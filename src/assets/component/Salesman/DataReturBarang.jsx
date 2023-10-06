@@ -88,17 +88,17 @@ export default function ReturnBarang(){
                             <input type="date" name="date" id="dates" className="border-0 text-2xl h-10" required="dates" />
                         </div>
                         <div className="flex mt-3 text-primary  text-2xl">
-                            <p className="pt-1 pr-2">Nomer pemesanan : </p>
+                            <p className="pt-1 pr-2">Nomer Order : </p>
                             <input type="text" placeholder="No. pemesanan" className="border rounded-md border-primary w-72 text-2xl h-10" name="idpemesanan" id="idpemesanan" />
                             <button type="button" className="bg-primary ms-6 w-32 rounded-lg hover:bg-gray-300 hover:text-primary">Save</button>
                         </div>
                         <div className="flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 pr-2">Nama Pelanggan : </p>
-                            <input type="text" placeholder="nama toko" className="border-0 w-1/2 text-2xl h-10" name="toko" id="toko" />
+                            <input type="text" placeholder="nama pelanggan" className="border-0 w-1/2 text-2xl h-10" name="pelanggan" id="pelanggan" />
                         </div>
                         <div className="flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 pr-2">Nama Toko : </p>
-                            <input type="text" placeholder="nama pelanggan" className="border-0 w-1/2 text-2xl h-10" name="pelanggan" id="pelanggan" />
+                            <input type="text" placeholder="nama toko" className="border-0 w-1/2 text-2xl h-10" name="toko" id="toko" />
                         </div>
                         <div className="flex mt-3 text-primary text-2xl">
                             <p className="pt-2">Pengembalian : </p>
