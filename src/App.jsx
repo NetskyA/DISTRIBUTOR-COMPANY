@@ -14,6 +14,7 @@ function App() {
         <Route path="/Profile-Salesman" element={<HomePages move={"Katalog"}/>} />
         <Route path="/Order-Barang" element={<HomePages move={"Order"}/>} />
         <Route path="/Retur-Barang" element={<HomePages move={"Retur"}/>} />
+        <Route path="/Post-Keranjang" element={<HomePages move={"Post"}/>} />
         <Route path="/History-Penjualan-Salesman" element={<HomePages move={"Histori"}/>} />
         <Route path="/Detail-Penjualan-Salesman" element={<HomePages move={"Detail"}/>} />
         <Route path="/BlankPage" element={<>INTERFACE ON PROGRESS</>} />

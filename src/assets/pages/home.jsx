@@ -5,6 +5,7 @@ import OrderBarang from "../component/Salesman/DataOrderBarang"
 import CatalogBarang from "../component/Salesman/DataStokBarang"
 import ReturBarang from "../component/Salesman/DataReturBarang"
 import HistoriPenjualanSales from "../component/Salesman/DataHistoriPenjualan"
+import PostKeranjang from "../component/Salesman/DataPostKeranjang"
 import DetailHistoriPenjualanSales from "../component/Salesman/DataDetailHistori"
 import DataTimeControl from "../controller/ControlWaktu"
 import DataNavbarKiri from "../component/Salesman/DataNavbarKiri"
@@ -26,6 +27,8 @@ function HomeFunction({move}) {
         dataMenu = <HistoriPenjualanSales/>
     }else if (move == "Detail"){
         dataMenu = <DetailHistoriPenjualanSales/>
+    }else if (move == "Post"){
+        dataMenu = <PostKeranjang/>
     }
   return (
         <>

@@ -4,7 +4,6 @@ import React, { useEffect, useRef } from "react";
 import dataSet from "../../component/Salesman/DataRetur";
 import DataDetailHistori from "../../component/Salesman/DataDetailHistori";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import $ from "jquery";
 
 export default function DataHistoriPenjualan(){

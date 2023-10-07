@@ -3,7 +3,6 @@ import { Radio } from "@material-tailwind/react";
 import React, { useEffect, useRef } from "react";
 import dataSet from "../../component/Salesman/DataRetur";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import $ from "jquery";
 
 export default function DataDetailHistory (){
@@ -74,7 +73,7 @@ export default function DataDetailHistory (){
         <div className="cover selectdisable flex">
                 {/* nanti digunakan memanggil nama sesuai akun*/}
                 <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
-                    <p>Histori > Detail</p>
+                    <p>Histori & Detail</p>
                 </div>
                 <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
                     <DataTarget />
@@ -187,7 +186,7 @@ export default function DataDetailHistory (){
                             </tr>
                         </tbody>
                     </table>
-                    <p className="pr-2 pt-4 text-md italic text-primary">*cek kembali semua data apabila terjadi retur</p>
+                    <p className="pr-2 pt-4 text-md italic text-primary">*cek kembali semua data apabila terdapat retur</p>
                 </div>
             </div>
             <hr className="h-px my-8 rounded-xl bg-gray-400 border" />
