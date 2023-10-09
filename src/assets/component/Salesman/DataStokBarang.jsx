@@ -14,6 +14,8 @@ import "datatables.net-buttons/js/buttons.print.min.js";
 
 const Table = () => {
   const tableRef = useRef();
+
+  let table;
   const ExportExcel = () => {
     let Heading = [['ID Barang', 'Nama Barang', 'Stok Karton', 'Stok Pcs','Harga Karton', 'Harga Pcs','Expired']];
     const wb = XLSX.utils.book_new();
@@ -29,18 +31,16 @@ const Table = () => {
   };
   useEffect(() => {
     // Initialize DataTables within the component
-
-    new $(tableRef.current).DataTable({
-      data: dataSet,
-      columns: [
-        { title: "ID Barang" },
-        { title: "Nama Barang" },
-        { title: "Stok Karton" },
-        { title: "Stok Pcs" },
-        { title: "Harga Karton" },
-        { title: "Harga Pcs" },
-        { title: "Expired" },
-      ],
+    dataSet.map((e) => {
+      let block = document.createElement('tr');
+      for (let i = 0; i < 7; i++) {
+          let block2 = document.createElement('td');
+          block2.innerText=e[i];
+          block.appendChild(block2);
+      }
+      document.getElementById("isi").appendChild(block)
+    })
+    table = new $('#example').DataTable({
       dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
       buttons: [
         "copy",
@@ -70,7 +70,21 @@ const Table = () => {
       <p className="pt-5 text-4xl font-semibold text-center text-primary">Data Barang</p>
         <div className="cover mb-28">
           <div className="covertable m-2">
-            <table className="border-2 border-gray rounded-lg" ref={tableRef}></table>
+            <table id="example" className="border-2 border-gray rounded-lg">
+                    <thead>
+                        <tr>
+                            <th>ID Barang</th>
+                            <th>Nama Barang</th>
+                            <th>Stok Karton</th>
+                            <th>Stok Pcs</th>
+                            <th>Harga Karton</th>
+                            <th>Harga Pcs</th>
+                            <th>Expired</th>
+                        </tr>
+                    </thead>
+                    <tbody id="isi">
+                    </tbody>
+                </table>
           </div>
         </div>
       </div>

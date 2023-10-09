@@ -37,17 +37,7 @@ export default function DataOrderBarang() {
 
     useEffect(() => {
         // Initialize DataTables within the component
-        $(tableRef.current).DataTable({
-            data: dataSet,
-            columns: [
-                { title: "Nama Barang", field: "namabarang" },
-                { title: "Stok Karton", field: "stokkarton" },
-                { title: "Harga Karton", field: "hargakarton" },
-                { title: "Stok Pcs", field: "stopcs" },
-                { title: "Harga Pcs", field: "hargapcs" },
-                { title: "Qty", field: "qty" },
-            ],
-        });
+        
         table = new $('#example').DataTable({
             columnDefs: [
                 {
