@@ -7,6 +7,7 @@ import ReturBarang from "../component/Salesman/DataReturBarang"
 import HistoriPenjualanSales from "../component/Salesman/DataHistoriPenjualan"
 import PostKeranjang from "../component/Salesman/DataPostKeranjang"
 import DetailHistoriPenjualanSales from "../component/Salesman/DataDetailHistori"
+import ModalExit from "../../assets/controller/ControlModalKeluar"
 import DataTimeControl from "../controller/ControlWaktu"
 import DataNavbarKiri from "../component/Salesman/DataNavbarKiri"
 import DataNavbarAtas from "../component/Salesman/DataNavbarAtas"
@@ -29,6 +30,8 @@ function HomeFunction({move}) {
         dataMenu = <DetailHistoriPenjualanSales/>
     }else if (move == "Post"){
         dataMenu = <PostKeranjang/>
+    }else if (move == "Exit"){
+        dataMenu = <ModalExit/>
     }
   return (
         <>

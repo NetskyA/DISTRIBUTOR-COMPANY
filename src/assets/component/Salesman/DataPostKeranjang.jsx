@@ -37,6 +37,7 @@ export default function PostKeranjang(){
                             <th scope="col" className="px-6 py-4">Wilayah</th>
                             <th scope="col" className="px-6 py-4">Area</th>
                             <th scope="col" className="px-6 py-4">Subtotal</th>
+                            <th scope="col" className="px-6 py-4">Metode Pembayaran</th>
                             <th scope="col" className="px-6 py-4">Detail</th>
                             </tr>
                         </thead>
@@ -51,6 +52,7 @@ export default function PostKeranjang(){
                             <td className="whitespace-nowrap px-6 py-4">Surabaya</td>
                             <td className="whitespace-nowrap px-6 py-4">Ngagel</td>
                             <td className="whitespace-nowrap px-6 py-4">Rp. 120.000</td>
+                            <td className="whitespace-nowrap px-6 py-4">Transfer</td>
                             <td onClick={toggleVisibility} className="whitespace-nowrap px-6 py-4 font-semibold text-primary">{isVisible ? 'Buka': 'Tutup'}</td>
                             </tr>
                         </tbody>

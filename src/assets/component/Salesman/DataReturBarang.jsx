@@ -90,15 +90,17 @@ export default function ReturnBarang(){
                         <div className="flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 pr-2">Nomer Order : </p>
                             <input type="text" placeholder="No. pemesanan" className="border rounded-md border-primary w-72 text-2xl h-10" name="idpemesanan" id="idpemesanan" />
-                            <button type="button" className="bg-primary ms-6 w-32 rounded-lg hover:bg-gray-300 hover:text-primary">Save</button>
+                            {/* <button type="button" className="bg-primary ms-6 w-32 rounded-lg hover:bg-gray-300 hover:text-primary">Save</button> */}
                         </div>
                         <div className="flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 pr-2">Nama Pelanggan : </p>
-                            <input type="text" placeholder="nama pelanggan" className="border-0 w-1/2 text-2xl h-10" name="pelanggan" id="pelanggan" />
+                            <p className="pt-1 pr-2">Otomatis sesuai hasil input </p>
+                            {/* <input type="text" placeholder="nama pelanggan" className="border-0 w-1/2 text-2xl h-10" name="pelanggan" id="pelanggan" /> */}
                         </div>
                         <div className="flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 pr-2">Nama Toko : </p>
-                            <input type="text" placeholder="nama toko" className="border-0 w-1/2 text-2xl h-10" name="toko" id="toko" />
+                            <p className="pt-1 pr-2">Otomatis sesuai hasil input </p>
+                            {/* <input type="text" placeholder="nama toko" className="border-0 w-1/2 text-2xl h-10" name="toko" id="toko" /> */}
                         </div>
                         <div className="flex mt-3 text-primary text-2xl">
                             <p className="pt-2">Pengembalian : </p>
