@@ -10,8 +10,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LoginPages/>} />
-        <Route path="/Catalog-Barang" element={<HomePages move={"Profile"}/>} />
-        <Route path="/Profile-Salesman" element={<HomePages move={"Katalog"}/>} />
+        <Route path="/Catalog-Barang" element={<HomePages move={"Katalog"}/>} />
+        <Route path="/Profile-Salesman" element={<HomePages move={"Profile"}/>} />
         <Route path="/Order-Barang" element={<HomePages move={"Order"}/>} />
         <Route path="/Retur-Barang" element={<HomePages move={"Retur"}/>} />
         <Route path="/Post-Keranjang" element={<HomePages move={"Post"}/>} />

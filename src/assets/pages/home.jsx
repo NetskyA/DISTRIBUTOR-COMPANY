@@ -17,9 +17,9 @@ import TargetData from "../component/Salesman/DataTarget"
 function HomeFunction({move}) {
     let dataMenu;
     if(move=="Profile"){ 
-        dataMenu = <CatalogBarang/>
-    }else if(move=="Katalog") {
         dataMenu = <ProfileSales/>
+    }else if(move=="Katalog") {
+        dataMenu = <CatalogBarang/>
     }else if (move == "Order"){
         dataMenu = <OrderBarang/>
     }else if (move == "Retur"){
