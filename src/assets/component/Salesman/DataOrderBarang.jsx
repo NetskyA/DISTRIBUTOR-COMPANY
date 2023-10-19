@@ -8,13 +8,22 @@ import $ from "jquery";
 
 export default function DataOrderBarang() {
     let j = 0;
+    let k=1;
     const Row = ({ data }) => {
         var temp = [];
         for (let i = 0; i < 5; i++) {
             temp.push(<td key={j}>{data[i]}</td>)
             j++
+            k++;
         }
-        temp.push(<td key={j}><input className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" type="text" name={data[0]} defaultValue="0"/></td>)
+        temp.push(<td key={j}><input className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" type="number" onKeyUp={(e)=>{if(e.target.value<0){
+            e.target.value=0;
+        }else if(parseInt(e.target.value)>parseInt(data[1])) {e.target.value = data[1];}
+        }} min="0" max={data[1]} name={data[0]} defaultValue="0"/></td>)
+        temp.push(<td key={k}><input className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" type="number" min="0" onKeyUp={(e)=>{if(e.target.value<0){
+            e.target.value=0;
+        }else if(parseInt(e.target.value)>parseInt(data[3])) {e.target.value = data[3];}
+        }} max={data[3]} name={data[0]} defaultValue="0"/></td>)
         return <>{temp}</>
     }
 
@@ -138,7 +147,8 @@ export default function DataOrderBarang() {
                             <th>Harga Karton</th>
                             <th>Stok Pcs</th>
                             <th>Harga Pcs</th>
-                            <th>Qty</th>
+                            <th>Qty Karton</th>
+                            <th>Qty PCS</th>
                         </tr>
                     </thead>
                     <tbody>
