@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import $ from "jquery";
 import DataTables from "datatables.net";
-import DataTarget from "../../component/Salesman/DataTarget";
+import DataTarget from "../../controller/ControlTarget"
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import dataSet from "../../component/Salesman/DataSet";
 import * as XLSX from "xlsx";

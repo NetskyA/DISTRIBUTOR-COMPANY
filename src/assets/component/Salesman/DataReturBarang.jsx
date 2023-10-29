@@ -1,4 +1,4 @@
-import DataTarget from "../../component/Salesman/DataTarget"
+import DataTarget from "../../controller/ControlTarget"
 import { Radio } from "@material-tailwind/react";
 import React, { useEffect, useRef } from "react";
 import dataSet from "../../component/Salesman/DataRetur";

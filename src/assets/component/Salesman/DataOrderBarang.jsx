@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import dataSet from "../../component/Salesman/DataOrder";
-import DataTarget from "../../component/Salesman/DataTarget"
+import DataTarget from "../../controller/ControlTarget"
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import { useReactToPrint } from "react-to-print";
 import "datatables.net-dt/css/jquery.dataTables.min.css";

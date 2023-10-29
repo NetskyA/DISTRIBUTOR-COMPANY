@@ -1,5 +1,5 @@
 /* eslint-disable*/
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import FotoProfile from "../../images/image-modal/fotoprofile.png"
 import DataTarget from "../../controller/ControlTarget"
 export default function Table() {
@@ -7,7 +7,7 @@ export default function Table() {
         // Disable text selection for elements
         // with class "no-select"
         const noSelectElements = document.querySelectorAll(".selectdisable");
-            noSelectElements.forEach((element) => {
+        noSelectElements.forEach((element) => {
             element.style.webkitUserSelect = "none";
             element.style.mozUserSelect = "none";
             element.style.msUserSelect = "none";
@@ -18,17 +18,17 @@ export default function Table() {
 
         //PROFILE SALESMAN
         <>
-        <div className="cover selectdisable flex">
+            <div className="cover selectdisable flex">
                 {/* nanti digunakan memanggil nama sesuai akun*/}
                 <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
-                        <p>Profil</p>
-                    </div>
-                    <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-                        <DataTarget />
-                    </div>                
+                    <p>Profil Supervisor</p>
+                </div>
+                <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
+                    <DataTarget />
+                </div>
                 {/* untuk memanggil function controller target salesman */}
-        </div>
-            <div className="selectdisable border-2 mt-10 flex border-gray-300 rounded-2xl w-full h-full" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
+            </div>
+            <div className="selectdisable border-2 mt-10 flex border-gray-300 rounded-2xl w-full h-full" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
 
                 {/* berisi biodata salesman */}
                 <div className="row ms-6 m-4 w-full">
@@ -37,7 +37,7 @@ export default function Table() {
                         <p className="ms-4">S0001</p>
                     </div>
                     <div className="MSales flex mt-4 text-primary font-semibold text-2xl">
-                    <p>Nama User : </p>
+                        <p>Nama User : </p>
                         <p className="ms-4">Aldi</p>
                     </div>
                     <div className="PhoneNumber flex mt-4 text-primary font-semibold text-2xl">
@@ -46,11 +46,11 @@ export default function Table() {
                         <p className="ms-4">/ 08346366464</p>
                     </div>
                     <div className="Email flex mt-4 text-primary font-semibold text-2xl">
-                    <p>Email : </p>
+                        <p>Email : </p>
                         <p className="ms-4">aldi@gmail.com</p>
                     </div>
                     <div className="Adress flex mt-4 text-primary font-semibold text-2xl">
-                    <p>Alamat : </p>
+                        <p>Alamat : </p>
                         <p className="ms-4">Jl. Cisitu Lama No. 54 Dago Coblong Bandung Jawa Barat</p>
                     </div>
                     <div className="MngSales flex mt-4 text-primary font-semibold text-2xl">
@@ -67,9 +67,9 @@ export default function Table() {
                     </div>
                 </div>
                 {/* menampilakan foto karyawan */}
-                
+
             </div>
 
         </>
-   );
+    );
 }

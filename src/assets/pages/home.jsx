@@ -11,8 +11,12 @@ import ModalExit from "../../assets/controller/ControlModalKeluar"
 import DataTimeControl from "../controller/ControlWaktu"
 import DataNavbarKiri from "../component/Salesman/DataNavbarKiri"
 import DataNavbarAtas from "../component/Salesman/DataNavbarAtas"
-import TargetData from "../component/Salesman/DataTarget"
+import TargetData from "../controller/ControlTarget"
 
+//supervisor
+import ProfileSupervisor from "../component/Koordinator/DataProfileSupervisor"
+
+//supervisor
 
 function HomeFunction({move}) {
     let dataMenu;
@@ -32,6 +36,8 @@ function HomeFunction({move}) {
         dataMenu = <PostKeranjang/>
     }else if (move == "Exit"){
         dataMenu = <ModalExit/>
+    }else if (move == "ProfileSupervisor"){
+        dataMenu = <ProfileSupervisor/>
     }
   return (
         <>
