@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import $ from "jquery";
 import DataTables from "datatables.net";
-import DataTarget from "../../controller/ControlTarget"
+import ControlTarget from "../../controller/ControlTarget"
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import dataSet from "../../component/Salesman/DataSet";
 import * as XLSX from "xlsx";
@@ -17,13 +17,13 @@ const Table = () => {
 
   let table;
   const ExportExcel = () => {
-    let Heading = [['ID Barang', 'Nama Barang', 'Stok Karton', 'Stok Pcs','Harga Karton', 'Harga Pcs','Expired']];
+    let Heading = [['ID Barang', 'Nama Barang', 'Stok Karton', 'Stok Pcs', 'Harga Karton', 'Harga Pcs', 'Expired']];
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(dataSet);
     XLSX.utils.sheet_add_aoa(ws, Heading);
 
     //Starting in the second row to avoid overriding and skipping headers
-    XLSX.utils.sheet_add_json(ws,  dataSet, { origin: 'A2', skipHeader: true });
+    XLSX.utils.sheet_add_json(ws, dataSet, { origin: 'A2', skipHeader: true });
 
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
@@ -34,9 +34,9 @@ const Table = () => {
     dataSet.map((e) => {
       let block = document.createElement('tr');
       for (let i = 0; i < 7; i++) {
-          let block2 = document.createElement('td');
-          block2.innerText=e[i];
-          block.appendChild(block2);
+        let block2 = document.createElement('td');
+        block2.innerText = e[i];
+        block.appendChild(block2);
       }
       document.getElementById("isi").appendChild(block)
     })
@@ -63,28 +63,28 @@ const Table = () => {
           <p>Katalog</p>
         </div>
         <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-          <DataTarget />
+          <ControlTarget />
         </div>
       </div>
-      <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%",boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
-      <p className="pt-5 text-4xl font-semibold text-center text-primary">Data Barang</p>
+      <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
+        <p className="pt-5 text-4xl font-semibold text-center text-primary">Data Barang</p>
         <div className="cover mb-28">
           <div className="covertable m-2">
             <table id="example" className="border-2 border-gray rounded-lg">
-                    <thead>
-                        <tr>
-                            <th>ID Barang</th>
-                            <th>Nama Barang</th>
-                            <th>Stok Karton</th>
-                            <th>Stok Pcs</th>
-                            <th>Harga Karton</th>
-                            <th>Harga Pcs</th>
-                            <th>Expired</th>
-                        </tr>
-                    </thead>
-                    <tbody id="isi">
-                    </tbody>
-                </table>
+              <thead>
+                <tr>
+                  <th>ID Barang</th>
+                  <th>Nama Barang</th>
+                  <th>Stok Karton</th>
+                  <th>Stok Pcs</th>
+                  <th>Harga Karton</th>
+                  <th>Harga Pcs</th>
+                  <th>Expired</th>
+                </tr>
+              </thead>
+              <tbody id="isi">
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

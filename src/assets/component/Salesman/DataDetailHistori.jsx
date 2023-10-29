@@ -1,4 +1,4 @@
-import DataTarget from "../../controller/ControlTarget"
+import ControlTarget from "../../controller/ControlTarget"
 import { Radio } from "@material-tailwind/react";
 import React, { useEffect, useRef } from "react";
 import dataSet from "../../component/Salesman/DataRetur";
@@ -76,7 +76,7 @@ export default function DataDetailHistory (){
                     <p>Histori & Detail</p>
                 </div>
                 <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-                    <DataTarget />
+                    <ControlTarget />
                 </div>
                 {/* untuk memanggil function controller target salesman */}
         </div>

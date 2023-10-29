@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import dataSet from "../../component/Salesman/DataOrder";
-import DataTarget from "../../controller/ControlTarget"
+import ControlTarget from "../../controller/ControlTarget"
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import { useReactToPrint } from "react-to-print";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
@@ -72,7 +72,7 @@ export default function DataOrderBarang() {
                         <p>Order</p>
                     </div>
                     <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-                        <DataTarget />
+                        <ControlTarget />
                     </div>
                 </div>
                 {/* navbaratas */}

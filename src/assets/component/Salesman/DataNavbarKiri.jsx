@@ -6,12 +6,13 @@ import LogoHistory from "../../images/image-navbar/history.png"
 import LogoLogout from "../../images/image-navbar/logout2.png"
 import LogoCatalog from "../../images/image-navbar/writing.png"
 import LogoKeranjang from "../../images/image-navbar/keranjang.png"
+import LogoLaporan from "../../images/image-navbar/laporan.png"
 
 
 // untuk looping navabr kiri
 function LoopMenu() {
     let a = [];
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 10; i++) {
         if (i == 0) {
             a.push(<DataNavbar key={i} img={LogoProfile} title="Profil" link="Profile-Salesman" />)
         } else if (i == 1) {
@@ -25,9 +26,13 @@ function LoopMenu() {
         } else if (i == 5) {
             a.push(<DataNavbar key={i} img={LogoRetur} title="Retur" link="Retur-Barang" />)
         } else if (i == 6) {
-            a.push(<DataNavbar key={i} dou img={LogoLogout} title="Keluar" link="" />)
+            a.push(<DataNavbar key={i} img={LogoLogout} title="Keluar" link="" />)
         } else if (i == 7) {
-            a.push(<DataNavbar key={i} dou img={LogoProfile} title="ProfilS" link="Profile-Supervisor" />)
+            a.push(<DataNavbar key={i} img={LogoProfile} title="ProfilS" link="Profile-Koordinator" />)
+        } else if (i == 8) {
+            a.push(<DataNavbar key={i} img={LogoCatalog} title="TargetS" link="Target-Koordinator-To-Supervisor" />)
+        } else if (i == 9) {
+            a.push(<DataNavbar key={i} img={LogoLaporan} title="Laporan " link="Target-Laporan-To-Supervisor" />)
         }
     }
     return a;

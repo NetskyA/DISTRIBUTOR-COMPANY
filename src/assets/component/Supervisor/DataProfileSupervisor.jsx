@@ -21,7 +21,7 @@ export default function Table() {
             <div className="cover selectdisable flex">
                 {/* nanti digunakan memanggil nama sesuai akun*/}
                 <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
-                    <p>Profil Salesman</p>
+                    <p>Profil Supervisor</p>
                 </div>
                 <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
                     <ControlTarget />
@@ -54,7 +54,7 @@ export default function Table() {
                         <p className="ms-4">Jl. Cisitu Lama No. 54 Dago Coblong Bandung Jawa Barat</p>
                     </div>
                     <div className="MngSales flex mt-4 text-primary font-semibold text-2xl">
-                        <p>Manager Sales : </p>
+                        <p>Kordinator Supervisor : </p>
                         <p className="ms-4">Alvin</p>
                     </div>
                 </div>

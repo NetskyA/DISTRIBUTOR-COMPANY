@@ -1,7 +1,7 @@
 /* eslint-disable*/
 import React, { useEffect } from "react";
 import FotoProfile from "../../images/image-modal/fotoprofile.png"
-import DataTarget from "../../controller/ControlTarget"
+import ControlTarget from "../../controller/ControlTarget"
 export default function Table() {
     useEffect(() => {
         // Disable text selection for elements
@@ -21,10 +21,10 @@ export default function Table() {
             <div className="cover selectdisable flex">
                 {/* nanti digunakan memanggil nama sesuai akun*/}
                 <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
-                    <p>Profil Supervisor</p>
+                    <p>Profil K. Supervisor</p>
                 </div>
                 <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-                    <DataTarget />
+                    {/* <DataTarget /> */}
                 </div>
                 {/* untuk memanggil function controller target salesman */}
             </div>
@@ -55,7 +55,7 @@ export default function Table() {
                     </div>
                     <div className="MngSales flex mt-4 text-primary font-semibold text-2xl">
                         <p>Manager Sales : </p>
-                        <p className="ms-4">Alvin</p>
+                        <p className="ms-4">.....</p>
                     </div>
                 </div>
                 {/* berisi biodata salesman */}

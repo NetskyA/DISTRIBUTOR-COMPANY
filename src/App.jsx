@@ -17,7 +17,9 @@ function App() {
         <Route path="/Post-Keranjang" element={<HomePages move={"Post"}/>} />
         <Route path="/History-Penjualan-Salesman" element={<HomePages move={"Histori"}/>} />
         <Route path="/Detail-Penjualan-Salesman" element={<HomePages move={"Detail"}/>} />
-        <Route path="/Profile-Supervisor" element={<HomePages move={"ProfileSupervisor"}/>} />
+        <Route path="/Profile-Koordinator" element={<HomePages move={"ProfileKoordinator"}/>} />
+        <Route path="/Target-Koordinator-To-Supervisor" element={<HomePages move={"TargetKoordinatorToSupervisor"}/>} />
+        <Route path="/Target-Laporan-To-Supervisor" element={<HomePages move={"TargetLaporanToSupervisor"}/>} />
         <Route path="/BlankPage" element={<>INTERFACE ON PROGRESS</>} />
       </Routes>
     </Router>
