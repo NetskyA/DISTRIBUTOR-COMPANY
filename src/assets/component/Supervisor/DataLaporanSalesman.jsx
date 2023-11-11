@@ -11,7 +11,7 @@ export default function ReturnBarang() {
 
                 {/* nanti digunakan memanggil nama sesuai akun*/}
                 <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
-                    <p>Retur</p>
+                    <p>Laporan Penjualan Salesman</p>
                 </div>
                 <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
                     {/* <DataTarget /> */}
@@ -31,11 +31,11 @@ export default function ReturnBarang() {
                     </div>
                 </div>
                 {/* berisi form retur */}
-                <div className="flex items-center justify-center">
-                    <button className="bg-primary m-4 w-full h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                <div className="items-center justify-center">
+                    {/* <button className="bg-primary m-4 w-full h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                         Supervisor
-                    </button>
-                    <button className="bg-primary w-full m-4 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                    </button> */}
+                    <button className="bg-primary w-1/3 m-4 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                         Salesman
                     </button>
                 </div>

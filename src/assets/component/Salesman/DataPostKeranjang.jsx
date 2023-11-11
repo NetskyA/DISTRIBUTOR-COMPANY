@@ -7,7 +7,10 @@ import "datatables.net-dt/css/jquery.dataTables.min.css";
 
 export default function PostKeranjang() {
     const [isVisible, setIsVisible] = useState(true);
-
+    const [cancelOrder, setCancelOrder] = useState(true)
+    const toggleVisibilityCancel =()=>{
+        setCancelOrder(!cancelOrder)
+    }
     const toggleVisibility = () => {
         setIsVisible(!isVisible);
     };
@@ -39,6 +42,7 @@ export default function PostKeranjang() {
                                 <th scope="col" className="px-6 py-4">Subtotal</th>
                                 <th scope="col" className="px-6 py-4">Metode Pembayaran</th>
                                 <th scope="col" className="px-6 py-4">Detail</th>
+                                <th scope="col" className="px-6 py-4">Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,7 +57,10 @@ export default function PostKeranjang() {
                                 <td className="whitespace-nowrap px-6 py-4">Ngagel</td>
                                 <td className="whitespace-nowrap px-6 py-4">Rp. 120.000</td>
                                 <td className="whitespace-nowrap px-6 py-4">Transfer</td>
-                                <td onClick={toggleVisibility} className="whitespace-nowrap px-6 py-4 font-semibold text-primary">{isVisible ? 'Buka' : 'Tutup'}</td>
+                                <td onClick={toggleVisibility} className="whitespace-nowrap px-6 py-4 font-semibold text-primary" style={{ cursor: "pointer" }}>{isVisible ? 'Buka' : 'Tutup'}</td>
+                                <td className="whitespace-nowrap px-6 py-4" onClick={toggleVisibilityCancel}>
+                                    {cancelOrder ? <button className="bg-primary w-36 h-12 rounded-lg"><p>Cancel</p></button> : <button className="bg-gray-300 w-36 h-12 rounded-lg"><p>Batal</p></button>}
+                                </td>
                             </tr>
                         </tbody>
                     </table>

@@ -51,7 +51,9 @@ export default function DataOrderBarang() {
             columnDefs: [
                 {
                     orderable: false,
-                    targets: [5]
+                    targets: [5],
+                    searchable:false,
+                    targets:[1,2,3,4],
                 }
             ]
         });
@@ -82,29 +84,29 @@ export default function DataOrderBarang() {
                     <div className="row ms-4 m-4 w-full">
                         <div className="noId flex text-primary text-2xl">
                             <p className="pt-1 pr-2">Nama Pelanggan : </p>
-                            <input type="text" placeholder="nama" className="border-0 w-1/2 text-2xl h-10" name="nama" id="nama" />
+                            <input type="text" placeholder="nama" className="border border-primary rounded-lg w-1/2 text-2xl h-10" name="nama" id="nama" />
                         </div>
                         <div className="MSales flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 pr-2">Nama Toko : </p>
-                            <input type="text" placeholder="nama toko" className="border-0 w-1/2 text-xl h-10" name="toko" id="toko" />
+                            <input type="text" placeholder="nama toko" className="border border-primary rounded-lg w-1/2 text-xl h-10" name="toko" id="toko" />
                         </div>
                         <div className="Adress flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 pr-2">Alamat : </p>
-                            <input type="text" placeholder="alamat" className="border-0 w-1/2 text-xl h-10" name="alamat" id="alamat" />
+                            <input type="text" placeholder="alamat" className="border border-primary rounded-lg w-1/2 text-xl h-10" name="alamat" id="alamat" />
                         </div>
                         <div className="PhoneNumber flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 pr-2">No. Hp : </p>
-                            <input type="number" placeholder="no 1" required="number" className="border-0 w-64 text-xl h-10" name="nohp" id="nohp" />
+                            <input type="number" placeholder="no 1" required="number" className="border border-primary rounded-lg w-64 text-xl h-10" name="nohp" id="nohp" />
                             <p className="pt-1 pr-2 ps-2"> & </p>
-                            <input type="number" placeholder="no 2" className="border-0 w-64 text-xl h-10" name="nohp" id="nohp" />
+                            <input type="number" placeholder="no 2" className="border border-primary rounded-lg w-64 text-xl h-10" name="nohp" id="nohp" />
                         </div>
                         <div className="Email flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 pr-2">Email : </p>
-                            <input type="email" placeholder="email" className="border-0 w-1/2 text-xl h-10" name="email" id="email" />
+                            <input type="email" placeholder="email" className="border border-primary rounded-lg w-1/2 text-xl h-10" name="email" id="email" />
                         </div>
                         <div className="Email flex mt-3 bottom-0 text-primary text-2xl">
                             <p className="pt-1 pr-2">Tanggal : </p>
-                            <input type="datetime-local" placeholder="tanggal" className="border-0 text-xl h-10" name="date" id="date" />
+                            <input type="datetime-local" placeholder="tanggal" className="border border-primary rounded-lg 0 text-xl h-10" name="date" id="date" />
                         </div>
                         <div className="MngSales flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 pr-2">Metode Pembayaran : </p>

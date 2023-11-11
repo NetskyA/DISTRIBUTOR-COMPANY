@@ -11,7 +11,7 @@ export default function ReturnBarang() {
 
                 {/* nanti digunakan memanggil nama sesuai akun*/}
                 <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
-                    <p>Retur</p>
+                    <p>Laporan Penjualan Supervisor</p>
                 </div>
                 <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
                     {/* <DataTarget /> */}

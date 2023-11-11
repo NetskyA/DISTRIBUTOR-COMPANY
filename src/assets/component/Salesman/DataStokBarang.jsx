@@ -16,19 +16,19 @@ const Table = () => {
   const tableRef = useRef();
 
   let table;
-  const ExportExcel = () => {
-    let Heading = [['ID Barang', 'Nama Barang', 'Stok Karton', 'Stok Pcs', 'Harga Karton', 'Harga Pcs', 'Expired']];
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(dataSet);
-    XLSX.utils.sheet_add_aoa(ws, Heading);
+  // const ExportExcel = () => {
+  //   let Heading = [['ID Barang', 'Nama Barang', 'Stok Karton', 'Stok Pcs', 'Harga Karton', 'Harga Pcs', 'Expired']];
+  //   const wb = XLSX.utils.book_new();
+  //   const ws = XLSX.utils.json_to_sheet(dataSet);
+  //   XLSX.utils.sheet_add_aoa(ws, Heading);
 
-    //Starting in the second row to avoid overriding and skipping headers
-    XLSX.utils.sheet_add_json(ws, dataSet, { origin: 'A2', skipHeader: true });
+  //   //Starting in the second row to avoid overriding and skipping headers
+  //   XLSX.utils.sheet_add_json(ws, dataSet, { origin: 'A2', skipHeader: true });
 
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  //   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    XLSX.writeFile(wb, 'filename.xlsx');
-  };
+  //   XLSX.writeFile(wb, 'filename.xlsx');
+  // };
   useEffect(() => {
     // Initialize DataTables within the component
     dataSet.map((e) => {
@@ -42,16 +42,16 @@ const Table = () => {
     })
     table = new $('#example').DataTable({
       dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
-      buttons: [
-        "copy",
-        "csv",
-        {
-          text: "Ecxel",
-          action: ExportExcel,
-        },
-        "pdf",
-        "print", // Specify which buttons to include
-      ],
+      // buttons: [
+      //   "copy",
+      //   "csv",
+      //   {
+      //     text: "Ecxel",
+      //     action: ExportExcel,
+      //   },
+      //   "pdf",
+      //   "print", // Specify which buttons to include
+      // ],
     });
   }, []);
 
