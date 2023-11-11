@@ -4,6 +4,8 @@ import { useState } from "react";
 import $ from "jquery";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import dataSet from "../../component/Salesman/DataSet";
+import ComModal from "../../controller/ControlModalKeluar"
+
 // import * as XLSX from "xlsx";
 
 import "datatables.net-buttons";
@@ -11,6 +13,13 @@ import "datatables.net-buttons-dt";
 import "datatables.net-buttons-dt/css/buttons.dataTables.min.css";
 export default function DataGaji() {
     let table;
+    const [showModal, setShowModal] = useState(false);
+    const handleCloseModal = () => {
+        setShowModal(false);
+    }
+    const handleTogglePassword = () => {
+        setShowModal(true)
+    };
     useEffect(() => {
 
         // Initialize DataTables within the component
@@ -97,10 +106,13 @@ export default function DataGaji() {
                             </table>
                         </div>
                         <div className="flex text-primary m-4 float-right text-2xl">
-                            <button className="w-52 h-14 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                            <button onClick={handleTogglePassword} className="w-52 h-14 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
                                 Kirim
                             </button>
                         </div>
+                        {/* <div className="min-h-screen flex items-center justify-center"> */}
+                            <ComModal show={showModal} handleClose={handleCloseModal} />
+                        {/* </div> */}
                     </div>
                 </div>
             </div>

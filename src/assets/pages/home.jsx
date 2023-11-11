@@ -97,8 +97,8 @@ function HomeFunction({ move }) {
                         {/* <DataNavbarKiriKoor /> */}
                         {/* <DataNavbarKiriSales /> */}
                         {/* <DataNavbarKiriSpv /> */}
-                        {/* <DataNavbarKiriAG /> */}
-                        <DataNavbarKiriAP />
+                        <DataNavbarKiriAG />
+                        {/* <DataNavbarKiriAP /> */}
                     </div>
                 </div>
                 <div className="w-full mr-5 self-start">
