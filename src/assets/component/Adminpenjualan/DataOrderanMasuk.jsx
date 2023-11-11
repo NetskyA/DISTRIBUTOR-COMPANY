@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import LogoPrint from "../../images/image-navbar/printer.png"
 
 export default function DataOrderanMasuk() {
     const [isVisible, setIsVisible] = useState(true);
@@ -236,6 +237,15 @@ export default function DataOrderanMasuk() {
                     </div>
                 </div>
             }
+            <div className="prints">
+                <div className="m-4">
+                    <div className="noId flex text-primary text-2xl">
+                        <button className="w-52 h-14 m-2 items-end bg-primary rounded-xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div className="w w-full mt-2 mb-52">
                 <p className="pr-2 pt-4 text-md italic text-primary">*jika terjadi kesalahan verifikasi hub admin website!!!</p>
             </div>
