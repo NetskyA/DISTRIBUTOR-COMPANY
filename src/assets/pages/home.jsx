@@ -95,10 +95,10 @@ function HomeFunction({ move }) {
                 <div className="w-32 lg:w-36 overflow-hidden bg-transparent">
                     <div className="nav fixed m-4 rounded-lg bg-white" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                         {/* <DataNavbarKiriKoor /> */}
-                        {/* <DataNavbarKiriSales /> */}
                         {/* <DataNavbarKiriSpv /> */}
-                        <DataNavbarKiriAG />
-                        {/* <DataNavbarKiriAP /> */}
+                        {/* <DataNavbarKiriSales /> */}
+                        {/* <DataNavbarKiriAG /> */}
+                        <DataNavbarKiriAP />
                     </div>
                 </div>
                 <div className="w-full mr-5 self-start">

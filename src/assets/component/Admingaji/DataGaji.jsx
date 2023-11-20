@@ -5,13 +5,16 @@ import $ from "jquery";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import dataSet from "../../component/Salesman/DataSet";
 import ComModal from "../../controller/ControlModalKeluar"
+import Select from 'react-select';
 
 // import * as XLSX from "xlsx";
 
 import "datatables.net-buttons";
 import "datatables.net-buttons-dt";
 import "datatables.net-buttons-dt/css/buttons.dataTables.min.css";
+
 export default function DataGaji() {
+
     let table;
     const [showModal, setShowModal] = useState(false);
     const handleCloseModal = () => {
@@ -67,10 +70,9 @@ export default function DataGaji() {
                             <option value="koor">K. Supervisor</option>
                             <option value="supervisor">Supervisor</option>
                             <option value="salesman">Salesman</option>
-                            <option value="ap">Admin Penjualan</option>
-                            <option value="ag">Admin Gaji</option>
                         </select>
                     </div>
+
                     <div className="flex mt-5 text-primary  text-2xl">
                         <p className="pr-2">Tanggal : </p>
                         <DateControl />
@@ -98,7 +100,6 @@ export default function DataGaji() {
                                         <th>Target Realisasi</th>
                                         <th>Komisi</th>
                                         <th>Potongan</th>
-
                                     </tr>
                                 </thead>
                                 <tbody id="isi">
@@ -111,7 +112,7 @@ export default function DataGaji() {
                             </button>
                         </div>
                         {/* <div className="min-h-screen flex items-center justify-center"> */}
-                            <ComModal show={showModal} handleClose={handleCloseModal} />
+                        <ComModal show={showModal} handleClose={handleCloseModal} />
                         {/* </div> */}
                     </div>
                 </div>

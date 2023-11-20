@@ -8,7 +8,7 @@ import LogoLogout from "../../images/image-navbar/logout2.png"
 // untuk looping navabr kiri
 function LoopMenu() {
     let a = [];
-    a.push(<DataNavbar img={LogoOrder} title="Gaji" link="Verifikasi-Orderan-Penjualan" />)
+    a.push(<DataNavbar img={LogoOrder} title="Order" link="Verifikasi-Orderan-Penjualan" />)
     a.push(<DataNavbar img={LogoPrint} title="Cetak" link="Print-Orderan-Penjualan" />)
     a.push(<DataNavbar img={LogoLaporan} title="Laporan" link="Laporan-Orderan-Penjualan" />)
     a.push(<DataNavbar img={LogoLogout} title="Keluar" link="" />)

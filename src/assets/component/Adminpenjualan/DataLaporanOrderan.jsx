@@ -47,8 +47,8 @@ export default function DataLaporanOrderan() {
                             <input type="datetime-local" placeholder="tanggal akhir" className="border border-primary rounded-lg text-xl h-10" name="date2" id="date2" />
                         </div>
                         <div className="flex mt-7 m-4 text-primary float-right text-2xl" >
-                            <button className="w-36 h-12 items-end bg-primary rounded-xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
-                                Search
+                            <button className="w-52 h-14 items-end bg-primary rounded-xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                                Cari
                             </button>
                         </div>
                     </div>
@@ -80,6 +80,15 @@ export default function DataLaporanOrderan() {
                                 </button>
                                 <button className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
                                     G. SARI
+                                </button>
+                                <button className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                                    MERR
+                                </button>
+                                <button className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                                    MERR
+                                </button>
+                                <button className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                                    MERR
                                 </button>
                                 <button className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
                                     MERR
@@ -162,18 +171,25 @@ export default function DataLaporanOrderan() {
                                     <p className="text-2xl w-52">Kekurangan : </p>
                                     <p className="text-primary text-2xl">Rp. 0</p>
                                 </div>
-                                <div className="kanan w-1/3">
-                                    <div className="noId flex text-primary text-2xl">
-                                        <button onClick={Print} className="w-52 h-14 m-2 items-end bg-primary rounded-xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
-                                            Print
-                                        </button>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             }
+            <div className="kanan w-1/3">
+                <div className="prints">
+                    <div className="w-full border rounded-xl">
+                        <div className="m-4">
+                            <div className="noId flex text-primary text-2xl" onClick={Print}>
+                                <img src={LogoPrint} className="m-2 w-14 h-14" alt="" />
+                                <button className="w-52 h-14 m-2 items-end bg-primary rounded-xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                                    Print
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <hr className="h-px my-10 mt-18 mb-52" />
             <hr className="h-px my-10 mt-18 mb-52" />
 

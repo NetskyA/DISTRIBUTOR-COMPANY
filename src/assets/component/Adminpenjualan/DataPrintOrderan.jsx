@@ -36,8 +36,7 @@ export default function DataPrintOrderan() {
                     {/* <ControlTarget /> */}
                 </div>
             </div>
-            <div className="selectdisable border-2 mt-10 mx-auto items-center flex border-gray-300 rounded-2xl lg:w-full h-full" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
-                {/* berisi from retur */}
+            {/* <div className="selectdisable border-2 mt-10 mx-auto items-center flex border-gray-300 rounded-2xl lg:w-full h-full" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                 <div className="mx-auto items-center">
                     <p className="pt-8 text-4xl font-semibold text-center text-primary">Daftar Area</p>
                     <div className="w-full\ items-center mx-auto m-6">
@@ -45,7 +44,7 @@ export default function DataPrintOrderan() {
                             <button onClick={toggleVisibility} className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
                                 NGAGEL
                             </button>
-                            <button onClick={toggleVisibility2} className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                            <button className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
                                 KUTISARI
                             </button>
                             <button onClick={toggleVisibility3} className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
@@ -66,6 +65,60 @@ export default function DataPrintOrderan() {
                             <button className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
                                 MERR
                             </button>
+                        </div>
+                    </div>
+                </div>
+            </div> */}
+            <div className="isi border-2 mt-10 mx-auto items-center border-gray-300 rounded-2xl lg:w-full h-full" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
+                <div className="row ms-4 m-4 w-5/12 rounded-xl border-2">
+                    <div className="m-4">
+                        <div className="flex text-primary text-2xl">
+                            <p className="pt-1 pr-2">Tanggal Awal : </p>
+                            <input type="datetime-local" placeholder="tanggal awal" className="border border-primary rounded-lg text-xl h-10" name="date" id="date" />
+                        </div>
+                        <div className="flex mt-5 text-primary  text-2xl">
+                            <p className="pr-2 pt-1">Tanggal Akhir: </p>
+                            <input type="datetime-local" placeholder="tanggal akhir" className="border border-primary rounded-lg text-xl h-10" name="date2" id="date2" />
+                        </div>
+                        <div className="flex mt-7 m-4 text-primary float-right text-2xl" >
+                            <button className="w-52 h-14 items-end bg-primary rounded-xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                                Cari
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <hr className="h-px my-10 mt-1 mb-1 border-2 border-gray-300" />
+                <div className="selectdisable flex mb-6">
+                    {/* berisi from retur */}
+                    <div className="mx-auto items-center">
+                        <p className="pt-3 text-4xl font-semibold text-center text-primary">Daftar Area</p>
+                        <div className="w-full\ items-center mx-auto m-6">
+                            <div className="grid grid-cols-6 lg:grid-cols-8 text-primary text-2xl" >
+                                <button onClick={toggleVisibility} className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                                    NGAGEL
+                                </button>
+                                <button onClick={toggleVisibility2} className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                                    KUTISARI
+                                </button>
+                                <button onClick={toggleVisibility3} className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                                    DARMO
+                                </button>
+                                <button className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                                    KERTAJAYA
+                                </button>
+                                <button className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                                    KETINTANG
+                                </button>
+                                <button className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                                    SIER
+                                </button>
+                                <button className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                                    G. SARI
+                                </button>
+                                <button className="w-52 h-14 m-2 items-end bg-primary rounded-2xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                                    MERR
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -147,7 +200,7 @@ export default function DataPrintOrderan() {
                                     </table>
                                 </div>
                                 <hr className="my-3 mt-18 border border-dashed border-gray-600" />
-                                <div className="text-lg">
+                                <div className="text-lg mt-10 mb-10">
                                     <div className="flex">
                                         <div className="text-end float-right">Total Pcs : </div>
                                         <span className="ms-5">Rp. 40.000</span>

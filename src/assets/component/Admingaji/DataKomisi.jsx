@@ -90,8 +90,6 @@ export default function DataKomisi() {
                             <option value="koor">K. Supervisor</option>
                             <option value="supervisor">Supervisor</option>
                             <option value="salesman">Salesman</option>
-                            <option value="ap">Admin Penjualan</option>
-                            <option value="ag">Admin Gaji</option>
                         </select>
                     </div>
                     <div className="flex mt-5 text-primary  text-2xl">
