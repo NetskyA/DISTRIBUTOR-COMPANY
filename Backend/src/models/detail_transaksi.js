@@ -1,0 +1,44 @@
+'use strict';
+const {
+  Model
+} = require('DataTypes');
+module.exports = (DataTypes, DataTypes) => {
+  class detail_transaksi extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of DataTypes lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  }
+  detail_transaksi.init({
+    id_transaksi: {
+      type:DataTypes.INTEGER,
+      allowNull:false,
+    },
+    id_barang:{
+      type:DataTypes.INTEGER,
+      allowNull:false
+    },
+    jumlah_barang:{
+      type:DataTypes.INTEGER,
+      allowNull:false
+    },
+    subtotal_barang:{
+      type:DataTypes.BIGINT,
+      allowNull:false
+    },
+    retur:{
+      type:DataTypes.BIGINT,
+      allowNull:false
+    },
+  }, {
+    DataTypes,
+    modelName: 'DetailTransaksi',
+    tableName: 'detail_transaksi',
+    allowNull:false
+  });
+  return detail_transaksi;
+};
