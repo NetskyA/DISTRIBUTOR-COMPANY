@@ -16,7 +16,7 @@ export default function DataHistoriPenjualan() {
             j++
         }
         temp.push(<td key={j}>
-            <a href={"#/Detail-Penjualan-Salesman"}>
+            <a href={"Detail-History/1"}>
                 <button onClick={test} className="bg-primary w-40 h-11 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                     Detail
                 </button>

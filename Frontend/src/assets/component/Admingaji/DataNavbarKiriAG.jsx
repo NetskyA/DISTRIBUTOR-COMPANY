@@ -8,12 +8,10 @@ import LogoLogout from "../../images/image-navbar/logout2.png"
 // untuk looping navabr kiri
 function LoopMenu() {
     let a = [];
-    a.push(<DataNavbar img={LogoGaji} title="Gaji" link="Gaji-Karyawan" />)
+    a.push(<DataNavbar img={LogoGaji} title="Gaji" link="/AdminGaji" />)
     a.push(<DataNavbar img={LogoKomisi} title="Komisi" link="Komisi-Karyawan" />)
     a.push(<DataNavbar img={LogoLaporan} title="Laporan" link="Laporan-Gaji-Karyawan" />)
-    a.push(<DataNavbar img={LogoLogout} title="Keluar" link="" />)
-
-
+    a.push(<DataNavbar img={LogoLogout} title="Keluar" link="/" />)
     return a;
 }
 // untuk looping navabr kiri

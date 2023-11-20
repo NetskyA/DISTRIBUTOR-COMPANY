@@ -65,7 +65,7 @@ export default function Loginfunction() {
         } else {
           // Kirim data ke server atau lakukan tindakan lainnya
           console.log('Data berhasil divalidasi:', formData);
-          Navigate("./Profile-Salesman")
+          Navigate("/Salesman")
         }
     };
     //Pengecekan Joi =================

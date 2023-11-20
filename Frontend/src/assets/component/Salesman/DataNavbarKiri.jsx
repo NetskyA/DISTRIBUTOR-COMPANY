@@ -12,13 +12,13 @@ import LogoLaporan from "../../images/image-navbar/laporan.png"
 // untuk looping navabr kiri
 function LoopMenu() {
     let a = [];
-    a.push(<DataNavbar img={LogoProfile} title="Profil" link="Profile-Salesman" />)
-    a.push(<DataNavbar  img={LogoCatalog} title="Katalog" link="Catalog-Barang" />)
-    a.push(<DataNavbar  img={LogoAdd} title="Order" link="Order-Barang" />)
-    a.push(<DataNavbar  img={LogoKeranjang} title="Post" link="Post-Keranjang" />)
-    a.push(<DataNavbar  img={LogoHistory} title="Histori" link="History-Penjualan-Salesman" />)
-    a.push(<DataNavbar  img={LogoRetur} title="Retur" link="Retur-Barang" />)
-    a.push(<DataNavbar  img={LogoLogout} title="Keluar" link="" />)
+    a.push(<DataNavbar  img={LogoProfile} title="Profil" link="/Salesman" />)
+    a.push(<DataNavbar  img={LogoCatalog} title="Katalog" link="Catalog" />)
+    a.push(<DataNavbar  img={LogoAdd} title="Order" link="Order" />)
+    a.push(<DataNavbar  img={LogoKeranjang} title="Post" link="Keranjang" />)
+    a.push(<DataNavbar  img={LogoHistory} title="Histori" link="History" />)
+    a.push(<DataNavbar  img={LogoRetur} title="Retur" link="Retur" />)
+    a.push(<DataNavbar  img={LogoLogout} title="Keluar" link="/" />)
 
 
     return a;
