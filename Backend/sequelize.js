@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 // ISI DENGAN DATA DARI DB YANG AKAN DIHUBUNGKAN
 const db = new Sequelize(
-  't4_6936', // DB_NAME
+  'alphateam', // DB_NAME
   'root', // DB_USER
   '', // DB_PASSWORD
   {

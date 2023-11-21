@@ -11,7 +11,7 @@ import ReturBarang from "./assets/component/Salesman/DataReturBarang"
 import HistoriPenjualanSales from "./assets/component/Salesman/DataHistoriPenjualan"
 import PostKeranjang from "./assets/component/Salesman/DataPostKeranjang"
 import DetailHistoriPenjualanSales from "./assets/component/Salesman/DataDetailHistori"
-import HomeSupervisor from './assets/pages/homesupervisor';
+import HomeSupervisor from './assets/pages/homeSupervisor';
 import DataProfileSupervisor from "./assets/component/Supervisor/DataProfileSupervisor"
 import DataTargetSupervisor from "./assets/component/Supervisor/DataTargetSupervisor"
 import DataLaporanSalesman from "./assets/component/Supervisor/DataLaporanSalesman"
@@ -27,6 +27,7 @@ import HomeAdminGaji from './assets/pages/homeAdminGaji';
 import GajiKaryawan from "./assets/component/Admingaji/DataGaji"
 import KomisiKaryawan from "./assets/component/Admingaji/DataKomisi"
 import LaporanGajiKaryawan from "./assets/component/Admingaji/DataLaporanGaji"
+import DataHandler from './assets/controller/DataHandler';
 // import {
 //   createBrowserRouter,
 //   RouterProvider,
@@ -83,7 +84,7 @@ const router = createBrowserRouter([
         element:<DataLaporanSalesman/>
       }]
     },{
-      path:"/Koordinator",
+      path:"/KoordinatorSupervisor",
       element:<HomeKoorSupervisor/>, 
       children:[{
         index:true,

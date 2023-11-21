@@ -8,6 +8,7 @@ import LogoLogin from "../images/image-login/draw2.png";
 import AOS from 'aos';
 import Joi from "joi";
 import 'aos/dist/aos.css';
+import client from "../controller/client";
 // import {Container} from "postcss";
 
 export default function Loginfunction() {
@@ -53,7 +54,7 @@ export default function Loginfunction() {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const validation = schema.validate(formData, { abortEarly: false });
         if (validation.error) {
@@ -65,7 +66,16 @@ export default function Loginfunction() {
         } else {
           // Kirim data ke server atau lakukan tindakan lainnya
           console.log('Data berhasil divalidasi:', formData);
-          Navigate("/Salesman")
+          try {
+            let temp = await client.post("/api/login",{
+                email:formData.username,
+                password:formData.password
+              })
+              Navigate(`${temp.data.jabatan.replace(/\s/g,'')}`)
+            //   Navigate("/Salesman")
+          } catch (error) {
+            alert(error.response.data)
+          }
         }
     };
     //Pengecekan Joi =================

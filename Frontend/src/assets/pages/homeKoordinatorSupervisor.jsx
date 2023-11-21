@@ -18,7 +18,7 @@ import DataNavbarKiriKoor from "../component/Koordinator/DataNavbarKiriKoor"
 // import DetailHistoriPenjualanSales from "../component/Salesman/DataDetailHistori"
 import ModalExit from "../controller/ControlModalKeluar"
 import DataTimeControl from "../controller/ControlWaktu"
-import DataNavbarAtas from "../component/Koordinator/DataNavbarAtasKoordinator"
+import DataNavbarAtas from "../controller/DataNavbarAtas"
 import TargetData from "../controller/ControlTarget"
 //salesman
 

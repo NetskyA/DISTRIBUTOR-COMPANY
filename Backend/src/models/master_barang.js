@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'MasterBarang',
     tableName: 'master_barang',
+    timestamps:null
   });
   return master_barang;
 };

@@ -17,6 +17,7 @@
     "@material-tailwind/react": "^2.1.2",
     "@nextui-org/react": "^2.1.13",
     "aos": "^3.0.0-beta.6",
+    "axios": "^1.6.2",
     "bootstrap": "^5.3.2",
     "datatables.net": "^1.13.6",
     "datatables.net-buttons": "^2.4.2",

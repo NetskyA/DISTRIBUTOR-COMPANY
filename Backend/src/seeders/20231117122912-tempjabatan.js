@@ -13,11 +13,11 @@ module.exports = {
       status_jabatan:1
     },{
       id_jabatan:3,
-      nama_jabatan:"Koordinator supervisor",
+      nama_jabatan:"Koordinator Supervisor",
       status_jabatan:1
     },{
       id_jabatan:4,
-      nama_jabatan:"Admin penjualan",
+      nama_jabatan:"Admin Penjualan",
       status_jabatan:1
     },{
       id_jabatan:5,

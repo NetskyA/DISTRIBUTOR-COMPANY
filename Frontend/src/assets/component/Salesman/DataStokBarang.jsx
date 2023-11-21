@@ -31,17 +31,34 @@ const Catalog = () => {
   // };
   useEffect(() => {
     // Initialize DataTables within the component
-    dataSet.map((e) => {
-      let block = document.createElement('tr');
-      for (let i = 0; i < 7; i++) {
-        let block2 = document.createElement('td');
-        block2.innerText = e[i];
-        block.appendChild(block2);
-      }
-      document.getElementById("isi").appendChild(block)
-    })
+    // dataSet.map((e) => {
+    //   let block = document.createElement('tr');
+    //   for (let i = 0; i < 7; i++) {
+    //     let block2 = document.createElement('td');
+    //     block2.innerText = e[i];
+    //     block.appendChild(block2);
+    //   }
+    //   document.getElementById("isi").appendChild(block)
+    // })
     table = new $('#example').DataTable({
       dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
+      data: dataSet,
+            columns: [
+                // {
+                //     target: 0,
+                //     visible: false,
+                //     searchable: false
+                // },
+              { title: "ID", field:"id"},
+              { title: "Nama Barang", field:"namabarang"},
+              { title: "Stok Karton", field:"stokkarton" },
+              { title: "Stok Pcs", field:"stopcs" },
+              { title: "Harga Karton", field:"hargakarton" },
+              { title: "Harga Pcs", field:"hargapcs" },
+              {title: "Kadaluarsa"}
+            ],
+            destroy:true,
+            "bDestroy": true
       // buttons: [
       //   "copy",
       //   "csv",
@@ -71,7 +88,7 @@ const Catalog = () => {
         <div className="cover mb-28">
           <div className="covertable m-2">
             <table id="example" className="border-2 border-gray rounded-lg">
-              <thead>
+              {/* <thead>
                 <tr>
                   <th>ID Barang</th>
                   <th>Nama Barang</th>
@@ -83,7 +100,7 @@ const Catalog = () => {
                 </tr>
               </thead>
               <tbody id="isi">
-              </tbody>
+              </tbody> */}
             </table>
           </div>
         </div>
