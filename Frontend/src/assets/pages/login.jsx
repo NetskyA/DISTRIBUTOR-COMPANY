@@ -67,7 +67,16 @@ export default function Loginfunction() {
         } else {
           // Kirim data ke server atau lakukan tindakan lainnya
           console.log('Data berhasil divalidasi:', formData);
-          Navigate("/Salesman")
+          try {
+            let temp = await client.post("/api/login",{
+                email:formData.username,
+                password:formData.password
+              })
+              Navigate(`${temp.data.jabatan.replace(/\s/g,'')}`)
+            //   Navigate("/Salesman")
+          } catch (error) {
+            alert(error.response.data)
+          }
         }
     };
     //Pengecekan Joi =================
