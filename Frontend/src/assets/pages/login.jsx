@@ -64,21 +64,20 @@ export default function Loginfunction() {
             });
             setErrors(newErrors);
         } else {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
           // Kirim data ke server atau lakukan tindakan lainnya
           console.log('Data berhasil divalidasi:', formData);
           Navigate("/Salesman")
-=======
+
             // Kirim data ke server atau lakukan tindakan lainnya
             console.log('Data berhasil divalidasi:', formData);
             Navigate("./Profile-Salesman")
->>>>>>> Stashed changes
-=======
+
             // Kirim data ke server atau lakukan tindakan lainnya
             console.log('Data berhasil divalidasi:', formData);
             Navigate("./Profile-Salesman")
->>>>>>> Stashed changes
+            // Kirim data ke server atau lakukan tindakan lainnya
+            console.log('Data berhasil divalidasi:', formData);
+            Navigate("./Profile-Salesman")
         }
     };
     //Pengecekan Joi =================
