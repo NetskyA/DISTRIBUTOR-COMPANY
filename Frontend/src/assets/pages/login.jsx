@@ -65,18 +65,18 @@ export default function Loginfunction() {
             });
             setErrors(newErrors);
         } else {
-          // Kirim data ke server atau lakukan tindakan lainnya
-          console.log('Data berhasil divalidasi:', formData);
-          try {
-            let temp = await client.post("/api/login",{
-                email:formData.username,
-                password:formData.password
-              })
-              Navigate(`${temp.data.jabatan.replace(/\s/g,'')}`)
-            //   Navigate("/Salesman")
-          } catch (error) {
-            alert(error.response.data)
-          }
+            // Kirim data ke server atau lakukan tindakan lainnya
+            console.log('Data berhasil divalidasi:', formData);
+            try {
+                let temp = await client.post("/api/login", {
+                    email: formData.username,
+                    password: formData.password
+                })
+                Navigate(`${temp.data.jabatan.replace(/\s/g, '')}`)
+                //   Navigate("/Salesman")
+            } catch (error) {
+                alert(error.response.data)
+            }
         }
     };
     //Pengecekan Joi =================
@@ -90,8 +90,7 @@ export default function Loginfunction() {
                         <div className="g-6 container lg:mt-28 w-full h-full flex-wrap items-center justify-center lg:justify-between">
                             {/* //gambat login sebelah kiri */}
                             <div className="mb-12 md:mb-0 md:w-6/12 flex lg:w-6/12 float-left" data-aos="fade-right" data-aos-duration="1500">
-                                <img
-                                    src={LogoLogin}
+                                <img src={LogoLogin}
                                     className="w-full"
                                     alt="logologin" />
                             </div>
