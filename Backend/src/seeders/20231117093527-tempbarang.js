@@ -73,6 +73,13 @@ module.exports = {
       harga_pcs:3000,
       harga_karton:216000,
       status_barang:1
+    },{
+      id_barang:"BAR00011",
+      id_brand:5,
+      nama_barang:"MARIMAS CENDOL DAWET JUMBO 14GR/6X12RTG",
+      harga_pcs:5880,
+      harga_karton:211000,
+      status_barang:1
     }]);
   },
 
