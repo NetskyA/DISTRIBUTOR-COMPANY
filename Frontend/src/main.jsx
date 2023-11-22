@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPages from "./assets/pages/login";
-import HomeSalesman from "./assets/pages/homeSalesman";
+import Home from "./assets/pages/home";
 import ProfileSales from "./assets/component/Salesman/DataProfileSales"
 import Catalog from './assets/component/Salesman/DataStokBarang';
 import OrderBarang from "./assets/component/Salesman/DataOrderBarang"
@@ -11,51 +11,42 @@ import ReturBarang from "./assets/component/Salesman/DataReturBarang"
 import HistoriPenjualanSales from "./assets/component/Salesman/DataHistoriPenjualan"
 import PostKeranjang from "./assets/component/Salesman/DataPostKeranjang"
 import DetailHistoriPenjualanSales from "./assets/component/Salesman/DataDetailHistori"
-import HomeSupervisor from './assets/pages/homeSupervisor';
 import DataProfileSupervisor from "./assets/component/Supervisor/DataProfileSupervisor"
 import DataTargetSupervisor from "./assets/component/Supervisor/DataTargetSupervisor"
 import DataLaporanSalesman from "./assets/component/Supervisor/DataLaporanSalesman"
 import ProfileKoordinator from "./assets/component/Koordinator/DataProfileKoordinator"
 import TargetKoordinatorToSupervisor from "./assets/component/Koordinator/DataTargetKoordinator"
 import TargetLaporanToSupervisor from "./assets/component/Koordinator/DataLaporanSupervisor"
-import HomeKoorSupervisor from './assets/pages/homeKoordinatorSupervisor';
-import HomeAdminPenjualan from './assets/pages/homeAdminPenjualan';
 import OrderanVerifikasi from "./assets/component/Adminpenjualan/DataOrderanMasuk"
 import PrintOrderPenjualan from "./assets/component/Adminpenjualan/DataPrintOrderan"
 import LaporanOrderOrderan from "./assets/component/Adminpenjualan/DataLaporanOrderan"
-import HomeAdminGaji from './assets/pages/homeAdminGaji';
 import GajiKaryawan from "./assets/component/Admingaji/DataGaji"
 import KomisiKaryawan from "./assets/component/Admingaji/DataKomisi"
 import LaporanGajiKaryawan from "./assets/component/Admingaji/DataLaporanGaji"
 import DataHandler from './assets/controller/DataHandler';
-// import {
-//   createBrowserRouter,
-//   RouterProvider,
-// } from "react-router-dom";
 
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <div>Hello world!</div>,
-//   },
-// ]);
+const { getDataCatalog,getDataProfileSalesman,getDataProfileSupervisor, getDataProfileKoordinatorSupervisor,cekLogin,cekOrder } = DataHandler;
 
 const router = createBrowserRouter([
     {
       path:"/",
       element: <LoginPages />,
+      loader:cekLogin
     },{
       path:"/Salesman",
-      element:<HomeSalesman/>,
+      element:<Home role={"Salesman"}/>,
       children:[{
         index:true,
-        element:<ProfileSales/>
+        element:<ProfileSales/>,
+        loader:getDataProfileSalesman
       },{
         path:"Catalog",
-        element:<Catalog/>
+        element:<Catalog/>,
+        loader:getDataCatalog
       },{
         path:"Order",
-        element:<OrderBarang/>
+        element:<OrderBarang/>,
+        loader:cekOrder
       },{
         path:"Keranjang",
         element:<PostKeranjang/>
@@ -72,10 +63,11 @@ const router = createBrowserRouter([
       }]
     },{
       path:"/Supervisor",
-      element:<HomeSupervisor/>,
+      element:<Home role={"Supervisor"}/>,
       children:[{
         index:true,
-        element:<DataProfileSupervisor/>
+        element:<DataProfileSupervisor/>,
+        loader:getDataProfileSupervisor
       },{
         path:"Target",
         element:<DataTargetSupervisor/>,
@@ -85,10 +77,11 @@ const router = createBrowserRouter([
       }]
     },{
       path:"/KoordinatorSupervisor",
-      element:<HomeKoorSupervisor/>, 
+      element:<Home role={"Koordinator-Supervisor"}/>, 
       children:[{
         index:true,
-        element:<ProfileKoordinator/>
+        element:<ProfileKoordinator/>,
+        loader:getDataProfileKoordinatorSupervisor
       },{
         path:"Target",
         element:<TargetKoordinatorToSupervisor/>,
@@ -98,7 +91,7 @@ const router = createBrowserRouter([
       }]
     },{
       path:"/AdminPenjualan",
-      element:<HomeAdminPenjualan/>,
+      element:<Home role={"Admin-Penjualan"}/>,
       children:[{
         index:true,
         element:<OrderanVerifikasi/>
@@ -111,7 +104,7 @@ const router = createBrowserRouter([
       }]
     },{
       path:"/AdminGaji",
-      element:<HomeAdminGaji/>,
+      element:<Home role={"Admin-Gaji"}/>,
       children:[{
         index:true,
         element:<GajiKaryawan/>

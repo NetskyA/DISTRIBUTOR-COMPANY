@@ -1,13 +1,38 @@
 /* eslint-disable*/
 import { Outlet } from "react-router-dom";
 //navigations
+import DataNavbarKiriSales from "../component/Salesman/DataNavbarKiri"
+import DataNavbarKiriKoor from "../component/Koordinator/DataNavbarKiriKoor"
+import DataNavbarKiriSpv from "../component/Supervisor/DataNavbarKiriSpv"
 import DataNavbarKiriAG from "../component/Admingaji/DataNavbarKiriAG"
+import DataNavbarKiriAP from "../component/Adminpenjualan/DataNavbarKiriAP"
+//navigations
 
-
-
+//salesman
+// import ProfileSales from "../component/Salesman/DataProfileSales"
+// import OrderBarang from "../component/Salesman/DataOrderBarang"
+// import CatalogBarang from "../component/Salesman/DataStokBarang"
+// import ReturBarang from "../component/Salesman/DataReturBarang"
+// import HistoriPenjualanSales from "../component/Salesman/DataHistoriPenjualan"
+// import PostKeranjang from "../component/Salesman/DataPostKeranjang"
+// import DetailHistoriPenjualanSales from "../component/Salesman/DataDetailHistori"
 import ModalExit from "../controller/ControlModalKeluar"
 import DataTimeControl from "../controller/ControlWaktu"
 import DataNavbarAtas from "../controller/DataNavbarAtas"
+import TargetData from "../controller/ControlTarget"
+//salesman
+
+//Koordinator spv
+// import ProfileKoordinator from "../component/Koordinator/DataProfileKoordinator"
+// import TargetKoordinatorToSupervisor from "../component/Koordinator/DataTargetKoordinator"
+// import TargetLaporanToSupervisor from "../component/Koordinator/DataLaporanSupervisor"
+//Koordinator spv
+
+//supervisor
+// import DataProfileSupervisor from "../component/Supervisor/DataProfileSupervisor"
+// import DataTargetSupervisor from "../component/Supervisor/DataTargetSupervisor"
+// import DataLaporanSalesman from "../component/Supervisor/DataLaporanSalesman"
+//supervisor
 
 //admin gaji
 // import GajiKaryawan from "../component/Admingaji/DataGaji"
@@ -15,8 +40,14 @@ import DataNavbarAtas from "../controller/DataNavbarAtas"
 // import LaporanGajiKaryawan from "../component/Admingaji/DataLaporanGaji"
 //admin gaji
 
-function HomeAdminGaji() {
-  
+// admin penjualan
+// import OrderanVerifikasi from "../component/Adminpenjualan/DataOrderanMasuk"
+// import PrintOrderPenjualan from "../component/Adminpenjualan/DataPrintOrderan"
+// import LaporanOrderOrderan from "../component/Adminpenjualan/DataLaporanOrderan"
+// admin penjualan
+
+function Home({role}) {
+
     return (
         <>
             <header className="flex">
@@ -25,7 +56,12 @@ function HomeAdminGaji() {
                         {/* <DataNavbarKiriKoor /> */}
                         {/* <DataNavbarKiriSpv /> */}
                         {/* <DataNavbarKiriSales /> */}
-                        <DataNavbarKiriAG />
+                        {/* <DataNavbarKiriAG /> */}
+                        {role==="Salesman" && <DataNavbarKiriSales />}
+                        {role==="Supervisor" && <DataNavbarKiriSpv/>}
+                        {role==="Koordinator-Supervisor" && <DataNavbarKiriKoor/>}
+                        {role==="Admin-Gaji" && <DataNavbarKiriAG/>}
+                        {role==="Admin-penjualan" && <DataNavbarKiriAP/>}
                     </div>
                 </div>
                 <div className="w-full mr-5 self-start">
@@ -56,4 +92,4 @@ function HomeAdminGaji() {
     )
 }
 
-export default HomeAdminGaji;
+export default Home;

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useLoaderData } from "react-router-dom";
 import $ from "jquery";
 import DataTables from "datatables.net";
 import ControlTarget from "../../controller/ControlTarget"
@@ -13,8 +14,7 @@ import "datatables.net-buttons/js/buttons.html5.min.js";
 import "datatables.net-buttons/js/buttons.print.min.js";
 
 const Catalog = () => {
-  const tableRef = useRef();
-
+  let data = useLoaderData();
   let table;
   // const ExportExcel = () => {
   //   let Heading = [['ID Barang', 'Nama Barang', 'Stok Karton', 'Stok Pcs', 'Harga Karton', 'Harga Pcs', 'Expired']];
@@ -41,21 +41,20 @@ const Catalog = () => {
     //   document.getElementById("isi").appendChild(block)
     // })
     table = new $('#example').DataTable({
-      dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
-      data: dataSet,
+      dom: '<"top"lf>rt<"bottom"pi>', // Include the buttons in the DOM
+      data: data,
             columns: [
                 // {
                 //     target: 0,
                 //     visible: false,
                 //     searchable: false
                 // },
-              { title: "ID", field:"id"},
-              { title: "Nama Barang", field:"namabarang"},
-              { title: "Stok Karton", field:"stokkarton" },
-              { title: "Stok Pcs", field:"stopcs" },
-              { title: "Harga Karton", field:"hargakarton" },
-              { title: "Harga Pcs", field:"hargapcs" },
-              {title: "Kadaluarsa"}
+              { title: "ID", data:"id_barang"},
+              { title: "Nama Barang", data:"nama_barang"},
+              { title: "Stok Karton", data:"stok_karton" },
+              { title: "Stok Pcs", data:"stok_pcs" },
+              { title: "Harga Karton", data:"harga_karton" },
+              { title: "Harga Pcs", data:"harga_pcs" },
             ],
             destroy:true,
             "bDestroy": true

@@ -59,6 +59,8 @@ export default function Loginfunction() {
                 email: data.username,
                 password: data.password
             })
+            localStorage.setItem("loggedData",JSON.stringify(temp.data.user))
+            console.log(localStorage);
             Navigate(`${temp.data.jabatan.replace(/\s/g, '')}`)
         } catch (error) {
             if (error.response.data === "Email tidak terdaftar") {

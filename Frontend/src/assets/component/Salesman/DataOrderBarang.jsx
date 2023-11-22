@@ -2,68 +2,159 @@ import React, { useEffect, useRef, useState } from "react";
 import dataSet from "../../component/Salesman/DataOrder";
 import ControlTarget from "../../controller/ControlTarget"
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
+import { useLoaderData } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import $ from "jquery";
 
 export default function DataOrderBarang() {
-    let j = 0;
-    let k=1;
-    const Row = ({ data }) => {
-        var temp = [];
-        for (let i = 0; i < 5; i++) {
-            temp.push(<td key={j}>{data[i]}</td>)
-            j++
-            k++;
-        }
-        temp.push(<td key={j}><input className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" type="number" onKeyUp={(e)=>{if(e.target.value<0){
-            e.target.value=0;
-        }else if(parseInt(e.target.value)>parseInt(data[1])) {e.target.value = data[1];}
-        }} min="0" max={data[1]} name={data[0]} defaultValue="0"/></td>)
-        temp.push(<td key={k}><input className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" type="number" min="0" onKeyUp={(e)=>{if(e.target.value<0){
-            e.target.value=0;
-        }else if(parseInt(e.target.value)>parseInt(data[3])) {e.target.value = data[3];}
-        }} max={data[3]} name={data[0]} defaultValue="0"/></td>)
-        return <>{temp}</>
-    }
+    let data = useLoaderData();
+    const [barang,setbarang] = useState(data.barang)
+    // console.log(data)
+    let table;
+    // let j = 0;
+    // let k=1;
+    // const Row = ({ data }) => {
+    //     var temp = [];
+    //     for (let i = 0; i < 5; i++) {
+    //         temp.push(<td key={j}>{data[i]}</td>)
+    //         j++
+    //         k++;
+    //     }
+    //     temp.push(<td key={j}><input className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" type="number" onKeyUp={(e)=>{if(e.target.value<0){
+    //         e.target.value=0;
+    //     }else if(parseInt(e.target.value)>parseInt(data[1])) {e.target.value = data[1];}
+    //     }} min="0" max={data[1]} name={data[0]} defaultValue="0"/></td>)
+    //     temp.push(<td key={k}><input className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" type="number" min="0" onKeyUp={(e)=>{if(e.target.value<0){
+    //         e.target.value=0;
+    //     }else if(parseInt(e.target.value)>parseInt(data[3])) {e.target.value = data[3];}
+    //     }} max={data[3]} name={data[0]} defaultValue="0"/></td>)
+    //     return <>{temp}</>
+    // }
 
-    const Tabel = () => {
-        var cetak = [];
-        let i = 0;
-        dataSet.map((e) => {
-            cetak.push(<tr key={i}><Row data={e} /></tr>)
-            i++;
-        })
-        return <>{cetak}</>;
-    }
-    const tableRef = useRef();
-    var table;
+    // const Tabel = () => {
+    //     var cetak = [];
+    //     let i = 0;
+    //     dataSet.map((e) => {
+    //         cetak.push(<tr key={i}><Row data={e} /></tr>)
+    //         i++;
+    //     })
+    //     return <>{cetak}</>;
+    // }
+    // const tableRef = useRef();
+    // var table;
 
-    const test = ()=>{
-        var data = table.$('input').serialize()
-        console.log(data)
-    }
-
+    // const test = ()=>{
+    //     var data = table.$('input').serialize()
+    //     console.log(data)
+    // }
     useEffect(() => {
         // Initialize DataTables within the component
         
-        table = new $('#example').DataTable({
-            columnDefs: [
-                {
-                    orderable: false,
-                    targets: [5],
-                    searchable:false,
-                    targets:[1,2,3,4],
+        // table = new $('#example').DataTable({
+        //     columnDefs: [
+        //         {
+        //             orderable: false,
+        //             targets: [5],
+        //             searchable:false,
+        //             targets:[1,2,3,4],
+        //         }
+        //     ]
+        // });
+        table = new $("#example").DataTable({
+            dom: '<"top"lf>rt<"bottom"pi>',
+            data: barang,
+            columns: [
+              { title: "Id Barang", data:"id_barang"},
+              { title: "Nama Barang", data:"nama_barang"},
+              { title: "Stok Karton", data:"stok_karton" },
+              { title: "Stok Pcs", data:"stok_pcs" },
+              { title: "Harga Karton", data:"harga_karton" },
+              { title: "Harga Pcs", data:"harga_pcs" },
+            //   { title: "Qty", data:"qty" },
+            {title:"Qty Karton",
+            data:null,
+            render: function (data, type, row) {
+                if (type === 'display') {
+                    // Render an input text data with the data
+                    return `<input type="number" value="0" min="0" data-row-id="${row.id_barang}" class="data-input-karton"/>`
                 }
-            ]
+                return data;
+            },   
+            }, 
+            {title:"Qty Pcs",
+            data:null,
+            render: function (data, type, row) {
+                if (type === 'display') {
+                    // Render an input text data with the data
+                    return `<input type="number" value="0" min="0" data-row-id="${row.id_barang}" class="data-input-pcs" />`
+                }
+                return data;
+            },   
+            }
+            ],
+            destroy:true,
+            "bDestroy": true          
+        });
+
+        $('#example').on('change', '.data-input-karton', function () {
+            const newValue = $(this).val();
+            const rowId = $(this).data('row-id');
+        if(newValue<0) {
+            $(this).val(0);
+            return;
+        }
+        let data = barang;
+        let jml = data[data.findIndex(e=>e.id_barang===rowId)].stok_karton;
+        if(newValue>jml){
+            console.log(jml)
+            $(this).val(jml)
+            return;
+        } 
+         
+          updateDataKarton(newValue, rowId);
+      });
+        $('#example').on('change', '.data-input-pcs', function () {
+            const newValue = $(this).val();
+            const rowId = $(this).data('row-id');
+            if(newValue<0) {
+                $(this).val(0);
+                return;
+            }
+            let jml = data[data.findIndex(e=>e.id_barang===rowId)].stok_pcs;
+        if(newValue>jml){
+            $(this).val(jml)
+            return;
+        } 
+            updateDataPcs(newValue, rowId);
         });
     }, []);
-
+    function updateDataPcs(newValue, rowId) {
+        // Handle the data update here
+        // You can use the `newValue` and `rowId` to update your data source
+        // For example, update `dataSet` or another state variable in your React component
+        let data = barang;
+        data[data.findIndex(e=>e.id_barang===rowId)].qty_pcs=newValue;
+        setbarang(data);
+        console.log(newValue+" "+rowId)
+    }    function updateDataKarton(newValue, rowId) {
+        // Handle the data update here
+        // You can use the `newValue` and `rowId` to update your data source
+        // For example, update `dataSet` or another state variable in your React component
+        let data = barang;
+        data[data.findIndex(e=>e.id_barang===rowId)].qty_karton=newValue;
+        setbarang(data);
+        console.log(newValue+" "+rowId)
+    }
     const [selectedKeys, setSelectedKeys] = React.useState(new Set(["Pilih"]));
     const selectedValue = React.useMemo(
         () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
         [selectedKeys]
     );
+
+    const order = ()=>{
+        console.log(barang)
+    }
 
     return (
         <>
@@ -142,7 +233,7 @@ export default function DataOrderBarang() {
                 <p className="pt-8 text-4xl font-semibold text-center text-primary">Data Barang</p>
                 <div className="cover m-2">
                 <table id="example" className="display border-2 border-gray rounded-lg">
-                    <thead>
+                    {/* <thead>
                         <tr>
                             <th>Nama Barang</th>
                             <th>Stok Karton</th>
@@ -155,7 +246,7 @@ export default function DataOrderBarang() {
                     </thead>
                     <tbody>
                         <Tabel /> 
-                    </tbody>
+                    </tbody> */}
                 </table>
                 </div>
             </div>
@@ -186,7 +277,7 @@ export default function DataOrderBarang() {
 
             {/* submit kirim kranjang */}
             <div className="w w-52 mb-28 float-left mt-8">
-                <button onClick={test} className="bg-primary w-52 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                <button onClick={order} className="bg-primary w-52 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                     Submit
                 </button>
             </div>

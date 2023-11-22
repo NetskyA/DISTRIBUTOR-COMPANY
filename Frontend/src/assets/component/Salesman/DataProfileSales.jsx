@@ -1,8 +1,10 @@
 /* eslint-disable*/
 import React, { useEffect } from "react";
+import { useLoaderData } from "react-router-dom";
 import FotoProfile from "../../images/image-modal/fotoprofile.png"
 import ControlTarget from "../../controller/ControlTarget"
 export default function Table() {
+    let data = useLoaderData();
     useEffect(() => {
         // Disable text selection for elements
         // with class "no-select"
@@ -32,30 +34,30 @@ export default function Table() {
 
                 {/* berisi biodata salesman */}
                 <div className="row ms-6 m-4 w-full">
-                    <div className="noId flex text-primary font-semibold text-2xl">
+                    {/* <div className="noId flex text-primary font-semibold text-2xl">
                         <p>User id : </p>
                         <p className="ms-4">S0001</p>
-                    </div>
+                    </div> */}
                     <div className="MSales flex mt-4 text-primary font-semibold text-2xl">
                         <p>Nama User : </p>
-                        <p className="ms-4">Aldi</p>
+                        <p className="ms-4">{data.nama}</p>
                     </div>
                     <div className="PhoneNumber flex mt-4 text-primary font-semibold text-2xl">
                         <p>No. Hp : </p>
-                        <p className="ms-4">08659585912 </p>
-                        <p className="ms-4">/ 08346366464</p>
+                        <p className="ms-4">{data.no_handphone} </p>
+                        {/* <p className="ms-4">/ 08346366464</p> */}
                     </div>
                     <div className="Email flex mt-4 text-primary font-semibold text-2xl">
                         <p>Email : </p>
-                        <p className="ms-4">aldi@gmail.com</p>
+                        <p className="ms-4">{data.email}</p>
                     </div>
                     <div className="Adress flex mt-4 text-primary font-semibold text-2xl">
                         <p>Alamat : </p>
-                        <p className="ms-4">Jl. Cisitu Lama No. 54 Dago Coblong Bandung Jawa Barat</p>
+                        <p className="ms-4">{data.alamat}</p>
                     </div>
                     <div className="MngSales flex mt-4 text-primary font-semibold text-2xl">
                         <p>Manager Sales : </p>
-                        <p className="ms-4">Alvin</p>
+                        <p className="ms-4">{data.atasan}</p>
                     </div>
                 </div>
                 {/* berisi biodata salesman */}
@@ -63,7 +65,7 @@ export default function Table() {
                 {/* menampilakan foto karyawan */}
                 <div className="row m-1 bg-gray-300 rounded-xl w-1/5">
                     <div className="noId">
-                        <img className="w-72 m-2 mx-auto" src={FotoProfile} alt="foto profile" />
+                        <img className="w-72 m-2 mx-auto" src={data.foto} alt="foto profile" />
                     </div>
                 </div>
                 {/* menampilakan foto karyawan */}

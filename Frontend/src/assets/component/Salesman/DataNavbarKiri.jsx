@@ -18,7 +18,7 @@ function LoopMenu() {
     a.push(<DataNavbar  img={LogoKeranjang} title="Post" link="Keranjang" />)
     a.push(<DataNavbar  img={LogoHistory} title="Histori" link="History" />)
     a.push(<DataNavbar  img={LogoRetur} title="Retur" link="Retur" />)
-    a.push(<DataNavbar  img={LogoLogout} title="Keluar" link="/" />)
+    a.push(<DataNavbar  img={LogoLogout} title="Keluar" link="/"/>)
 
 
     return a;
