@@ -25,7 +25,7 @@ import KomisiKaryawan from "./assets/component/Admingaji/DataKomisi"
 import LaporanGajiKaryawan from "./assets/component/Admingaji/DataLaporanGaji"
 import DataHandler from './assets/controller/DataHandler';
 
-const { getDataCatalog,getDataProfileSalesman,getDataProfileSupervisor, getDataProfileKoordinatorSupervisor,cekLogin,cekOrder } = DataHandler;
+const { getDataCatalog,getDataProfileSalesman,getDataProfileSupervisor, getDataProfileKoordinatorSupervisor,cekLogin,cekOrder,cekPost } = DataHandler;
 
 const router = createBrowserRouter([
     {
@@ -49,7 +49,8 @@ const router = createBrowserRouter([
         loader:cekOrder
       },{
         path:"Keranjang",
-        element:<PostKeranjang/>
+        element:<PostKeranjang/>,
+        loader:cekPost
       },{
         path:"History",
         element:<HistoriPenjualanSales/>

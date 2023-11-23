@@ -12,11 +12,11 @@ import client from "../../controller/client";
 export default function DataOrderBarang() {
     let data = useLoaderData();
     var now = new Date();
-    const date =  now.getFullYear().toString().padStart(4, "0") +
+    const date =  now.getDate().toString().padStart(2, "0")+
     "-" +
     (now.getMonth() + 1).toString().padStart(2, "0") +
     "-" +
-    now.getDate().toString().padStart(2, "0");
+    now.getFullYear().toString().padStart(4, "0") ;
     const [barang,setbarang] = useState(data.barang);
     const [metode,setmetode] = useState("Tunai")
     const [temp,setdata] = useState({
@@ -88,6 +88,12 @@ export default function DataOrderBarang() {
         table = new $("#example").DataTable({
             dom: '<"top"lf>rt<"bottom"pi>',
             data: barang,
+            'columnDefs'        : [         // see https://datatables.net/reference/option/columns.searchable
+                { 
+                    'searchable'    : false, 
+                    'targets'       : [2,3,4,5] 
+                },
+            ],
             columns: [
               { title: "Id Barang", data:"id_barang"},
               { title: "Nama Barang", data:"nama_barang"},
@@ -175,9 +181,8 @@ export default function DataOrderBarang() {
         let data = barang;
         let jml = data[data.findIndex(e=>e.id_barang===rowId)].stok_karton;
         if(newValue>jml){
-            console.log(jml)
             $(this).val(jml)
-            updateDataPcs(newValue, rowId);
+            updateDataKarton(jml, rowId);
             return;
         } 
          
@@ -194,7 +199,7 @@ export default function DataOrderBarang() {
             let jml = data[data.findIndex(e=>e.id_barang===rowId)].stok_pcs;
         if(newValue>jml){
             $(this).val(jml)
-            updateDataPcs(newValue, rowId);
+            updateDataPcs(jml, rowId);
             return;
         } 
             updateDataPcs(newValue, rowId);
@@ -233,12 +238,30 @@ export default function DataOrderBarang() {
         [selectedKeys]
     );
 
-    const order = ()=>{
-        
+    const order = async ()=>{
+        if(document.getElementById("nama").value==="" || document.getElementById("nama").value==="Tidak Ditemukan"){
+            window.scrollTo(0, 0);
+   
+            document.getElementById("toko").focus();
+            return
+        }
+        let temp = barang.filter(e=>parseInt(e.qty_karton)!==0 || parseInt(e.qty_pcs)!=0);
+        let toko = await client.post("/api/gettoko",{
+            nama:document.getElementById("toko").value
+        })
+        let hasil = await client.post("/api/order",{
+            toko:toko.data,
+            user:data.sales,
+            barang:temp,
+            tanggal:document.getElementById("date").value,
+            status:(metode==="Tunai")?0:1,
+            total:total
+        })
+        console.log(hasil.data.id)
     }
 
     const search = async(e)=>{
-       if(e.key==="Enter"){
+        if(e.key==="Enter"){
          let nama = document.getElementById("toko").value;
          try {
             let toko = await client.post("/api/gettoko",{
@@ -250,11 +273,10 @@ export default function DataOrderBarang() {
                 nohp1:toko.data.no_handphone1,
                 nohp2:toko.data.no_handphone2,
             })
-            console.log(toko.data)
          } catch (error) {
             setdata({
-                nama:"Tidak Ketemu",
-                alamat:"Tidak Ketemu",
+                nama:"Tidak Ditemukan",
+                alamat:"Tidak Ditemukan",
                 nohp1:0,
                 nohp2:0,
             })
@@ -332,7 +354,7 @@ export default function DataOrderBarang() {
             {/* form input order */}
 
             {/* datatable */}
-            <form onSubmit={handleSubmit(order)} className="mb-16">
+            {/* <form className="mb-16"> */}
             <div className="cover mt-16 border-2 rounded-xl mb-10" style={{ width: "100%",boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                 {/* <table className="border-2 border-gray rounded-lg" ref={tableRef}></table> */}
                 <p className="pt-8 text-4xl font-semibold text-center text-primary">Data Barang</p>
@@ -382,11 +404,11 @@ export default function DataOrderBarang() {
 
             {/* submit kirim kranjang */}
             <div className="w w-52 mb-28 float-left mt-8">
-                <button className="bg-primary w-52 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                <button onClick={order} className="bg-primary w-52 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                     Submit
                 </button>
             </div>
-            </form>
+            {/* </form> */}
             {/* submit kirim kranjang */}   
         </>
 

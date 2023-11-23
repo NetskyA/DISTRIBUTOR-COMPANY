@@ -74,9 +74,6 @@ const cekOrder = async()=>{
         return redirect(`/${temp.replace(/\s/g, '')}`)
     }
     let temp2 = (JSON.parse(localStorage.loggedData))
-    let atasan  = await client.post("/api/atasan", {
-        id_user: temp2.id_atasan,
-    })
     let data = await client.get("/api/barang")
     let barang = [];
     for (let i = 0; i < data.data.length; i++) {
@@ -92,7 +89,23 @@ const cekOrder = async()=>{
 })
         
     }
-    let dataSales = {nama:temp2.username,email:temp2.email,no_handphone:temp2.no_handphone,alamat:temp2.alamat,foto:temp2.foto}
+    let dataSales = {id_user:temp2.id_user,nama:temp2.username,email:temp2.email,no_handphone:temp2.no_handphone,alamat:temp2.alamat,foto:temp2.foto}
     return {sales:dataSales,barang:barang};
 }
-export default { getDataCatalog, getDataProfileSalesman, getDataProfileSupervisor,getDataProfileKoordinatorSupervisor, cekLogin, cekOrder};
+
+const cekPost = async()=>{
+    if (!localStorage.loggedData) {
+        return redirect("/");
+    }
+    let temp = (JSON.parse(localStorage.loggedData)).jabatan;
+    if(temp!=="Salesman"){
+        return redirect(`/${temp.replace(/\s/g, '')}`)
+    }
+    let temp2 = (JSON.parse(localStorage.loggedData))
+    let getPost = await client.post("/api/post",{
+        sales:temp2.id_user,
+    })
+    let dataSales = {nama:temp2.username,email:temp2.email,no_handphone:temp2.no_handphone,alamat:temp2.alamat,foto:temp2.foto}
+    return {sales:dataSales,post:getPost.data};
+}
+export default { getDataCatalog, getDataProfileSalesman, getDataProfileSupervisor,getDataProfileKoordinatorSupervisor, cekLogin, cekOrder,cekPost};

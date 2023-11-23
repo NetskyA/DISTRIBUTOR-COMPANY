@@ -43,6 +43,12 @@ const Catalog = () => {
     table = new $('#example').DataTable({
       dom: '<"top"lf>rt<"bottom"pi>', // Include the buttons in the DOM
       data: data,
+      'columnDefs'        : [         // see https://datatables.net/reference/option/columns.searchable
+                { 
+                    'searchable'    : false, 
+                    'targets'       : [2,3,4,5] 
+                },
+            ],
             columns: [
                 // {
                 //     target: 0,

@@ -6,11 +6,11 @@ module.exports = {
     return queryInterface.bulkInsert('header_transaksi', [{
       id_transaksi:1,
       id_toko:1,
-      id_user:13,
+      id_user:17,
       tanggal_transaksi:"12-10-2020",
       subtotal:275364,
       jenis_transaksi:0,
-      status_transaksi:1
+      status_transaksi:0
     },{
       id_transaksi:2,
       id_toko:4,

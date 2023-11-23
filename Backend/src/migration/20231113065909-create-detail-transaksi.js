@@ -11,7 +11,11 @@ module.exports = {
         type:Sequelize.INTEGER,
         allowNull:false
       },
-      jumlah_barang:{
+      jumlah_barang_pcs:{
+        type:Sequelize.INTEGER,
+        allowNull:false
+      },
+      jumlah_barang_karton:{
         type:Sequelize.INTEGER,
         allowNull:false
       },

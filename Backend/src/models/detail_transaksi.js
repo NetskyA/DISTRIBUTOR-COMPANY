@@ -22,7 +22,11 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.INTEGER,
       allowNull:false
     },
-    jumlah_barang:{
+    jumlah_barang_pcs:{
+      type:DataTypes.INTEGER,
+      allowNull:false
+    },
+    jumlah_barang_karton:{
       type:DataTypes.INTEGER,
       allowNull:false
     },
@@ -38,7 +42,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'DetailTransaksi',
     tableName: 'detail_transaksi',
-    allowNull:false
+    timestamps:false
   });
+  detail_transaksi.removeAttribute('id');
   return detail_transaksi;
 };
