@@ -174,33 +174,33 @@ export default function DataOrderBarang() {
                 <div className="selectdisable w-6/12 border-2 mt-10 flex rounded-2xl h-full" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
                     <div className="row ms-4 m-4 w-full">
                         <div className="noId flex text-primary text-2xl">
-                            <p className="pt-1 pr-2">Nama Pelanggan : </p>
+                            <p className="pt-1 w-52 pr-2">Nama Pelanggan : </p>
                             <input type="text" placeholder="nama" className="border border-primary rounded-lg w-1/2 text-2xl h-10" name="nama" id="nama" />
                         </div>
                         <div className="MSales flex mt-3 text-primary  text-2xl">
-                            <p className="pt-1 pr-2">Nama Toko : </p>
+                            <p className="pt-1 w-52 pr-2">Nama Toko : </p>
                             <input type="text" placeholder="nama toko" className="border border-primary rounded-lg w-1/2 text-xl h-10" name="toko" id="toko" />
                         </div>
                         <div className="Adress flex mt-3 text-primary  text-2xl">
-                            <p className="pt-1 pr-2">Alamat : </p>
+                            <p className="pt-1 w-52 pr-2">Alamat : </p>
                             <input type="text" placeholder="alamat" className="border border-primary rounded-lg w-1/2 text-xl h-10" name="alamat" id="alamat" />
                         </div>
                         <div className="PhoneNumber flex mt-3 text-primary  text-2xl">
-                            <p className="pt-1 pr-2">No. Hp : </p>
+                            <p className="pt-1 w-52 pr-2">No. Hp : </p>
                             <input type="number" placeholder="no 1" required="number" className="border border-primary rounded-lg w-64 text-xl h-10" name="nohp" id="nohp" />
                             <p className="pt-1 pr-2 ps-2"> & </p>
                             <input type="number" placeholder="no 2" className="border border-primary rounded-lg w-64 text-xl h-10" name="nohp" id="nohp" />
                         </div>
                         <div className="Email flex mt-3 text-primary  text-2xl">
-                            <p className="pt-1 pr-2">Email : </p>
+                            <p className="pt-1 w-52 pr-2">Email : </p>
                             <input type="email" placeholder="email" className="border border-primary rounded-lg w-1/2 text-xl h-10" name="email" id="email" />
                         </div>
                         <div className="Email flex mt-3 bottom-0 text-primary text-2xl">
-                            <p className="pt-1 pr-2">Tanggal : </p>
+                            <p className="pt-1 w-52 pr-2">Tanggal : </p>
                             <input type="datetime-local" placeholder="tanggal" className="border border-primary rounded-lg 0 text-xl h-10" name="date" id="date" />
                         </div>
                         <div className="MngSales flex mt-3 text-primary  text-2xl">
-                            <p className="pt-1 pr-2">Metode Pembayaran : </p>
+                            <p className="pt-1 w-48 pr-2">Pembayaran : </p>
                             <div className="Uang flex ms-5">
                                 <input className="relative float-left -ml-[1.5rem] mr-1 h-9 w-9 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                     type="radio"

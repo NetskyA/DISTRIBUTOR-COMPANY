@@ -59,7 +59,7 @@ export default function Loginfunction() {
                 email: data.username,
                 password: data.password
             })
-            localStorage.setItem("loggedData",JSON.stringify(temp.data.user))
+            localStorage.setItem("loggedData", JSON.stringify(temp.data.user))
             console.log(localStorage);
             Navigate(`${temp.data.jabatan.replace(/\s/g, '')}`)
         } catch (error) {
@@ -139,7 +139,7 @@ export default function Loginfunction() {
                                             onSubmit={handleSubmit}
                                             value="Login"
                                             name="login"
-                                            className="lg:w-4/5 md:w-full h-14 text-gray font-medium text-2xl bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-center hover:bg-gray-400 bg-primary hover:text-white">login</button>
+                                            className="lg:w-4/5 md:w-full md:h-12 lg:h-14 text-gray font-medium text-2xl bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 rounded-lg text-center hover:bg-gray-400 bg-primary hover:text-white">login</button>
                                     </form>
                                 </div>
                             </div>

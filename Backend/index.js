@@ -41,7 +41,7 @@ app.post("/api/login", async (req, res) => {
     },
   });
   delete data.dataValues.id_jabatan;
-  let datauser = {...data.dataValues,jabatan:jabatan.dataValues.nama_jabatan}
+  let datauser = { ...data.dataValues, jabatan: jabatan.dataValues.nama_jabatan }
   return res
     .status(200)
     .send({
@@ -57,32 +57,34 @@ app.get("/api/barang", async (req, res) => {
       status_barang: 1,
     },
   });
-  let dataReturn=[];
+  let dataReturn = [];
 
   for (let i = 0; i < barang.length; i++) {
-    let jml = await db.DetailBarang.findAll({where:{
-        id_barang:barang[i].dataValues.id_barang
-    }})
-    let jmlPcs=0;
-    let jmlKarton=0;
-    for(let j=0;j<jml.length;j++){
-        jmlPcs+=jml[j].dataValues.jumlah_pcs;
-        jmlKarton+=jml[j].dataValues.jumlah_karton;
+    let jml = await db.DetailBarang.findAll({
+      where: {
+        id_barang: barang[i].dataValues.id_barang
+      }
+    })
+    let jmlPcs = 0;
+    let jmlKarton = 0;
+    for (let j = 0; j < jml.length; j++) {
+      jmlPcs += jml[j].dataValues.jumlah_pcs;
+      jmlKarton += jml[j].dataValues.jumlah_karton;
     }
     dataReturn.push({
-        id_barang:barang[i].dataValues.id_barang,
-        nama_barang:barang[i].dataValues.nama_barang,
-        stok_karton:jmlKarton,
-        stok_pcs:jmlPcs,
-        harga_karton:barang[i].dataValues.harga_karton,
-        harga_pcs:barang[i].dataValues.harga_pcs,
+      id_barang: barang[i].dataValues.id_barang,
+      nama_barang: barang[i].dataValues.nama_barang,
+      stok_karton: jmlKarton,
+      stok_pcs: jmlPcs,
+      harga_karton: barang[i].dataValues.harga_karton,
+      harga_pcs: barang[i].dataValues.harga_pcs,
     })
   }
   return res.status(201).send(dataReturn);
 });
 
-app.post("/api/atasan",async(req,res)=>{
-    let {id_user} = req.body;
-    let user = await db.MasterUser.findByPk(id_user);
-    return res.status(200).send(user.dataValues.username)
-  })
+app.post("/api/atasan", async (req, res) => {
+  let { id_user } = req.body;
+  let user = await db.MasterUser.findByPk(id_user);
+  return res.status(200).send(user.dataValues.username)
+})

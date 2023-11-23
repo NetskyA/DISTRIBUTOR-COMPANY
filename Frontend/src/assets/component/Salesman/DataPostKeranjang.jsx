@@ -8,7 +8,7 @@ import "datatables.net-dt/css/jquery.dataTables.min.css";
 export default function PostKeranjang() {
     const [isVisible, setIsVisible] = useState(true);
     const [cancelOrder, setCancelOrder] = useState(true)
-    const toggleVisibilityCancel =()=>{
+    const toggleVisibilityCancel = () => {
         setCancelOrder(!cancelOrder)
     }
     const toggleVisibility = () => {
@@ -27,7 +27,6 @@ export default function PostKeranjang() {
                 </div>
                 {/* untuk memanggil function controller target salesman */}
             </div>
-
             <div className="w-full mt-16 mx-auto border-2 rounded-xl" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                 <p className="pt-8 text-4xl font-semibold text-center text-primary">Data Order</p>
                 <div className="cover m-5 mb-6">
@@ -58,8 +57,8 @@ export default function PostKeranjang() {
                                 <td className="whitespace-nowrap px-6 py-4">Rp. 120.000</td>
                                 <td className="whitespace-nowrap px-6 py-4">Transfer</td>
                                 <td onClick={toggleVisibility} className="whitespace-nowrap px-6 py-4 font-semibold text-primary" style={{ cursor: "pointer" }}>{isVisible ? 'Buka' : 'Tutup'}</td>
-                                <td className="whitespace-nowrap px-6 py-4" onClick={toggleVisibilityCancel}>
-                                    {cancelOrder ? <button className="bg-primary w-36 h-12 rounded-lg"><p>Cancel</p></button> : <button className="bg-gray-300 w-36 h-12 rounded-lg"><p>Batal</p></button>}
+                                <td className="whitespace-nowrap px-6 py-4">
+                                    <button className="bg-primary w-36 h-12 rounded-lg"><p>Cancel</p></button>
                                 </td>
                             </tr>
                         </tbody>
@@ -107,8 +106,8 @@ export default function PostKeranjang() {
 
 
             <div className="flex mb-28">
-                <div className="w w-full mt-10 mb-5">
-                    <p className="pr-2 pt-4 text-md italic text-primary">*Pastikan sebelum submit data benar!!!</p>
+                <div className="w w-full mt-5 mb-5">
+                    <p className="pr-2 pt-4 text-md italic text-primary">*Wajib pilih satu kolom untuk membuka detail</p>
                 </div>
                 <div className="w w-52 ms-14 mt-10 mb-5 float-right">
                     <button className="bg-primary w-52 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
@@ -118,7 +117,7 @@ export default function PostKeranjang() {
             </div>
 
 
-            <hr className="h-px my-8 rounded-xl bg-gray-400 border" />
+            <hr className="h-px my-8 rounded-xl bg-white border" />
 
         </>
     )
