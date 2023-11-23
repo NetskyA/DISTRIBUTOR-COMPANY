@@ -88,3 +88,17 @@ app.post("/api/atasan", async (req, res) => {
   let user = await db.MasterUser.findByPk(id_user);
   return res.status(200).send(user.dataValues.username)
 })
+
+app.post("/api/gettoko",async(req,res)=>{
+  let {nama} = req.body;
+  let toko = await db.MasterToko.findOne({
+    where:{
+      nama_toko:nama
+    }
+  })
+  if(!toko){
+    return res.status(404).send("Halo")
+  }else{
+    return res.status(200).send(toko)
+  }
+})

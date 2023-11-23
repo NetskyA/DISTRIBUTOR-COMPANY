@@ -1,16 +1,40 @@
 import React, { useEffect, useRef, useState } from "react";
-import dataSet from "../../component/Salesman/DataOrder";
 import ControlTarget from "../../controller/ControlTarget"
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import { useLoaderData } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import $ from "jquery";
+import { useForm } from "react-hook-form";
+import formatter from "../../controller/formatter";
+import client from "../../controller/client";
 
 export default function DataOrderBarang() {
     let data = useLoaderData();
-    const [barang,setbarang] = useState(data.barang)
+    var now = new Date();
+    const date =  now.getFullYear().toString().padStart(4, "0") +
+    "-" +
+    (now.getMonth() + 1).toString().padStart(2, "0") +
+    "-" +
+    now.getDate().toString().padStart(2, "0");
+    const [barang,setbarang] = useState(data.barang);
+    const [metode,setmetode] = useState("Tunai")
+    const [temp,setdata] = useState({
+        nama:"",
+        alamat:"",
+        nohp1:"",
+        nohp2:"",
+    })
+    let [total,settotal] = useState(0);
     // console.log(data)
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+      } = useForm({
+       
+      } );
     let table;
     // let j = 0;
     // let k=1;
@@ -67,10 +91,54 @@ export default function DataOrderBarang() {
             columns: [
               { title: "Id Barang", data:"id_barang"},
               { title: "Nama Barang", data:"nama_barang"},
-              { title: "Stok Karton", data:"stok_karton" },
-              { title: "Stok Pcs", data:"stok_pcs" },
-              { title: "Harga Karton", data:"harga_karton" },
-              { title: "Harga Pcs", data:"harga_pcs" },
+              { title: "Stok Karton", data:"stok_karton",render: function (data, type) {
+                var number =  $.fn.dataTable.render
+                    .number('.', '.', 0, '')
+                    .display(data);
+ 
+                if (type === 'display') {
+ 
+                    return `<span>${number}</span>`;
+                }
+ 
+                return number;
+            }   },
+              { title: "Stok Pcs", data:"stok_pcs",render: function (data, type) {
+                var number =  $.fn.dataTable.render
+                    .number('.', '.', 0, '')
+                    .display(data);
+ 
+                if (type === 'display') {
+ 
+                    return `<span>${number}</span>`;
+                }
+ 
+                return number;
+            }  },
+              { title: "Harga Karton",data:"harga_karton",render: function (data, type) {
+                var number =  $.fn.dataTable.render
+                    .number('.', '.', 0, 'Rp ')
+                    .display(data);
+ 
+                if (type === 'display') {
+ 
+                    return `<span>${number}</span>`;
+                }
+ 
+                return number;
+            } },
+              { title: "Harga Pcs", data:"harga_pcs",render: function (data, type) {
+                var number =  $.fn.dataTable.render
+                    .number('.', '.', 0, 'Rp ')
+                    .display(data);
+ 
+                if (type === 'display') {
+ 
+                    return `<span>${number}</span>`;
+                }
+ 
+                return number;
+            }  },
             //   { title: "Qty", data:"qty" },
             {title:"Qty Karton",
             data:null,
@@ -109,6 +177,7 @@ export default function DataOrderBarang() {
         if(newValue>jml){
             console.log(jml)
             $(this).val(jml)
+            updateDataPcs(newValue, rowId);
             return;
         } 
          
@@ -121,14 +190,25 @@ export default function DataOrderBarang() {
                 $(this).val(0);
                 return;
             }
+            let data = barang;
             let jml = data[data.findIndex(e=>e.id_barang===rowId)].stok_pcs;
         if(newValue>jml){
             $(this).val(jml)
+            updateDataPcs(newValue, rowId);
             return;
         } 
             updateDataPcs(newValue, rowId);
         });
     }, []);
+    const hitungTotal = (data)=>{
+        let harga = 0;
+        for (let i = 0; i < data.length; i++) {
+            harga+=data[i].harga_pcs*parseInt(data[i].qty_pcs);
+            harga+=data[i].harga_karton*parseInt(data[i].qty_karton);
+        }
+        settotal(harga)
+    }
+
     function updateDataPcs(newValue, rowId) {
         // Handle the data update here
         // You can use the `newValue` and `rowId` to update your data source
@@ -136,15 +216,16 @@ export default function DataOrderBarang() {
         let data = barang;
         data[data.findIndex(e=>e.id_barang===rowId)].qty_pcs=newValue;
         setbarang(data);
-        console.log(newValue+" "+rowId)
-    }    function updateDataKarton(newValue, rowId) {
+        hitungTotal(data)
+    }    
+    function updateDataKarton(newValue, rowId) {
         // Handle the data update here
         // You can use the `newValue` and `rowId` to update your data source
         // For example, update `dataSet` or another state variable in your React component
         let data = barang;
         data[data.findIndex(e=>e.id_barang===rowId)].qty_karton=newValue;
         setbarang(data);
-        console.log(newValue+" "+rowId)
+        hitungTotal(data)
     }
     const [selectedKeys, setSelectedKeys] = React.useState(new Set(["Pilih"]));
     const selectedValue = React.useMemo(
@@ -153,12 +234,36 @@ export default function DataOrderBarang() {
     );
 
     const order = ()=>{
-        console.log(barang)
+        
     }
 
+    const search = async(e)=>{
+       if(e.key==="Enter"){
+         let nama = document.getElementById("toko").value;
+         try {
+            let toko = await client.post("/api/gettoko",{
+                nama:nama
+            })
+            setdata({
+                nama:toko.data.nama_konsumen,
+                alamat:toko.data.alamat_toko,
+                nohp1:toko.data.no_handphone1,
+                nohp2:toko.data.no_handphone2,
+            })
+            console.log(toko.data)
+         } catch (error) {
+            setdata({
+                nama:"Tidak Ketemu",
+                alamat:"Tidak Ketemu",
+                nohp1:0,
+                nohp2:0,
+            })
+         }
+       }
+    }
     return (
         <>
-            <form action="" className="mb-16">
+            
                 {/* navbaratas */}
                 <div className="cover flex" >
                     <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
@@ -173,31 +278,31 @@ export default function DataOrderBarang() {
                 {/* form input order */}
                 <div className="selectdisable w-6/12 border-2 mt-10 flex rounded-2xl h-full" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
                     <div className="row ms-4 m-4 w-full">
-                        <div className="noId flex text-primary text-2xl">
-                            <p className="pt-1 w-52 pr-2">Nama Pelanggan : </p>
-                            <input type="text" placeholder="nama" className="border border-primary rounded-lg w-1/2 text-2xl h-10" name="nama" id="nama" />
-                        </div>
-                        <div className="MSales flex mt-3 text-primary  text-2xl">
+                        <div className="MSales flex text-primary  text-2xl">
                             <p className="pt-1 w-52 pr-2">Nama Toko : </p>
-                            <input type="text" placeholder="nama toko" className="border border-primary rounded-lg w-1/2 text-xl h-10" name="toko" id="toko" />
+                            <input type="text" onKeyDown={(e)=>{search(e)}} placeholder="nama toko" className="border border-primary rounded-lg w-1/2 text-xl h-10" name="toko" id="toko"/>
+                        </div>
+                        <div className="noId flex  mt-3  text-primary text-2xl">
+                            <p className="pt-1 w-52 pr-2">Nama Pelanggan : </p>
+                            <input type="text" value={temp.nama} className="border border-primary rounded-lg w-1/2 text-2xl h-10" name="nama" id="nama" disabled/>
                         </div>
                         <div className="Adress flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 w-52 pr-2">Alamat : </p>
-                            <input type="text" placeholder="alamat" className="border border-primary rounded-lg w-1/2 text-xl h-10" name="alamat" id="alamat" />
+                            <input type="text" value={temp.alamat} className="border border-primary rounded-lg w-1/2 text-xl h-10" name="alamat" id="alamat" disabled/>
                         </div>
                         <div className="PhoneNumber flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 w-52 pr-2">No. Hp : </p>
-                            <input type="number" placeholder="no 1" required="number" className="border border-primary rounded-lg w-64 text-xl h-10" name="nohp" id="nohp" />
+                            <input type="number" value={temp.nohp1} required="number" className="border border-primary rounded-lg w-64 text-xl h-10" name="nohp" id="nohp" disabled />
                             <p className="pt-1 pr-2 ps-2"> & </p>
-                            <input type="number" placeholder="no 2" className="border border-primary rounded-lg w-64 text-xl h-10" name="nohp" id="nohp" />
+                            <input type="number" value={temp.nohp2} className="border border-primary rounded-lg w-64 text-xl h-10" name="nohp" id="nohp" disabled/>
                         </div>
-                        <div className="Email flex mt-3 text-primary  text-2xl">
+                        {/* <div className="Email flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 w-52 pr-2">Email : </p>
                             <input type="email" placeholder="email" className="border border-primary rounded-lg w-1/2 text-xl h-10" name="email" id="email" />
-                        </div>
+                        </div> */}
                         <div className="Email flex mt-3 bottom-0 text-primary text-2xl">
                             <p className="pt-1 w-52 pr-2">Tanggal : </p>
-                            <input type="datetime-local" placeholder="tanggal" className="border border-primary rounded-lg 0 text-xl h-10" name="date" id="date" />
+                            <input type="text" placeholder="tanggal" className="border border-primary rounded-lg 0 text-xl h-10" name="date" id="date" defaultValue={date} disabled/>
                         </div>
                         <div className="MngSales flex mt-3 text-primary  text-2xl">
                             <p className="pt-1 w-48 pr-2">Pembayaran : </p>
@@ -205,7 +310,7 @@ export default function DataOrderBarang() {
                                 <input className="relative float-left -ml-[1.5rem] mr-1 h-9 w-9 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                     type="radio"
                                     name="flexRadioDefault"
-                                    id="radioDefault01"/>
+                                    id="radioDefault01" checked value="Tunai" onClick={(e)=>setmetode(e.target.value)}/>
                                 <label className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer" htmlFor="radioDefault01">
                                     Tunai
                                 </label>
@@ -214,7 +319,7 @@ export default function DataOrderBarang() {
                                 <input className="relative float-left -ml-[1.5rem] mr-1 h-9 w-9 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                         type="radio"
                                         name="flexRadioDefault"
-                                        id="radioDefault01"/>
+                                        id="radioDefault01" value="Transfer" onClick={(e)=>setmetode(e.target.value)} />
                                 <label className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer" htmlFor="radioDefault01">
                                     Transfer
                                 </label>
@@ -223,11 +328,11 @@ export default function DataOrderBarang() {
                     </div>
                 </div>
             <p className="pr-2 pt-4 text-md italic text-primary">*perhatikan tanggal pemesanan & metode pembayaran</p>
-            </form>
 
             {/* form input order */}
 
             {/* datatable */}
+            <form onSubmit={handleSubmit(order)} className="mb-16">
             <div className="cover mt-16 border-2 rounded-xl mb-10" style={{ width: "100%",boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                 {/* <table className="border-2 border-gray rounded-lg" ref={tableRef}></table> */}
                 <p className="pt-8 text-4xl font-semibold text-center text-primary">Data Barang</p>
@@ -257,19 +362,19 @@ export default function DataOrderBarang() {
                 <div className="m-2">
                     <div className="noId flex text-primary  text-2xl">
                         <p>Total harga : </p>
-                        <p className="ms-4">Rp. 1.000.000</p>
+                        <p className="ms-4">{formatter.format(total)}</p>
                     </div>
                     <div className="MSales flex mt-4 text-primary  text-2xl">
                         <p>Metode Pembayaran : </p>
-                        <p className="ms-4">Transfer</p>
+                        <p className="ms-4">{metode}</p>
                     </div>
                     <div className="MSales flex mt-4 text-primary  text-2xl">
                         <p>Nama Pelanggan : </p>
-                        <p className="ms-4">Aldi</p>
+                        <p className="ms-4">{temp.nama}</p>
                     </div>
                     <div className="MSales flex mt-4 text-primary  text-2xl">
                         <p>Nama Sales : </p>
-                        <p className="ms-4">Avin</p>
+                        <p className="ms-4">{data.sales.nama}</p>
                     </div>
                 </div>
             </div>
@@ -277,10 +382,11 @@ export default function DataOrderBarang() {
 
             {/* submit kirim kranjang */}
             <div className="w w-52 mb-28 float-left mt-8">
-                <button onClick={order} className="bg-primary w-52 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                <button className="bg-primary w-52 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                     Submit
                 </button>
             </div>
+            </form>
             {/* submit kirim kranjang */}   
         </>
 

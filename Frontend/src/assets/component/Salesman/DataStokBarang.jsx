@@ -51,10 +51,54 @@ const Catalog = () => {
                 // },
               { title: "ID", data:"id_barang"},
               { title: "Nama Barang", data:"nama_barang"},
-              { title: "Stok Karton", data:"stok_karton" },
-              { title: "Stok Pcs", data:"stok_pcs" },
-              { title: "Harga Karton", data:"harga_karton" },
-              { title: "Harga Pcs", data:"harga_pcs" },
+              { title: "Stok Karton", data:"stok_karton",render: function (data, type) {
+                var number =  $.fn.dataTable.render
+                    .number('.', '.', 0, '')
+                    .display(data);
+ 
+                if (type === 'display') {
+ 
+                    return `<span>${number}</span>`;
+                }
+ 
+                return number;
+            }   },
+              { title: "Stok Pcs", data:"stok_pcs",render: function (data, type) {
+                var number =  $.fn.dataTable.render
+                    .number('.', '.', 0, '')
+                    .display(data);
+ 
+                if (type === 'display') {
+ 
+                    return `<span>${number}</span>`;
+                }
+ 
+                return number;
+            }  },
+              { title: "Harga Karton",data:"harga_karton",render: function (data, type) {
+                var number =  $.fn.dataTable.render
+                    .number('.', '.', 0, 'Rp ')
+                    .display(data);
+ 
+                if (type === 'display') {
+ 
+                    return `<span>${number}</span>`;
+                }
+ 
+                return number;
+            } },
+              { title: "Harga Pcs", data:"harga_pcs",render: function (data, type) {
+                var number =  $.fn.dataTable.render
+                    .number('.', '.', 0, 'Rp ')
+                    .display(data);
+ 
+                if (type === 'display') {
+ 
+                    return `<span>${number}</span>`;
+                }
+ 
+                return number;
+            }  },
             ],
             destroy:true,
             "bDestroy": true
