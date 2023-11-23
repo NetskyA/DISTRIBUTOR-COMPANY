@@ -16,6 +16,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:0,
       absen_user:2,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:2,
@@ -30,6 +31,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:0,
       absen_user:0,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:3,
@@ -44,6 +46,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:0,
       absen_user:3,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:4,
@@ -58,6 +61,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:0,
       absen_user:1,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:5,
@@ -72,6 +76,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:0,
       absen_user:2,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:6,
@@ -86,6 +91,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:18000000,
       absen_user:1,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:7,
@@ -100,6 +106,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:25000000,
       absen_user:2,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:8,
@@ -114,6 +121,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:40000000,
       absen_user:4,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:9,
@@ -128,6 +136,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:30000000,
       absen_user:1,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:10,
@@ -142,6 +151,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:5000000,
       absen_user:2,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:11,
@@ -156,6 +166,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:5500000,
       absen_user:0,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:12,
@@ -170,6 +181,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:4000000,
       absen_user:0,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:13,
@@ -184,6 +196,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:7000000,
       absen_user:2,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:14,
@@ -198,6 +211,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:4000000,
       absen_user:1,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:15,
@@ -212,6 +226,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:6400000,
       absen_user:2,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:16,
@@ -226,6 +241,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:5600000,
       absen_user:2,
+      no_rekening:"0123456789",
       status_user:1
     },{
       id_user:17,
@@ -240,6 +256,7 @@ module.exports = {
       foto:"https://i.insider.com/602ee9d81a89f20019a377c6?width=1136&format=jpeg.",
       target_sekarang:3400000,
       absen_user:0,
+      no_rekening:"0123456789",
       status_user:1
     }]);
   },

@@ -9,6 +9,7 @@ module.exports = {
       id_user:13,
       tanggal_transaksi:"12-10-2020",
       subtotal:275364,
+      jenis_transaksi:0,
       status_transaksi:1
     },{
       id_transaksi:2,
@@ -16,6 +17,7 @@ module.exports = {
       id_user:14,
       tanggal_transaksi:"12-11-2020",
       subtotal:70000,
+      jenis_transaksi:0,
       status_transaksi:1
     },{
       id_transaksi:3,
@@ -23,6 +25,7 @@ module.exports = {
       id_user:15,
       tanggal_transaksi:"12-10-2021",
       subtotal:26745,
+      jenis_transaksi:1,
       status_transaksi:1
     },{
       id_transaksi:4,
@@ -30,6 +33,7 @@ module.exports = {
       id_user:15,
       tanggal_transaksi:"12-10-2022",
       subtotal:216000,
+      jenis_transaksi:1,
       status_transaksi:1
     },{
       id_transaksi:5,
@@ -37,6 +41,7 @@ module.exports = {
       id_user:15,
       tanggal_transaksi:"12-10-2023",
       subtotal:15000,
+      jenis_transaksi:1,
       status_transaksi:1
     }]);
   },

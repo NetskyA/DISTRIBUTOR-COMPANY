@@ -54,6 +54,10 @@ module.exports = {
         type:Sequelize.INTEGER,
         allowNull:false,
       },
+      no_rekening:{
+        type:Sequelize.STRING(10),
+        allowNull:false,
+      },
       status_user:{
         type:Sequelize.INTEGER(1),
         allowNull:false,

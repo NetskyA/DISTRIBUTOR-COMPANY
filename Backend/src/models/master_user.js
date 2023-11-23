@@ -65,6 +65,10 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.INTEGER,
       allowNull:false,
     },
+    no_rekening:{
+      type:DataTypes.STRING(10),
+      allowNull:false,
+    },
     status_user:{
       type:DataTypes.INTEGER(1),
       allowNull:false,

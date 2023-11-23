@@ -25,6 +25,10 @@ module.exports = {
         type:Sequelize.BIGINT,
         allowNull:false
       },
+      jenis_transaksi:{
+        type:Sequelize.INTEGER,
+        allowNull:false
+      },
       status_transaksi:{
         type:Sequelize.INTEGER,
         allowNull:false
