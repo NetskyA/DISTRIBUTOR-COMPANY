@@ -24,6 +24,13 @@ import LaporanOrderOrderan from "./assets/component/Adminpenjualan/DataLaporanOr
 import GajiKaryawan from "./assets/component/Admingaji/DataGaji";
 import KomisiKaryawan from "./assets/component/Admingaji/DataKomisi";
 import LaporanGajiKaryawan from "./assets/component/Admingaji/DataLaporanGaji";
+import LaporanBarang from "./assets/component/AdminWebsite/LaporanBarang"
+import LaporanGaji from "./assets/component/AdminWebsite/LaporanGaji"
+import LaporanKinerja from "./assets/component/AdminWebsite/LaporanKinerja"
+import LaporanSales from "./assets/component/AdminWebsite/LaporanSales"
+import LaporanTarget from "./assets/component/AdminWebsite/LaporanTarget"
+import Master from "./assets/component/AdminWebsite/Master"
+import RegisterUser from "./assets/component/AdminWebsite/RegisterUser"
 import DataHandler from "./assets/controller/DataHandler";
 
 const {
@@ -162,6 +169,40 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/AdminWebsite",
+    element: <Home role={"Admin-Website"} />,
+    children: [
+      {
+        index: true,
+        element: <LaporanBarang />,
+      },
+      {
+        path: "Laporan-Sales",
+        element: <LaporanSales />
+      },
+      {
+        path: "Laporan-Gaji",
+        element: <LaporanGaji />
+      },
+      {
+        path: "Laporan-Kinerja",
+        element: <LaporanKinerja />
+      },
+      {
+        path: "Laporan-Target",
+        element: <LaporanTarget />
+      },
+      {
+        path: "Register-User",
+        element: <RegisterUser />
+      },
+      {
+        path: "Master",
+        element: <Master />
+      },
+    ]
+  }
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <RouterProvider router={router} />

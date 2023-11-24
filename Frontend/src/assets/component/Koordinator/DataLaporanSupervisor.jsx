@@ -173,7 +173,6 @@ export default function Laporan() {
         tanggal_target: tempi.tanggal_target,
       });
     }
-
     setListSupervisor(newSuper);
     setListSalesman(newSales);
   }, [dateStart, dateEnd]);

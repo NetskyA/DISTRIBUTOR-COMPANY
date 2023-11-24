@@ -6,6 +6,7 @@ import DataNavbarKiriKoor from "../component/Koordinator/DataNavbarKiriKoor"
 import DataNavbarKiriSpv from "../component/Supervisor/DataNavbarKiriSpv"
 import DataNavbarKiriAG from "../component/Admingaji/DataNavbarKiriAG"
 import DataNavbarKiriAP from "../component/Adminpenjualan/DataNavbarKiriAP"
+import DataNavbarKiriAW from "../component/AdminWebsite/DataNavbarKiriAW"
 //navigations
 
 //salesman
@@ -62,6 +63,7 @@ function Home({role}) {
                         {role==="Koordinator-Supervisor" && <DataNavbarKiriKoor/>}
                         {role==="Admin-Gaji" && <DataNavbarKiriAG/>}
                         {role==="Admin-penjualan" && <DataNavbarKiriAP/>}
+                        {role==="Admin-Website" && <DataNavbarKiriAW/>}
                     </div>
                 </div>
                 <div className="w-full mr-5 self-start">

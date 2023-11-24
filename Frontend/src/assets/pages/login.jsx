@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { Navigate, useNavigate } from "react-router-dom"
 import LogoLogin from "../images/image-login/draw2.png";
-import LogoPerusahaan from "../images/image-login/icon2.png"
+import LogoPerusahaan from "../images/image-login/icon.png"
 import AOS from 'aos';
 import Joi from "joi";
 import 'aos/dist/aos.css';
@@ -83,20 +83,19 @@ export default function Loginfunction() {
             <div className="cover selectdisable w-full mx-auto bg-white">
                 <section className="h-screen">
                     <div className="h-full px-6 py-24">
-                        <div className="g-6 container lg:mt-28 w-full h-full flex-wrap items-center justify-center lg:justify-between">
+                        <div className="g-6 container w-full h-full flex-wrap items-center justify-center lg:justify-between">
                             {/* //gambat login sebelah kiri */}
-                            <div className="mb-12 md:mb-0 md:w-6/12 flex lg:w-6/12 float-left" data-aos="fade-right" data-aos-duration="1500">
-                                <img src={LogoLogin}
-                                    className="w-full"
+                            <div className="mb-12 md:mb-0 md:w-6/12 lg:w-6/12 float-left" style={{marginTop:"-40px"}} data-aos="fade-right" data-aos-duration="1500">
+                                <img src={LogoPerusahaan}
+                                    className="w-11/12 lg:mt-20"
                                     alt="logologin" />
                             </div>
                             {/* //gambat login sebelah kiri */}
                             {/* //form untuk login ke landing page */}
-                            <div className="md:w-5/12 lg:ml-6 lg:w-5/12 lg:mt-32 float-right" data-aos="fade-up" data-aos-duration="1500">
+                            <div className="md:w-5/12  lg:ml-6 lg:w-5/12 lg:mt-52 float-right" data-aos="fade-up" data-aos-duration="1500">
                                 <div className="cover">
                                     <div className="w-4/5 md:m-0 flex items-center justify-center md:mb-4 lg:mb-14">
                                         <div className="text-5xl text-primary justify-center font-semibold">Data Centers</div>
-                                        <img src={LogoPerusahaan} className="w-20 h-20 ms-3" alt="" />
                                     </div>
                                     <form onSubmit={handleSubmit(login)} className="space-y-4 md:space-y-6" action="" method="post">
                                         <div>
@@ -144,7 +143,7 @@ export default function Loginfunction() {
                                 </div>
                             </div>
                             {/* //form untuk login ke landing page */}
-                            <p className="text-sm lg:text-base text-gray-500 text-center md:pt-4" style={{ marginTop: "72vh" }}>Version 0.1.3</p>
+                            <p className="text-sm lg:text-base text-gray-500 text-center md:pt-4" style={{ marginTop: "64vh" }}>Version 0.1.3</p>
                         </div>
                     </div>
                 </section>

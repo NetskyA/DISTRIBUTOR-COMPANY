@@ -22,7 +22,7 @@ export default function NavBarUp() {
                     <DateControl />
                 </div>
                 <div className="logo">
-                    <img src={LogoPerusahaan} className="w-16 h-16 mr-2" alt="" />
+                    <img src={LogoPerusahaan} className="w-16 h-16 mt-2 mr-2" alt="" />
                 </div>
                 {/* untuk memanggil function controller target salesman */}
             </div>
