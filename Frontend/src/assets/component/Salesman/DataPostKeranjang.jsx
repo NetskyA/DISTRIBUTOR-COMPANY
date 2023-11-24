@@ -4,6 +4,8 @@ import LogoShow from "../../images/image-modal/show.png"
 import React, { useEffect, useState, useRef } from "react";
 import dataSet from "../../component/Salesman/DataRetur";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
+import { useLoaderData } from "react-router-dom";
+import formatter from "../../controller/formatter";
 
 export default function PostKeranjang() {
     const [cancelOrder, setCancelOrder] = useState(true)
@@ -12,29 +14,65 @@ export default function PostKeranjang() {
         setCancelOrder(!cancelOrder)
     }
     let temp = [];
-    let dat = [];
-    for (let i = 0; i < 5; i++) {
+    let tempData = useLoaderData()
+    console.log(tempData)
+    let tempDetail = tempData.post.detailTransaksi;
+    for (let i = 0; i < tempData.post.headerTransaksi.length; i++) {
         temp.push(false);
-        dat.push({
-            nama:i,
-            qty1:i,
-            qty2:i,
-            harga:i
-        })
     }
+
     const [isVisible, setIsVisible] = useState(temp);
     const [data,setdata] = useState(null)
     const toggleVisibility = (idx) => {
         let temp2 = isVisible;
         temp2[idx] = !temp2[idx];
         setIsVisible(temp2);
+        setdata(null)
         if(!temp2[idx]){
             setdata(null)
         }else{
-            setdata(dat[idx]);
+            let tempdataDetail = tempDetail.filter((e)=>e.id_transaksi===tempData.post.headerTransaksi[idx].id_transaksi) 
+            console.log(tempdataDetail)
+            let dataDetail = [];
+            for (let i = 0; i < tempdataDetail.length; i++) {
+                let duplikat = false;
+                for (let j = 0; j < dataDetail.length; j++) {
+            
+                    let idbarang1 = (tempData.post.listbarang[(tempdataDetail[i].id_detail_barang-1)]);
+                    // console.log(idbarang1);
+                    let idbarang2 = (tempData.post.listbarang[dataDetail[j].id_detail_barang-1]);
+                    // console.log(idbarang2);
+                    if(idbarang1.id_barang===idbarang2.id_barang){
+                        duplikat=true;
+                        dataDetail[j].jumlah_barang_pcs+=tempdataDetail[i].jumlah_barang_pcs
+                        dataDetail[j].jumlah_barang_karton+=tempdataDetail[i].jumlah_barang_karton
+                        dataDetail[j].harga_barang+=tempdataDetail[i].harga_barang
+                    }
+                }
+                if(!duplikat){
+                    console.log(tempdataDetail[i]);
+                    dataDetail.push({
+                        id_transaksi: tempdataDetail[i].id_transaksi,
+                        id_detail_barang: tempdataDetail[i].id_detail_barang,
+                        jumlah_barang_pcs: tempdataDetail[i].jumlah_barang_pcs,
+                        jumlah_barang_karton: tempdataDetail[i].jumlah_barang_karton,
+                        subtotal_barang: tempdataDetail[i].subtotal_barang,
+                        retur: 0,
+                        nama_barang: tempdataDetail[i].nama_barang
+                    })
+                }
+            }
+            console.log(tempdataDetail);
+            setdata(dataDetail);
         }
         setrefresh(!refresh)
     };
+
+
+    const post = ()=>{
+        console.log(document.getElementsByName("check")[0].value)
+        console.log(document.getElementsByName("check")[0].checked)
+    }
     return (
         <>
             <div className="cover flex">
@@ -66,86 +104,26 @@ export default function PostKeranjang() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b dark:border-neutral-500">
+                            {tempData.post.headerTransaksi.map((e,index)=>{
+
+                                return  <tr key={index} className="border-b dark:border-neutral-500">
                                 <td className="whitespace-nowrap px-6 py-4 font-medium">
                                     {/* check box untuk select semua data sebelum kirim admin penjualan */}
-                                    <input type="checkbox" className="w-8 h-8 border-2 border-primary rounded-lg" id="" />
+                                    <input type="checkbox" className="w-8 h-8 border-2 border-primary rounded-lg" id="" value={e.id_transaksi} name="check" />
                                 </td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">ORD0001</td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">TK .Sehat Selasa</td>
-                                <td className="whitespace-nowrap px-6 py-4">Surabaya</td>
-                                <td className="whitespace-nowrap px-6 py-4">Ngagel</td>
-                                <td className="whitespace-nowrap px-6 py-4">Rp. 120.000</td>
-                                <td className="whitespace-nowrap px-6 py-4">Transfer</td>
-                                <td onClick={()=>toggleVisibility(0)} className="whitespace-nowrap px-6 py-4 font-semibold text-primary" style={{ cursor: "pointer" }}>{!isVisible[0] ? 'Buka' : 'Tutup'}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{e.id_transaksi}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{e.nama_toko}</td>
+                                <td className="whitespace-nowrap px-6 py-4">{e.kota}</td>
+                                <td className="whitespace-nowrap px-6 py-4">{e.kelurahan}</td>
+                                <td className="whitespace-nowrap px-6 py-4">{formatter.format(e.subtotal)}</td>
+                                <td className="whitespace-nowrap px-6 py-4">{(e.jenis_transaksi===0)?"Tunai":"Transfer"}</td>
+                                <td onClick={()=>toggleVisibility(index)} className="whitespace-nowrap px-6 py-4 font-semibold text-primary" style={{ cursor: "pointer" }}>{!isVisible[index] ? 'Buka' : 'Tutup'}</td>
                                 <td className="whitespace-nowrap px-6 py-4">
                                     <button className="bg-primary w-36 h-12 rounded-lg"><p>Cancel</p></button>
                                 </td>
                             </tr>
-                            <tr className="border-b dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">
-                                    {/* check box untuk select semua data sebelum kirim admin penjualan */}
-                                    <input type="checkbox" className="w-8 h-8 border-2 border-primary rounded-lg" id="" />
-                                </td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">ORD0001</td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">TK .Sehat Selasa</td>
-                                <td className="whitespace-nowrap px-6 py-4">Surabaya</td>
-                                <td className="whitespace-nowrap px-6 py-4">Ngagel</td>
-                                <td className="whitespace-nowrap px-6 py-4">Rp. 120.000</td>
-                                <td className="whitespace-nowrap px-6 py-4">Transfer</td>
-                                <td onClick={()=>toggleVisibility(1)} className="whitespace-nowrap px-6 py-4 font-semibold text-primary" style={{ cursor: "pointer" }}>{!isVisible[1] ? 'Buka' : 'Tutup'}</td>
-                                <td className="whitespace-nowrap px-6 py-4">
-                                    <button className="bg-primary w-36 h-12 rounded-lg"><p>Cancel</p></button>
-                                </td>
-                            </tr>
-                            <tr className="border-b dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">
-                                    {/* check box untuk select semua data sebelum kirim admin penjualan */}
-                                    <input type="checkbox" className="w-8 h-8 border-2 border-primary rounded-lg" id="" />
-                                </td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">ORD0001</td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">TK .Sehat Selasa</td>
-                                <td className="whitespace-nowrap px-6 py-4">Surabaya</td>
-                                <td className="whitespace-nowrap px-6 py-4">Ngagel</td>
-                                <td className="whitespace-nowrap px-6 py-4">Rp. 120.000</td>
-                                <td className="whitespace-nowrap px-6 py-4">Transfer</td>
-                                <td onClick={()=>toggleVisibility(2)} className="whitespace-nowrap px-6 py-4 font-semibold text-primary" style={{ cursor: "pointer" }}>{!isVisible[2] ? 'Buka' : 'Tutup'}</td>
-                                <td className="whitespace-nowrap px-6 py-4">
-                                    <button className="bg-primary w-36 h-12 rounded-lg"><p>Cancel</p></button>
-                                </td>
-                            </tr>
-                            <tr className="border-b dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">
-                                    {/* check box untuk select semua data sebelum kirim admin penjualan */}
-                                    <input type="checkbox" className="w-8 h-8 border-2 border-primary rounded-lg" id="" />
-                                </td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">ORD0001</td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">TK .Sehat Selasa</td>
-                                <td className="whitespace-nowrap px-6 py-4">Surabaya</td>
-                                <td className="whitespace-nowrap px-6 py-4">Ngagel</td>
-                                <td className="whitespace-nowrap px-6 py-4">Rp. 120.000</td>
-                                <td className="whitespace-nowrap px-6 py-4">Transfer</td>
-                                <td onClick={()=>toggleVisibility(3)} className="whitespace-nowrap px-6 py-4 font-semibold text-primary" style={{ cursor: "pointer" }}>{!isVisible[3] ? 'Buka' : 'Tutup'}</td>
-                                <td className="whitespace-nowrap px-6 py-4">
-                                    <button className="bg-primary w-36 h-12 rounded-lg"><p>Cancel</p></button>
-                                </td>
-                            </tr>
-                            <tr className="border-b dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">
-                                    {/* check box untuk select semua data sebelum kirim admin penjualan */}
-                                    <input type="checkbox" className="w-8 h-8 border-2 border-primary rounded-lg" id="" />
-                                </td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">ORD0001</td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">TK .Sehat Selasa</td>
-                                <td className="whitespace-nowrap px-6 py-4">Surabaya</td>
-                                <td className="whitespace-nowrap px-6 py-4">Ngagel</td>
-                                <td className="whitespace-nowrap px-6 py-4">Rp. 120.000</td>
-                                <td className="whitespace-nowrap px-6 py-4">Transfer</td>
-                                <td onClick={()=>toggleVisibility(4)} className="whitespace-nowrap px-6 py-4 font-semibold text-primary" style={{ cursor: "pointer" }}>{!isVisible[4] ? 'Buka' : 'Tutup'}</td>
-                                <td className="whitespace-nowrap px-6 py-4">
-                                    <button className="bg-primary w-36 h-12 rounded-lg"><p>Cancel</p></button>
-                                </td>
-                            </tr>
+                            })}
+                           
                         </tbody>
                     </table>
                 </div>
@@ -164,24 +142,14 @@ export default function PostKeranjang() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr className="border-b dark:border-neutral-500">
-                                        <td className="whitespace-nowrap px-6 py-4 font-medium">{data.nama}</td>
-                                        <td className="whitespace-nowrap px-6 py-4">{data.qty1}</td>
-                                        <td className="whitespace-nowrap px-6 py-4">{data.qty2}</td>
-                                        <td className="whitespace-nowrap px-6 py-4">{data.harga}</td>
+                                    {data.map((e,index)=>{
+                                        return  <tr key={index} className="border-b dark:border-neutral-500">
+                                        <td className="whitespace-nowrap px-6 py-4 font-medium">{e.nama_barang}</td>
+                                        <td className="whitespace-nowrap px-6 py-4">{e.jumlah_barang_pcs}</td>
+                                        <td className="whitespace-nowrap px-6 py-4">{e.jumlah_barang_karton}</td>
+                                        <td className="whitespace-nowrap px-6 py-4">{formatter.format(e.subtotal_barang)}</td>
                                     </tr>
-                                    {/* <tr className="border-b dark:border-neutral-500">
-                                        <td className="whitespace-nowrap px-6 py-4 font-medium">Kecap Manis Bango 12 ml</td>
-                                        <td className="whitespace-nowrap px-6 py-4">0</td>
-                                        <td className="whitespace-nowrap px-6 py-4">5</td>
-                                        <td className="whitespace-nowrap px-6 py-4">Rp. 20.000</td>
-                                    </tr>
-                                    <tr className="border-b dark:border-neutral-500">
-                                        <td className="whitespace-nowrap px-6 py-4 font-medium">Kecap Manis Bango 12 ml</td>
-                                        <td className="whitespace-nowrap px-6 py-4">0</td>
-                                        <td className="whitespace-nowrap px-6 py-4">5</td>
-                                        <td className="whitespace-nowrap px-6 py-4">Rp. 20.000</td>
-                                    </tr> */}
+                                    })}
                                 </tbody>
                             </table>
                         </div>
@@ -195,7 +163,7 @@ export default function PostKeranjang() {
                     <p className="pr-2 pt-4 text-md italic text-primary">*Wajib pilih satu kolom untuk membuka detail</p>
                 </div>
                 <div className="w w-52 ms-14 mt-10 mb-5 float-right">
-                    <button className="bg-primary w-52 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                    <button onClick={post} className="bg-primary w-52 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                         Submit
                     </button>
                 </div>

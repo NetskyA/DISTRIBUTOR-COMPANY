@@ -7,7 +7,7 @@ module.exports = {
         type:Sequelize.INTEGER,
         allowNull:false,
       },
-      id_barang:{
+      id_detail_barang:{
         type:Sequelize.INTEGER,
         allowNull:false
       },
