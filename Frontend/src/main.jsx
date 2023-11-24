@@ -34,6 +34,8 @@ const {
   cekLogin,
   cekOrder,
   cekPost,
+  cekHistory,
+  cekDetailHistory,
   getDataKoor,
   getSuperSales
 } = DataHandler;
@@ -71,6 +73,7 @@ const router = createBrowserRouter([
       {
         path: "History",
         element: <HistoriPenjualanSales />,
+        loader:cekHistory
       },
       {
         path: "Retur",
@@ -79,7 +82,7 @@ const router = createBrowserRouter([
       {
         path: "Detail-History/:id",
         element: <DetailHistoriPenjualanSales />,
-        // loader:
+        loader:cekDetailHistory
       },
     ],
   },

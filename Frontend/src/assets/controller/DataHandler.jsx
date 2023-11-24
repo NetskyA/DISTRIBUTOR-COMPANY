@@ -141,6 +141,86 @@ const cekPost = async () => {
   return { sales: dataSales, post: getPost.data };
 };
 
+const cekHistory = async () => {
+  if (!localStorage.loggedData) {
+    return redirect("/");
+  }
+  let temp = JSON.parse(localStorage.loggedData).jabatan;
+  if (temp !== "Salesman") {
+    return redirect(`/${temp.replace(/\s/g, "")}`);
+  }
+  let temp2 = JSON.parse(localStorage.loggedData);
+  let getHistory = await client.post("/api/historySalesman", {
+    sales: temp2.id_user,
+  });
+  console.log(getHistory.data);
+  return { history: getHistory.data, sales: temp2 };
+};
+
+const cekDetailHistory = async (data) => {
+  if (!localStorage.loggedData) {
+    return redirect("/");
+  }
+  let temp = JSON.parse(localStorage.loggedData).jabatan;
+  if (temp !== "Salesman") {
+    return redirect(`/${temp.replace(/\s/g, "")}`);
+  }
+  let temp2 = JSON.parse(localStorage.loggedData);
+  let { params } = data;
+  let hasil = await client.post("/api/getDetail", {
+    id: params.id,
+  });
+  let hasilQuery = hasil.data;
+  console.log(hasilQuery)
+  let dataDetail = [];
+  for (let i = 0; i < hasilQuery.detail.length; i++) {
+    let duplikat = false;
+
+    let id_barang = (hasilQuery.detailBarang[hasilQuery.detailBarang.findIndex(e=>e.id_detail_barang===hasilQuery.detail[i].id_detail_barang)]).id_barang
+
+    let dataBarang = hasilQuery.barang[hasilQuery.barang.findIndex(e=>e.id_barang===id_barang)]
+
+    for (let j = 0; j < dataDetail.length; j++) {
+      let idbarang1 =
+       hasilQuery.detailBarang[hasilQuery.detail[i].id_detail_barang - 1];
+      // console.log(idbarang1);
+      let idbarang2 =
+      hasilQuery.detailBarang[dataDetail[j].id_detail_barang - 1];
+      // console.log(idbarang2);
+      if (idbarang1.id_barang === idbarang2.id_barang) {
+        duplikat = true;
+        dataDetail[j].jumlah_barang_pcs += hasilQuery.detail[i].jumlah_barang_pcs;
+        dataDetail[j].jumlah_barang_karton +=
+        hasilQuery.detail[i].jumlah_barang_karton;
+        dataDetail[j].subtotal_barang += hasilQuery.detail[i].subtotal_barang;
+        dataDetail[j].jumlah_retur_pcs += hasilQuery.detail[i].retur_pcs;
+        dataDetail[j].jumlah_retur_karton += hasilQuery.detail[i].retur_karton;
+        dataDetail[j].status = (hasilQuery.detail[i].jenis_retur!==0)?hasilQuery.detail[i].jenis_retur:0
+      }
+    }
+    if (!duplikat) {
+      dataDetail.push({
+        id_transaksi: hasilQuery.detail[i].id_transaksi,
+        id_detail_barang: hasilQuery.detail[i].id_detail_barang,
+        jumlah_barang_pcs: hasilQuery.detail[i].jumlah_barang_pcs,
+        jumlah_barang_karton: hasilQuery.detail[i].jumlah_barang_karton,
+        subtotal_barang: hasilQuery.detail[i].subtotal_barang,
+        nama_barang: dataBarang.nama_barang,
+        harga_pcs:dataBarang.harga_pcs,
+        harga_karton:dataBarang.harga_karton,
+        jumlah_retur_pcs:hasilQuery.detail[i].retur_pcs,
+        jumlah_retur_karton:hasilQuery.detail[i].retur_karton,
+        status:hasilQuery.detail[i].jenis_retur,
+        tanggal_retur:hasilQuery.detail[i].tanggal_retur
+      });
+    }
+  }
+  // console.log(dataDetail)
+  // let dataRetur = dataDetail.filter(e=>e.status!==0);
+  // let dataDetailTransaksi = dataDetail.filter(e=>e.status===0);
+  return { dataRetur:dataDetail,detailTransaksi:dataDetail , sales: temp2 ,transaksi:hasilQuery};
+};
+
 const getDataKoor = async () => {
   if (!localStorage.loggedData) {
     return redirect("/");
@@ -187,6 +267,8 @@ export default {
   cekLogin,
   cekOrder,
   cekPost,
+  cekHistory,
+  cekDetailHistory,
   getDataKoor,
   getSuperSales,
 };

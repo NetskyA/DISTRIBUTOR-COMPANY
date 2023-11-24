@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ControlTarget from "../../controller/ControlTarget"
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData,useNavigate,useRevalidator   } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import $ from "jquery";
@@ -11,6 +11,7 @@ import client from "../../controller/client";
 
 export default function DataOrderBarang() {
     let data = useLoaderData();
+    let revalidator = useRevalidator();
     var now = new Date();
     const date =  now.getDate().toString().padStart(2, "0")+
     "-" +
@@ -19,6 +20,7 @@ export default function DataOrderBarang() {
     now.getFullYear().toString().padStart(4, "0") ;
     const [barang,setbarang] = useState(data.barang);
     const [metode,setmetode] = useState("Tunai")
+    const [refresh,setrefresh] = useState(false)
     const [temp,setdata] = useState({
         nama:"",
         alamat:"",
@@ -36,6 +38,7 @@ export default function DataOrderBarang() {
        
       } );
     let table;
+    let navigate = useNavigate();
     // let j = 0;
     // let k=1;
     // const Row = ({ data }) => {
@@ -204,7 +207,7 @@ export default function DataOrderBarang() {
         } 
             updateDataPcs(newValue, rowId);
         });
-    }, []);
+    }, [refresh]);
     const hitungTotal = (data)=>{
         let harga = 0;
         for (let i = 0; i < data.length; i++) {
@@ -239,7 +242,14 @@ export default function DataOrderBarang() {
     );
 
     const order = async ()=>{
-        if(document.getElementById("nama").value==="" || document.getElementById("nama").value==="Tidak Ditemukan"){
+        let radio = document.getElementsByName("flexRadioDefault");
+        if((!radio[0].checked && !radio[1].checked)){
+            window.scrollTo(0, 0);
+   
+            document.getElementsByName("flexRadioDefault")[0].focus();
+            return
+        }
+        if((document.getElementById("nama").value==="" || document.getElementById("nama").value==="Tidak Ditemukan")){
             window.scrollTo(0, 0);
    
             document.getElementById("toko").focus();
@@ -257,7 +267,18 @@ export default function DataOrderBarang() {
             status:(metode==="Tunai")?0:1,
             total:total
         })
-        console.log(hasil.data.id)
+        setdata({
+            nama:"",
+            alamat:"",
+            nohp1:"",
+            nohp2:"",
+        })
+        settotal(0);
+        document.getElementById("toko").value="";
+        window.scrollTo(0, 0);
+        revalidator.revalidate();
+        setrefresh(!refresh)
+        navigate("/Salesman/Keranjang")
     }
 
     const search = async(e)=>{
@@ -332,7 +353,7 @@ export default function DataOrderBarang() {
                                 <input className="relative float-left -ml-[1.5rem] mr-1 h-9 w-9 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                     type="radio"
                                     name="flexRadioDefault"
-                                    id="radioDefault01" checked value="Tunai" onClick={(e)=>setmetode(e.target.value)}/>
+                                    id="radioDefault01" value="Tunai" onClick={(e)=>setmetode(e.target.value)}/>
                                 <label className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer" htmlFor="radioDefault01">
                                     Tunai
                                 </label>

@@ -195,130 +195,174 @@ app.post("/api/order", async (req, res) => {
     console.log(barang[i].qty_pcs);
     console.log(jml.length);
     for (let j = 0; j < jml.length; j++) {
-      console.log(barang[i].qty_pcs);
-      if (
-        !stop1 &&
-        parseInt(barang[i].qty_pcs) !== 0 &&
-        jml[j].dataValues.jumlah_pcs >= parseInt(barang[i].qty_pcs)
-      ) {
-        stop1 = true;
-        console.log("masuk1");
-        let jmlpcs = jml[j].dataValues.jumlah_pcs - parseInt(barang[i].qty_pcs);
-        let totalharga = barang[i].qty_pcs * barang[i].harga_pcs;
-        await db.DetailBarang.update(
-          {
-            jumlah_pcs: jmlpcs,
-          },
-          {
-            where: {
-              id_detail_barang: jml[j].dataValues.id_detail_barang,
-            },
+      let jmlpcs = 0;
+      let jmlkrtn = 0;
+      let totalbarangkarton=0
+      let totalbarangpcs=0
+      if(parseInt(barang[i].qty_pcs)!==0 && jml[j].dataValues.jumlah_pcs>=parseInt(barang[i].qty_pcs)){
+        jmlpcs += parseInt(barang[i].qty_pcs);
+        let updatedatabase = jml[j].dataValues.jumlah_pcs-parseInt(barang[i].qty_pcs)
+        totalbarangpcs += barang[i].qty_pcs*barang[i].harga_pcs;
+        await db.DetailBarang.update({
+          jumlah_pcs:updatedatabase
+        },{
+          where:{
+            id_detail_barang:jml[j].dataValues.id_detail_barang
           }
-        );
-        await db.DetailTransaksi.create({
-          id_transaksi: data[0].id_transaksi,
-          id_detail_barang: jml[j].dataValues.id_detail_barang,
-          jumlah_barang_pcs: barang[i].qty_pcs,
-          jumlah_barang_karton: 0,
-          subtotal_barang: totalharga,
-          retur: 0,
-        });
+        })
+        barang[i].qty_pcs = 0
       }
-      if (
-        !stop1 &&
-        parseInt(barang[i].qty_pcs) !== 0 &&
-        jml[j].dataValues.jumlah_pcs !== 0 &&
-        jml[j].dataValues.jumlah_pcs <= parseInt(barang[i].qty_pcs)
-      ) {
-        console.log("masuk2");
-        await db.DetailBarang.update(
-          {
-            jumlah_pcs: 0,
-          },
-          {
-            where: {
-              id_detail_barang: jml[j].dataValues.id_detail_barang,
-            },
+      if(parseInt(barang[i].qty_karton)!==0&& jml[j].dataValues.jumlah_karton>=parseInt(barang[i].qty_karton)){
+        jmlkrtn += parseInt(barang[i].qty_karton);
+        let updatedatabase = jml[j].dataValues.jumlah_karton-parseInt(barang[i].qty_karton)
+        totalbarangkarton += barang[i].qty_karton*barang[i].harga_karton;
+        await db.DetailBarang.update({
+          jumlah_karton:updatedatabase
+        },{
+          where:{
+            id_detail_barang:jml[j].dataValues.id_detail_barang
           }
-        );
-        console.log(parseInt(barang[i].qty_pcs) - jml[j].dataValues.jumlah_pcs);
-        let totalharga =
-          jml[j].dataValues.jumlah_pcs * parseInt(barang[i].harga_pcs);
-        await db.DetailTransaksi.create({
-          id_transaksi: data[0].id_transaksi,
-          id_detail_barang: jml[j].dataValues.id_detail_barang,
-          jumlah_barang_pcs: jml[j].dataValues.jumlah_pcs,
-          jumlah_barang_karton: 0,
-          subtotal_barang: totalharga,
-          retur: 0,
-        });
-        barang[i].qty_pcs =
-          parseInt(barang[i].qty_pcs) - jml[j].dataValues.jumlah_pcs;
+        })
+        barang[i].qty_karton =0;
       }
-      if (
-        !stop2 &&
-        parseInt(barang[i].qty_karton) !== 0 &&
-        jml[j].dataValues.jumlah_karton >= parseInt(barang[i].qty_karton)
-      ) {
-        stop2 = true;
-        let jmlkrtn =
-          jml[j].dataValues.jumlah_karton - parseInt(barang[i].qty_karton);
-        let totalbarang = barang[i].qty_karton * barang[i].harga_karton;
-        await db.DetailBarang.update(
-          {
-            jumlah_karton: jmlkrtn,
-          },
-          {
-            where: {
-              id_detail_barang: jml[j].dataValues.id_detail_barang,
-            },
+      if(parseInt(barang[i].qty_pcs)!==0 && jml[j].dataValues.jumlah_pcs!==0 && jml[j].dataValues.jumlah_pcs<=parseInt(barang[i].qty_pcs)){
+        await db.DetailBarang.update({
+          jumlah_pcs:0
+        },{
+          where:{
+            id_detail_barang:jml[j].dataValues.id_detail_barang
           }
-        );
-        await db.DetailTransaksi.create({
-          id_transaksi: data[0].id_transaksi,
-          id_detail_barang: jml[j].dataValues.id_detail_barang,
-          jumlah_barang_pcs: 0,
-          jumlah_barang_karton: barang[i].qty_karton,
-          subtotal_barang: totalbarang,
-          retur: 0,
-        });
+        })
+        jmlpcs+=jml[j].dataValues.jumlah_pcs
+        totalbarangpcs += (jml[j].dataValues.jumlah_pcs)*parseInt(barang[i].harga_pcs)
+        barang[i].qty_pcs = parseInt(barang[i].qty_pcs)-jml[j].dataValues.jumlah_pcs
       }
-      if (
-        !stop2 &&
-        jml[j].dataValues.jumlah_karton !== 0 &&
-        parseInt(barang[i].qty_karton) !== 0 &&
-        jml[j].dataValues.jumlah_karton <= parseInt(barang[i].qty_karton)
-      ) {
-        await db.DetailBarang.update(
-          {
-            jumlah_karton: 0,
-          },
-          {
-            where: {
-              id_detail_barang: jml[j].dataValues.id_detail_barang,
-            },
+      if(jml[j].dataValues.jumlah_karton!==0 && parseInt(barang[i].qty_karton)!==0&& jml[j].dataValues.jumlah_karton<=parseInt(barang[i].qty_karton)){
+        await db.DetailBarang.update({
+          jumlah_karton:0
+        },{
+          where:{
+            id_detail_barang:jml[j].dataValues.id_detail_barang
           }
-        );
-        let totalharga =
-          jml[j].dataValues.jumlah_karton * parseInt(barang[i].harga_karton);
-        await db.DetailTransaksi.create({
-          id_transaksi: data[0].id_transaksi,
-          id_detail_barang: jml[j].dataValues.id_detail_barang,
-          jumlah_barang_pcs: 0,
-          jumlah_barang_karton: jml[j].dataValues.jumlah_karton,
-          subtotal_barang: totalharga,
-          retur: 0,
-        });
-        barang[i].qty_karton =
-          parseInt(barang[i].qty_karton) - jml[j].dataValues.jumlah_karton;
+        })
+        jmlkrtn+=jml[j].dataValues.jumlah_karton
+        totalbarangkarton += (jml[j].dataValues.jumlah_karton)*parseInt(barang[i].harga_karton)
+        barang[i].qty_karton = parseInt(barang[i].qty_karton)-jml[j].dataValues.jumlah_karton
       }
-      if (stop1 || stop2) {
-        break;
+      if(barang[i].qty_karton==0){
+        stop2 = true
+      }
+      if(barang[i].qty_pcs==0){
+        stop1 = true
+      }
+      await db.DetailTransaksi.create({
+        id_transaksi:data[0].id_transaksi,
+        id_detail_barang:jml[j].dataValues.id_detail_barang,
+        jumlah_barang_pcs:jmlpcs,
+        jumlah_barang_karton:jmlkrtn,
+        subtotal_barang:totalbarangkarton+totalbarangpcs,
+        retur_pcs:0,
+        retur_karton:0,
+        tanggal_retur:"-",
+        jenis_retur:0
+      })
+      if(stop1 && stop2){
+        break
       }
     }
   }
-  return res.status(200).send({ id: data[0].dataValues.id_transaksi });
-});
+  return res.status(200).send({id:data[0].dataValues.id_transaksi})
+})
+
+app.post("/api/updatePost",async(req,res)=>{
+  let {cmd,id} = req.body;
+  console.log(cmd)
+  console.log(id)
+  if(cmd==="Send"){
+    for (let i = 0; i < id.length; i++) {
+      await db.HeaderTransaksi.update({
+        status_transaksi:1
+      },{
+        where:{
+          id_transaksi:id[i]
+        }
+      }) 
+    }
+  }else{
+    await db.HeaderTransaksi.update({
+      status_transaksi:-1
+    },{
+      where:{
+        id_transaksi:id[0]
+      }
+    }) 
+    let detail = await db.DetailTransaksi.findAll({
+      where:{
+        id_transaksi:id[0]
+      }
+    })
+    for (let i = 0; i < detail.length; i++) {
+      await db.DetailBarang.update({
+        jumlah_pcs: Sequelize.literal(`jumlah_pcs + ${detail[i].dataValues.jumlah_barang_pcs}`),
+        jumlah_karton: Sequelize.literal(`jumlah_karton + ${detail[i].dataValues.jumlah_barang_karton}`)
+      },{
+        where:{
+          id_detail_barang:detail[i].dataValues.id_detail_barang
+        }
+      })
+    }
+  }
+  return res.status(200).send("Success");
+})
+
+app.post("/api/historySalesman",async(req,res)=>{
+  let {sales} = req.body;
+  let tempHeader = await db.HeaderTransaksi.findAll({
+    where:{
+      [Op.and]: [
+        { id_user: sales },
+        { status_transaksi: 2 }
+      ]
+    }
+  })
+  let header = []
+  for (let i = 0; i < tempHeader.length; i++) {
+    let toko = await db.MasterToko.findOne({
+      where:{
+        id_toko:tempHeader[i].dataValues.id_toko
+      }
+    })
+    delete tempHeader[i].dataValues.id_toko;
+    header.push({ ...tempHeader[i].dataValues, nama_toko:toko.dataValues.nama_toko,nama_konsumen:toko.dataValues.nama_konsumen})
+  }
+  return res.status(200).send(header)
+})
+
+app.post("/api/getDetail",async(req,res)=>{
+  let {id} = req.body;
+  let headerTransaksi = await db.HeaderTransaksi.findOne({
+    where:{
+      id_transaksi:id
+    }
+  });
+  let toko = await db.MasterToko.findOne({
+    where:{
+      id_toko:headerTransaksi.dataValues.id_toko
+    }
+  })
+  let detailTransaksi = await db.DetailTransaksi.findAll({
+    where:{
+      id_transaksi:id
+    } 
+  })
+  let barang = await db.MasterBarang.findAll({
+    where: {
+      status_barang: 1,
+    },
+  });
+  let detailBarang = await db.DetailBarang.findAll();
+  return res.status(200).send({header:headerTransaksi.dataValues,detail:detailTransaksi,toko:toko,barang:barang,detailBarang:detailBarang})
+})
 
 // Get Supervisors
 app.get("/api/supervisor", async (req, res) => {

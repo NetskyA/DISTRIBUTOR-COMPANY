@@ -23,10 +23,22 @@ module.exports = {
         type:Sequelize.BIGINT,
         allowNull:false
       },
-      retur:{
-        type:Sequelize.BIGINT,
+      retur_pcs:{
+        type:Sequelize.INTEGER,
         allowNull:false
       },
+      retur_karton:{
+        type:Sequelize.INTEGER,
+        allowNull:false
+      },
+      tanggal_retur:{
+        type:Sequelize.TEXT,
+        allowNull:false
+      },
+      jenis_retur:{
+        type:Sequelize.INTEGER,
+        allowNull:false
+      }
     });
   },
   async down(queryInterface, Sequelize) {

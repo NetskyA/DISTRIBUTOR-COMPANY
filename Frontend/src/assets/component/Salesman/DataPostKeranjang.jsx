@@ -4,18 +4,19 @@ import LogoShow from "../../images/image-modal/show.png"
 import React, { useEffect, useState, useRef } from "react";
 import dataSet from "../../component/Salesman/DataRetur";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData,useRevalidator  } from "react-router-dom";
 import formatter from "../../controller/formatter";
-
+import client from "../../controller/client"
+import { fromJSON } from "postcss";
 export default function PostKeranjang() {
     const [cancelOrder, setCancelOrder] = useState(true)
+    let revalidator = useRevalidator();
     const [refresh,setrefresh] = useState(false)
     const toggleVisibilityCancel = () => {
         setCancelOrder(!cancelOrder)
     }
     let temp = [];
     let tempData = useLoaderData()
-    console.log(tempData)
     let tempDetail = tempData.post.detailTransaksi;
     for (let i = 0; i < tempData.post.headerTransaksi.length; i++) {
         temp.push(false);
@@ -26,18 +27,20 @@ export default function PostKeranjang() {
     const toggleVisibility = (idx) => {
         let temp2 = isVisible;
         temp2[idx] = !temp2[idx];
-        setIsVisible(temp2);
+        let tempvisible = temp2;
+        if(temp2[idx]){
+            tempvisible = temp2.map((e,index)=>(index!=idx)?false:true)
+        }
+        setIsVisible(tempvisible);
         setdata(null)
         if(!temp2[idx]){
             setdata(null)
         }else{
             let tempdataDetail = tempDetail.filter((e)=>e.id_transaksi===tempData.post.headerTransaksi[idx].id_transaksi) 
-            console.log(tempdataDetail)
             let dataDetail = [];
             for (let i = 0; i < tempdataDetail.length; i++) {
                 let duplikat = false;
                 for (let j = 0; j < dataDetail.length; j++) {
-            
                     let idbarang1 = (tempData.post.listbarang[(tempdataDetail[i].id_detail_barang-1)]);
                     // console.log(idbarang1);
                     let idbarang2 = (tempData.post.listbarang[dataDetail[j].id_detail_barang-1]);
@@ -46,32 +49,63 @@ export default function PostKeranjang() {
                         duplikat=true;
                         dataDetail[j].jumlah_barang_pcs+=tempdataDetail[i].jumlah_barang_pcs
                         dataDetail[j].jumlah_barang_karton+=tempdataDetail[i].jumlah_barang_karton
-                        dataDetail[j].harga_barang+=tempdataDetail[i].harga_barang
+                        dataDetail[j].subtotal_barang+=tempdataDetail[i].subtotal_barang
                     }
                 }
                 if(!duplikat){
-                    console.log(tempdataDetail[i]);
                     dataDetail.push({
                         id_transaksi: tempdataDetail[i].id_transaksi,
                         id_detail_barang: tempdataDetail[i].id_detail_barang,
                         jumlah_barang_pcs: tempdataDetail[i].jumlah_barang_pcs,
                         jumlah_barang_karton: tempdataDetail[i].jumlah_barang_karton,
                         subtotal_barang: tempdataDetail[i].subtotal_barang,
-                        retur: 0,
                         nama_barang: tempdataDetail[i].nama_barang
                     })
                 }
             }
-            console.log(tempdataDetail);
             setdata(dataDetail);
         }
         setrefresh(!refresh)
     };
 
 
-    const post = ()=>{
-        console.log(document.getElementsByName("check")[0].value)
-        console.log(document.getElementsByName("check")[0].checked)
+    const post = async ()=>{
+        let checkbox = document.getElementsByName("check");
+        let listid = []
+        let tidakadacheck = true;
+        checkbox.forEach(e=>{
+            if(e.checked){
+                tidakadacheck=false;
+                listid.push(parseInt(e.value))
+            }
+        })
+        if(!tidakadacheck){
+            await client.post("/api/updatePost",{
+                cmd:"Send",
+                id:listid
+            })
+        }
+        for (let i = 0; i < checkbox.length; i++) {
+            checkbox[i].checked = false;
+        }
+        revalidator.revalidate();
+        setrefresh(!refresh);
+    }
+
+    const cancel = async(id)=>{
+        let iddelete = tempData.post.headerTransaksi[id].id_transaksi
+        console.log(iddelete)
+        if(document.getElementsByName("check")[id].checked){
+            await client.post("/api/updatePost",{
+                cmd:"Delete",
+                id:[iddelete]
+            })
+        }
+        for (let i = 0; i < checkbox.length; i++) {
+            checkbox[i].checked = false;
+        }
+        revalidator.revalidate();
+        setrefresh(!refresh);
     }
     return (
         <>
@@ -119,7 +153,7 @@ export default function PostKeranjang() {
                                 <td className="whitespace-nowrap px-6 py-4">{(e.jenis_transaksi===0)?"Tunai":"Transfer"}</td>
                                 <td onClick={()=>toggleVisibility(index)} className="whitespace-nowrap px-6 py-4 font-semibold text-primary" style={{ cursor: "pointer" }}>{!isVisible[index] ? 'Buka' : 'Tutup'}</td>
                                 <td className="whitespace-nowrap px-6 py-4">
-                                    <button className="bg-primary w-36 h-12 rounded-lg"><p>Cancel</p></button>
+                                    <button className="bg-primary w-36 h-12 rounded-lg" onClick={()=>cancel(index)}><p>Cancel</p></button>
                                 </td>
                             </tr>
                             })}

@@ -1,63 +1,136 @@
 import ControlTarget from "../../controller/ControlTarget"
 import { Radio } from "@material-tailwind/react";
 import React, { useEffect, useRef } from "react";
+import { useLoaderData,useNavigate} from "react-router-dom";
 import dataSet from "../../component/Salesman/DataRetur";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import $ from "jquery";
+import formatter from "../../controller/formatter";
 
 export default function DataDetailHistory (){
+    let data = useLoaderData();
+    let navigate = useNavigate()
+    console.log(data)
+    // let j = 0;
+    // const Row = ({ data }) => {
+    //     var temp = [];
+    //     for (let i = 0; i < 6; i++) {
+    //         temp.push(<td key={j}>{data[i]}</td>)
+    //         j++
+    //     }
+    //     temp.push(<td key={j}>
+    //         <input className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" type="text" name={data[0]} defaultValue="0"/>
+    //         </td>)
+    //     return <>{temp}</>
+    // }
 
-    let j = 0;
-    const Row = ({ data }) => {
-        var temp = [];
-        for (let i = 0; i < 6; i++) {
-            temp.push(<td key={j}>{data[i]}</td>)
-            j++
-        }
-        temp.push(<td key={j}>
-            <input className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" type="text" name={data[0]} defaultValue="0"/>
-            </td>)
-        return <>{temp}</>
-    }
-
-    const Tabel = () => {
-        var cetak = [];
-        let i = 0;
-        dataSet.map((e) => {
-            cetak.push(<tr key={i}><Row data={e} /></tr>)
-            i++;
-        })
-        return <>{cetak}</>;
-    }
-    const tableRef = useRef();
+    // const Tabel = () => {
+    //     var cetak = [];
+    //     let i = 0;
+    //     dataSet.map((e) => {
+    //         cetak.push(<tr key={i}><Row data={e} /></tr>)
+    //         i++;
+    //     })
+    //     return <>{cetak}</>;
+    // }
+    // const tableRef = useRef();
     var table;
 
-    const test = ()=>{
-        var data = table.$('input').serialize()
-        console.log(data)
-    }
+    // const test = ()=>{
+    //     var data = table.$('input').serialize()
+    //     console.log(data)
+    // }
 
     useEffect(() => {
-        // Initialize DataTables within the component
-        $(tableRef.current).DataTable({
-            data: dataSet,
+        // $(tableRef.current).DataTable({
+        //     data: dataSet,
+        //     columns: [
+        //         { title: "Id Barang", field: "idbarang" },
+        //         { title: "Nama Barang", field: "namabarang" },
+        //         { title: "Harga Pcs", field: "hargapcs" },
+        //         { title: "Harga Karton", field: "hargakarton" },
+        //         { title: "Qty Gudang", field: "qtygudang" },
+        //         { title: "Qty Pembelian", field: "qtypembelian" },
+        //         { title: "Qty Retur", field: "qtyretur" },
+        //     ],
+        // });
+        // table = new $('#example').DataTable({
+        //     columnDefs: [
+        //         {
+        //             orderable: false,
+        //             targets: [6]
+        //         }
+        //     ]
+        // });
+        table = new $("#example").DataTable({
+            dom: '<"top"lf>rt<"bottom"pi>',
+            data: data.detailTransaksi,
             columns: [
-                { title: "Id Barang", field: "idbarang" },
-                { title: "Nama Barang", field: "namabarang" },
-                { title: "Harga Pcs", field: "hargapcs" },
-                { title: "Harga Karton", field: "hargakarton" },
-                { title: "Qty Gudang", field: "qtygudang" },
-                { title: "Qty Pembelian", field: "qtypembelian" },
-                { title: "Qty Retur", field: "qtyretur" },
-            ],
-        });
-        table = new $('#example').DataTable({
-            columnDefs: [
-                {
-                    orderable: false,
-                    targets: [6]
+            //   { title: "Id Barang", data:"id_transaksi"},
+              { title: "Nama Barang", data:"nama_barang"},
+              { title: "Harga Karton", data:"harga_karton",render: function (data, type) {
+                var number =  $.fn.dataTable.render
+                    .number('.', '.', 0, 'Rp ')
+                    .display(data);
+ 
+                if (type === 'display') {
+ 
+                    return `<span>${number}</span>`;
                 }
-            ]
+ 
+                return number;
+            }  },
+            { title: "Harga Pcs", data:"harga_pcs",render: function (data, type) {
+                var number =  $.fn.dataTable.render
+                    .number('.', '.', 0, 'Rp ')
+                    .display(data);
+ 
+                if (type === 'display') {
+ 
+                    return `<span>${number}</span>`;
+                }
+ 
+                return number;
+            }  },
+            { title: "Jumlah Karton", data:"jumlah_barang_karton",render: function (data, type) {
+                var number =  $.fn.dataTable.render
+                    .number('.', '.', 0, '')
+                    .display(data);
+ 
+                if (type === 'display') {
+ 
+                    return `<span>${number}</span>`;
+                }
+ 
+                return number;
+            }  },
+            { title: "Jumlah Pcs", data:"jumlah_barang_pcs",render: function (data, type) {
+                var number =  $.fn.dataTable.render
+                    .number('.', '.', 0, '')
+                    .display(data);
+ 
+                if (type === 'display') {
+ 
+                    return `<span>${number}</span>`;
+                }
+ 
+                return number;
+            }  },
+            { title: "Subtotal", data:"subtotal_barang",render: function (data, type) {
+                var number =  $.fn.dataTable.render
+                    .number('.', '.', 0, 'Rp ')
+                    .display(data);
+ 
+                if (type === 'display') {
+ 
+                    return `<span>${number}</span>`;
+                }
+ 
+                return number;
+            }  },
+            ],
+            destroy:true,
+            "bDestroy": true          
         });
     }, []);
 
@@ -85,58 +158,56 @@ export default function DataDetailHistory (){
                         <div className="cover m-5">
                         <div className="noId flex text-primary font-semibold text-2xl md:text-2xl">
                             <p>Id Pemesanan: </p>
-                            <p className="ms-4">ORD0001</p>
+                            <p className="ms-4">{data.transaksi.header.id_transaksi}</p>
                         </div>
                         <div className="MSales flex mt-4 text-primary font-semibold text-2xl md:text-2xl">
                             <p>Nama Pelanggan : </p>
-                            <p className="ms-4">Yurtan</p>
+                            <p className="ms-4">{data.transaksi.toko.nama_konsumen}</p>
                         </div>
                         <div className="PhoneNumber flex mt-4 text-primary font-semibold text-2xl md:text-2xl">
                             <p>Nama Toko : </p>
-                            <p className="ms-4">TK. Senin-Minggu</p>
+                            <p className="ms-4">{data.transaksi.toko.nama_toko}</p>
                         </div>
                         <div className="Adress flex mt-4 text-primary font-semibold text-2xl md:text-2xl">
                         <p>Alamat : </p>
-                            <p className="ms-4">Jl. Cisitu Lama No. 54 Dago Coblong Bandung Jawa Barat</p>
+                            <p className="ms-4">{data.transaksi.toko.alamat_toko}</p>
                         </div>
                         <div className="Email flex mt-4 text-primary font-semibold text-2xl md:text-2xl">
                         <p>No. Hp : </p>
-                            <p className="ms-4">0859386986</p>
+                            <p className="ms-4">{data.transaksi.toko.no_handphone1} / {data.transaksi.toko.no_handphone2}</p>
                         </div>
                         <div className="MngSales flex mt-4 text-primary font-semibold text-2xl md:text-2xl">
                             <p>Tanggal : </p>
-                            <p className="ms-4">09/09/2023</p>
+                            <p className="ms-4">{data.transaksi.header.tanggal_transaksi}</p>
                         </div>
                         <div className="MngSales flex mt-4 text-primary font-semibold text-2xl md:text-2xl">
                             <p>Metode Pembayaran : </p>
-                            <p className="ms-4">Tunai</p>
+                            <p className="ms-4">{(data.transaksi.header.jenis_transaksi==0)?"Tunai":"Transfer"}</p>
                         </div>
-                        <div className="MngSales flex mt-4 text-primary font-semibold text-2xl md:text-2xl">
+                        {/* <div className="MngSales flex mt-4 text-primary font-semibold text-2xl md:text-2xl">
                             <p>Batas bayar : </p>
                             <p className="ms-4">5 september 2023 </p>
-                        </div>
+                        </div> */}
                         </div>
                 </div>
                 <div className="row ms-4 m-4 w-5/12 rounded-xl" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
                         <div className="cover m-5">
                         <div className="noId flex text-primary font-semibold text-2xl md:text-2xl">
                             <p>Total Harga : </p>
-                            <p className="ms-4">Rp. 10.000.000</p>
+                            <p className="ms-4">{formatter.format(data.transaksi.header.subtotal)}</p>
                         </div>
                         <div className="MSales flex mt-4 text-primary font-semibold text-2xl md:text-2xl">
                             <p>Nama Sales : </p>
-                            <p className="ms-4">Alvin</p>
+                            <p className="ms-4">{data.sales.username}</p>
                         </div>
                         
                         </div>
                 </div>
         </div>
                 <div className="MSales flex mt-4 m-6 float-right text-primary font-semibold text-2xl md:text-2xl">
-                    <a href={"#/History-Penjualan-Salesman"}>
-                        <button onClick={test} className="bg-primary w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                        <button onClick={()=>navigate("/Salesman/History")} className="bg-primary w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                             Kembali
                         </button>
-                    </a>
                 </div>
 
             <div className="cover mt-28 mb-5 border-2 rounded-xl" style={{ width: "100%",boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
@@ -144,7 +215,7 @@ export default function DataDetailHistory (){
                 {/* <table className="border-2 border-gray rounded-lg" ref={tableRef}></table> */}
                 <div className="cover m-2">
                 <table id="example" className="display border-2 border-gray rounded-lg">
-                    <thead>
+                    {/* <thead>
                         <tr>
                             <th>Id Barang</th>
                             <th>Nama Barang</th>
@@ -157,7 +228,7 @@ export default function DataDetailHistory (){
                     </thead>
                     <tbody>
                         <Tabel /> 
-                    </tbody>
+                    </tbody> */}
                 </table>
                 </div>
             </div>
@@ -168,22 +239,26 @@ export default function DataDetailHistory (){
                     <table className="text-left text-2xl font-light border rounded-xl w-full" style={{boxShadow:"rgba(0, 0, 0, 0.24) 0px 3px 8px"}}>
                         <thead className="border-b font-medium dark:border-neutral-500">
                         <tr>
-                            <th scope="col" className="px-6 py-4">Id Order</th>
-                            <th scope="col" className="px-6 py-4">NNama Konsumen</th>
-                            <th scope="col" className="px-6 py-4">Nama Toko</th>
-                            <th scope="col" className="px-6 py-4">Tanggal</th>
-                            <th scope="col" className="px-6 py-4">Jumlah Transaksi</th>
-                            <th scope="col" className="px-6 py-4">Status</th>
+                            <th scope="col" className="px-6 py-4">Nama Barang</th>
+                            <th scope="col" className="px-6 py-4">Jumlah Retur Karton</th>
+                            <th scope="col" className="px-6 py-4">Jumlah Retur Pcs</th>
+                            <th scope="col" className="px-6 py-4">Jenis Retur</th>
+                            <th scope="col" className="px-6 py-4">Tanggal Retur</th>
                         </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b dark:border-neutral-500">
-                            <td className="whitespace-nowrap px-6 py-4 font-medium">ORD0001</td>
-                            <td className="whitespace-nowrap px-6 py-4 font-medium">Yurtan</td>
-                            <td className="whitespace-nowrap px-6 py-4">TK. Senin-Minggu Tutup </td>
-                            <td className="whitespace-nowrap px-6 py-4">20/09/2023</td>
-                            <td className="whitespace-nowrap px-6 py-4">Lunas</td>
-                            </tr>
+                            {data.detailTransaksi.map((e,index)=>{
+                                if(e.status!==0){
+                                return <tr key={index}className="border-b dark:border-neutral-500">
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{e.nama_barang}</td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">{e.jumlah_retur_karton}</td>
+                                <td className="whitespace-nowrap px-6 py-4">{e.jumlah_retur_pcs}</td>
+                                <td className="whitespace-nowrap px-6 py-4">{(e.status=1)?"Barang":"Uang"}</td>
+                                <td className="whitespace-nowrap px-6 py-4">{e.tanggal_retur}</td>
+                                </tr>
+
+                                }
+                            })}
                         </tbody>
                     </table>
                     <p className="pr-2 pt-4 text-md italic text-primary">*cek kembali semua data apabila terdapat retur</p>

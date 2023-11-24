@@ -34,10 +34,22 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.BIGINT,
       allowNull:false
     },
-    retur:{
-      type:DataTypes.BIGINT,
+    retur_pcs:{
+      type:DataTypes.INTEGER,
       allowNull:false
     },
+    retur_karton:{
+      type:DataTypes.INTEGER,
+      allowNull:false
+    },
+    tanggal_retur:{
+      type:DataTypes.TEXT,
+      allowNull:false
+    },
+    jenis_retur:{
+      type:DataTypes.INTEGER, // 0 gk retur, 1 barang, 2 uang
+      allowNull:false
+    }
   }, {
     sequelize,
     modelName: 'DetailTransaksi',
