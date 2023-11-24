@@ -40,6 +40,7 @@ export default function Table() {
                             <tr>
                                 <th scope="col" className="px-6 py-4">Id Salesman</th>
                                 <th scope="col" className="px-6 py-4">Nama Salesman</th>
+                                <th scope="col" className="px-6 py-4">Kecamatan</th>
                                 <th scope="col" className="px-6 py-4">Target Terakhir</th>
                                 <th scope="col" className="px-6 py-4">Realisasi Target</th>
                                 <th scope="col" className="px-6 py-4">Target</th>
@@ -49,35 +50,14 @@ export default function Table() {
                             <tr className="border-b dark:border-neutral-500">
                                 <td className="whitespace-nowrap px-6 py-4 font-medium">SLS0001</td>
                                 <td className="whitespace-nowrap px-6 py-4 font-medium">Abdur Rahman</td>
+                                <select className="whitespace-nowrap border-0 h-16 mt-2 px-6 py-4 font-medium">
+                                    <option value="kota-pertama" className="h-12">Ngagel</option>
+                                    <option value="kota-kedua" className="h-12">Kutisari</option>
+                                    <option value="kota-ketiga" className="h-12">Darmo</option>
+                                    <option value="kota-empat" className="h-12">Kertajaya</option>
+                                </select>
                                 <td className="whitespace-nowrap px-6 py-4">Rp. <span>120.000.000</span></td>
                                 <td className="whitespace-nowrap px-6 py-4 text-green-600">Rp. <span>135.350.000</span></td>
-                                <td className="whitespace-nowrap px-6 py-4 text-primary">
-                                    <input type="number" className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" placeholder="0" />
-                                </td>
-                            </tr>
-                            <tr className="border-b dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">SLS0002</td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">Ahmad Madsory</td>
-                                <td className="whitespace-nowrap px-6 py-4">Rp. <span>110.500.000</span></td>
-                                <td className="whitespace-nowrap px-6 py-4 text-red-600">Rp. <span>90.150.000</span></td>
-                                <td className="whitespace-nowrap px-6 py-4 text-primary">
-                                    <input type="number" className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" placeholder="0" />
-                                </td>
-                            </tr>
-                            <tr className="border-b dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">SLS0003</td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">Ahmad Madsory</td>
-                                <td className="whitespace-nowrap px-6 py-4">Rp. <span>110.500.000</span></td>
-                                <td className="whitespace-nowrap px-6 py-4 text-red-600">Rp. <span>90.150.000</span></td>
-                                <td className="whitespace-nowrap px-6 py-4 text-primary">
-                                    <input type="number" className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" placeholder="0" />
-                                </td>
-                            </tr>
-                            <tr className="border-b dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">SLS0004</td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">Ahmad Madsory</td>
-                                <td className="whitespace-nowrap px-6 py-4">Rp. <span>110.500.000</span></td>
-                                <td className="whitespace-nowrap px-6 py-4 text-red-600">Rp. <span>90.150.000</span></td>
                                 <td className="whitespace-nowrap px-6 py-4 text-primary">
                                     <input type="number" className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" placeholder="0" />
                                 </td>
