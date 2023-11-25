@@ -47,7 +47,7 @@ import TargetData from "../controller/ControlTarget"
 // import LaporanOrderOrderan from "../component/Adminpenjualan/DataLaporanOrderan"
 // admin penjualan
 
-function Home({role}) {
+function Home({ role }) {
 
     return (
         <>
@@ -58,12 +58,12 @@ function Home({role}) {
                         {/* <DataNavbarKiriSpv /> */}
                         {/* <DataNavbarKiriSales /> */}
                         {/* <DataNavbarKiriAG /> */}
-                        {role==="Salesman" && <DataNavbarKiriSales />}
-                        {role==="Supervisor" && <DataNavbarKiriSpv/>}
-                        {role==="Koordinator-Supervisor" && <DataNavbarKiriKoor/>}
-                        {role==="Admin-Gaji" && <DataNavbarKiriAG/>}
-                        {role==="Admin-penjualan" && <DataNavbarKiriAP/>}
-                        {role==="Admin-Website" && <DataNavbarKiriAW/>}
+                        {role === "Salesman" && <DataNavbarKiriSales />}
+                        {role === "Supervisor" && <DataNavbarKiriSpv />}
+                        {role === "Koordinator-Supervisor" && <DataNavbarKiriKoor />}
+                        {role === "Admin-Gaji" && <DataNavbarKiriAG />}
+                        {role === "Admin-Penjualan" && <DataNavbarKiriAP />}
+                        {role === "Admin-Website" && <DataNavbarKiriAW />}
                     </div>
                 </div>
                 <div className="w-full mr-5 self-start">
@@ -73,7 +73,7 @@ function Home({role}) {
                     <div className="w-full" style={{ height: "71vh" }}>
                         <div className="cover mb-36 max-h-full mt-10" style={{ width: "100%" }}>
                             {/* {dataMenu} */}
-                            <Outlet/>
+                            <Outlet />
                         </div>
                     </div>
                 </div>

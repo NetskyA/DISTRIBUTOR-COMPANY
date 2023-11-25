@@ -65,6 +65,23 @@ export default function DataLaporanGaji() {
                 </div>
                 {/* untuk memanggil function controller target salesman */}
             </div>
+            <div className="row ms-4 m-4 w-5/12 rounded-xl border-2">
+                <div className="m-4">
+                    <div className="flex text-primary text-2xl">
+                        <p className="pt-1 pr-2">Tanggal Awal : </p>
+                        <input type="datetime-local" placeholder="tanggal awal" className="border border-primary rounded-lg text-xl h-10" name="date" id="date" />
+                    </div>
+                    <div className="flex mt-5 text-primary  text-2xl">
+                        <p className="pr-2 pt-1">Tanggal Akhir: </p>
+                        <input type="datetime-local" placeholder="tanggal akhir" className="border border-primary rounded-lg text-xl h-10" name="date2" id="date2" />
+                    </div>
+                    <div className="flex mt-7 m-4 text-primary float-right text-2xl" >
+                        <button className="w-52 h-14 items-end bg-primary rounded-xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                            Cari
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                 <p className="pt-5 text-4xl font-semibold text-center text-primary">Data Karyawan</p>
                 {/* <table className="border-2 border-gray rounded-lg" ref={tableRef}></table> */}

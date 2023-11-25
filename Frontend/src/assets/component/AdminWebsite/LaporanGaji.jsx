@@ -57,6 +57,7 @@ export default function LaporanGaji() {
                 { title: "Komisi", data: "komisi" },
                 { title: "Potongan", data: "potongan" },
                 { title: "Gaji Pokok", data: "gaji_pokok" },
+                { title: "Tanggal Gaji", data: "tanggal_gaji" },
                 { title: "Total Bersih", data: "total_bersih" },
             ],
             destroy: true,
