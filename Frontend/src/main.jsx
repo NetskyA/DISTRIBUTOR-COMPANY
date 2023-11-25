@@ -7,6 +7,7 @@ import LoginPages from "./assets/pages/login";
 import Home from "./assets/pages/home";
 import ProfileSales from "./assets/component/Salesman/DataProfileSales";
 import Catalog from "./assets/component/Salesman/DataStokBarang";
+import Toko from "./assets/component/Salesman/DataToko";
 import OrderBarang from "./assets/component/Salesman/DataOrderBarang";
 import ReturBarang from "./assets/component/Salesman/DataReturBarang";
 import HistoriPenjualanSales from "./assets/component/Salesman/DataHistoriPenjualan";
@@ -67,6 +68,11 @@ const router = createBrowserRouter([
         path: "Catalog",
         element: <Catalog />,
         loader: getDataCatalog,
+      },
+      {
+        path: "Toko",
+        element: <Toko />,
+        // loader: cekOrder,
       },
       {
         path: "Order",

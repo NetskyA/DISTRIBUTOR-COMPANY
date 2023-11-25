@@ -5,6 +5,7 @@ import LogoAdd from "../../images/image-navbar/add.png"
 import LogoHistory from "../../images/image-navbar/history.png"
 import LogoLogout from "../../images/image-navbar/logout2.png"
 import LogoCatalog from "../../images/image-navbar/writing.png"
+import LogoToko from "../../images/image-navbar/toko.png"
 import LogoKeranjang from "../../images/image-navbar/keranjang.png"
 import LogoLaporan from "../../images/image-navbar/laporan.png"
 
@@ -14,6 +15,7 @@ function LoopMenu() {
     let a = [];
     a.push(<DataNavbar  img={LogoProfile} title="Profil" link="/Salesman" />)
     a.push(<DataNavbar  img={LogoCatalog} title="Katalog" link="Catalog" />)
+    a.push(<DataNavbar  img={LogoToko} title="Toko" link="Toko" />)
     a.push(<DataNavbar  img={LogoAdd} title="Order" link="Order" />)
     a.push(<DataNavbar  img={LogoKeranjang} title="Post" link="Keranjang" />)
     a.push(<DataNavbar  img={LogoHistory} title="Histori" link="History" />)
