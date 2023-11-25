@@ -31,8 +31,6 @@ export default function RegisterUser() {
                     <div className="PhoneNumber flex mt-3 text-primary  text-2xl">
                         <p className="pt-1 w-52 pr-2">No. Hp : </p>
                         <input type="number" required="number" className="border border-primary rounded-lg w-64 text-xl h-10" name="nohp" id="nohp" />
-                        <p className="pt-1 pr-2 ps-2"> & </p>
-                        <input type="number" className="border border-primary rounded-lg w-64 text-xl h-10" name="nohp" id="nohp" />
                     </div>
                     <div className="Email flex mt-3 text-primary  text-2xl">
                         <p className="pt-1 w-52 pr-2">Email : </p>
