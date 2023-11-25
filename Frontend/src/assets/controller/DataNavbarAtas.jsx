@@ -1,6 +1,6 @@
 // import { useState } from 'react';
 import DateControl from "./ControlTanggal"
-import LogoPerusahaan from "../images/image-login/icon2.png"
+import LogoPerusahaan from "../images/image-login/icon.png"
 // import ModalExit from "../controller/ModalExit"
 
 export default function NavBarUp() {

@@ -15,9 +15,9 @@ function LoopMenu() {
     a.push(<DataNavbar img={LogoBarang} title="Barang" link="/AdminWebsite" />)
     a.push(<DataNavbar img={LogoSales} title="Sales" link="Laporan-Sales" />)
     a.push(<DataNavbar img={LogoGaji} title="Gaji" link="Laporan-Gaji" />)
-    a.push(<DataNavbar img={LogoKinerja} title="Kinerjs" link="Laporan-Kinerja" />)
+    a.push(<DataNavbar img={LogoKinerja} title="Kinerja" link="Laporan-Kinerja" />)
     a.push(<DataNavbar img={LogoTarget} title="Target" link="Laporan-Target" />)
-    a.push(<DataNavbar img={LogoRegister} title="Regist" link="Register-User" />)
+    a.push(<DataNavbar img={LogoRegister} title="Daftar" link="Register-User" />)
     a.push(<DataNavbar img={LogoMaster} title="Master" link="Master" />)
     a.push(<DataNavbar img={LogoLogout} title="Keluar" link="/" />)
 

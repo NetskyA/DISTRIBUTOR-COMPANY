@@ -30,7 +30,7 @@ import LaporanKinerja from "./assets/component/AdminWebsite/LaporanKinerja"
 import LaporanSales from "./assets/component/AdminWebsite/LaporanSales"
 import LaporanTarget from "./assets/component/AdminWebsite/LaporanTarget"
 import Master from "./assets/component/AdminWebsite/Master"
-import RegisterUser from "./assets/component/AdminWebsite/RegisterUser"
+import RegisterUser from "./assets/component/AdminWebsite/DaftarUser"
 import DataHandler from "./assets/controller/DataHandler";
 
 const {

@@ -6,42 +6,35 @@ import ControlTarget from "../../controller/ControlTarget"
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import dataSet from "../../component/Salesman/DataSet";
 import * as XLSX from "xlsx";
-
+import "datatables.net";
 import "datatables.net-buttons";
 import "datatables.net-buttons-dt";
 import "datatables.net-buttons-dt/css/buttons.dataTables.min.css";
 import "datatables.net-buttons/js/buttons.html5.min.js";
 import "datatables.net-buttons/js/buttons.print.min.js";
+import LogoPerusahaan from "../../images/image-login/icon.png"
 
-const Catalog = () => {
+const LaporanBarang = () => {
     let data = useLoaderData();
     let table;
+    const tableRef = useRef(null);
     const ExportExcel = () => {
-      let Heading = [['ID Barang', 'Nama Principle', 'Nama Barang','Stok Karton','Stok Pcs', 'Harga Karton', 'Harga Pcs','HA. Karton','HA. Pcs', 'Expired']];
-      const wb = XLSX.utils.book_new();
-      const ws = XLSX.utils.json_to_sheet(dataSet);
-      XLSX.utils.sheet_add_aoa(ws, Heading);
+        let Heading = [['ID Barang', 'Nama Principle', 'Nama Barang', 'Stok Karton', 'Stok Pcs', 'Harga Karton', 'Harga Pcs', 'HA. Karton', 'HA. Pcs', 'Expired']];
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.json_to_sheet(dataSet);
+        XLSX.utils.sheet_add_aoa(ws, Heading);
 
-      //Starting in the second row to avoid overriding and skipping headers
-      XLSX.utils.sheet_add_json(ws, dataSet, { origin: 'A2', skipHeader: true });
+        //Starting in the second row to avoid overriding and skipping headers
+        XLSX.utils.sheet_add_json(ws, dataSet, { origin: 'A2', skipHeader: true });
 
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-      XLSX.writeFile(wb, 'filename.xlsx');
+        XLSX.writeFile(wb, 'filename.xlsx');
     };
     useEffect(() => {
-        // Initialize DataTables within the component
-        // dataSet.map((e) => {
-        //   let block = document.createElement('tr');
-        //   for (let i = 0; i < 7; i++) {
-        //     let block2 = document.createElement('td');
-        //     block2.innerText = e[i];
-        //     block.appendChild(block2);
-        //   }
-        //   document.getElementById("isi").appendChild(block)
-        // })
+
         table = new $('#example').DataTable({
-            dom: '<"top"lf>rt<"bottom"pi>', // Include the buttons in the DOM
+            dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
             data: data,
             'columnDefs': [         // see https://datatables.net/reference/option/columns.searchable
                 {
@@ -56,7 +49,7 @@ const Catalog = () => {
                     searchable: false
                 },
                 { title: "ID", data: "id_barang" },
-                {title :"Nama Principle", data:"nama principle"},
+                { title: "Nama Principle", data: "nama principle" },
                 { title: "Nama Barang", data: "nama_barang" },
                 {
                     title: "Stok Karton", data: "stok_karton", render: function (data, type) {
@@ -132,14 +125,14 @@ const Catalog = () => {
             destroy: true,
             "bDestroy": true,
             buttons: [
-              "copy",
-              "csv",
-              {
-                text: "Ecxel",
-                action: ExportExcel,
-              },
-              "pdf",
-              "print", // Specify which buttons to include
+                "copy",
+                "csv",
+                {
+                    text: "Ecxel",
+                    action: ExportExcel,
+                },
+                "pdf",
+                "print", // Specify which buttons to include
             ],
         });
     }, []);
@@ -156,10 +149,13 @@ const Catalog = () => {
                 </div>
             </div>
             <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
-                <p className="pt-5 text-4xl font-semibold text-center text-primary">Data Barang</p>
+                <div className="flex mx-auto items-center justify-center">
+                    <p className="pt-5 text-4xl font-semibold text-center text-primary">Data Barang</p>
+                    <img src={LogoPerusahaan} className="w-32 h-32 mt-4" alt="logo perusahaan" />
+                </div>
                 <div className="cover mb-28">
                     <div className="covertable m-2">
-                        <table id="example" className="border-2 border-gray rounded-lg">
+                        <table ref={tableRef} id="example" className="border-2 border-gray rounded-lg">
                             {/* <thead>
                   <tr>
                     <th>ID Barang</th>
@@ -181,4 +177,4 @@ const Catalog = () => {
     );
 };
 
-export default Catalog;
+export default LaporanBarang;
