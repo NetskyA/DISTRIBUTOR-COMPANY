@@ -43,6 +43,7 @@ const {
   cekPost,
   cekHistory,
   cekDetailHistory,
+  getRetur,
   getDataKoor,
   getSuperSales
 } = DataHandler;
@@ -85,6 +86,7 @@ const router = createBrowserRouter([
       {
         path: "Retur",
         element: <ReturBarang />,
+        loader:getRetur
       },
       {
         path: "Detail-History/:id",

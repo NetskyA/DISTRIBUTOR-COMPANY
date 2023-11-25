@@ -167,11 +167,24 @@ const cekDetailHistory = async (data) => {
   }
   let temp2 = JSON.parse(localStorage.loggedData);
   let { params } = data;
-  let hasil = await client.post("/api/getDetail", {
-    id: params.id,
-  });
+  let hasil 
+  try {
+    hasil = await client.post("/api/getDetail", {
+      id: params.id,
+      idSales:temp2.id_user
+    }); 
+  } catch (error) {
+    throw new Response("", { status: 403 });
+  }
   let hasilQuery = hasil.data;
   console.log(hasilQuery)
+  let dataDetail = mergeDetail(hasilQuery);
+  // let dataRetur = dataDetail.filter(e=>e.status!==0);
+  // let dataDetailTransaksi = dataDetail.filter(e=>e.status===0);
+  return { dataRetur:dataDetail,detailTransaksi:dataDetail , sales: temp2 ,transaksi:hasilQuery};
+};
+
+const mergeDetail = (hasilQuery)=>{
   let dataDetail = [];
   for (let i = 0; i < hasilQuery.detail.length; i++) {
     let duplikat = false;
@@ -215,11 +228,20 @@ const cekDetailHistory = async (data) => {
       });
     }
   }
-  // console.log(dataDetail)
-  // let dataRetur = dataDetail.filter(e=>e.status!==0);
-  // let dataDetailTransaksi = dataDetail.filter(e=>e.status===0);
-  return { dataRetur:dataDetail,detailTransaksi:dataDetail , sales: temp2 ,transaksi:hasilQuery};
-};
+  return dataDetail
+}
+
+const getRetur = async()=>{
+  if (!localStorage.loggedData) {
+    return redirect("/");
+  }
+  let temp = JSON.parse(localStorage.loggedData).jabatan;
+  if (temp !== "Salesman") {
+    return redirect(`/${temp.replace(/\s/g, "")}`);
+  } 
+  let temp2 = JSON.parse(localStorage.loggedData);
+  return temp2;
+}
 
 const getDataKoor = async () => {
   if (!localStorage.loggedData) {
@@ -269,6 +291,8 @@ export default {
   cekPost,
   cekHistory,
   cekDetailHistory,
+  getRetur,
+  mergeDetail,
   getDataKoor,
   getSuperSales,
 };

@@ -208,6 +208,7 @@ export default function DataOrderBarang() {
             updateDataPcs(newValue, rowId);
         });
     }, [refresh]);
+
     const hitungTotal = (data)=>{
         let harga = 0;
         for (let i = 0; i < data.length; i++) {
@@ -242,6 +243,7 @@ export default function DataOrderBarang() {
     );
 
     const order = async ()=>{
+        console.log(barang)
         let radio = document.getElementsByName("flexRadioDefault");
         if((!radio[0].checked && !radio[1].checked)){
             window.scrollTo(0, 0);
@@ -256,6 +258,9 @@ export default function DataOrderBarang() {
             return
         }
         let temp = barang.filter(e=>parseInt(e.qty_karton)!==0 || parseInt(e.qty_pcs)!=0);
+        if(temp.length==0){
+            window.scrollTo(0, 0);
+        }
         let toko = await client.post("/api/gettoko",{
             nama:document.getElementById("toko").value
         })
