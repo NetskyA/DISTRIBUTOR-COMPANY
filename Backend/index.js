@@ -57,7 +57,7 @@ app.use(express.urlencoded({ extended: true }));
 // GET DATA K. SUEPERVISOR => LINE 1312
 // GET DATA LIST USER => LINE 1362
 // GET DATA LIST BARANG => LINE 1406
-// GET DATA LIST BARANG KEYWORD => LINE 1413 
+// GET DATA LIST BARANG KEYWORD => LINE 1413
 // GET DATA LIST BRAND => LINE 1438
 // GET EDIT BARAN => LINE 1485
 // PUT EDIT STATUS BARANG => LINE 1469
@@ -1341,14 +1341,14 @@ app.post("/api/register", async (req, res) => {
     "-" +
     now.getFullYear().toString().padStart(4, "0");
 
-  await db.MasterUser.create({
+  const result = await db.MasterUser.create({
     username: username,
     password: password,
     alamat: alamat,
     no_handphone: no_handphone,
     email: email,
-    id_jabatan: id_jabatan,
-    id_atasan: id_atasan,
+    id_jabatan: Number(id_jabatan),
+    id_atasan: Number(id_atasan),
     tanggal_masuk: date,
     foto: "",
     target_sekarang: 0,
@@ -1356,7 +1356,7 @@ app.post("/api/register", async (req, res) => {
     no_rekening: no_rekening,
     status_user: 1,
   });
-  return res.status(201).send("Done");
+  return res.status(201).send(result);
 });
 
 //========================== GET DATA LIST USER ==========================//
@@ -1413,25 +1413,25 @@ app.get("/api/getListBarang", async (req, res) => {
 //========================== GET DATA LIST BARANG KEYWORD ==========================//
 app.get("/api/getListBarang/:keyword", async (req, res) => {
   const { keyword } = req.params;
-  const key = `%${keyword}%`
+  const key = `%${keyword}%`;
   console.log(key);
   let barang = await db.MasterBarang.findAll({
     where: {
       [Op.or]: [
         {
           id_barang: {
-            [Op.like]: key
+            [Op.like]: key,
           },
         },
         {
           nama_barang: {
-            [Op.like]: key
-          }
-        }
-      ]
-    }
+            [Op.like]: key,
+          },
+        },
+      ],
+    },
   });
-  console.log(barang)
+  console.log(barang);
   return res.status(200).send(barang);
 });
 
@@ -1440,7 +1440,7 @@ app.get("/api/getListBrand", async (req, res) => {
   let brand = await db.MasterBrand.findAll({
     where: {
       status_brand: 1,
-    }
+    },
   });
 
   return res.status(200).send(brand);
@@ -1460,8 +1460,8 @@ app.post("/api/barang", async (req, res) => {
     id_brand: id_brand,
     harga_karton: harga_karton,
     harga_pcs: harga_pcs,
-    status_barang: 1
-  })
+    status_barang: 1,
+  });
 
   return res.status(201).send("Done");
 });
@@ -1473,11 +1473,13 @@ app.put("/api/editStatusBarang", async (req, res) => {
   await db.MasterBarang.update(
     {
       status_barang: status_barang,
-    }, {
-    where: {
-      id_barang: id_barang,
     },
-  })
+    {
+      where: {
+        id_barang: id_barang,
+      },
+    }
+  );
 
   return res.status(201).send("Done");
 });
@@ -1492,11 +1494,13 @@ app.put("/api/editBarang", async (req, res) => {
       harga_pcs: harga_pcs,
       harga_karton: harga_karton,
       id_brand: id_brand,
-    }, {
-    where: {
-      id_barang: id_barang,
     },
-  })
+    {
+      where: {
+        id_barang: id_barang,
+      },
+    }
+  );
 
   return res.status(201).send("Done");
 });
