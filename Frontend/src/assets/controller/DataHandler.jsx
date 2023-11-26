@@ -243,6 +243,18 @@ const getRetur = async()=>{
   return temp2;
 }
 
+const getGaji = async()=>{
+  if (!localStorage.loggedData) {
+    return redirect("/");
+  }
+  let temp = JSON.parse(localStorage.loggedData).jabatan;
+  if (temp !== "Admin Gaji") {
+    return redirect(`/${temp.replace(/\s/g, "")}`);
+  }
+  let dataJabatan  = (await client.get("/api/listJabatan")).data;
+  return dataJabatan
+}
+
 const getDataKoor = async () => {
   if (!localStorage.loggedData) {
     return redirect("/");
@@ -429,6 +441,7 @@ export default {
   cekDetailHistory,
   getRetur,
   mergeDetail,
+  getGaji,
   getDataKoor,
   getSuperSales,
   getDataSupervisor,

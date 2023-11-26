@@ -5,6 +5,7 @@ const { getDB } = require("./sequelize");
 const conn = getDB();
 const port = 3000;
 const db = require("./src/models");
+const axios = require("axios")
 var cors = require("cors");
 app.use(cors());
 const initApp = async () => {
@@ -628,6 +629,135 @@ app.post("/api/getDetail", async (req, res) => {
       detailBarang: detailBarang,
     });
 });
+
+
+const sendGaji = async(subtotal,email,date,username)=>{
+  const result = Math.random().toString(36).substring(2,10);
+  const options = {
+    method: "POST",
+    url: "https://api.xendit.co/v2/payouts",
+    headers: {
+      "content-type": "application/json",
+      "Authorization":"Basic eG5kX2RldmVsb3BtZW50X2J4bmhUOFVZdFFEcEVGMzczZjByamV6THc2ZnNzZTRnYkQwSlZUOGtrTmxSbTZEN1dmc0tzdEhHQVhqMUp1ZDk6",
+      "Idempotency-key": `${result}`,
+    },
+    data: {
+      "reference_id": "sample-successful-create-idr-payout",
+      "channel_code": "ID_BCA",
+      "channel_properties": {
+          "account_holder_name": `${username}`,
+          "account_number": "1214780935"
+      },
+      "amount": parseInt(subtotal),
+      "description": `Gaji pada tanggal ${date}`,
+      "currency": "IDR",
+      "receipt_notification" : {
+          "email_to": [`${email}`],
+          "email_cc": ["alvinbwiyono@gmail.com"]
+      }
+  },
+};
+let temp = await axios.request(options);
+}
+app.post("/api/kirimGaji",async(req,res)=>{
+  let {listUser} = req.body;
+  const now = new Date();
+  const date =  now.getDate().toString().padStart(2, "0")+
+    "-" +
+    (now.getMonth() + 1).toString().padStart(2, "0") +
+    "-" +
+    now.getFullYear().toString().padStart(4, "0") ;
+  for (let i = 0; i < listUser.length; i++) {
+    await db.MasterUser.update({
+      absen_user:0,
+      target_sekarang:0
+    },{
+      where:{
+        id_user:listUser[i].id_user
+      }
+    }) 
+
+    await db.HistoryGaji.create({
+      id_gaji:listUser[i].id_gaji,
+      tanggal_gaji:date,
+      gaji_pokok:(parseInt(listUser[i].gaji_pokok)-parseInt(listUser[i].potongan)),
+      gaji_komisi:listUser[i].gaji_komisi
+    })
+
+    // let idHistory = (await db.HistoryGaji.findOne({
+    //   order:[["id_history_gaji", "desc"]]
+    // })).dataValues.id_history_gaji;
+
+    sendGaji(listUser[i].subtotal,listUser[i].email,date,listUser[i].username)
+  }
+  return res.status(200).send("Success")
+})
+
+app.get("/api/listJabatan",async(req,res)=>{
+  let listJabatan = await db.MasterJabatan.findAll({
+    where:{
+      [Op.and]: [{ id_jabatan: {[Op.ne]:4} }, { id_jabatan: {[Op.ne]:5} },{ id_jabatan: {[Op.ne]:6} }],
+    }
+  });
+  return res.status(200).send(listJabatan)
+})
+
+app.get("/api/dataGaji/:id_jabatan",async(req,res)=>{
+  let {id_jabatan} = req.params;
+
+  // var now = new Date();
+  // let month = (now.getMonth() + 1).toString().padStart(2, "0")
+  // let year = now.getFullYear().toString().padStart(4, "0") ;
+  // if(month-1==0){
+  //   year-=1
+  //   month = 12;
+  // }else{
+  //   month-=1;
+  // }
+  let user = await db.MasterUser.findAll({
+    where:{
+      id_jabatan:id_jabatan
+    }
+  }) 
+  let datareturn = [];
+  for (let index = 0; index < user.length; index++){
+    let dataUser = user[index].dataValues;
+    let dataGajiUser = (await db.MasterGaji.findOne({
+      where:{
+        id_user:dataUser.id_user
+      },
+    })).dataValues
+    let targets = (await db.MasterTarget.findOne({
+      where:{
+        id_user:dataUser.id_user
+      },
+      order: [["id_target", "desc"]],
+    }))
+    let target = 0
+    if(targets){
+      target = targets.dataValues.target
+      targets=targets.dataValues;
+    }else{
+      targets={
+        target:0
+      }
+    }
+    let potongan = dataUser.absen_user * 100000;
+    let totalGaji = dataGajiUser.gaji_pokok;
+    let komisi = 0;
+    if(dataUser.target_sekarang>=target){
+      komisi = parseInt((dataUser.target_sekarang*10)/100)
+      totalGaji += parseInt((dataUser.target_sekarang*10)/100);
+    }else{
+      komisi = parseInt((dataUser.target_sekarang*5)/100);
+      totalGaji += parseInt((dataUser.target_sekarang*5)/100);
+    }
+    totalGaji-=potongan;
+    datareturn.push({...dataUser,...dataGajiUser,...targets,potongan:potongan,subtotal:totalGaji,komisi:komisi})
+  }
+  return res.status(200).send(datareturn);
+})
+
 // Get Supervisors
 app.get("/api/supervisor", async (req, res) => {
   let { id_koor } = req.query;

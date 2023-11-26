@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false
     },
     gaji_pokok:{
-      type:DataTypes.BIGINT,
+      type:DataTypes.BIGINT, 
       allowNull:false,
     },
     gaji_komisi:{

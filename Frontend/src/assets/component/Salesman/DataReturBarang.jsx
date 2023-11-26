@@ -584,14 +584,14 @@ export default function ReturnBarang() {
           </button>
         </div>
         <div className="w w-52 ms-14 mt-10 mb-5 float-right">
-          <button
+          {/* <button
             onClick={() => {
               setRefresh(!refresh);
             }}
             className="w-52 h-16 bg-gray-300 rounded-xl hover:bg-slate-400 text-gray-600 hover:text-white font-bold py-2 px-4"
           >
             Close
-          </button>
+          </button> */}
         </div>
       </div>
 

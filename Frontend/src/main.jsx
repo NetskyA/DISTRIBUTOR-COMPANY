@@ -45,6 +45,7 @@ const {
   cekHistory,
   cekDetailHistory,
   getRetur,
+  getGaji,
   getDataKoor,
   getSuperSales,
   getDataSupervisor,
@@ -174,6 +175,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <GajiKaryawan />,
+        loader:getGaji
       },
       {
         path: "Komisi-Karyawan",

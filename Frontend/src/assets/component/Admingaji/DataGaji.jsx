@@ -1,54 +1,164 @@
 import DateControl from "../../controller/ControlTanggal"
-import { useEffect, useRef } from "react";
-import { useState } from "react";
+import { useState,useRef,useEffect } from "react";
 import $ from "jquery";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import dataSet from "../../component/Salesman/DataSet";
 import ComModal from "../../controller/ControlModalKeluar"
 import Select from 'react-select';
-
+import { useLoaderData, useNavigate } from "react-router-dom";
 // import * as XLSX from "xlsx";
 
 import "datatables.net-buttons";
 import "datatables.net-buttons-dt";
 import "datatables.net-buttons-dt/css/buttons.dataTables.min.css";
+import client from "../../controller/client";
 
 export default function DataGaji() {
-
+    let jabatan = useLoaderData()
+    var now = new Date();
+    let date =now.getDate();
+    console.log(jabatan)
     let table;
+    let listGaji = useRef([]);
+    const [refresh,setRefresh] = useState(false)
     const [showModal, setShowModal] = useState(false);
     const handleCloseModal = () => {
         setShowModal(false);
     }
+    let textJabatan = useRef("")
     const handleTogglePassword = () => {
+        // if(date!==1){
+        //     alert("Belum Tanggal 1")
+        //     return
+        // }
+        if(listGaji.current.length==0){
+            document.getElementById("divisi").focus()
+            return
+        }
         setShowModal(true)
     };
+    console.log(listGaji)
+    const search = async()=>{
+        let idJabatan = document.getElementById("divisi").value;
+        if(parseInt(idJabatan) ==0){
+            document.getElementById("divisi").focus()
+            return
+        }
+        let dataTable = (await client.get(`/api/dataGaji/${idJabatan}`)).data
+        listGaji.current = dataTable;
+        setRefresh(!refresh);
+    }
     useEffect(() => {
-
-        // Initialize DataTables within the component
-        dataSet.map((e) => {
-            let block = document.createElement('tr');
-            for (let i = 0; i < 7; i++) {
-                let block2 = document.createElement('td');
-                block2.innerText = e[i];
-                block.appendChild(block2);
-            }
-            document.getElementById("isi").appendChild(block)
-        })
-        table = new $('#example').DataTable({
-            dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
-            // buttons: [
-            //   "copy",
-            //   "csv",
-            //   {
-            //     text: "Ecxel",
-            //     action: ExportExcel,
-            //   },
-            //   "pdf",
-            //   "print", // Specify which buttons to include
-            // ],
-        });
-    }, []);
+        table = new $("#example").DataTable({
+            data: listGaji.current,
+            columns: [
+              { title: "Id User", data: "id_user" },
+              { title: "Nama", data: "username" },
+              { title: "Email", data: "email" },
+              { title: "Jabatan", data: null,render:()=>{
+                return textJabatan.current
+              } },
+              {
+                title: "Target",
+                data: "target",
+                render: function (data, type) {
+                  var number = $.fn.dataTable.render
+                    .number(".", ".", 0, "Rp ")
+                    .display(data);
+      
+                  if (type === "display") {
+                    return `<span>${number}</span>`;
+                  }
+      
+                  return number;
+                },
+              },
+              {
+                title: "Realisasi",
+                data: "target_sekarang",
+                render: function (data, type,row) {
+                  var number = $.fn.dataTable.render
+                    .number(".", ".", 0, "Rp ")
+                    .display(data);
+                  if (type === "display") {
+                    let color = 'limegreen';
+                    if (data < row.target) {
+                        color = 'red';
+                    }
+                    else if (data < 500000) {
+                        color = 'orange';
+                    }
+                    return `<span style="font-weight: bold;color:${color}">${number}</span>`;
+                  }
+      
+                  return number;
+                },
+              },
+              {
+                  title: "Gaji",
+                  data: "gaji_pokok",
+                  render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                      .number(".", ".", 0, "Rp ")
+                      .display(data);
+        
+                    if (type === "display") {
+                      return `<span>${number}</span>`;
+                    }
+        
+                    return number;
+                  },
+              },
+              {
+                  title: "Komisi",
+                  data: "komisi",
+                  render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                      .number(".", ".", 0, "Rp ")
+                      .display(data);
+        
+                    if (type === "display") {
+                      return `<span>${number}</span>`;
+                    }
+        
+                    return number;
+                  },
+              },
+              {
+                  title: "Potongan",
+                  data: "potongan",
+                  render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                      .number(".", ".", 0, "Rp ")
+                      .display(data);
+        
+                    if (type === "display") {
+                      return `<span>${number}</span>`;
+                    }
+        
+                    return number;
+                  },
+              },
+              {
+                  title: "Total Gaji",
+                  data: "subtotal",
+                  render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                      .number(".", ".", 0, "Rp ")
+                      .display(data);
+        
+                    if (type === "display") {
+                      return `<span>${number}</span>`;
+                    }
+        
+                    return number;
+                  },
+              },
+            ],
+            destroy: true,
+            bDestroy: true,
+          });
+      }, [refresh]);
     return (
         <>
             <div className="cover selectdisable flex">
@@ -66,10 +176,11 @@ export default function DataGaji() {
                 <div className="row ms-4 m-4 w-full">
                     <div className="flex text-primary text-2xl">
                         <p className="pt-1 pr-2">Divisi : </p>
-                        <select name="divisi" id="divisi" className="border rounded-lg h-11 w-65 border-primary">
-                            <option value="koor">K. Supervisor</option>
-                            <option value="supervisor">Supervisor</option>
-                            <option value="salesman">Salesman</option>
+                        <select name="divisi" onChange={(e)=>{textJabatan.current=(e.target.options[e.target.selectedIndex].text)}} id="divisi" className="border rounded-lg h-11 w-65 border-primary">
+                            <option value="0"></option>
+                            {jabatan.map((e,index)=>{
+                                return <option value={e.id_jabatan}>{e.nama_jabatan}</option>
+                            })}
                         </select>
                     </div>
 
@@ -78,7 +189,7 @@ export default function DataGaji() {
                         <DateControl />
                     </div>
                     <div className="flex mt-7 text-primary float-right text-2xl">
-                        <button className="w-36 h-12 items-end bg-primary rounded-xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                        <button onClick={search} id="cari" className="w-36 h-12 items-end bg-primary rounded-xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
                             Search
                         </button>
                     </div>
@@ -91,7 +202,7 @@ export default function DataGaji() {
                     <div className="cover mb-28">
                         <div className="covertable m-2">
                             <table id="example" className="border-2 border-gray rounded-lg">
-                                <thead>
+                                {/* <thead>
                                     <tr>
                                         <th>ID Karyawan</th>
                                         <th>Nama Karyawan</th>
@@ -103,7 +214,7 @@ export default function DataGaji() {
                                     </tr>
                                 </thead>
                                 <tbody id="isi">
-                                </tbody>
+                                </tbody> */}
                             </table>
                         </div>
                         <div className="flex text-primary m-4 float-right text-2xl">
@@ -112,7 +223,7 @@ export default function DataGaji() {
                             </button>
                         </div>
                         {/* <div className="min-h-screen flex items-center justify-center"> */}
-                        <ComModal show={showModal} handleClose={handleCloseModal} />
+                        <ComModal show={showModal} handleClose={handleCloseModal} data={listGaji.current}/>
                         {/* </div> */}
                     </div>
                 </div>
