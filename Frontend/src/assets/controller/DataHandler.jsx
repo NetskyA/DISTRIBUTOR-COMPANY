@@ -243,7 +243,7 @@ const getRetur = async()=>{
   return temp2;
 }
 
-const getGaji = async()=>{
+const getJabatan = async()=>{
   if (!localStorage.loggedData) {
     return redirect("/");
   }
@@ -255,13 +255,32 @@ const getGaji = async()=>{
   return dataJabatan
 }
 
+const getLaporanHistoryGaji = async () => {
+  if (!localStorage.loggedData) {
+    return redirect("/");
+  }
+  let temp = JSON.parse(localStorage.loggedData);
+  if (temp.jabatan !== "Admin Gaji") {
+    return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
+  }
+
+
+  let getHistoryGaji = await client.get(
+    `/api/getHistoryGaji`
+  );
+
+  return ({
+    historyGaji: getHistoryGaji.data
+  });
+};
+
 const getDataKoor = async () => {
   if (!localStorage.loggedData) {
     return redirect("/");
   }
   let temp = JSON.parse(localStorage.loggedData);
   if (temp.jabatan !== "Koordinator Supervisor") {
-    return redirect(`/${temp.replace(/\s/g, "")}`);
+    return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
   let getSupervisor = await client.get(
@@ -279,7 +298,7 @@ const getSuperSales = async () => {
   }
   let temp = JSON.parse(localStorage.loggedData);
   if (temp.jabatan !== "Koordinator Supervisor") {
-    return redirect(`/${temp.replace(/\s/g, "")}`);
+    return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
   let getSupervisor = await client.get(`/api/rawsupervisor`);
@@ -301,7 +320,7 @@ const getDataSupervisor = async () => {
   // return temp;
 
   if (temp.jabatan !== "Supervisor") {
-    return redirect(`/${temp.replace(/\s/g, "")}`);
+    return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
   let getSalesman = await client.get(
@@ -320,7 +339,7 @@ const getSales = async () => {
   }
   let temp = JSON.parse(localStorage.loggedData);
   if (temp.jabatan !== "Supervisor") {
-    return redirect(`/${temp.replace(/\s/g, "")}`);
+    return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
   let getSalesman = await client.get(
@@ -359,7 +378,7 @@ const getDataBarang = async () => {
   }
   let temp = JSON.parse(localStorage.loggedData);
   if (temp.jabatan !== "Admin Website") {
-    return redirect(`/${temp.replace(/\s/g, "")}`);
+    return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
 
@@ -378,7 +397,7 @@ const getHeaderTransaksi = async () => {
   }
   let temp = JSON.parse(localStorage.loggedData);
   if (temp.jabatan !== "Admin Website") {
-    return redirect(`/${temp.replace(/\s/g, "")}`);
+    return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
 
@@ -397,7 +416,7 @@ const getHistoryGaji = async () => {
   }
   let temp = JSON.parse(localStorage.loggedData);
   if (temp.jabatan !== "Admin Website") {
-    return redirect(`/${temp.replace(/\s/g, "")}`);
+    return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
 
@@ -416,7 +435,7 @@ const getDataToko = async () => {
   }
   let temp = JSON.parse(localStorage.loggedData);
   if (temp.jabatan !== "Salesman") {
-    return redirect(`/${temp.replace(/\s/g, "")}`);
+    return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
 
@@ -435,7 +454,7 @@ const loadAtasan = async () => {
   }
   let temp = JSON.parse(localStorage.loggedData);
   if (temp.jabatan !== "Admin Website") {
-    return redirect(`/${temp.replace(/\s/g, "")}`);
+    return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
 
@@ -465,7 +484,8 @@ export default {
   cekDetailHistory,
   getRetur,
   mergeDetail,
-  getGaji,
+  getJabatan,
+  getLaporanHistoryGaji,
   getDataKoor,
   getSuperSales,
   getDataSupervisor,

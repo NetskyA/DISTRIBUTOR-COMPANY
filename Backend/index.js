@@ -659,6 +659,21 @@ const sendGaji = async(subtotal,email,date,username)=>{
 };
 let temp = await axios.request(options);
 }
+
+app.post("/api/updateKomisi",async(req,res)=>{
+  let {update} = req.body;
+  for (let i = 0; i < update.length; i++) {
+    await db.MasterGaji.update({
+      gaji_komisi:parseInt(update[i].komisi_update)
+    },{
+      where:{
+        id_gaji:update[i].id_gaji
+      }
+    })  
+  }
+  return res.status(200).send("Success")
+})
+
 app.post("/api/kirimGaji",async(req,res)=>{
   let {listUser} = req.body;
   const now = new Date();
@@ -700,6 +715,11 @@ app.get("/api/listJabatan",async(req,res)=>{
     }
   });
   return res.status(200).send(listJabatan)
+})
+
+app.get("/api/historyGaji",async(req,res)=>{
+  let {tgl_awal,tgl_akhir} = req.body;
+  
 })
 
 app.get("/api/dataGaji/:id_jabatan",async(req,res)=>{

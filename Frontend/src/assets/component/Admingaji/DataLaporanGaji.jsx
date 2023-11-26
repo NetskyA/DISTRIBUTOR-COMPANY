@@ -1,28 +1,69 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef,useState } from "react";
 import $ from "jquery";
 import DataTables from "datatables.net";
 import ControlTarget from "../../controller/ControlTarget"
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import dataSet from "./DataSet2";
 import * as XLSX from "xlsx";
-
+import { useLoaderData, useNavigate } from "react-router-dom";
 import "datatables.net-buttons";
 import "datatables.net-buttons-dt";
 import "datatables.net-buttons-dt/css/buttons.dataTables.min.css";
 import "datatables.net-buttons/js/buttons.html5.min.js";
 import "datatables.net-buttons/js/buttons.print.min.js";
 export default function DataLaporanGaji() {
-    const tableRef = useRef();
-
+    let data = useLoaderData();
     let table;
+    const [gaji, setGaji] = useState(data.historyGaji);
+    const [dateStart, setDateStart] = useState(null)
+    const [dateEnd, setDateEnd] = useState(null)
+    const toggleVisibility = () => {
+        let tempGaji = [];
+        let temp = data.historyGaji;
+        for (let i = 0; i < temp.length; i++) {
+            const t = temp[i];
+            
+            const tempDate = t.tanggal_gaji.split("-");
+            const day = tempDate[0];
+            const month = tempDate[1];
+            const year = tempDate[2];
+            const result = year + "-" + month + "-" + day
+            if(dateStart<=result && dateEnd>=result){
+                tempGaji.push(t);
+            }
+        }
+        setGaji(tempGaji);
+    }
+    const extractDate = (id) => {
+        const date = document.getElementById(id).value;
+    
+        if (date) {
+          const tempDate = date.split("-");
+          const year = tempDate[0];
+          const month = tempDate[1];
+          const day = tempDate[2];
+    
+          if (id == "dateStart") {
+            setDateStart(year + "-" + month + "-" + day);
+          } else {
+            setDateEnd(year + "-" + month + "-" + day);
+          }
+        } else {
+          if (id == "dateStart") {
+            setDateStart();
+          } else {
+            setDateEnd();
+          }
+        }
+    };
     const ExportExcel = () => {
-        let Heading = [['ID Karyawan', 'Nama Karyawan', 'Email', 'Jabatan', 'Target Realisasi', 'Komisi', 'Potongan', 'Gaji Pokok', 'Total Bersih']];
+        let Heading = [['ID Gaji', 'Nama Karyawan', 'Email', 'Jabatan', 'Gaji Pokok', 'Komisi', 'Tanggal Gaji', 'Total Gaji']];
         const wb = XLSX.utils.book_new();
-        const ws = XLSX.utils.json_to_sheet(dataSet);
+        const ws = XLSX.utils.json_to_sheet(gaji);
         XLSX.utils.sheet_add_aoa(ws, Heading);
 
         //Starting in the second row to avoid overriding and skipping headers
-        XLSX.utils.sheet_add_json(ws, dataSet, { origin: 'A2', skipHeader: true });
+        XLSX.utils.sheet_add_json(ws, gaji, { origin: 'A2', skipHeader: true });
 
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
@@ -30,17 +71,60 @@ export default function DataLaporanGaji() {
     };
     useEffect(() => {
         // Initialize DataTables within the component
-        dataSet.map((e) => {
-            let block = document.createElement('tr');
-            for (let i = 0; i < 9; i++) {
-                let block2 = document.createElement('td');
-                block2.innerText = e[i];
-                block.appendChild(block2);
-            }
-            document.getElementById("isi").appendChild(block)
-        })
         table = new $('#example').DataTable({
             dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
+            data: gaji,
+            'columnDefs': [         // see https://datatables.net/reference/option/columns.searchable
+                {
+                    'searchable': false,
+                    'targets': [2, 3, 4, 5]
+                },
+            ],
+            columns: [
+                { title: "Id Gaji", data: "id_gaji" },
+                { title: "Nama Karyawan", data: "nama_karyawan" },
+                { title: "Email", data: "email" },
+                { title: "Jabatan", data: "jabatan" },
+                { title: "Gaji Pokok", data: "gaji_pokok", render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number('.', '.', 0, 'Rp ')
+                        .display(data);
+
+                    if (type === 'display') {
+
+                        return `<span>${number}</span>`;
+                    }
+
+                    return number;
+                }},
+                { title: "Komisi", data: "komisi", render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number('.', '.', 0, 'Rp ')
+                        .display(data);
+
+                    if (type === 'display') {
+
+                        return `<span>${number}</span>`;
+                    }
+
+                    return number;
+                }},
+                { title: "Tanggal Gaji", data: "tanggal_gaji" },
+                { title: "Total Gaji", data: "total_gaji", render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number('.', '.', 0, 'Rp ')
+                        .display(data);
+
+                    if (type === 'display') {
+
+                        return `<span>${number}</span>`;
+                    }
+
+                    return number;
+                }},
+            ],
+            destroy: true,
+            "bDestroy": true,
             buttons: [
                 "copy",
                 "csv",
@@ -52,7 +136,7 @@ export default function DataLaporanGaji() {
                 "print", // Specify which buttons to include
             ],
         });
-    }, []);
+    }, [gaji]);
     return (
         <>
             <div className="cover selectdisable flex">
@@ -69,14 +153,18 @@ export default function DataLaporanGaji() {
                 <div className="m-4">
                     <div className="flex text-primary text-2xl">
                         <p className="pt-1 pr-2">Tanggal Awal : </p>
-                        <input type="datetime-local" placeholder="tanggal awal" className="border border-primary rounded-lg text-xl h-10" name="date" id="date" />
+                        <input type="date" className="border border-primary rounded-lg text-xl h-10" name="date"
+                            id="dateStart" required="dates"
+                            onChange={() => extractDate("dateStart")}/>
                     </div>
                     <div className="flex mt-5 text-primary  text-2xl">
                         <p className="pr-2 pt-1">Tanggal Akhir: </p>
-                        <input type="datetime-local" placeholder="tanggal akhir" className="border border-primary rounded-lg text-xl h-10" name="date2" id="date2" />
+                        <input type="date" className="border border-primary rounded-lg text-xl h-10"  name="date"
+                            id="dateEnd"  required="dates"
+                            onChange={() => extractDate("dateEnd")}/>
                     </div>
                     <div className="flex mt-7 m-4 text-primary float-right text-2xl" >
-                        <button className="w-52 h-14 items-end bg-primary rounded-xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+                        <button className="w-52 h-14 items-end bg-primary rounded-xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4" onClick={()=>toggleVisibility()}>
                             Cari
                         </button>
                     </div>
@@ -88,21 +176,7 @@ export default function DataLaporanGaji() {
                 <div className="cover mb-28">
                     <div className="covertable m-2">
                         <table id="example" className="border-2 border-gray rounded-lg">
-                            <thead>
-                                <tr>
-                                    <th>ID Karyawan</th>
-                                    <th>Nama Karyawan</th>
-                                    <th>Email</th>
-                                    <th>Jabatan</th>
-                                    <th>Target Realisasi</th>
-                                    <th>Komisi</th>
-                                    <th>Potongan</th>
-                                    <th>Gaji Pokok</th>
-                                    <th>Total Bersih</th>
-                                </tr>
-                            </thead>
-                            <tbody id="isi">
-                            </tbody>
+                            
                         </table>
                     </div>
                 </div>
