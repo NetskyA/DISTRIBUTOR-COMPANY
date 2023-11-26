@@ -22,6 +22,78 @@ initApp();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//========================== DAFTAR ENDPOINT [CRTL F] ======================//
+// POST LOGIN => LINE 97
+// POST ATASAN => LINE 162
+// POST KERANJANG SALESMAN => LINE 183
+// POST RETUR => LINE 250
+// POST ORDER => LINE 488
+// POST UPDATE KERANJANG SALESMAN => LINE 625
+// POST HISTORY SALESMAN => LINE 681
+// POST DETAIL TRANSAKSI => LINE  705
+// POST UPDATE KOMISI => LINE 741
+// POST KIRIM GAJI => LINE 759
+// POST TARGET => LINE 976
+// POST REGISTER USER => LINE 1323
+// POST TAMBAH BARANG => LINE 1449
+// GET BARANG => LINE 128
+// GET TOKO => LINE 168
+// GET LIST JABATAN => LINE 805
+// GET HISTORY GAJI => LINE 818
+// GET DATA GAJI BY JABATAN => LINE 823
+// GET DATA SUPERVISOR => LINE 889
+// GET DATA RAW SUPERVISOR  => LINE 947
+// GET WILAYAH TOKO => LINE 963
+// GET ALL TARGET => LINE 969
+// GET SALESMAN => LINE 1005
+// GET DATA RAW SALESMAN  => LINE 1047
+// GET DATA KELURAHAN => LINE 1089
+// GET DATA BAWAHAN SUPERVISOR => LINE 1095
+// GET DATA DETAIL BARANG => LINE 1148
+// GET HISTORY GAJI => LINE 1181
+// GET DATA HISTORY GAJI => LINE 1226
+// GET DATA KATALOG => LINE 1264
+// GET DATA LIST SUPERVISOR => LINE 1301
+// GET DATA K. SUEPERVISOR => LINE 1312
+// GET DATA LIST USER => LINE 1362
+// GET DATA LIST BARANG => LINE 1406
+// GET DATA LIST BARANG KEYWORD => LINE 1413 
+// GET DATA LIST BRAND => LINE 1438
+// GET EDIT BARAN => LINE 1485
+// PUT EDIT STATUS BARANG => LINE 1469
+
+//========================== KIRIM GAJI ==========================//
+const sendGaji = async (subtotal, email, date, username) => {
+  const result = Math.random().toString(36).substring(2, 10);
+  const options = {
+    method: "POST",
+    url: "https://api.xendit.co/v2/payouts",
+    headers: {
+      "content-type": "application/json",
+      Authorization:
+        "Basic eG5kX2RldmVsb3BtZW50X2J4bmhUOFVZdFFEcEVGMzczZjByamV6THc2ZnNzZTRnYkQwSlZUOGtrTmxSbTZEN1dmc0tzdEhHQVhqMUp1ZDk6",
+      "Idempotency-key": `${result}`,
+    },
+    data: {
+      reference_id: "sample-successful-create-idr-payout",
+      channel_code: "ID_BCA",
+      channel_properties: {
+        account_holder_name: `${username}`,
+        account_number: "1214780935",
+      },
+      amount: parseInt(subtotal),
+      description: `Gaji pada tanggal ${date}`,
+      currency: "IDR",
+      receipt_notification: {
+        email_to: [`${email}`],
+        email_cc: ["alvinbwiyono@gmail.com"],
+      },
+    },
+  };
+  let temp = await axios.request(options);
+};
+
+//========================== POST LOGIN ==========================//
 app.post("/api/login", async (req, res) => {
   let { email, password } = req.body;
   console.log(email);
@@ -52,6 +124,7 @@ app.post("/api/login", async (req, res) => {
   });
 });
 
+//========================== GET BARANG ==========================//
 app.get("/api/barang", async (req, res) => {
   let barang = await db.MasterBarang.findAll({
     attributes: ["id_barang", "nama_barang", "harga_pcs", "harga_karton"],
@@ -85,12 +158,14 @@ app.get("/api/barang", async (req, res) => {
   return res.status(201).send(dataReturn);
 });
 
+//========================== POST ATASAN ==========================//
 app.post("/api/atasan", async (req, res) => {
   let { id_user } = req.body;
   let user = await db.MasterUser.findByPk(id_user);
   return res.status(200).send(user.dataValues.username);
 });
 
+//========================== GET TOKO ==========================//
 app.post("/api/gettoko", async (req, res) => {
   let { nama } = req.body;
   let toko = await db.MasterToko.findOne({
@@ -105,6 +180,7 @@ app.post("/api/gettoko", async (req, res) => {
   }
 });
 
+//========================== POST KERANJANG SALESMAN ==========================//
 app.post("/api/post", async (req, res) => {
   let { sales } = req.body;
   let tempHeader = await db.HeaderTransaksi.findAll({
@@ -171,6 +247,7 @@ app.post("/api/post", async (req, res) => {
   });
 });
 
+//========================== POST RETUR ==========================//
 app.post("/api/retur", async (req, res) => {
   let { data } = req.body;
   console.log(data);
@@ -408,6 +485,7 @@ app.post("/api/retur", async (req, res) => {
   return res.status(200).send("Yay");
 });
 
+//========================== POST ORDER ==========================//
 app.post("/api/order", async (req, res) => {
   let { toko, user, barang, tanggal, status, total } = req.body;
   await db.HeaderTransaksi.create({
@@ -544,6 +622,7 @@ app.post("/api/order", async (req, res) => {
   return res.status(200).send({ id: data[0].dataValues.id_transaksi });
 });
 
+//========================== POST UPDATE KERANJANG SALESMAN ==========================//
 app.post("/api/updatePost", async (req, res) => {
   let { cmd, id } = req.body;
   console.log(cmd);
@@ -598,6 +677,7 @@ app.post("/api/updatePost", async (req, res) => {
   return res.status(200).send("Success");
 });
 
+//========================== POST HISTORY SALESMAN ==========================//
 app.post("/api/historySalesman", async (req, res) => {
   let { sales } = req.body;
   let tempHeader = await db.HeaderTransaksi.findAll({
@@ -622,6 +702,7 @@ app.post("/api/historySalesman", async (req, res) => {
   return res.status(200).send(header);
 });
 
+//========================== POST DETAIL TRANSAKSI ==========================//
 app.post("/api/getDetail", async (req, res) => {
   let { id, idSales } = req.body;
   console.log(idSales);
@@ -657,36 +738,7 @@ app.post("/api/getDetail", async (req, res) => {
   });
 });
 
-const sendGaji = async (subtotal, email, date, username) => {
-  const result = Math.random().toString(36).substring(2, 10);
-  const options = {
-    method: "POST",
-    url: "https://api.xendit.co/v2/payouts",
-    headers: {
-      "content-type": "application/json",
-      Authorization:
-        "Basic eG5kX2RldmVsb3BtZW50X2J4bmhUOFVZdFFEcEVGMzczZjByamV6THc2ZnNzZTRnYkQwSlZUOGtrTmxSbTZEN1dmc0tzdEhHQVhqMUp1ZDk6",
-      "Idempotency-key": `${result}`,
-    },
-    data: {
-      reference_id: "sample-successful-create-idr-payout",
-      channel_code: "ID_BCA",
-      channel_properties: {
-        account_holder_name: `${username}`,
-        account_number: "1214780935",
-      },
-      amount: parseInt(subtotal),
-      description: `Gaji pada tanggal ${date}`,
-      currency: "IDR",
-      receipt_notification: {
-        email_to: [`${email}`],
-        email_cc: ["alvinbwiyono@gmail.com"],
-      },
-    },
-  };
-  let temp = await axios.request(options);
-};
-
+//========================== POST UPDATE KOMISI ==========================//
 app.post("/api/updateKomisi", async (req, res) => {
   let { update } = req.body;
   for (let i = 0; i < update.length; i++) {
@@ -704,6 +756,7 @@ app.post("/api/updateKomisi", async (req, res) => {
   return res.status(200).send("Success");
 });
 
+//========================== POST KIRIM GAJI ==========================//
 app.post("/api/kirimGaji", async (req, res) => {
   let { listUser } = req.body;
   const now = new Date();
@@ -748,6 +801,7 @@ app.post("/api/kirimGaji", async (req, res) => {
   return res.status(200).send("Success");
 });
 
+//========================== GET LIST JABATAN ==========================//
 app.get("/api/listJabatan", async (req, res) => {
   let listJabatan = await db.MasterJabatan.findAll({
     where: {
@@ -761,10 +815,12 @@ app.get("/api/listJabatan", async (req, res) => {
   return res.status(200).send(listJabatan);
 });
 
+//========================== GET HISTORY GAJI ==========================//
 app.get("/api/historyGaji", async (req, res) => {
   let { tgl_awal, tgl_akhir } = req.body;
 });
 
+//========================== GET DATA GAJI BY JABATAN ==========================//
 app.get("/api/dataGaji/:id_jabatan", async (req, res) => {
   let { id_jabatan } = req.params;
 
@@ -830,7 +886,7 @@ app.get("/api/dataGaji/:id_jabatan", async (req, res) => {
   return res.status(200).send(datareturn);
 });
 
-// GEO
+//========================== GET DATA SUPERVISOR ==========================//
 app.get("/api/supervisor", async (req, res) => {
   let { id_koor } = req.query;
 
@@ -888,6 +944,7 @@ app.get("/api/supervisor", async (req, res) => {
   return res.status(200).send(result);
 });
 
+//========================== GET DATA RAW SUPERVISOR ==========================//
 app.get("/api/rawsupervisor/:id", async (req, res) => {
   let { id } = req.params;
 
@@ -903,20 +960,20 @@ app.get("/api/rawsupervisor/:id", async (req, res) => {
   return res.status(200).send(result);
 });
 
-// Get Wilayah Kota
+//========================== GET WILAYAH TOKO ==========================//
 app.get("/api/kota", async (req, res) => {
   let result = await db.MasterKota.findAll();
   return res.status(200).send(result);
 });
 
-// Get Target
+//========================== GET ALL TARGET ==========================//
 app.get("/api/target", async (req, res) => {
   const targets = await db.MasterTarget.findAll();
 
   return res.status(200).send(targets);
 });
 
-// Put Target
+//========================== POST TARGET ==========================//
 app.post("/api/target", async (req, res) => {
   let { id_user, id_wilayah, target } = req.body;
 
@@ -945,7 +1002,7 @@ app.post("/api/target", async (req, res) => {
   return res.status(201).send(result);
 });
 
-// Get Salesman
+//========================== GET SALESMAN ==========================//
 app.get("/api/salesman", async (req, res) => {
   let salesmans = await db.MasterUser.findAll({
     attributes: ["id_user", "username", "target_sekarang", "status_user"],
@@ -987,6 +1044,7 @@ app.get("/api/salesman", async (req, res) => {
   return res.status(200).send(result);
 });
 
+//========================== GET DATA RAW SALESMAN ==========================//
 app.get("/api/rawsalesman/:id", async (req, res) => {
   let { id } = req.params;
 
@@ -1028,13 +1086,13 @@ app.get("/api/rawsalesman/:id", async (req, res) => {
   return res.status(200).send(result);
 });
 
-// Get Data Kelurahan
+//========================== GET DATA KELURAHAN ==========================//
 app.get("/api/kelurahan", async (req, res) => {
   let result = await db.MasterKelurahan.findAll();
   return res.status(200).send(result);
 });
 
-// Get Data Bawahan Supervisor
+//========================== GET DATA BAWAHAN SUPERVISOR ==========================//
 app.get("/api/getBawahanSupervisor", async (req, res) => {
   let { id_atasan } = req.query;
   // console.log(id_atasan);
@@ -1087,7 +1145,7 @@ app.get("/api/getBawahanSupervisor", async (req, res) => {
   return res.status(200).send(result);
 });
 
-// Get Data Detail Barang
+//========================== GET DATA DETAIL BARANG ==========================//
 app.get("/api/detailBarang", async (req, res) => {
   let detailBarang = await db.DetailBarang.findAll();
 
@@ -1120,7 +1178,7 @@ app.get("/api/detailBarang", async (req, res) => {
   return res.status(200).send(temp);
 });
 
-// Get Data Header Transaksi
+//========================== GET HISTORY GAJI ==========================//
 app.get("/api/getHeaderTransaksi", async (req, res) => {
   let headerTransaksi = await db.HeaderTransaksi.findAll({
     where: {
@@ -1165,7 +1223,7 @@ app.get("/api/getHeaderTransaksi", async (req, res) => {
   return res.status(200).send(temp);
 });
 
-// Get Data History Gaji
+//========================== GET DATA HISTORY GAJI ==========================//
 app.get("/api/getHistoryGaji", async (req, res) => {
   let historyGaji = await db.HistoryGaji.findAll();
 
@@ -1203,7 +1261,7 @@ app.get("/api/getHistoryGaji", async (req, res) => {
   return res.status(200).send(temp);
 });
 
-// Get Data Katalog Toko
+//========================== GET DATA KATALOG ==========================//
 app.get("/api/getKatalogToko", async (req, res) => {
   let toko = await db.MasterToko.findAll({
     where: {
@@ -1240,7 +1298,7 @@ app.get("/api/getKatalogToko", async (req, res) => {
   return res.status(200).send(temp);
 });
 
-// Get Data list supervisor
+//========================== GET DATA LIST SUPERVISOR ==========================//
 app.get("/api/listSupervisor", async (req, res) => {
   let supervisor = await db.MasterUser.findAll({
     where: {
@@ -1251,7 +1309,7 @@ app.get("/api/listSupervisor", async (req, res) => {
   return res.status(200).send(supervisor);
 });
 
-// Get Data list ksupervisor
+//========================== GET DATA K. SUEPERVISOR ==========================//
 app.get("/api/listKsupervisor", async (req, res) => {
   let ksupervisor = await db.MasterUser.findAll({
     where: {
@@ -1262,7 +1320,7 @@ app.get("/api/listKsupervisor", async (req, res) => {
   return res.status(200).send(ksupervisor);
 });
 
-// Register
+//========================== POST REGISTER USER ==========================//
 app.post("/api/register", async (req, res) => {
   let {
     username,
@@ -1301,7 +1359,7 @@ app.post("/api/register", async (req, res) => {
   return res.status(201).send("Done");
 });
 
-// Get Data list user
+//========================== GET DATA LIST USER ==========================//
 app.get("/api/user", async (req, res) => {
   let users = await db.MasterUser.findAll({
     where: {
@@ -1345,21 +1403,21 @@ app.get("/api/user", async (req, res) => {
   return res.status(200).send(temp);
 });
 
-// Get Data list barang
+//========================== GET DATA LIST BARANG ==========================//
 app.get("/api/getListBarang", async (req, res) => {
   let barang = await db.MasterBarang.findAll();
 
   return res.status(200).send(barang);
 });
 
-// Get Data list barang pakai keyword
+//========================== GET DATA LIST BARANG KEYWORD ==========================//
 app.get("/api/getListBarang/:keyword", async (req, res) => {
-  const {keyword} = req.params;
+  const { keyword } = req.params;
   const key = `%${keyword}%`
   console.log(key);
   let barang = await db.MasterBarang.findAll({
     where: {
-      [Op.or] : [
+      [Op.or]: [
         {
           id_barang: {
             [Op.like]: key
@@ -1377,7 +1435,7 @@ app.get("/api/getListBarang/:keyword", async (req, res) => {
   return res.status(200).send(barang);
 });
 
-// Get Data list brand
+//========================== GET DATA LIST BRAND ==========================//
 app.get("/api/getListBrand", async (req, res) => {
   let brand = await db.MasterBrand.findAll({
     where: {
@@ -1388,13 +1446,13 @@ app.get("/api/getListBrand", async (req, res) => {
   return res.status(200).send(brand);
 });
 
-// Insert barang
+//========================== POST TAMBAH BARANG ==========================//
 app.post("/api/barang", async (req, res) => {
-  let { nama_barang, id_brand,harga_karton, harga_pcs} = req.body;
+  let { nama_barang, id_brand, harga_karton, harga_pcs } = req.body;
 
   let barang = await db.MasterBarang.findAll();
-  
-  const id_barang = "BAR"+(barang.length+1).toString().padStart(5, "0");
+
+  const id_barang = "BAR" + (barang.length + 1).toString().padStart(5, "0");
 
   await db.MasterBarang.create({
     id_barang: id_barang,
@@ -1408,14 +1466,14 @@ app.post("/api/barang", async (req, res) => {
   return res.status(201).send("Done");
 });
 
-// Edit Status barang
+//========================== PUT EDIT STATUS BARANG ==========================//
 app.put("/api/editStatusBarang", async (req, res) => {
   let { id_barang, status_barang } = req.body;
 
   await db.MasterBarang.update(
     {
-      status_barang :status_barang,
-    },{
+      status_barang: status_barang,
+    }, {
     where: {
       id_barang: id_barang,
     },
@@ -1424,17 +1482,17 @@ app.put("/api/editStatusBarang", async (req, res) => {
   return res.status(201).send("Done");
 });
 
-// Edit barang
+//========================== GET EDIT BARANG ==========================//
 app.put("/api/editBarang", async (req, res) => {
   let { id_barang, nama_barang, harga_pcs, harga_karton, id_brand } = req.body;
 
   await db.MasterBarang.update(
     {
-      nama_barang :nama_barang,
-      harga_pcs :harga_pcs,
-      harga_karton :harga_karton,
-      id_brand :id_brand,
-    },{
+      nama_barang: nama_barang,
+      harga_pcs: harga_pcs,
+      harga_karton: harga_karton,
+      id_brand: id_brand,
+    }, {
     where: {
       id_barang: id_barang,
     },
