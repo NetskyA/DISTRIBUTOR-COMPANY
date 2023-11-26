@@ -6,6 +6,7 @@ import MasterJabatan from "./MasterJabatan";
 import MasterKota from "./MasterKota";
 import MasterKelurahan from "./MasterKelurahan";
 import MasterToko from "./MasterToko";
+import MasterUser from "./MasterUser";
 
 export default function Master() {
     const [isBarang, setisBarang] = useState(true);
@@ -37,10 +38,15 @@ export default function Master() {
     const toggleKelurahan = () => {
         setisKelurahan(!isKelurahan);
     }
-    
+
     const [isToko, setisToko] = useState(true);
     const toggleToko = () => {
         setisToko(!isToko);
+    }
+
+    const [isUser, setisUser] = useState(true);
+    const toggleUser = () => {
+        setisUser(!isUser);
     }
 
 
@@ -92,7 +98,7 @@ export default function Master() {
                         </button>
                     </div>
                     <div className="flex text-primary text-2xl">
-                        <button className="bg-primary w-36 m-4 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                        <button onClick={toggleUser} className="bg-primary w-36 m-4 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                             User
                         </button>
                     </div>
@@ -119,7 +125,9 @@ export default function Master() {
             {!isToko &&
                 <MasterToko />
             }
-
+            {!isUser &&
+                <MasterUser />
+            }
         </>
     )
 }

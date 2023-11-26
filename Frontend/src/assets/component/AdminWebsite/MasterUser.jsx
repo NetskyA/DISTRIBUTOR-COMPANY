@@ -18,15 +18,15 @@ import LogoPerusahaan from "../../images/image-login/icon.png"
 export default function MasterJabatan() {
 
 
-    const [isTambah, setIsTambah] = useState(true);
-    const toggleTambah = () => {
-        setIsTambah(!isTambah);
-    }
+    // const [isTambah, setIsTambah] = useState(true);
+    // const toggleTambah = () => {
+    //     setIsTambah(!isTambah);
+    // }
     let data = useLoaderData();
     let table;
     const tableRef = useRef(null);
     const ExportExcel = () => {
-        let Heading = [['ID Barang', 'Nama Principle', 'Nama Barang', 'Stok Karton', 'Stok Pcs', 'Harga Karton', 'Harga Pcs', 'HA. Karton', 'HA. Pcs', 'Expired']];
+        let Heading = [['ID User', 'Nama Principle', 'Nama Barang', 'Stok Karton', 'Stok Pcs', 'Harga Karton', 'Harga Pcs', 'HA. Karton', 'HA. Pcs', 'Expired']];
         const wb = XLSX.utils.book_new();
         const ws = XLSX.utils.json_to_sheet(dataSet);
         XLSX.utils.sheet_add_aoa(ws, Heading);
@@ -55,18 +55,22 @@ export default function MasterJabatan() {
                     visible: false,
                     searchable: false
                 },
-                { title: "ID Toko ", data: "id_toko" },
-                { title: "ID Kelurahan", data: "id_kelurahan" },
-                { title: "ID Kota", data: "id_kota" },
-                { title: "Nama Toko", data: "nama_toko" },
-                { title: "Nama Konsumen", data: "nama_konsumen" },
-                { title: "Alamat Toko", data: "alamat_toko" },
-                { title: "No Hp 1", data: "no_handphone1" },
-                { title: "No Hp 2", data: "no_handphone2" },
-                { title: "Status Kelurahan", data: "status_kelurahan" },
-                { title: "Tanggal Masuk", data: "tanggal_masuk" },
+                { title: "ID User", data: "id_user" },
+                { title: "ID Jabatan", data: "id_kelurahan" },
+                { title: "ID Atasan", data: "id_kota" },
+                // { title: "Email", data: "nama_konsumen" },
+                { title: "Username", data: "alamat_toko" },
+                { title: "Password", data: "no_handphone1" },
+                { title: "No Hp", data: "no_handphone" },
+                { title: "Alamat", data: "alamat" },
+                // { title: "Tanggal Masuk", data: "tanggal_masuk" },
+                { title: "Foto", data: "foto" },
+                // { title: "Target Sekarang", data: "target_sekarang" },
+                // { title: "Absen", data: "absen_user" },
+                { title: "No Rekening", data: "no_rekening" },
+                // { title: "Status User", data:"status_user" },
                 { title: "Edit", },
-                { title: "Status" },
+                { title: "Status", },
             ],
             destroy: true,
             "bDestroy": true,
@@ -88,16 +92,10 @@ export default function MasterJabatan() {
             <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                 <div className="flex">
                     <div className="flex text-primary text-2xl">
-                        <button onClick={toggleTambah} className="bg-primary w-60 m-4 h-12 rounded-xl text-2xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
-                            +
-                            Tambah Toko
-                        </button>
+                       
                     </div>
                 </div>
-                <p className="ps-4 pt-1 pb-2 text-md italic text-primary">
-                    *Hanya boleh memilih satu pilihan
-                </p>
-                {!isTambah &&
+                {/* {!isTambah &&
                     <div className="selectdisable border-2 ms-4 mt-1 mb-4 border-gray-300 rounded-2xl w-1/3 h-full" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                         <div className="row ms-4 m-4 w-full" >
                             <div className="flex text-primary text-2xl">
@@ -110,7 +108,7 @@ export default function MasterJabatan() {
                                     required="text" />
                             </div>
                             <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-2 pr-2 w-52">ID Kelurahan : </p>
+                                <p className="pt-2 pr-2 w-52">ID Jabatan : </p>
                                 <select name="brandId" id="selectIdbrand" className="w-60 text-primary border-primary rounded-lg h-12 text-2xl">
                                     <option value="id1">KLR00001</option>
                                     <option value="id2">2</option>
@@ -120,7 +118,7 @@ export default function MasterJabatan() {
                                 </select>
                             </div>
                             <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-2 pr-2 w-52">ID Kota : </p>
+                                <p className="pt-2 pr-2 w-52">ID Atasan : </p>
                                 <select name="brandId" id="selectIdbrand" className="w-60 text-primary border-primary rounded-lg h-12 text-2xl">
                                     <option value="id1">KTR00001</option>
                                     <option value="id2">2</option>
@@ -139,34 +137,34 @@ export default function MasterJabatan() {
                                     required="text" />
                             </div>
                             <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-1 pr-2 w-52">Nama Konsumen : </p>
+                                <p className="pt-1 pr-2 w-52">Email : </p>
                                 <input
                                     type="text"
-                                    name="Nama Konsumen"
+                                    name="Email"
                                     className="border-primary rounded-lg w-60 text-2xl h-10"
                                     placeholder="Nama Toko"
                                     required="text" />
                             </div>
                             <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-1 pr-2 w-52">Alamat Toko : </p>
+                                <p className="pt-1 pr-2 w-52">Username : </p>
                                 <input
                                     type="text"
-                                    name="Alamat Toko"
+                                    name="Username"
                                     className="border-primary rounded-lg w-60 text-2xl h-10"
-                                    placeholder="Alamat Toko"
+                                    placeholder="Username"
                                     required="text" />
                             </div>
                             <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-1 pr-2 w-52">No Hp 1: </p>
+                                <p className="pt-1 pr-2 w-52">Password: </p>
                                 <input
-                                    type="text"
-                                    name="NO1"
+                                    type="password"
+                                    name="password"
                                     className="border-primary rounded-lg w-60 text-2xl h-10"
-                                    placeholder="No. 1"
+                                    placeholder="Password"
                                     required="text" />
                             </div>
                             <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-1 pr-2 w-52">No Hp 2 : </p>
+                                <p className="pt-1 pr-2 w-52">No Hp : </p>
                                 <input
                                     type="text"
                                     name="NO2"
@@ -194,10 +192,10 @@ export default function MasterJabatan() {
                             </div>
                         </div>
                     </div>
-                }
+                } */}
                 <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                     <div className="flex mx-auto items-center justify-center">
-                        <p className="pt-5 text-4xl font-semibold text-center text-primary">Data Kinerja</p>
+                        <p className="pt-5 text-4xl font-semibold text-center text-primary">Data User</p>
                         <img src={LogoPerusahaan} className="w-32 h-32 mt-4" alt="logo perusahaan" />
                     </div>
                     <div className="cover mb-28">
@@ -205,7 +203,7 @@ export default function MasterJabatan() {
                             <table ref={tableRef} id="example" className="border-2 border-gray rounded-lg">
                                 {/* <thead>
                   <tr>
-                    <th>ID Barang</th>
+                    <th>ID User</th>
                     <th>Nama Barang</th>
                     <th>Stok Karton</th>
                     <th>Stok Pcs</th>
