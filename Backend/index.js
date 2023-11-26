@@ -5,7 +5,7 @@ const { getDB } = require("./sequelize");
 const conn = getDB();
 const port = 3000;
 const db = require("./src/models");
-const axios = require("axios")
+const axios = require("axios");
 var cors = require("cors");
 app.use(cors());
 const initApp = async () => {
@@ -175,21 +175,24 @@ app.post("/api/retur", async (req, res) => {
   let { data } = req.body;
   console.log(data);
   for (let i = 0; i < data.length; i++) {
-    let rawDetailTrans = (await db.DetailTransaksi.findAll({
+    let rawDetailTrans = await db.DetailTransaksi.findAll({
       where: {
-          id_transaksi: data[i].id_transaksi ,
+        id_transaksi: data[i].id_transaksi,
       },
-    }));
+    });
     let detailTrans = [];
     for (let j = 0; j < rawDetailTrans.length; j++) {
       let detailBarang = await db.DetailBarang.findAll({
-        where:{
-          id_barang:data[i].id_barang
-        }
-      })
+        where: {
+          id_barang: data[i].id_barang,
+        },
+      });
       for (let k = 0; k < detailBarang.length; k++) {
-        if(rawDetailTrans[j].dataValues.id_detail_barang===detailBarang[k].dataValues.id_detail_barang){
-          detailTrans.push({...rawDetailTrans[j].dataValues})
+        if (
+          rawDetailTrans[j].dataValues.id_detail_barang ===
+          detailBarang[k].dataValues.id_detail_barang
+        ) {
+          detailTrans.push({ ...rawDetailTrans[j].dataValues });
         }
       }
     }
@@ -197,8 +200,8 @@ app.post("/api/retur", async (req, res) => {
       let jmlPcs = data[i].jumlah_retur_pcs;
       let jmlKarton = data[i].jumlah_retur_karton;
       let uang = 0;
-      let stop1=false;
-      let stop2=false;
+      let stop1 = false;
+      let stop2 = false;
       for (let j = 0; j < detailTrans.length; j++) {
         let tempjmlpcs = 0;
         let tempjmlkarton = 0;
@@ -207,22 +210,33 @@ app.post("/api/retur", async (req, res) => {
           uang += jmlPcs * data[i].harga_pcs;
           jmlPcs = 0;
         }
-        if (jmlPcs !== 0 && detailTrans[j].jumlah_barang_pcs !== 0 && detailTrans[j].jumlah_barang_pcs <= jmlPcs) {
+        if (
+          jmlPcs !== 0 &&
+          detailTrans[j].jumlah_barang_pcs !== 0 &&
+          detailTrans[j].jumlah_barang_pcs <= jmlPcs
+        ) {
           tempjmlpcs += detailTrans[j].jumlah_barang_pcs;
           uang += detailTrans[j].jumlah_barang_pcs * data[i].harga_pcs;
           jmlPcs -= detailTrans[j].jumlah_barang_pcs;
         }
-        if (jmlKarton !== 0 && detailTrans[j].jumlah_barang_karton >= jmlKarton) {
+        if (
+          jmlKarton !== 0 &&
+          detailTrans[j].jumlah_barang_karton >= jmlKarton
+        ) {
           tempjmlkarton += jmlKarton;
           uang += jmlKarton * data[i].harga_karton;
           jmlKarton = 0;
         }
-        if (jmlKarton !== 0 && detailTrans[j].jumlah_barang_karton !== 0 && detailTrans[j].jumlah_barang_karton <= jmlKarton) {
+        if (
+          jmlKarton !== 0 &&
+          detailTrans[j].jumlah_barang_karton !== 0 &&
+          detailTrans[j].jumlah_barang_karton <= jmlKarton
+        ) {
           tempjmlkarton += detailTrans[j].jumlah_barang_karton;
           uang += detailTrans[j].jumlah_barang_karton * data[i].harga_karton;
           jmlKarton -= detailTrans[j].jumlah_barang_karton;
         }
-        if (jmlPcs== 0) {
+        if (jmlPcs == 0) {
           stop2 = true;
         }
         if (jmlKarton == 0) {
@@ -230,67 +244,70 @@ app.post("/api/retur", async (req, res) => {
         }
         await db.DetailTransaksi.update(
           {
-            retur_pcs:tempjmlpcs,
-            retur_karton:tempjmlkarton,
-            tanggal_retur:data[i].tanggal_retur,
-            jenis_retur:data[i].status
-          },{
-          where: {
-            [Op.and]: [
-              { id_detail_barang: detailTrans[j].id_detail_barang },
-              { id_transaksi: detailTrans[j].id_transaksi },
-            ],
+            retur_pcs: tempjmlpcs,
+            retur_karton: tempjmlkarton,
+            tanggal_retur: data[i].tanggal_retur,
+            jenis_retur: data[i].status,
           },
-        })
+          {
+            where: {
+              [Op.and]: [
+                { id_detail_barang: detailTrans[j].id_detail_barang },
+                { id_transaksi: detailTrans[j].id_transaksi },
+              ],
+            },
+          }
+        );
         if (stop1 && stop2) {
           break;
         }
       }
-      console.log(uang)
+      console.log(uang);
       let jmlUangSekarang = await db.MasterKeuangan.findOne({
-        order:[["id_keuangan","DESC"]]
-      })
+        order: [["id_keuangan", "DESC"]],
+      });
       let jmlUangUpdate = jmlUangSekarang.dataValues.jumlah_uang - uang;
       await db.MasterKeuangan.create({
-        jumlah_uang:jmlUangUpdate,
-        uang_masuk:0,
-        uang_keluar:uang,
-        tanggal_perpindahan:data[i].tanggal_retur
-      })
-      
-    }else{
-
+        jumlah_uang: jmlUangUpdate,
+        uang_masuk: 0,
+        uang_keluar: uang,
+        tanggal_perpindahan: data[i].tanggal_retur,
+      });
+    } else {
       let detailBarang = await db.DetailBarang.findAll({
-        where:{
-          id_barang:data[i].id_barang
-        }
-      })
+        where: {
+          id_barang: data[i].id_barang,
+        },
+      });
       let jmlPcs = data[i].jumlah_retur_pcs;
       let jmlKarton = data[i].jumlah_retur_karton;
-      let stop1=false;
-      let stop2=false;
+      let stop1 = false;
+      let stop2 = false;
       for (let j = 0; j < detailTrans.length; j++) {
-        let jmlPcsDetail =  0    
-        let jmlKartonDetail = 0
-        if(jmlPcs<detailTrans[j].jumlah_barang_pcs){
+        let jmlPcsDetail = 0;
+        let jmlKartonDetail = 0;
+        if (jmlPcs < detailTrans[j].jumlah_barang_pcs) {
           jmlPcsDetail = jmlPcs;
-          jmlPcs = 0
-        }else{
-          jmlPcsDetail = detailTrans[j].jumlah_barang_pcs
-          jmlPcs -=detailTrans[j].jumlah_barang_pcs
+          jmlPcs = 0;
+        } else {
+          jmlPcsDetail = detailTrans[j].jumlah_barang_pcs;
+          jmlPcs -= detailTrans[j].jumlah_barang_pcs;
         }
-        if(jmlKarton<detailTrans[j].jumlah_barang_karton){
+        if (jmlKarton < detailTrans[j].jumlah_barang_karton) {
           jmlKartonDetail = jmlKarton;
-          jmlKarton = 0
-        }else{
-          jmlKartonDetail = detailTrans[j].jumlah_barang_karton
-          jmlKarton -=detailTrans[j].jumlah_barang_karton
+          jmlKarton = 0;
+        } else {
+          jmlKartonDetail = detailTrans[j].jumlah_barang_karton;
+          jmlKarton -= detailTrans[j].jumlah_barang_karton;
         }
-        console.log(jmlPcsDetail)
+        console.log(jmlPcsDetail);
         let jmlUpdatePcs = 0;
         let jmlUpdateKarton = 0;
         for (let k = 0; k < detailBarang.length; k++) {
-          if (jmlPcsDetail !== 0 && detailBarang[k].dataValues.jumlah_pcs >= jmlPcsDetail){
+          if (
+            jmlPcsDetail !== 0 &&
+            detailBarang[k].dataValues.jumlah_pcs >= jmlPcsDetail
+          ) {
             jmlUpdatePcs += jmlPcsDetail;
             let updatedatabase =
               detailBarang[j].dataValues.jumlah_pcs - jmlPcsDetail;
@@ -306,7 +323,10 @@ app.post("/api/retur", async (req, res) => {
             );
             jmlPcsDetail = 0;
           }
-          if (jmlKartonDetail !== 0 && detailBarang[k].dataValues.jumlah_karton >= jmlKartonDetail){
+          if (
+            jmlKartonDetail !== 0 &&
+            detailBarang[k].dataValues.jumlah_karton >= jmlKartonDetail
+          ) {
             jmlUpdateKarton += jmlKartonDetail;
             let updatedatabase =
               detailBarang[j].dataValues.jumlah_karton - jmlKartonDetail;
@@ -322,7 +342,11 @@ app.post("/api/retur", async (req, res) => {
             );
             jmlKartonDetail = 0;
           }
-          if (jmlPcsDetail !== 0 && detailBarang[j].dataValues.jumlah_pcs !== 0 && detailBarang[j].dataValues.jumlah_pcs <= jmlPcsDetail){
+          if (
+            jmlPcsDetail !== 0 &&
+            detailBarang[j].dataValues.jumlah_pcs !== 0 &&
+            detailBarang[j].dataValues.jumlah_pcs <= jmlPcsDetail
+          ) {
             await db.DetailBarang.update(
               {
                 jumlah_pcs: 0,
@@ -334,10 +358,13 @@ app.post("/api/retur", async (req, res) => {
               }
             );
             jmlUpdatePcs += detailBarang[j].dataValues.jumlah_pcs;
-            jmlPcsDetail -=detailBarang[j].dataValues.jumlah_pcs
-
+            jmlPcsDetail -= detailBarang[j].dataValues.jumlah_pcs;
           }
-          if (jmlKartonDetail !== 0 && detailBarang[j].dataValues.jumlah_karton !== 0 && detailBarang[j].dataValues.jumlah_karton <= jmlKartonDetail){
+          if (
+            jmlKartonDetail !== 0 &&
+            detailBarang[j].dataValues.jumlah_karton !== 0 &&
+            detailBarang[j].dataValues.jumlah_karton <= jmlKartonDetail
+          ) {
             await db.DetailBarang.update(
               {
                 jumlah_karton: 0,
@@ -349,34 +376,36 @@ app.post("/api/retur", async (req, res) => {
               }
             );
             jmlUpdateKarton += detailBarang[j].dataValues.jumlah_karton;
-            jmlKartonDetail -=detailBarang[j].dataValues.jumlah_karton
+            jmlKartonDetail -= detailBarang[j].dataValues.jumlah_karton;
           }
-          if(jmlKartonDetail==0 && jmlPcsDetail==0){
-            break
+          if (jmlKartonDetail == 0 && jmlPcsDetail == 0) {
+            break;
           }
         }
         console.log(jmlUpdatePcs);
         await db.DetailTransaksi.update(
           {
-            retur_pcs:jmlUpdatePcs,
-            retur_karton:jmlUpdateKarton,
-            tanggal_retur:data[i].tanggal_retur,
-            jenis_retur:data[i].status
-          },{
-          where: {
-            [Op.and]: [
-              { id_detail_barang: detailTrans[j].id_detail_barang },
-              { id_transaksi: detailTrans[j].id_transaksi },
-            ],
+            retur_pcs: jmlUpdatePcs,
+            retur_karton: jmlUpdateKarton,
+            tanggal_retur: data[i].tanggal_retur,
+            jenis_retur: data[i].status,
           },
-        })
-        if(jmlPcs==0 && jmlKarton==0){
-          break
+          {
+            where: {
+              [Op.and]: [
+                { id_detail_barang: detailTrans[j].id_detail_barang },
+                { id_transaksi: detailTrans[j].id_transaksi },
+              ],
+            },
+          }
+        );
+        if (jmlPcs == 0 && jmlKarton == 0) {
+          break;
         }
       }
     }
   }
-  return res.status(200).send("Yay")
+  return res.status(200).send("Yay");
 });
 
 app.post("/api/order", async (req, res) => {
@@ -619,111 +648,125 @@ app.post("/api/getDetail", async (req, res) => {
     },
   });
   let detailBarang = await db.DetailBarang.findAll();
-  return res
-    .status(200)
-    .send({
-      header: headerTransaksi.dataValues,
-      detail: detailTransaksi,
-      toko: toko,
-      barang: barang,
-      detailBarang: detailBarang,
-    });
+  return res.status(200).send({
+    header: headerTransaksi.dataValues,
+    detail: detailTransaksi,
+    toko: toko,
+    barang: barang,
+    detailBarang: detailBarang,
+  });
 });
 
-
-const sendGaji = async(subtotal,email,date,username)=>{
-  const result = Math.random().toString(36).substring(2,10);
+const sendGaji = async (subtotal, email, date, username) => {
+  const result = Math.random().toString(36).substring(2, 10);
   const options = {
     method: "POST",
     url: "https://api.xendit.co/v2/payouts",
     headers: {
       "content-type": "application/json",
-      "Authorization":"Basic eG5kX2RldmVsb3BtZW50X2J4bmhUOFVZdFFEcEVGMzczZjByamV6THc2ZnNzZTRnYkQwSlZUOGtrTmxSbTZEN1dmc0tzdEhHQVhqMUp1ZDk6",
+      Authorization:
+        "Basic eG5kX2RldmVsb3BtZW50X2J4bmhUOFVZdFFEcEVGMzczZjByamV6THc2ZnNzZTRnYkQwSlZUOGtrTmxSbTZEN1dmc0tzdEhHQVhqMUp1ZDk6",
       "Idempotency-key": `${result}`,
     },
     data: {
-      "reference_id": "sample-successful-create-idr-payout",
-      "channel_code": "ID_BCA",
-      "channel_properties": {
-          "account_holder_name": `${username}`,
-          "account_number": "1214780935"
+      reference_id: "sample-successful-create-idr-payout",
+      channel_code: "ID_BCA",
+      channel_properties: {
+        account_holder_name: `${username}`,
+        account_number: "1214780935",
       },
-      "amount": parseInt(subtotal),
-      "description": `Gaji pada tanggal ${date}`,
-      "currency": "IDR",
-      "receipt_notification" : {
-          "email_to": [`${email}`],
-          "email_cc": ["alvinbwiyono@gmail.com"]
-      }
-  },
+      amount: parseInt(subtotal),
+      description: `Gaji pada tanggal ${date}`,
+      currency: "IDR",
+      receipt_notification: {
+        email_to: [`${email}`],
+        email_cc: ["alvinbwiyono@gmail.com"],
+      },
+    },
+  };
+  let temp = await axios.request(options);
 };
-let temp = await axios.request(options);
-}
 
-app.post("/api/updateKomisi",async(req,res)=>{
-  let {update} = req.body;
+app.post("/api/updateKomisi", async (req, res) => {
+  let { update } = req.body;
   for (let i = 0; i < update.length; i++) {
-    await db.MasterGaji.update({
-      gaji_komisi:parseInt(update[i].komisi_update)
-    },{
-      where:{
-        id_gaji:update[i].id_gaji
+    await db.MasterGaji.update(
+      {
+        gaji_komisi: parseInt(update[i].komisi_update),
+      },
+      {
+        where: {
+          id_gaji: update[i].id_gaji,
+        },
       }
-    })  
+    );
   }
-  return res.status(200).send("Success")
-})
+  return res.status(200).send("Success");
+});
 
-app.post("/api/kirimGaji",async(req,res)=>{
-  let {listUser} = req.body;
+app.post("/api/kirimGaji", async (req, res) => {
+  let { listUser } = req.body;
   const now = new Date();
-  const date =  now.getDate().toString().padStart(2, "0")+
+  const date =
+    now.getDate().toString().padStart(2, "0") +
     "-" +
     (now.getMonth() + 1).toString().padStart(2, "0") +
     "-" +
-    now.getFullYear().toString().padStart(4, "0") ;
+    now.getFullYear().toString().padStart(4, "0");
   for (let i = 0; i < listUser.length; i++) {
-    await db.MasterUser.update({
-      absen_user:0,
-      target_sekarang:0
-    },{
-      where:{
-        id_user:listUser[i].id_user
+    await db.MasterUser.update(
+      {
+        absen_user: 0,
+        target_sekarang: 0,
+      },
+      {
+        where: {
+          id_user: listUser[i].id_user,
+        },
       }
-    }) 
+    );
 
     await db.HistoryGaji.create({
-      id_gaji:listUser[i].id_gaji,
-      tanggal_gaji:date,
-      gaji_pokok:(parseInt(listUser[i].gaji_pokok)-parseInt(listUser[i].potongan)),
-      gaji_komisi:listUser[i].gaji_komisi
-    })
+      id_gaji: listUser[i].id_gaji,
+      tanggal_gaji: date,
+      gaji_pokok:
+        parseInt(listUser[i].gaji_pokok) - parseInt(listUser[i].potongan),
+      gaji_komisi: listUser[i].gaji_komisi,
+    });
 
     // let idHistory = (await db.HistoryGaji.findOne({
     //   order:[["id_history_gaji", "desc"]]
     // })).dataValues.id_history_gaji;
 
-    sendGaji(listUser[i].subtotal,listUser[i].email,date,listUser[i].username)
+    sendGaji(
+      listUser[i].subtotal,
+      listUser[i].email,
+      date,
+      listUser[i].username
+    );
   }
-  return res.status(200).send("Success")
-})
+  return res.status(200).send("Success");
+});
 
-app.get("/api/listJabatan",async(req,res)=>{
+app.get("/api/listJabatan", async (req, res) => {
   let listJabatan = await db.MasterJabatan.findAll({
-    where:{
-      [Op.and]: [{ id_jabatan: {[Op.ne]:4} }, { id_jabatan: {[Op.ne]:5} },{ id_jabatan: {[Op.ne]:6} }],
-    }
+    where: {
+      [Op.and]: [
+        { id_jabatan: { [Op.ne]: 4 } },
+        { id_jabatan: { [Op.ne]: 5 } },
+        { id_jabatan: { [Op.ne]: 6 } },
+      ],
+    },
   });
-  return res.status(200).send(listJabatan)
-})
+  return res.status(200).send(listJabatan);
+});
 
-app.get("/api/historyGaji",async(req,res)=>{
-  let {tgl_awal,tgl_akhir} = req.body;
-  
-})
+app.get("/api/historyGaji", async (req, res) => {
+  let { tgl_awal, tgl_akhir } = req.body;
+});
 
-app.get("/api/dataGaji/:id_jabatan",async(req,res)=>{
-  let {id_jabatan} = req.params;
+app.get("/api/dataGaji/:id_jabatan", async (req, res) => {
+  let { id_jabatan } = req.params;
 
   // var now = new Date();
   // let month = (now.getMonth() + 1).toString().padStart(2, "0")
@@ -735,50 +778,59 @@ app.get("/api/dataGaji/:id_jabatan",async(req,res)=>{
   //   month-=1;
   // }
   let user = await db.MasterUser.findAll({
-    where:{
-      id_jabatan:id_jabatan
-    }
-  }) 
+    where: {
+      id_jabatan: id_jabatan,
+    },
+  });
   let datareturn = [];
-  for (let index = 0; index < user.length; index++){
+  for (let index = 0; index < user.length; index++) {
     let dataUser = user[index].dataValues;
-    let dataGajiUser = (await db.MasterGaji.findOne({
-      where:{
-        id_user:dataUser.id_user
-      },
-    })).dataValues
-    let targets = (await db.MasterTarget.findOne({
-      where:{
-        id_user:dataUser.id_user
+    let dataGajiUser = (
+      await db.MasterGaji.findOne({
+        where: {
+          id_user: dataUser.id_user,
+        },
+      })
+    ).dataValues;
+    let targets = await db.MasterTarget.findOne({
+      where: {
+        id_user: dataUser.id_user,
       },
       order: [["id_target", "desc"]],
-    }))
-    let target = 0
-    if(targets){
-      target = targets.dataValues.target
-      targets=targets.dataValues;
-    }else{
-      targets={
-        target:0
-      }
+    });
+    let target = 0;
+    if (targets) {
+      target = targets.dataValues.target;
+      targets = targets.dataValues;
+    } else {
+      targets = {
+        target: 0,
+      };
     }
     let potongan = dataUser.absen_user * 100000;
     let totalGaji = dataGajiUser.gaji_pokok;
     let komisi = 0;
-    if(dataUser.target_sekarang>=target){
-      komisi = parseInt((dataUser.target_sekarang*10)/100)
-      totalGaji += parseInt((dataUser.target_sekarang*10)/100);
-    }else{
-      komisi = parseInt((dataUser.target_sekarang*5)/100);
-      totalGaji += parseInt((dataUser.target_sekarang*5)/100);
+    if (dataUser.target_sekarang >= target) {
+      komisi = parseInt((dataUser.target_sekarang * 10) / 100);
+      totalGaji += parseInt((dataUser.target_sekarang * 10) / 100);
+    } else {
+      komisi = parseInt((dataUser.target_sekarang * 5) / 100);
+      totalGaji += parseInt((dataUser.target_sekarang * 5) / 100);
     }
-    totalGaji-=potongan;
-    datareturn.push({...dataUser,...dataGajiUser,...targets,potongan:potongan,subtotal:totalGaji,komisi:komisi})
+    totalGaji -= potongan;
+    datareturn.push({
+      ...dataUser,
+      ...dataGajiUser,
+      ...targets,
+      potongan: potongan,
+      subtotal: totalGaji,
+      komisi: komisi,
+    });
   }
   return res.status(200).send(datareturn);
-})
+});
 
-// Get Supervisors
+// GEO
 app.get("/api/supervisor", async (req, res) => {
   let { id_koor } = req.query;
 
@@ -836,12 +888,15 @@ app.get("/api/supervisor", async (req, res) => {
   return res.status(200).send(result);
 });
 
-app.get("/api/rawsupervisor", async (req, res) => {
+app.get("/api/rawsupervisor/:id", async (req, res) => {
+  let { id } = req.params;
+
   const result = await db.MasterUser.findAll({
     attributes: ["id_user", "username", "target_sekarang", "status_user"],
     where: {
       status_user: 1,
       id_jabatan: 2,
+      id_atasan: id,
     },
   });
 
@@ -932,14 +987,43 @@ app.get("/api/salesman", async (req, res) => {
   return res.status(200).send(result);
 });
 
-app.get("/api/rawsalesman", async (req, res) => {
-  const result = await db.MasterUser.findAll({
-    attributes: ["id_user", "username", "target_sekarang", "status_user"],
+app.get("/api/rawsalesman/:id", async (req, res) => {
+  let { id } = req.params;
+
+  const supervisor = await db.MasterUser.findAll({
+    attributes: ["id_user", "username", "status_user"],
     where: {
       status_user: 1,
-      id_jabatan: 1,
+      id_jabatan: 2,
+      id_atasan: id,
     },
   });
+
+  let tempIdSupervisor = [];
+  for (let i = 0; i < supervisor.length; i++) {
+    const superObj = supervisor[i];
+    tempIdSupervisor.push(superObj.id_user);
+  }
+
+  let result = [];
+
+  for (let i = 0; i < tempIdSupervisor.length; i++) {
+    const tempId = tempIdSupervisor[i];
+
+    const tempResult = await db.MasterUser.findAll({
+      attributes: ["id_user", "username", "target_sekarang", "status_user"],
+      where: {
+        status_user: 1,
+        id_jabatan: 1,
+        id_atasan: tempId,
+      },
+    });
+
+    for (let j = 0; j < tempResult.length; j++) {
+      const salesman = tempResult[j];
+      result.push(salesman);
+    }
+  }
 
   return res.status(200).send(result);
 });
@@ -974,16 +1058,18 @@ app.get("/api/getBawahanSupervisor", async (req, res) => {
     ],
     order: [["id_target", "desc"]],
   });
-  
+
   let wilayah = await db.MasterKelurahan.findAll({});
 
   let result = [];
-  
+
   salesmans.forEach((s) => {
     const tempTarget = targets.find((e) => e.id_user == s.id_user);
     const salesmanTarget = tempTarget.dataValues;
 
-    const kel = wilayah.find((e) => e.id_kelurahan == salesmanTarget.id_wilayah);
+    const kel = wilayah.find(
+      (e) => e.id_kelurahan == salesmanTarget.id_wilayah
+    );
 
     const newData = {
       id_user: s.id_user,
@@ -1029,7 +1115,7 @@ app.get("/api/detailBarang", async (req, res) => {
       harga_pcs: barang.harga_pcs,
       tanggal_masuk: d.tanggal_masuk,
       expired: d.tanggal_expired,
-    })
+    });
   }
   return res.status(200).send(temp);
 });
@@ -1057,12 +1143,12 @@ app.get("/api/getHeaderTransaksi", async (req, res) => {
       },
     });
     let pembayaran = "Tunai";
-    if(h.jenis_transaksi==1){
+    if (h.jenis_transaksi == 1) {
       pembayaran = "Cash";
     }
 
     let status = "Selesai";
-    if(h.status_transaksi==-1){
+    if (h.status_transaksi == -1) {
       status = "Ditolak";
     }
 
@@ -1073,8 +1159,8 @@ app.get("/api/getHeaderTransaksi", async (req, res) => {
       toko: toko.nama_toko,
       total_penjualan: h.subtotal,
       pembayaran: pembayaran,
-      status: status, 
-    })
+      status: status,
+    });
   }
   return res.status(200).send(temp);
 });
@@ -1099,9 +1185,9 @@ app.get("/api/getHistoryGaji", async (req, res) => {
     });
     let jabatan = await db.MasterJabatan.findOne({
       where: {
-        id_jabatan: user.id_jabatan
-      }
-    })
+        id_jabatan: user.id_jabatan,
+      },
+    });
 
     temp.push({
       id_gaji: h.id_gaji,
@@ -1111,8 +1197,8 @@ app.get("/api/getHistoryGaji", async (req, res) => {
       gaji_pokok: h.gaji_pokok,
       komisi: h.gaji_komisi,
       tanggal_gaji: h.tanggal_gaji,
-      total_gaji: h.gaji_pokok + h.gaji_komisi, 
-    })
+      total_gaji: h.gaji_pokok + h.gaji_komisi,
+    });
   }
   return res.status(200).send(temp);
 });
@@ -1122,7 +1208,7 @@ app.get("/api/getKatalogToko", async (req, res) => {
   let toko = await db.MasterToko.findAll({
     where: {
       status_toko: 1,
-    }
+    },
   });
 
   let temp = [];
@@ -1149,7 +1235,7 @@ app.get("/api/getKatalogToko", async (req, res) => {
       alamat_toko: t.alamat_toko,
       no_handphone1: t.no_handphone1,
       no_handphone2: t.no_handphone2,
-    })
+    });
   }
   return res.status(200).send(temp);
 });
@@ -1159,7 +1245,7 @@ app.get("/api/listSupervisor", async (req, res) => {
   let supervisor = await db.MasterUser.findAll({
     where: {
       id_jabatan: 2,
-    }
+    },
   });
 
   return res.status(200).send(supervisor);
@@ -1170,7 +1256,7 @@ app.get("/api/listKsupervisor", async (req, res) => {
   let ksupervisor = await db.MasterUser.findAll({
     where: {
       id_jabatan: 3,
-    }
+    },
   });
 
   return res.status(200).send(ksupervisor);
@@ -1178,14 +1264,24 @@ app.get("/api/listKsupervisor", async (req, res) => {
 
 // Register
 app.post("/api/register", async (req, res) => {
-  let { username, password, alamat, no_handphone, email, id_jabatan, id_atasan, no_rekening} = req.body;
+  let {
+    username,
+    password,
+    alamat,
+    no_handphone,
+    email,
+    id_jabatan,
+    id_atasan,
+    no_rekening,
+  } = req.body;
 
   const now = new Date();
-  const date =  now.getDate().toString().padStart(2, "0")+
-  "-" +
-  (now.getMonth() + 1).toString().padStart(2, "0") +
-  "-" +
-  now.getFullYear().toString().padStart(4, "0") ;
+  const date =
+    now.getDate().toString().padStart(2, "0") +
+    "-" +
+    (now.getMonth() + 1).toString().padStart(2, "0") +
+    "-" +
+    now.getFullYear().toString().padStart(4, "0");
 
   await db.MasterUser.create({
     username: username,
@@ -1200,17 +1296,17 @@ app.post("/api/register", async (req, res) => {
     target_sekarang: 0,
     absen_user: 0,
     no_rekening: no_rekening,
-    status_user: 1
-  })
+    status_user: 1,
+  });
   return res.status(201).send("Done");
-})
+});
 
 // Get Data list user
 app.get("/api/user", async (req, res) => {
   let users = await db.MasterUser.findAll({
     where: {
       status_user: 1,
-    }
+    },
   });
 
   let temp = [];
@@ -1243,8 +1339,8 @@ app.get("/api/user", async (req, res) => {
       target_sekarang: u.target_sekarang,
       absen_user: u.absen_user,
       no_rekening: u.no_rekening,
-      status: u.status_user
-    })
+      status: u.status_user,
+    });
   }
   return res.status(200).send(temp);
 });

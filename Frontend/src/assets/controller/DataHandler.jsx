@@ -167,48 +167,65 @@ const cekDetailHistory = async (data) => {
   }
   let temp2 = JSON.parse(localStorage.loggedData);
   let { params } = data;
-  let hasil 
+  let hasil;
   try {
     hasil = await client.post("/api/getDetail", {
       id: params.id,
-      idSales:temp2.id_user
-    }); 
+      idSales: temp2.id_user,
+    });
   } catch (error) {
     throw new Response("", { status: 403 });
   }
   let hasilQuery = hasil.data;
-  console.log(hasilQuery)
+  console.log(hasilQuery);
   let dataDetail = mergeDetail(hasilQuery);
   // let dataRetur = dataDetail.filter(e=>e.status!==0);
   // let dataDetailTransaksi = dataDetail.filter(e=>e.status===0);
-  return { dataRetur:dataDetail,detailTransaksi:dataDetail , sales: temp2 ,transaksi:hasilQuery};
+  return {
+    dataRetur: dataDetail,
+    detailTransaksi: dataDetail,
+    sales: temp2,
+    transaksi: hasilQuery,
+  };
 };
 
-const mergeDetail = (hasilQuery)=>{
+const mergeDetail = (hasilQuery) => {
   let dataDetail = [];
   for (let i = 0; i < hasilQuery.detail.length; i++) {
     let duplikat = false;
 
-    let id_barang = (hasilQuery.detailBarang[hasilQuery.detailBarang.findIndex(e=>e.id_detail_barang===hasilQuery.detail[i].id_detail_barang)]).id_barang
+    let id_barang =
+      hasilQuery.detailBarang[
+        hasilQuery.detailBarang.findIndex(
+          (e) => e.id_detail_barang === hasilQuery.detail[i].id_detail_barang
+        )
+      ].id_barang;
 
-    let dataBarang = hasilQuery.barang[hasilQuery.barang.findIndex(e=>e.id_barang===id_barang)]
+    let dataBarang =
+      hasilQuery.barang[
+        hasilQuery.barang.findIndex((e) => e.id_barang === id_barang)
+      ];
 
     for (let j = 0; j < dataDetail.length; j++) {
       let idbarang1 =
-       hasilQuery.detailBarang[hasilQuery.detail[i].id_detail_barang - 1];
+        hasilQuery.detailBarang[hasilQuery.detail[i].id_detail_barang - 1];
       // console.log(idbarang1);
       let idbarang2 =
-      hasilQuery.detailBarang[dataDetail[j].id_detail_barang - 1];
+        hasilQuery.detailBarang[dataDetail[j].id_detail_barang - 1];
       // console.log(idbarang2);
       if (idbarang1.id_barang === idbarang2.id_barang) {
         duplikat = true;
-        dataDetail[j].jumlah_barang_pcs += hasilQuery.detail[i].jumlah_barang_pcs;
+        dataDetail[j].jumlah_barang_pcs +=
+          hasilQuery.detail[i].jumlah_barang_pcs;
         dataDetail[j].jumlah_barang_karton +=
-        hasilQuery.detail[i].jumlah_barang_karton;
+          hasilQuery.detail[i].jumlah_barang_karton;
         dataDetail[j].subtotal_barang += hasilQuery.detail[i].subtotal_barang;
         dataDetail[j].jumlah_retur_pcs += hasilQuery.detail[i].retur_pcs;
         dataDetail[j].jumlah_retur_karton += hasilQuery.detail[i].retur_karton;
-        dataDetail[j].status = (hasilQuery.detail[i].jenis_retur!==0)?hasilQuery.detail[i].jenis_retur:0
+        dataDetail[j].status =
+          hasilQuery.detail[i].jenis_retur !== 0
+            ? hasilQuery.detail[i].jenis_retur
+            : 0;
       }
     }
     if (!duplikat) {
@@ -219,31 +236,31 @@ const mergeDetail = (hasilQuery)=>{
         jumlah_barang_karton: hasilQuery.detail[i].jumlah_barang_karton,
         subtotal_barang: hasilQuery.detail[i].subtotal_barang,
         nama_barang: dataBarang.nama_barang,
-        harga_pcs:dataBarang.harga_pcs,
-        harga_karton:dataBarang.harga_karton,
-        jumlah_retur_pcs:hasilQuery.detail[i].retur_pcs,
-        jumlah_retur_karton:hasilQuery.detail[i].retur_karton,
-        status:hasilQuery.detail[i].jenis_retur,
-        tanggal_retur:hasilQuery.detail[i].tanggal_retur
+        harga_pcs: dataBarang.harga_pcs,
+        harga_karton: dataBarang.harga_karton,
+        jumlah_retur_pcs: hasilQuery.detail[i].retur_pcs,
+        jumlah_retur_karton: hasilQuery.detail[i].retur_karton,
+        status: hasilQuery.detail[i].jenis_retur,
+        tanggal_retur: hasilQuery.detail[i].tanggal_retur,
       });
     }
   }
-  return dataDetail
-}
+  return dataDetail;
+};
 
-const getRetur = async()=>{
+const getRetur = async () => {
   if (!localStorage.loggedData) {
     return redirect("/");
   }
   let temp = JSON.parse(localStorage.loggedData).jabatan;
   if (temp !== "Salesman") {
     return redirect(`/${temp.replace(/\s/g, "")}`);
-  } 
+  }
   let temp2 = JSON.parse(localStorage.loggedData);
   return temp2;
-}
+};
 
-const getJabatan = async()=>{
+const getJabatan = async () => {
   if (!localStorage.loggedData) {
     return redirect("/");
   }
@@ -251,9 +268,9 @@ const getJabatan = async()=>{
   if (temp !== "Admin Gaji") {
     return redirect(`/${temp.replace(/\s/g, "")}`);
   }
-  let dataJabatan  = (await client.get("/api/listJabatan")).data;
-  return dataJabatan
-}
+  let dataJabatan = (await client.get("/api/listJabatan")).data;
+  return dataJabatan;
+};
 
 const getLaporanHistoryGaji = async () => {
   if (!localStorage.loggedData) {
@@ -264,14 +281,11 @@ const getLaporanHistoryGaji = async () => {
     return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
+  let getHistoryGaji = await client.get(`/api/getHistoryGaji`);
 
-  let getHistoryGaji = await client.get(
-    `/api/getHistoryGaji`
-  );
-
-  return ({
-    historyGaji: getHistoryGaji.data
-  });
+  return {
+    historyGaji: getHistoryGaji.data,
+  };
 };
 
 const getDataKoor = async () => {
@@ -301,8 +315,8 @@ const getSuperSales = async () => {
     return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
-  let getSupervisor = await client.get(`/api/rawsupervisor`);
-  let getSalesman = await client.get(`/api/rawsalesman`);
+  let getSupervisor = await client.get(`/api/rawsupervisor/${temp.id_user}`);
+  let getSalesman = await client.get(`/api/rawsalesman/${temp.id_user}`);
   let getTarget = await client.get(`/api/target`);
 
   return {
@@ -330,7 +344,11 @@ const getDataSupervisor = async () => {
   let getKelurahan = await client.get("/api/kelurahan");
   let getTarget = await client.get(`/api/target`);
 
-  return { salesman: getSalesman.data, kelurahan: getKelurahan.data, target: getTarget.data };
+  return {
+    salesman: getSalesman.data,
+    kelurahan: getKelurahan.data,
+    target: getTarget.data,
+  };
 };
 
 const getSales = async () => {
@@ -353,19 +371,24 @@ const getSales = async () => {
     const t = getTarget.data[i];
     for (let j = 0; j < getSalesman.data.length; j++) {
       const s = getSalesman.data[j];
-      if(t.id_user == s.id_user){
+      if (t.id_user == s.id_user) {
         tempTarget.push({
           id_target: t.id_target,
           id_user: t.id_user,
           username: s.username,
-          kelurahan: getKelurahan.data[getKelurahan.data.findIndex(e=>e.id_kelurahan===t.id_wilayah)].nama_kelurahan,
+          kelurahan:
+            getKelurahan.data[
+              getKelurahan.data.findIndex(
+                (e) => e.id_kelurahan === t.id_wilayah
+              )
+            ].nama_kelurahan,
           target: t.target,
           tanggal_target: t.tanggal_target,
         });
       }
     }
   }
-    
+
   return {
     salesman: getSalesman.data,
     target: tempTarget,
@@ -381,14 +404,11 @@ const getDataBarang = async () => {
     return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
+  let getDetailBarang = await client.get(`/api/DetailBarang`);
 
-  let getDetailBarang = await client.get(
-    `/api/DetailBarang`
-  );
-
-  return ({
-    detailBarang: getDetailBarang.data
-  });
+  return {
+    detailBarang: getDetailBarang.data,
+  };
 };
 
 const getHeaderTransaksi = async () => {
@@ -400,14 +420,11 @@ const getHeaderTransaksi = async () => {
     return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
+  let getHeaderTransaksi = await client.get(`/api/getHeaderTransaksi`);
 
-  let getHeaderTransaksi = await client.get(
-    `/api/getHeaderTransaksi`
-  );
-
-  return ({
-    headerTransaksi: getHeaderTransaksi.data
-  });
+  return {
+    headerTransaksi: getHeaderTransaksi.data,
+  };
 };
 
 const getHistoryGaji = async () => {
@@ -419,14 +436,11 @@ const getHistoryGaji = async () => {
     return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
+  let getHistoryGaji = await client.get(`/api/getHistoryGaji`);
 
-  let getHistoryGaji = await client.get(
-    `/api/getHistoryGaji`
-  );
-
-  return ({
-    historyGaji: getHistoryGaji.data
-  });
+  return {
+    historyGaji: getHistoryGaji.data,
+  };
 };
 
 const getDataToko = async () => {
@@ -438,14 +452,11 @@ const getDataToko = async () => {
     return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
+  let getKatalogToko = await client.get(`/api/getKatalogToko`);
 
-  let getKatalogToko = await client.get(
-    `/api/getKatalogToko`
-  );
-
-  return ({
-    katalogToko: getKatalogToko.data
-  });
+  return {
+    katalogToko: getKatalogToko.data,
+  };
 };
 
 const loadAtasan = async () => {
@@ -457,19 +468,14 @@ const loadAtasan = async () => {
     return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
+  let supervisor = await client.get(`/api/listSupervisor`);
 
-  let supervisor = await client.get(
-    `/api/listSupervisor`
-  );
+  let ksupervisor = await client.get(`/api/listKsupervisor`);
 
-  let ksupervisor = await client.get(
-    `/api/listKsupervisor`
-  );
-
-  return ({
+  return {
     supervisor: supervisor.data,
     ksupervisor: ksupervisor.data,
-  });
+  };
 };
 
 export default {
