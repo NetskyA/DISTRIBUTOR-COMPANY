@@ -379,6 +379,25 @@ const getHeaderTransaksi = async () => {
   });
 };
 
+const getHistoryGaji = async () => {
+  if (!localStorage.loggedData) {
+    return redirect("/");
+  }
+  let temp = JSON.parse(localStorage.loggedData);
+  if (temp.jabatan !== "Admin Website") {
+    return redirect(`/${temp.replace(/\s/g, "")}`);
+  }
+
+
+  let getHistoryGaji = await client.get(
+    `/api/getHistoryGaji`
+  );
+
+  return ({
+    historyGaji: getHistoryGaji.data
+  });
+};
+
 export default {
   getDataCatalog,
   getDataProfileSalesman,
@@ -397,4 +416,5 @@ export default {
   getSales,
   getDataBarang,
   getHeaderTransaksi,
+  getHistoryGaji,
 };

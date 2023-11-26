@@ -31,7 +31,6 @@ export default function LaporanSales() {
     const toggleVisibility = () => {
         let tempHtrans = [];
         let temp = data.headerTransaksi;
-        console.log(temp)
         for (let i = 0; i < temp.length; i++) {
             const t = temp[i];
             

@@ -51,6 +51,7 @@ const {
   getSales,
   getDataBarang,
   getHeaderTransaksi,
+  getHistoryGaji,
 } = DataHandler;
 
 const router = createBrowserRouter([
@@ -199,7 +200,8 @@ const router = createBrowserRouter([
       },
       {
         path: "Laporan-Gaji",
-        element: <LaporanGaji />
+        element: <LaporanGaji />,
+        loader: getHistoryGaji,
       },
       {
         path: "Laporan-Kinerja",

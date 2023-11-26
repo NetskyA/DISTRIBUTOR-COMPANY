@@ -928,3 +928,41 @@ app.get("/api/getHeaderTransaksi", async (req, res) => {
   }
   return res.status(200).send(temp);
 });
+
+// Get Data History Gaji
+app.get("/api/getHistoryGaji", async (req, res) => {
+  let historyGaji = await db.HistoryGaji.findAll();
+
+  let temp = [];
+
+  for (let i = 0; i < historyGaji.length; i++) {
+    const h = historyGaji[i];
+    let gaji = await db.MasterGaji.findOne({
+      where: {
+        id_gaji: h.id_gaji,
+      },
+    });
+    let user = await db.MasterUser.findOne({
+      where: {
+        id_user: gaji.id_user,
+      },
+    });
+    let jabatan = await db.MasterJabatan.findOne({
+      where: {
+        id_jabatan: user.id_jabatan
+      }
+    })
+
+    temp.push({
+      id_gaji: h.id_gaji,
+      nama_karyawan: user.username,
+      email: user.email,
+      jabatan: jabatan.nama_jabatan,
+      gaji_pokok: h.gaji_pokok,
+      komisi: h.gaji_komisi,
+      tanggal_gaji: h.tanggal_gaji,
+      total_gaji: h.gaji_pokok + h.gaji_komisi, 
+    })
+  }
+  return res.status(200).send(temp);
+});
