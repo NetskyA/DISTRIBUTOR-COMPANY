@@ -19,13 +19,13 @@ const LaporanBarang = () => {
     let table;
     const tableRef = useRef(null);
     const ExportExcel = () => {
-        let Heading = [['ID Barang', 'Nama Principle', 'Nama Barang', 'Stok Karton', 'Stok Pcs', 'Harga Karton', 'Harga Pcs', 'HA. Karton', 'HA. Pcs', 'Expired']];
+        let Heading = [['ID Barang', 'Nama Brand', 'Nama Barang', 'Stok Karton', 'Stok Pcs', 'Harga Karton', 'Harga Pcs', 'Tanggal Masuk', 'Expired']];
         const wb = XLSX.utils.book_new();
-        const ws = XLSX.utils.json_to_sheet(dataSet);
+        const ws = XLSX.utils.json_to_sheet(data.detailBarang);
         XLSX.utils.sheet_add_aoa(ws, Heading);
 
         //Starting in the second row to avoid overriding and skipping headers
-        XLSX.utils.sheet_add_json(ws, dataSet, { origin: 'A2', skipHeader: true });
+        XLSX.utils.sheet_add_json(ws, data.detailBarang, { origin: 'A2', skipHeader: true });
 
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
@@ -44,7 +44,7 @@ const LaporanBarang = () => {
             ],
             columns: [
                 { title: "ID", data: "id_barang" },
-                { title: "Nama Principle", data: "nama_brand" },
+                { title: "Nama Brand", data: "nama_brand" },
                 { title: "Nama Barang", data: "nama_barang" },
                 {
                     title: "Stok Karton", data: "stok_karton", render: function (data, type) {
