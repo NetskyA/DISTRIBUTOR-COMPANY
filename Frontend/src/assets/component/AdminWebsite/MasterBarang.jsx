@@ -1,5 +1,9 @@
 import LogoPerusahaan from "../../images/image-login/icon.png"
 import { useState } from "react";
+import Joi from "joi"
+import { joiResolver } from "@hookform/resolvers/joi"
+
+import { useForm } from "react-hook-form";
 export default function MasterBrand() {
     const [isTambah, setIsTambah] = useState(true);
     const toggleTambah = () => {
@@ -19,6 +23,13 @@ export default function MasterBrand() {
     const toggleStatus = () => {
         setIsStatus(!isStatus);
     }
+    
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+
+    function addBarang(data){
+        alert(data.nama_barang)
+    }
+
     return (
         <>
             <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
@@ -41,66 +52,49 @@ export default function MasterBrand() {
                 {!isTambah &&
                     <div className="selectdisable border-2 ms-4 mt-1 mb-4 border-gray-300 rounded-2xl w-1/3 h-full" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                         <div className="row ms-4 m-4 w-full" >
-                            <div className="flex text-primary text-2xl">
-                                <p className="pt-1 pr-2 w-48">ID Barang : </p>
-                                <input
-                                    type="text"
-                                    name="id barang"
-                                    className="border-primary rounded-lg w-60 text-2xl h-10"
-                                    placeholder="BRA00000"
-                                    required="text" />
-                            </div>
-                            <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-1 pr-2 w-48">ID Brand : </p>
-                                <select name="brandId" id="selectIdbrand" className="w-60 border-primary rounded-lg">
-                                    <option value="id1">1</option>
-                                    <option value="id2">2</option>
-                                    <option value="id3">3</option>
-                                    <option value="id4">4</option>
-                                    <option value="id5">5</option>
-                                </select>
-                            </div>
-                            <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-1 pr-2 w-48">Nama Barang : </p>
-                                <input
-                                    type="text"
-                                    name="Nama Barang"
-                                    className="border-primary rounded-lg w-60 text-2xl h-10"
-                                    placeholder="Nama brand"
-                                    required="text" />
-                            </div>
-                            <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-1 pr-2 w-48">Harga Pcs : </p>
-                                <input
-                                    type="number"
-                                    name="harga pcs"
-                                    className="border-primary rounded-lg w-60 text-2xl h-10"
-                                    placeholder="Harga pcs"
-                                    required="number" />
-                            </div>
-                            <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-1 pr-2 w-48">Harga Karton : </p>
-                                <input
-                                    type="number"
-                                    name="harga karton"
-                                    className="border-primary rounded-lg w-60 text-2xl h-10"
-                                    placeholder="Harga karton"
-                                    required="number" />
-                            </div>
-                            <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-1 pr-2 w-48">Status : </p>
-                                <input
-                                    type="number"
-                                    name="status"
-                                    className="border-primary rounded-lg w-60 text-2xl h-10"
-                                    placeholder="Status"
-                                    required="number" />
-                            </div>
-                            <div className="flex float-right mr-4">
-                                <button className="bg-primary w-40 m-4 h-14 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
-                                    Simpan
-                                </button>
-                            </div>
+                            <form onSubmit={handleSubmit(addBarang)}>
+                                <div className="flex text-primary text-2xl">
+                                    <p className="pt-1 pr-2 w-48">Nama Barang : </p>
+                                    <input
+                                        type="text"
+                                        className="border-primary rounded-lg w-60 text-2xl h-10"
+                                        placeholder="Nama Barang"
+                                        required="text" {...register("nama_barang")}/>
+                                </div>
+                                <div className="flex text-primary mt-3 text-2xl">
+                                    <p className="pt-1 pr-2 w-48">Brand : </p>
+                                    <select name="brandId" id="selectIdbrand" className="w-60 border-primary rounded-lg" {...register("brand_id")}>
+                                        <option value="id1">1</option>
+                                        <option value="id2">2</option>
+                                        <option value="id3">3</option>
+                                        <option value="id4">4</option>
+                                        <option value="id5">5</option>
+                                    </select>
+                                </div>
+                                <div className="flex text-primary mt-3 text-2xl">
+                                    <p className="pt-1 pr-2 w-48">Harga Pcs : </p>
+                                    <input
+                                        type="number"
+                                        name="harga pcs"
+                                        className="border-primary rounded-lg w-60 text-2xl h-10"
+                                        placeholder="Harga pcs"
+                                        required="number" {...register("harga_pcs")}/>
+                                </div>
+                                <div className="flex text-primary mt-3 text-2xl">
+                                    <p className="pt-1 pr-2 w-48">Harga Karton : </p>
+                                    <input
+                                        type="number"
+                                        name="harga karton"
+                                        className="border-primary rounded-lg w-60 text-2xl h-10"
+                                        placeholder="Harga karton"
+                                        required="number" {...register("harga_karton")}/>
+                                </div>
+                                <div className="flex float-right mr-4">
+                                    <button type="submit" className="bg-primary w-40 m-4 h-14 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                        Simpan
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 }
