@@ -90,6 +90,13 @@ export default function MasterBrand() {
                             <img src={LogoPerusahaan} className="w-32 h-32 mt-4" alt="logo perusahaan" />
                         </div>
                         <div className="cover mb-28">
+                            <p className="text-primary text-2xl pt-1 ps-4">Search :</p>
+                            <div className="flex ms-4">
+                                <input type="text" className="border-primary text-xl rounded-lg" />
+                                <button className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                    Cari
+                                </button>
+                            </div>
                             <div className="covertable m-2">
                                 <div className="cover mb-28">
                                     <div className="covertable m-2">
@@ -118,7 +125,7 @@ export default function MasterBrand() {
                                                 <tr className="border-b dark:border-neutral-500" >
                                                     <td className="whitespace-nowrap px-6 py-4 font-medium" >
                                                         <p>
-                                                        <input type="text" name="" className="border-primary rounded-lg text-2xl" id="" placeholder="ID Brand" />
+                                                            <input type="text" name="" className="border-primary rounded-lg text-2xl" id="" placeholder="ID Brand" />
                                                         </p>
                                                     </td>
                                                     <td className="whitespace-nowrap px-6 py-4 font-medium">
