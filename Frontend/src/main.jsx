@@ -56,6 +56,7 @@ const {
   getHistoryGaji,
   getDataToko,
   loadAtasan,
+  loadSemuaData,
 } = DataHandler;
 
 const router = createBrowserRouter([
@@ -225,7 +226,8 @@ const router = createBrowserRouter([
       },
       {
         path: "Master",
-        element: <Master />
+        element: <Master />,
+        loader: loadSemuaData,
       },
     ]
   }

@@ -478,6 +478,30 @@ const loadAtasan = async () => {
   };
 };
 
+const loadSemuaData = async () => {
+  if (!localStorage.loggedData) {
+    return redirect("/");
+  }
+  let temp = JSON.parse(localStorage.loggedData);
+  if (temp.jabatan !== "Admin Website") {
+    return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
+  }
+
+
+  let barang = await client.get(
+    `/api/getListBarang`
+  );
+
+  let brand = await client.get(
+    `/api/getListBrand`
+  );
+
+  return ({
+    barang: barang.data,
+    brand: brand.data,
+  });
+};
+
 export default {
   getDataCatalog,
   getDataProfileSalesman,
@@ -501,4 +525,5 @@ export default {
   getHistoryGaji,
   getDataToko,
   loadAtasan,
+  loadSemuaData,
 };
