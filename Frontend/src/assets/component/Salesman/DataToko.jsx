@@ -18,29 +18,22 @@ export default function DataToko() {
     useEffect(() => {
         table = new $('#example').DataTable({
             dom: '<"top"lf>rt<"bottom"pi>', // Include the buttons in the DOM
-            data: data,
+            data: data.katalogToko,
             'columnDefs': [         // see https://datatables.net/reference/option/columns.searchable
                 {
-                    'searchable': false,
+                    'searchable': true,
                     'targets': [2, 3, 4, 5]
                 },
             ],
             columns: [
-                // {
-                //     target: 0,
-                //     visible: false,
-                //     searchable: false
-                // },
                 { title: "ID Toko", data: "id_toko" },
-                { title: "ID Kelurahan", data: "id_kelurahan" },
-                { title: "ID Kota", data: "id_kota" },
                 { title: "Nama Toko", data: "nama_toko" },
+                { title: "Kota", data: "kota" },
+                { title: "Kelurahan", data: "kelurahan" },
                 { title: "Nama Konsumen", data: "nama_konsumen" },
                 { title: "Alamat Toko", data: "alamat_toko" },
                 { title: "No Handphone 1", data: "no_handphone1"  },
                 { title: "No Handphone 2", data: "no_handphone2"  },
-                { title: "Tanggal Masuk", data: "tanggal_masuk" },
-                { title: "Status", data: "status_toko"},
             ],
             destroy: true,
             "bDestroy": true
@@ -73,19 +66,6 @@ export default function DataToko() {
                 <div className="cover mb-28">
                     <div className="covertable m-2">
                         <table id="example" className="border-2 border-gray rounded-lg">
-                            {/* <thead>
-                <tr>
-                  <th>ID Barang</th>
-                  <th>Nama Barang</th>
-                  <th>Stok Karton</th>
-                  <th>Stok Pcs</th>
-                  <th>Harga Karton</th>
-                  <th>Harga Pcs</th>
-                  <th>Expired</th>
-                </tr>
-              </thead>
-              <tbody id="isi">
-              </tbody> */}
                         </table>
                     </div>
                 </div>

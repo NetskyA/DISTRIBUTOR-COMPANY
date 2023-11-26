@@ -52,6 +52,7 @@ const {
   getDataBarang,
   getHeaderTransaksi,
   getHistoryGaji,
+  getDataToko,
 } = DataHandler;
 
 const router = createBrowserRouter([
@@ -77,7 +78,7 @@ const router = createBrowserRouter([
       {
         path: "Toko",
         element: <Toko />,
-        // loader: cekOrder,
+        loader: getDataToko,
       },
       {
         path: "Order",

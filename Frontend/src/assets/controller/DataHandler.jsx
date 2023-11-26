@@ -398,6 +398,25 @@ const getHistoryGaji = async () => {
   });
 };
 
+const getDataToko = async () => {
+  if (!localStorage.loggedData) {
+    return redirect("/");
+  }
+  let temp = JSON.parse(localStorage.loggedData);
+  if (temp.jabatan !== "Salesman") {
+    return redirect(`/${temp.replace(/\s/g, "")}`);
+  }
+
+
+  let getKatalogToko = await client.get(
+    `/api/getKatalogToko`
+  );
+
+  return ({
+    katalogToko: getKatalogToko.data
+  });
+};
+
 export default {
   getDataCatalog,
   getDataProfileSalesman,
@@ -417,4 +436,5 @@ export default {
   getDataBarang,
   getHeaderTransaksi,
   getHistoryGaji,
+  getDataToko,
 };

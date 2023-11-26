@@ -966,3 +966,40 @@ app.get("/api/getHistoryGaji", async (req, res) => {
   }
   return res.status(200).send(temp);
 });
+
+// Get Data Katalog Toko
+app.get("/api/getKatalogToko", async (req, res) => {
+  let toko = await db.MasterToko.findAll({
+    where: {
+      status_toko: 1,
+    }
+  });
+
+  let temp = [];
+
+  for (let i = 0; i < toko.length; i++) {
+    const t = toko[i];
+    let kota = await db.MasterKota.findOne({
+      where: {
+        id_kota: t.id_kota,
+      },
+    });
+    let kelurahan = await db.MasterKelurahan.findOne({
+      where: {
+        id_kelurahan: t.id_kelurahan,
+      },
+    });
+
+    temp.push({
+      id_toko: t.id_toko,
+      nama_toko: t.nama_toko,
+      kota: kota.nama_kota,
+      kelurahan: kelurahan.nama_kelurahan,
+      nama_konsumen: t.nama_konsumen,
+      alamat_toko: t.alamat_toko,
+      no_handphone1: t.no_handphone1,
+      no_handphone2: t.no_handphone2,
+    })
+  }
+  return res.status(200).send(temp);
+});
