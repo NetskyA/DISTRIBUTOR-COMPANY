@@ -281,6 +281,66 @@ const getSuperSales = async () => {
   };
 };
 
+const getDataSupervisor = async () => {
+  if (!localStorage.loggedData) {
+    return redirect("/");
+  }
+  let temp = JSON.parse(localStorage.loggedData);
+  // return temp;
+
+  if (temp.jabatan !== "Supervisor") {
+    return redirect(`/${temp.replace(/\s/g, "")}`);
+  }
+
+  let getSalesman = await client.get(
+    `/api/getBawahanSupervisor?id_atasan=${temp.id_user}`
+  );
+
+  let getKelurahan = await client.get("/api/kelurahan");
+  let getTarget = await client.get(`/api/target`);
+
+  return { salesman: getSalesman.data, kelurahan: getKelurahan.data, target: getTarget.data };
+};
+
+const getSales = async () => {
+  if (!localStorage.loggedData) {
+    return redirect("/");
+  }
+  let temp = JSON.parse(localStorage.loggedData);
+  if (temp.jabatan !== "Supervisor") {
+    return redirect(`/${temp.replace(/\s/g, "")}`);
+  }
+
+  let getSalesman = await client.get(
+    `/api/getBawahanSupervisor?id_atasan=${temp.id_user}`
+  );
+  let getTarget = await client.get(`/api/target`);
+  let getKelurahan = await client.get("/api/kelurahan");
+
+  let tempTarget = [];
+  for (let i = 0; i < getTarget.data.length; i++) {
+    const t = getTarget.data[i];
+    for (let j = 0; j < getSalesman.data.length; j++) {
+      const s = getSalesman.data[j];
+      if(t.id_user == s.id_user){
+        tempTarget.push({
+          id_target: t.id_target,
+          id_user: t.id_user,
+          username: s.username,
+          kelurahan: getKelurahan.data[getKelurahan.data.findIndex(e=>e.id_kelurahan===t.id_wilayah)].nama_kelurahan,
+          target: t.target,
+          tanggal_target: t.tanggal_target,
+        });
+      }
+    }
+  }
+    
+  return {
+    salesman: getSalesman.data,
+    target: tempTarget,
+  };
+};
+
 export default {
   getDataCatalog,
   getDataProfileSalesman,
@@ -295,4 +355,6 @@ export default {
   mergeDetail,
   getDataKoor,
   getSuperSales,
+  getDataSupervisor,
+  getSales,
 };

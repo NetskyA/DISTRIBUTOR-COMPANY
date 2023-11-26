@@ -793,3 +793,59 @@ app.get("/api/rawsalesman", async (req, res) => {
 
   return res.status(200).send(result);
 });
+
+// Get Data Kelurahan
+app.get("/api/kelurahan", async (req, res) => {
+  let result = await db.MasterKelurahan.findAll();
+  return res.status(200).send(result);
+});
+
+app.get("/api/getBawahanSupervisor", async (req, res) => {
+  let { id_atasan } = req.query;
+  // console.log(id_atasan);
+  // return "hello"
+  let salesmans = await db.MasterUser.findAll({
+    attributes: ["id_user", "username", "target_sekarang", "status_user"],
+    where: {
+      status_user: 1,
+      id_jabatan: 1,
+      id_atasan: id_atasan,
+    },
+  });
+
+  let targets = await db.MasterTarget.findAll({
+    attributes: [
+      "id_target",
+      "id_user",
+      "id_wilayah",
+      "target",
+      "tanggal_target",
+    ],
+    order: [["id_target", "desc"]],
+  });
+  
+  let wilayah = await db.MasterKelurahan.findAll({});
+
+  let result = [];
+  
+  salesmans.forEach((s) => {
+    const tempTarget = targets.find((e) => e.id_user == s.id_user);
+    const salesmanTarget = tempTarget.dataValues;
+
+    const kel = wilayah.find((e) => e.id_kelurahan == salesmanTarget.id_wilayah);
+
+    const newData = {
+      id_user: s.id_user,
+      id_target: salesmanTarget.id_target,
+      kelurahan: kel.nama_kelurahan,
+      username: s.username,
+      targetTerakhir: salesmanTarget.target,
+      realisasiTarget: s.target_sekarang,
+      tanggal_target: salesmanTarget.tanggal_target,
+    };
+
+    result.push(newData);
+  });
+
+  return res.status(200).send(result);
+});

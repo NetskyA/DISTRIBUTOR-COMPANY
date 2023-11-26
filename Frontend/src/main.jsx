@@ -46,7 +46,9 @@ const {
   cekDetailHistory,
   getRetur,
   getDataKoor,
-  getSuperSales
+  getSuperSales,
+  getDataSupervisor,
+  getSales,
 } = DataHandler;
 
 const router = createBrowserRouter([
@@ -113,10 +115,12 @@ const router = createBrowserRouter([
       {
         path: "Target",
         element: <DataTargetSupervisor />,
+        loader: getDataSupervisor,
       },
       {
         path: "Laporan",
         element: <DataLaporanSalesman />,
+        loader: getSales,
       },
     ],
   },

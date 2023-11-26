@@ -1,11 +1,16 @@
 /* eslint-disable*/
 import DataTarget from "../../controller/ControlTarget"
 import { Radio } from "@material-tailwind/react";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import dataSet from "../Salesman/DataRetur";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import $ from "jquery";
+import { useLoaderData, useNavigate } from "react-router";
+import { joiResolver } from "@hookform/resolvers/joi";
+import { useForm } from "react-hook-form";
+import formatter from "../../controller/formatter";
+import client from "../../controller/client";
 export default function Table() {
     useEffect(() => {
         // Disable text selection for elements
@@ -18,10 +23,46 @@ export default function Table() {
             element.style.userSelect = "none";
         });
     }, []);
+
+    const navigate = useNavigate()
+    const [reload, setReload] = useState(true);
+    const { register, handleSubmit, reset, formState: { errors } } = useForm()
+
+    const dataSupervisor = useLoaderData();
+
+    async function submit() {
+        const inputKelurahan = document.getElementsByName("inputKelurahan");
+
+        let tempKelurahan = [];
+        inputKelurahan.forEach((k) => {
+            tempKelurahan.push(k.value);
+        });
+
+        const inputTarget = document.getElementsByName("inputTarget");
+
+        let tempTarget = [];
+        inputTarget.forEach((target) => {
+            tempTarget.push(target.value);
+        });
+
+        for (let i = 0; i < dataSupervisor.salesman.length; i++) {
+            const salesman = dataSupervisor.salesman[i];
+      
+            await client.post(`/api/target/`, {
+              id_user: salesman.id_user,
+              id_wilayah: tempKelurahan[i],
+              target: tempTarget[i],
+            });
+        }
+        // setReload(!reload);
+        navigate("/Supervisor/Target")
+    }
+
     return (
 
         //PROFILE SALESMAN
         <>
+            {console.log(dataSupervisor)}
             <div className="cover selectdisable flex">
                 {/* nanti digunakan memanggil nama sesuai akun*/}
                 <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
@@ -40,28 +81,39 @@ export default function Table() {
                             <tr>
                                 <th scope="col" className="px-6 py-4">Id Salesman</th>
                                 <th scope="col" className="px-6 py-4">Nama Salesman</th>
-                                <th scope="col" className="px-6 py-4">Kecamatan</th>
+                                <th scope="col" className="px-6 py-4">Kelurahan</th>
                                 <th scope="col" className="px-6 py-4">Target Terakhir</th>
                                 <th scope="col" className="px-6 py-4">Realisasi Target</th>
                                 <th scope="col" className="px-6 py-4">Target</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr className="border-b dark:border-neutral-500">
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">SLS0001</td>
-                                <td className="whitespace-nowrap px-6 py-4 font-medium">Abdur Rahman</td>
-                                <select className="whitespace-nowrap border-0 h-16 mt-2 px-6 py-4 font-medium">
-                                    <option value="kota-pertama" className="h-12">Ngagel</option>
-                                    <option value="kota-kedua" className="h-12">Kutisari</option>
-                                    <option value="kota-ketiga" className="h-12">Darmo</option>
-                                    <option value="kota-empat" className="h-12">Kertajaya</option>
-                                </select>
-                                <td className="whitespace-nowrap px-6 py-4">Rp. <span>120.000.000</span></td>
-                                <td className="whitespace-nowrap px-6 py-4 text-green-600">Rp. <span>135.350.000</span></td>
-                                <td className="whitespace-nowrap px-6 py-4 text-primary">
-                                    <input type="number" className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" placeholder="0" />
-                                </td>
-                            </tr>
+                            {dataSupervisor.salesman.map((s, idx)=>{
+                                return <tr key={idx} className="border-b dark:border-neutral-500">
+                                    <td className="whitespace-nowrap px-6 py-4 font-medium">{s.id_user}</td>
+                                    <td className="whitespace-nowrap px-6 py-4 font-medium">{s.username}</td>
+                                    <select name="inputKelurahan" className="whitespace-nowrap border-0 h-16 mt-2 px-6 py-4 font-medium">
+                                        {dataSupervisor.kelurahan.map((k, idx)=>{
+                                            return <option key={idx} value={k.id_kelurahan} className="h-12">{k.nama_kelurahan}</option>
+                                        })}
+                                    </select>
+                                    <td className="whitespace-nowrap px-6 py-4">
+                                        {formatter.format(s.targetTerakhir)}
+                                    </td>
+                                    {s.realisasiTarget < s.targetTerakhir ? (
+                                    <td className="whitespace-nowrap px-6 py-4 text-red-600">
+                                        {formatter.format(s.realisasiTarget)}
+                                    </td>
+                                    ) : (
+                                    <td className="whitespace-nowrap px-6 py-4 text-green-600">
+                                        {formatter.format(s.realisasiTarget)}
+                                    </td>
+                                    )}
+                                    <td className="whitespace-nowrap px-6 py-4 text-primary">
+                                        <input name="inputTarget" type="number" className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" min={0} defaultValue={s.targetTerakhir}/>
+                                    </td>
+                                </tr>
+                            })}
                         </tbody>
                     </table>
                 </div>
@@ -71,7 +123,7 @@ export default function Table() {
                     <p className="pr-2 pt-4 text-md italic text-primary">*Pastikan data sama dengan perhitungan laporan !!!</p>
                 </div>
                 <div className="w w-52 ms-14 mb-5 float-right">
-                    <button className="bg-primary w-52 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                    <button className="bg-primary w-52 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4" onClick={()=>submit()}>
                         Submit
                     </button>
                 </div>

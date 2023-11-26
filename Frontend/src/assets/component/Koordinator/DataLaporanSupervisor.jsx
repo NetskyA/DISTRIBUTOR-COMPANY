@@ -228,7 +228,7 @@ export default function Laporan() {
       <div className="cover selectdisable flex">
         {/* nanti digunakan memanggil nama sesuai akun*/}
         <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
-          <p>Laporan Penjualan Supervisor</p>
+          <p>Laporan Target Supervisor</p>
         </div>
         <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
           {/* <DataTarget /> */}
@@ -290,7 +290,7 @@ export default function Laporan() {
         {isVisibleSuper == true && (
           <div id="NotaCetakSuper" className="cover m-5">
             <p className="pt-4 text-4xl font-semibold text-center text-primary">
-              Laporan Penjualan Supervisor
+              Laporan Target Supervisor
             </p>
             <table
               className="text-left text-2xl mt-5 font-light border rounded-xl w-full"
