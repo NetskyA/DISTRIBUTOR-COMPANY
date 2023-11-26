@@ -9,7 +9,7 @@ export default function RegisterUser() {
     const [atasan, setAtasan] = useState(["None"]);
     const [newUser, setNewUser] = useState();
 
-    async function register(){
+    async function register() {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
         const alamat = document.getElementById("alamat").value;
@@ -22,27 +22,26 @@ export default function RegisterUser() {
         const atasan = document.getElementById("atasan").value;
         let jabatan = 0;
         // alert(atasan);
-        if(salesman){
+        if (salesman) {
             // alert("salesman");
             jabatan = 1;
-        }else if(supervisor){
+        } else if (supervisor) {
             // alert("supervisor")
             jabatan = 2;
-        }else if(ksupervisor){
+        } else if (ksupervisor) {
             // alert("ksupervisor")
             jabatan = 3;
         }
 
-        if(username=="" || password=="" || alamat=="" || nohp=="" || email=="" || rekening=="" || (!salesman && !supervisor && !ksupervisor)){
+        if (username == "" || password == "" || alamat == "" || nohp == "" || email == "" || rekening == "" || (!salesman && !supervisor && !ksupervisor)) {
             alert("Semua field wajib diisi")
-        } else{
+        } else {
             await client.post(`/api/register/`, {
                 username: username,
                 password: password,
                 alamat: alamat,
                 no_handphone: nohp,
                 email: email,
-                alamat: alamat,
                 id_jabatan: jabatan,
                 id_atasan: atasan,
                 no_rekening: rekening,
@@ -52,17 +51,17 @@ export default function RegisterUser() {
         }
     }
 
-    function gantiAtasan(){
+    function gantiAtasan() {
         const salesman = document.getElementById("salesman").checked;
         const supervisor = document.getElementById("supervisor").checked;
         const ksupervisor = document.getElementById("ksupervisor").checked;
-        if(salesman){
+        if (salesman) {
             // alert("salesman");
             setAtasan(data.supervisor)
-        }else if(supervisor){
+        } else if (supervisor) {
             // alert("supervisor")
             setAtasan(data.ksupervisor)
-        }else{
+        } else {
             // alert("ksupervisor")
             setAtasan(["None"])
         }
@@ -111,7 +110,7 @@ export default function RegisterUser() {
                             <input className="relative float-left -ml-[1.5rem] mr-1 h-9 w-9 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="radio"
                                 name="flexRadioDefault"
-                                id="salesman" value="salesman" onChange={()=>gantiAtasan()}/>
+                                id="salesman" value="salesman" onChange={() => gantiAtasan()} />
                             <label className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer" htmlFor="radioDefault01">
                                 Salesman
                             </label>
@@ -120,7 +119,7 @@ export default function RegisterUser() {
                             <input className="relative float-left -ml-[1.5rem] mr-1 h-9 w-9 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="radio"
                                 name="flexRadioDefault"
-                                id="supervisor" value="supervisor" onChange={()=>gantiAtasan()}/>
+                                id="supervisor" value="supervisor" onChange={() => gantiAtasan()} />
                             <label className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer" htmlFor="radioDefault01">
                                 Supervisor
                             </label>
@@ -129,26 +128,26 @@ export default function RegisterUser() {
                             <input className="relative float-left -ml-[1.5rem] mr-1 h-9 w-9 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                                 type="radio"
                                 name="flexRadioDefault"
-                                id="ksupervisor" value="ksupervisor" onChange={()=>gantiAtasan()}/>
+                                id="ksupervisor" value="ksupervisor" onChange={() => gantiAtasan()} />
                             <label className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer" htmlFor="radioDefault01">
                                 K. Supervisor
                             </label>
                         </div>
                     </div>
                     <div className="MngSales flex mt-3 text-primary text-2xl">
-                        <p className="pt-1 w-48 pr-2">Atasan : </p>
-                        <select id="atasan" className="whitespace-nowrap border-0 h-16 mt-2 px-6 py-4 font-medium">
-                            {atasan.map((a, idx)=>{
-                                return <option key={idx} value={a.id_user} className="h-12">{a.username}</option>
+                        <p className="pt-4 w-52 pr-2">Atasan : </p>
+                        <select id="atasan" className="whitespace-nowrap w-60 border-0 h-16 text-2xl px-6 py-4 font-medium">
+                            {atasan.map((a, idx) => {
+                                return <option key={idx} value={a.id_user} className="text-2xl">{a.username}</option>
                             })}
                         </select>
                     </div>
-                    <div className="MngSales flex mt-3 text-primary  text-2xl">
+                    <div className="MngSales flex mt-5 text-primary  text-2xl">
                         <p className="pt-1 w-48 pr-2">Foto : </p>
                         <FileUploader className="ms-10 bottom-2 border-primary"></FileUploader>
                     </div>
                     <div className="flex text-primary text-2xl float-right">
-                        <button className="bg-primary w-52 m-4 h-14 rounded-xl text-2xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4" onClick={()=>register()}>
+                        <button className="bg-primary w-52 m-4 h-14 rounded-xl text-2xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4" onClick={() => register()}>
                             Simpan
                         </button>
                     </div>
@@ -160,11 +159,11 @@ export default function RegisterUser() {
                     {/* {console.log(newUser)} */}
                     <div className="MSales flex mt-4 text-primary font-semibold text-2xl">
                         <p>Nama User : </p>
-                        <p className="ms-4">{}</p>
+                        <p className="ms-4">{ }</p>
                     </div>
                     <div className="MSales flex mt-4 text-primary font-semibold text-2xl">
                         <p>Jabatan : </p>
-                        <p className="ms-4">{}</p>
+                        <p className="ms-4">{ }</p>
                     </div>
                     <div className="PhoneNumber flex mt-4 text-primary font-semibold text-2xl">
                         <p>No. Hp : </p>
