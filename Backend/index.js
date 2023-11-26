@@ -800,6 +800,7 @@ app.get("/api/kelurahan", async (req, res) => {
   return res.status(200).send(result);
 });
 
+// Get Data Bawahan Supervisor
 app.get("/api/getBawahanSupervisor", async (req, res) => {
   let { id_atasan } = req.query;
   // console.log(id_atasan);
@@ -848,4 +849,37 @@ app.get("/api/getBawahanSupervisor", async (req, res) => {
   });
 
   return res.status(200).send(result);
+});
+
+// Get Data Detail Barang
+app.get("/api/detailBarang", async (req, res) => {
+  let detailBarang = await db.DetailBarang.findAll();
+
+  let temp = [];
+
+  for (let i = 0; i < detailBarang.length; i++) {
+    const d = detailBarang[i];
+    let barang = await db.MasterBarang.findOne({
+      where: {
+        id_barang: d.id_barang,
+      },
+    });
+    let brand = await db.MasterBrand.findOne({
+      where: {
+        id_brand: barang.id_brand,
+      },
+    });
+    temp.push({
+      id_barang: d.id_barang,
+      nama_brand: brand.nama_brand,
+      nama_barang: barang.nama_barang,
+      stok_karton: d.jumlah_karton,
+      stok_pcs: d.jumlah_pcs,
+      harga_karton: barang.harga_karton,
+      harga_pcs: barang.harga_pcs,
+      tanggal_masuk: d.tanggal_masuk,
+      expired: d.tanggal_expired,
+    })
+  }
+  return res.status(200).send(temp);
 });

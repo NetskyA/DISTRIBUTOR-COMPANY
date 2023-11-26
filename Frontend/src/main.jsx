@@ -49,6 +49,7 @@ const {
   getSuperSales,
   getDataSupervisor,
   getSales,
+  getDataBarang,
 } = DataHandler;
 
 const router = createBrowserRouter([
@@ -188,6 +189,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <LaporanBarang />,
+        loader: getDataBarang,
       },
       {
         path: "Laporan-Sales",

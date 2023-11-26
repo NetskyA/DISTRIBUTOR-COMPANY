@@ -341,6 +341,25 @@ const getSales = async () => {
   };
 };
 
+const getDataBarang = async () => {
+  if (!localStorage.loggedData) {
+    return redirect("/");
+  }
+  let temp = JSON.parse(localStorage.loggedData);
+  if (temp.jabatan !== "Admin Website") {
+    return redirect(`/${temp.replace(/\s/g, "")}`);
+  }
+
+
+  let getDetailBarang = await client.get(
+    `/api/DetailBarang`
+  );
+
+  return ({
+    detailBarang: getDetailBarang.data
+  });
+};
+
 export default {
   getDataCatalog,
   getDataProfileSalesman,
@@ -357,4 +376,5 @@ export default {
   getSuperSales,
   getDataSupervisor,
   getSales,
+  getDataBarang,
 };

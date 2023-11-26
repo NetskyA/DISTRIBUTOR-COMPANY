@@ -35,21 +35,16 @@ const LaporanBarang = () => {
 
         table = new $('#example').DataTable({
             dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
-            data: data,
+            data: data.detailBarang,
             'columnDefs': [         // see https://datatables.net/reference/option/columns.searchable
                 {
-                    'searchable': false,
-                    'targets': [2, 3, 4, 5]
+                    'searchable': true,
+                    'targets': [2,3,4,5]
                 },
             ],
             columns: [
-                {
-                    target: 0,
-                    visible: false,
-                    searchable: false
-                },
                 { title: "ID", data: "id_barang" },
-                { title: "Nama Principle", data: "nama principle" },
+                { title: "Nama Principle", data: "nama_brand" },
                 { title: "Nama Barang", data: "nama_barang" },
                 {
                     title: "Stok Karton", data: "stok_karton", render: function (data, type) {
@@ -107,20 +102,8 @@ const LaporanBarang = () => {
                         return number;
                     }
                 },
-                {
-                    title: "Expired", data: "expired", render: function (data, type) {
-                        var number = $.fn.dataTable.render
-                            .number('.', '.', 0, 'Rp ')
-                            .display(data);
-
-                        if (type === 'display') {
-
-                            return `<span>${number}</span>`;
-                        }
-
-                        return number;
-                    }
-                },
+                {title: "Tanggal Masuk", data: "tanggal_masuk"},
+                {title: "Expired", data: "expired"},
             ],
             destroy: true,
             "bDestroy": true,
@@ -140,6 +123,7 @@ const LaporanBarang = () => {
     // Create a reference for the table
     return (
         <>
+            {console.log(data.detailBarang)}
             <div className="cover flex">
                 <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
                     <p>Laporan Barang</p>
