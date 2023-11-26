@@ -1344,3 +1344,101 @@ app.get("/api/user", async (req, res) => {
   }
   return res.status(200).send(temp);
 });
+
+// Get Data list barang
+app.get("/api/getListBarang", async (req, res) => {
+  let barang = await db.MasterBarang.findAll();
+
+  return res.status(200).send(barang);
+});
+
+// Get Data list barang pakai keyword
+app.get("/api/getListBarang/:keyword", async (req, res) => {
+  const {keyword} = req.params;
+  const key = `%${keyword}%`
+  console.log(key);
+  let barang = await db.MasterBarang.findAll({
+    where: {
+      [Op.or] : [
+        {
+          id_barang: {
+            [Op.like]: key
+          },
+        },
+        {
+          nama_barang: {
+            [Op.like]: key
+          }
+        }
+      ]
+    }
+  });
+  console.log(barang)
+  return res.status(200).send(barang);
+});
+
+// Get Data list brand
+app.get("/api/getListBrand", async (req, res) => {
+  let brand = await db.MasterBrand.findAll({
+    where: {
+      status_brand: 1,
+    }
+  });
+
+  return res.status(200).send(brand);
+});
+
+// Insert barang
+app.post("/api/barang", async (req, res) => {
+  let { nama_barang, id_brand,harga_karton, harga_pcs} = req.body;
+
+  let barang = await db.MasterBarang.findAll();
+  
+  const id_barang = "BAR"+(barang.length+1).toString().padStart(5, "0");
+
+  await db.MasterBarang.create({
+    id_barang: id_barang,
+    nama_barang: nama_barang,
+    id_brand: id_brand,
+    harga_karton: harga_karton,
+    harga_pcs: harga_pcs,
+    status_barang: 1
+  })
+
+  return res.status(201).send("Done");
+});
+
+// Edit Status barang
+app.put("/api/editStatusBarang", async (req, res) => {
+  let { id_barang, status_barang } = req.body;
+
+  await db.MasterBarang.update(
+    {
+      status_barang :status_barang,
+    },{
+    where: {
+      id_barang: id_barang,
+    },
+  })
+
+  return res.status(201).send("Done");
+});
+
+// Edit barang
+app.put("/api/editBarang", async (req, res) => {
+  let { id_barang, nama_barang, harga_pcs, harga_karton, id_brand } = req.body;
+
+  await db.MasterBarang.update(
+    {
+      nama_barang :nama_barang,
+      harga_pcs :harga_pcs,
+      harga_karton :harga_karton,
+      id_brand :id_brand,
+    },{
+    where: {
+      id_barang: id_barang,
+    },
+  })
+
+  return res.status(201).send("Done");
+});

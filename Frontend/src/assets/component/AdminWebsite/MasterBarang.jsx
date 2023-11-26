@@ -4,7 +4,11 @@ import Joi from "joi"
 import { joiResolver } from "@hookform/resolvers/joi"
 
 import { useForm } from "react-hook-form";
+import client from "../../controller/client";
+import { useLoaderData } from "react-router";
 export default function MasterBrand() {
+    let data = useLoaderData();
+    const [barang, setBarang] = useState(data.barang);
     const [isTambah, setIsTambah] = useState(true);
     const toggleTambah = () => {
         setIsTambah(!isTambah);
@@ -26,12 +30,61 @@ export default function MasterBrand() {
     
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
-    function addBarang(data){
-        alert(data.nama_barang)
+    async function addBarang(data){
+        await client.post(`/api/barang`, {
+            nama_barang: data.nama_barang,
+            id_brand: data.brand_id,
+            harga_pcs: data.harga_pcs,
+            harga_karton: data.harga_karton,
+        });
+        reset();
+        let barang = await client.get(
+            `/api/getListBarang`
+        );
+        setBarang(barang.data);
+    }
+
+    async function editBarang(id){
+        const nama_barang = document.getElementById(`nama_barang${id}`).value;
+        const harga_pcs = document.getElementById(`harga_pcs${id}`).value;
+        const harga_karton = document.getElementById(`harga_karton${id}`).value;
+        const id_brand = document.getElementById(`id_brand${id}`).value;
+        await client.put(`/api/editBarang`, {
+            id_barang: id,
+            nama_barang: nama_barang,
+            harga_pcs: harga_pcs,
+            harga_karton: harga_karton,
+            id_brand: id_brand,
+        });
+        let barang = await client.get(
+            `/api/getListBarang`
+        );
+        setBarang(barang.data);
+        alert("Berhasil Update Barang "+id);
+    }
+
+    async function statusBarang(id, status){
+        await client.put(`/api/editStatusBarang`, {
+            id_barang: id,
+            status_barang: status,
+        });
+        let barang = await client.get(
+            `/api/getListBarang`
+        );
+        setBarang(barang.data);
+    }
+
+    async function cari(){
+        const keyword = document.getElementById("keyword").value;
+        let barang = await client.get(
+            `/api/getListBarang/${keyword}`
+        );
+        setBarang(barang.data);
     }
 
     return (
         <>
+            {console.log(barang)}
             <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                 <div className="flex">
                     <div className="flex text-primary text-2xl">
@@ -64,11 +117,9 @@ export default function MasterBrand() {
                                 <div className="flex text-primary mt-3 text-2xl">
                                     <p className="pt-1 pr-2 w-48">Brand : </p>
                                     <select name="brandId" id="selectIdbrand" className="w-60 border-primary rounded-lg" {...register("brand_id")}>
-                                        <option value="id1">1</option>
-                                        <option value="id2">2</option>
-                                        <option value="id3">3</option>
-                                        <option value="id4">4</option>
-                                        <option value="id5">5</option>
+                                        {data.brand.map((brand, idx)=>{
+                                            return <option value={brand.id_brand}>{brand.nama_brand}</option>
+                                        })}
                                     </select>
                                 </div>
                                 <div className="flex text-primary mt-3 text-2xl">
@@ -107,8 +158,8 @@ export default function MasterBrand() {
                         <div className="cover mb-28">
                             <p className="text-primary text-2xl pt-1 ps-4">Search :</p>
                             <div className="flex ms-4">
-                                <input type="text" className="border-primary text-xl rounded-lg" />
-                                <button className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                <input type="text" id="keyword" className="border-primary text-xl rounded-lg" onChange={()=>cari()}/>
+                                <button className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4" onClick={()=>cari()}>
                                     Cari
                                 </button>
                             </div>
@@ -142,53 +193,52 @@ export default function MasterBrand() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-
-                                                <tr className="border-b dark:border-neutral-500" >
-                                                    <td className="whitespace-nowrap px-6 py-4 font-medium" >
-                                                        <p>BAR00001</p>
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4 font-medium">
-                                                        <div>
-                                                            <select name="brandId" id="selectIdbrand" className="w-60 text-primary border-primary rounded-lg h-12 text-2xl">
-                                                                <option value="id1">1</option>
-                                                                <option value="id2">2</option>
-                                                                <option value="id3">3</option>
-                                                                <option value="id4">4</option>
-                                                                <option value="id5">5</option>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">
-                                                        <p>
-                                                            <input type="text" name="" className="border-primary rounded-lg text-2xl" id="" placeholder="Nama Barang" />
-                                                        </p>
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">
-                                                        <p>
-                                                            <input type="text" name="" className="border-primary rounded-lg text-2xl" id="" placeholder="Harga Pcs" />
-                                                        </p>
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">
-                                                        <p>
-                                                            <input type="text" name="" className="border-primary rounded-lg text-2xl" id="" placeholder="Harga Karton" />
-                                                        </p>
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">
-                                                        <button onClick={toggleEdit} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
-                                                            Edit
-                                                        </button>
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">
-                                                        {isStatus === null ?
-                                                            <button onClick={toggleStatus} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
-                                                                Aktif
-                                                            </button> :
-                                                            <button onClick={toggleStatus} className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
-                                                                Non Aktif
+                                                {barang.map((b, idx)=> {
+                                                    return <tr className="border-b dark:border-neutral-500" >
+                                                        <td className="whitespace-nowrap px-6 py-4 font-medium" >
+                                                            <p>{b.id_barang}</p>
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                                            <div>
+                                                                <select name="brandId" id={`id_brand${b.id_barang}`} className="w-60 text-primary border-primary rounded-lg h-12 text-2xl">
+                                                                    {data.brand.map((br, idx) => {
+                                                                        return (b.id_brand==br.id_brand ? <option key={idx} value={br.id_brand} selected= "selected">{br.nama_brand}</option> : <option key={idx} value={br.id_brand}>{br.nama_brand}</option>)
+                                                                    })}
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-6 py-4">
+                                                            <p>
+                                                                <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`nama_barang${b.id_barang}`} value={b.nama_barang} />
+                                                            </p>
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-6 py-4">
+                                                            <p>
+                                                                <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`harga_pcs${b.id_barang}`} value={b.harga_pcs} />
+                                                            </p>
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-6 py-4">
+                                                            <p>
+                                                                <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`harga_karton${b.id_barang}`} value={b.harga_karton} />
+                                                            </p>
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-6 py-4">
+                                                            <button onClick={()=>editBarang(b.id_barang)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                                                Edit
                                                             </button>
-                                                        }
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-6 py-4">
+                                                            {b.status_barang == 0 ?
+                                                                <button onClick={()=>statusBarang(b.id_barang, 1)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                                                    Aktif
+                                                                </button> :
+                                                                <button onClick={()=>statusBarang(b.id_barang, 0)} className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                                                    Non Aktif
+                                                                </button>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                })} 
                                             </tbody>
                                         </table>
                                     </div>
