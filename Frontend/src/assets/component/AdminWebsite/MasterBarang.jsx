@@ -81,7 +81,12 @@ export default function MasterBrand() {
         );
         setBarang(barang.data);
     }
-
+    const handleInputChange = (e, id, field) => {
+        const updatedBarang = barang.map((b) =>
+          b.id_barang === id ? { ...b, [field]: e.target.value } : b
+        );
+        setBarang(updatedBarang);
+      };
     return (
         <>
             {console.log(barang)}
@@ -194,7 +199,7 @@ export default function MasterBrand() {
                                             </thead>
                                             <tbody>
                                                 {barang.map((b, idx)=> {
-                                                    return <tr className="border-b dark:border-neutral-500" >
+                                                    return <tr key ={idx} className="border-b dark:border-neutral-500" >
                                                         <td className="whitespace-nowrap px-6 py-4 font-medium" >
                                                             <p>{b.id_barang}</p>
                                                         </td>
@@ -209,17 +214,17 @@ export default function MasterBrand() {
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
                                                             <p>
-                                                                <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`nama_barang${b.id_barang}`} value={b.nama_barang} />
+                                                                <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`nama_barang${b.id_barang}`} value={b.nama_barang} onChange={(e) => handleInputChange(e, b.id_barang, 'nama_barang')}/>
                                                             </p>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
                                                             <p>
-                                                                <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`harga_pcs${b.id_barang}`} value={b.harga_pcs} />
+                                                                <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`harga_pcs${b.id_barang}`} value={b.harga_pcs} onChange={(e) => handleInputChange(e, b.id_barang, 'harga_pcs')} />
                                                             </p>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
                                                             <p>
-                                                                <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`harga_karton${b.id_barang}`} value={b.harga_karton} />
+                                                                <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`harga_karton${b.id_barang}`} value={b.harga_karton} onChange={(e) => handleInputChange(e, b.id_barang, 'harga_karton')} />
                                                             </p>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
