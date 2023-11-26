@@ -112,8 +112,7 @@ export default function Laporan() {
     trimmedSuper = [...new Set(trimmedSuper)];
 
     for (let i = 0; i < trimmedSuper.length; i++) {
-      const tempi = targets.find((t) => t.id_user == trimmedSuper[i]);
-      console.log(tempi);
+      const tempi = dataTarget.find((t) => t.id_user == trimmedSuper[i]);
 
       let totalTarget = tempi.target;
 
