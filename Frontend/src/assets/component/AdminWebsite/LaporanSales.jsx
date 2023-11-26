@@ -24,53 +24,104 @@ import "datatables.net-buttons/js/buttons.print.min.js";
 export default function LaporanSales() {
     let data = useLoaderData();
     let table;
+    const [htrans, setHtrans] = useState(data.headerTransaksi);
+    const [dateStart, setDateStart] = useState(null)
+    const [dateEnd, setDateEnd] = useState(null)
+
+    const toggleVisibility = () => {
+        let tempHtrans = [];
+        let temp = data.headerTransaksi;
+        console.log(temp)
+        for (let i = 0; i < temp.length; i++) {
+            const t = temp[i];
+            
+            const tempDate = t.tanggal_transaksi.split("-");
+            const day = tempDate[0];
+            const month = tempDate[1];
+            const year = tempDate[2];
+            const result = year + "-" + month + "-" + day
+            if(dateStart<=result && dateEnd>=result){
+                tempHtrans.push(t);
+            }
+        }
+        setHtrans(tempHtrans);
+    }
+
+    const extractDate = (id) => {
+        const date = document.getElementById(id).value;
+    
+        if (date) {
+          const tempDate = date.split("-");
+          const year = tempDate[0];
+          const month = tempDate[1];
+          const day = tempDate[2];
+    
+          if (id == "dateStart") {
+            setDateStart(year + "-" + month + "-" + day);
+          } else {
+            setDateEnd(year + "-" + month + "-" + day);
+          }
+        } else {
+          if (id == "dateStart") {
+            setDateStart();
+          } else {
+            setDateEnd();
+          }
+        }
+    };
+
     const tableRef = useRef(null);
     const ExportExcel = () => {
-        let Heading = [['ID Barang', 'Nama Principle', 'Nama Barang', 'Stok Karton', 'Stok Pcs', 'Harga Karton', 'Harga Pcs', 'HA. Karton', 'HA. Pcs', 'Expired']];
+        let Heading = [['ID Transaksi', 'Tanggal Transaksi', 'Nama Salesman', 'Nama Toko', 'Total Penjualan', 'Pembayaran', 'Status']];
         const wb = XLSX.utils.book_new();
-        const ws = XLSX.utils.json_to_sheet(dataSet);
+        const ws = XLSX.utils.json_to_sheet(htrans);
         XLSX.utils.sheet_add_aoa(ws, Heading);
 
         //Starting in the second row to avoid overriding and skipping headers
-        XLSX.utils.sheet_add_json(ws, dataSet, { origin: 'A2', skipHeader: true });
+        XLSX.utils.sheet_add_json(ws, htrans, { origin: 'A2', skipHeader: true });
 
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
         XLSX.writeFile(wb, 'filename.xlsx');
     };
     useEffect(() => {
-        // Initialize DataTables within the component
-        // dataSet.map((e) => {
-        //   let block = document.createElement('tr');
-        //   for (let i = 0; i < 7; i++) {
-        //     let block2 = document.createElement('td');
-        //     block2.innerText = e[i];
-        //     block.appendChild(block2);
-        //   }
-        //   document.getElementById("isi").appendChild(block)
-        // })
         table = new $('#example').DataTable({
             dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
-            data: dataSet,
+            data: htrans,
             'columnDefs': [         // see https://datatables.net/reference/option/columns.searchable
                 {
                     'searchable': false,
                     'targets': [2, 3, 4, 5]
                 },
             ],
-            // columns: [
-            //     {
-            //         target: 0,
-            //         visible: false,
-            //         searchable: false
-            //     },
-            //     { title: "Id Transaksi", data: "id_transaksi" },
-            //     { title: "Tanggal", data: "tanggal" },
-            //     { title: "Nama Salesman", data: "nama_salesman" },
-            //     { title: "Nama Toko", data: "nama_toko" },
-            //     { title: "Total Penjualan", data: "total_penjualan" },
-            //     { title: "Pembayaran", data: "pembayaran" }
-            // ],
+            columns: [
+                { title: "Id Transaksi", data: "id_transaksi" },
+                { title: "Tanggal Transaksi", data: "tanggal_transaksi" },
+                { title: "Nama Salesman", data: "salesman" },
+                { title: "Nama Toko", data: "toko" },
+                { title: "Total Penjualan", data: "total_penjualan", render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number('.', '.', 0, 'Rp ')
+                        .display(data);
+
+                    if (type === 'display') {
+
+                        return `<span>${number}</span>`;
+                    }
+
+                    return number;
+                }},
+                { title: "Pembayaran", data: "pembayaran" },
+                { title: "Status", data: "status", render: function (data, type) {
+                    let color = 'green' 
+                    if(type==="display"){
+                        if (data === 'Ditolak') {
+                            color = 'red';
+                        }
+                    }
+                    return `<span style="color: ${color}">${data}</span>`;
+                }},
+            ],
             destroy: true,
             "bDestroy": true,
             buttons: [
@@ -84,11 +135,12 @@ export default function LaporanSales() {
                 "print", // Specify which buttons to include
             ],
         });
-    }, []);
+    }, [htrans]);
 
     // Create a reference for the table
     return (
         <>
+            {console.log(htrans)}
             <div className="cover flex">
                 <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
                     <p>Laporan Sales Penjualan</p>
@@ -98,7 +150,7 @@ export default function LaporanSales() {
                 </div>
             </div>
             <div className="selectdisable border-2 mt-10 border-gray-300 rounded-2xl w-1/3 h-56" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
-                <div className="row ms-4 m-4 w-full" >
+                <div className="row ms-4 m-4 w-full">
                     <div className="flex text-primary text-2xl">
                         <p className="pt-1 pr-2">Tanggal Awal : </p>
                         <input
@@ -106,20 +158,24 @@ export default function LaporanSales() {
                             name="date"
                             id="dateStart"
                             className="border-0 text-2xl h-10"
-                            required="dates" />
+                            required="dates"
+                            onChange={() => extractDate("dateStart")}
+                        />
                     </div>
                     <div className="flex text-primary mt-3 text-2xl">
-                        <p className="pt-1 pr-2">Tanggal Akhir :  </p>
+                        <p className="pt-1 pr-2">Tanggal Akhir : </p>
                         <input
                             type="date"
                             name="date"
                             id="dateEnd"
                             className="border-0 text-2xl h-10"
-                            required="dates" />
+                            required="dates"
+                            onChange={() => extractDate("dateEnd")}
+                        />
                     </div>
                 </div>
                 <div className="flex float-right" >
-                    <button className="bg-primary w-52 m-4 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                    <button className="bg-primary w-52 m-4 h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4" onClick={()=>toggleVisibility()}>
                         Cari
                     </button>
                 </div>
@@ -132,18 +188,7 @@ export default function LaporanSales() {
                 <div className="cover mb-28">
                     <div className="covertable m-2">
                         <table ref={tableRef} id="example" className="border-2 border-gray rounded-lg">
-                            <thead>
-                                <tr>
-                                    <th>Id Transaksi</th>
-                                    <th>Tanggal</th>
-                                    <th>Nama Salesman</th>
-                                    <th>Nama Toko</th>
-                                    <th>Total Penjualan</th>
-                                    <th>Pembayaran</th>
-                                </tr>
-                            </thead>
-                            <tbody id="isi">
-                            </tbody>
+                            
                         </table>
                     </div>
                 </div>

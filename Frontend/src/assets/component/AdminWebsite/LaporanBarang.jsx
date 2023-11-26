@@ -140,19 +140,7 @@ const LaporanBarang = () => {
                 <div className="cover mb-28">
                     <div className="covertable m-2">
                         <table ref={tableRef} id="example" className="border-2 border-gray rounded-lg">
-                            {/* <thead>
-                  <tr>
-                    <th>ID Barang</th>
-                    <th>Nama Barang</th>
-                    <th>Stok Karton</th>
-                    <th>Stok Pcs</th>
-                    <th>Harga Karton</th>
-                    <th>Harga Pcs</th>
-                    <th>Expired</th>
-                  </tr>
-                </thead>
-                <tbody id="isi">
-                </tbody> */}
+                           
                         </table>
                     </div>
                 </div>

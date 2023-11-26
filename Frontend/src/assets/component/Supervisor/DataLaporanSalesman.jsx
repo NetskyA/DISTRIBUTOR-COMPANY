@@ -28,7 +28,6 @@ export default function ReturnBarang() {
                 const month = tempDate[1];
                 const year = tempDate[2];
                 const result = year + "-" + month + "-" + day
-                console.log(result);
                 if(dateStart<=result && dateEnd>=result){
                     tempTargetSalesman.push(t);
                 }
@@ -58,7 +57,7 @@ export default function ReturnBarang() {
             setDateEnd();
           }
         }
-      };
+    };
 
     const Print = () => {
         //console.log('print');  

@@ -360,6 +360,25 @@ const getDataBarang = async () => {
   });
 };
 
+const getHeaderTransaksi = async () => {
+  if (!localStorage.loggedData) {
+    return redirect("/");
+  }
+  let temp = JSON.parse(localStorage.loggedData);
+  if (temp.jabatan !== "Admin Website") {
+    return redirect(`/${temp.replace(/\s/g, "")}`);
+  }
+
+
+  let getHeaderTransaksi = await client.get(
+    `/api/getHeaderTransaksi`
+  );
+
+  return ({
+    headerTransaksi: getHeaderTransaksi.data
+  });
+};
+
 export default {
   getDataCatalog,
   getDataProfileSalesman,
@@ -377,4 +396,5 @@ export default {
   getDataSupervisor,
   getSales,
   getDataBarang,
+  getHeaderTransaksi,
 };

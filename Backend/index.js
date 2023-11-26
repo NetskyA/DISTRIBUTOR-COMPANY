@@ -883,3 +883,48 @@ app.get("/api/detailBarang", async (req, res) => {
   }
   return res.status(200).send(temp);
 });
+
+// Get Data Header Transaksi
+app.get("/api/getHeaderTransaksi", async (req, res) => {
+  let headerTransaksi = await db.HeaderTransaksi.findAll({
+    where: {
+      [Op.or]: [{ status_transaksi: -1 }, { status_transaksi: 2 }],
+    },
+  });
+
+  let temp = [];
+
+  for (let i = 0; i < headerTransaksi.length; i++) {
+    const h = headerTransaksi[i];
+    let toko = await db.MasterToko.findOne({
+      where: {
+        id_toko: h.id_toko,
+      },
+    });
+    let salesman = await db.MasterUser.findOne({
+      where: {
+        id_user: h.id_user,
+      },
+    });
+    let pembayaran = "Tunai";
+    if(h.jenis_transaksi==1){
+      pembayaran = "Cash";
+    }
+
+    let status = "Selesai";
+    if(h.status_transaksi==-1){
+      status = "Ditolak";
+    }
+
+    temp.push({
+      id_transaksi: h.id_transaksi,
+      tanggal_transaksi: h.tanggal_transaksi,
+      salesman: salesman.username,
+      toko: toko.nama_toko,
+      total_penjualan: h.subtotal,
+      pembayaran: pembayaran,
+      status: status, 
+    })
+  }
+  return res.status(200).send(temp);
+});
