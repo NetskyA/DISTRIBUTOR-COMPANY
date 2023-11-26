@@ -54,6 +54,7 @@ const {
   getHeaderTransaksi,
   getHistoryGaji,
   getDataToko,
+  loadAtasan,
 } = DataHandler;
 
 const router = createBrowserRouter([
@@ -216,7 +217,8 @@ const router = createBrowserRouter([
       },
       {
         path: "Register-User",
-        element: <RegisterUser />
+        element: <RegisterUser />,
+        loader: loadAtasan,
       },
       {
         path: "Master",

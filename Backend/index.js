@@ -1133,3 +1133,98 @@ app.get("/api/getKatalogToko", async (req, res) => {
   }
   return res.status(200).send(temp);
 });
+
+// Get Data list supervisor
+app.get("/api/listSupervisor", async (req, res) => {
+  let supervisor = await db.MasterUser.findAll({
+    where: {
+      id_jabatan: 2,
+    }
+  });
+
+  return res.status(200).send(supervisor);
+});
+
+// Get Data list ksupervisor
+app.get("/api/listKsupervisor", async (req, res) => {
+  let ksupervisor = await db.MasterUser.findAll({
+    where: {
+      id_jabatan: 3,
+    }
+  });
+
+  return res.status(200).send(ksupervisor);
+});
+
+// Register
+app.post("/api/register", async (req, res) => {
+  let { username, password, alamat, no_handphone, email, id_jabatan, id_atasan, no_rekening} = req.body;
+
+  const now = new Date();
+  const date =  now.getDate().toString().padStart(2, "0")+
+  "-" +
+  (now.getMonth() + 1).toString().padStart(2, "0") +
+  "-" +
+  now.getFullYear().toString().padStart(4, "0") ;
+
+  await db.MasterUser.create({
+    username: username,
+    password: password,
+    alamat: alamat,
+    no_handphone: no_handphone,
+    email: email,
+    id_jabatan: id_jabatan,
+    id_atasan: id_atasan,
+    tanggal_masuk: date,
+    foto: "",
+    target_sekarang: 0,
+    absen_user: 0,
+    no_rekening: no_rekening,
+    status_user: 1
+  })
+  return res.status(201).send("Done");
+})
+
+// Get Data list user
+app.get("/api/user", async (req, res) => {
+  let users = await db.MasterUser.findAll({
+    where: {
+      status_user: 1,
+    }
+  });
+
+  let temp = [];
+
+  for (let i = 0; i < users.length; i++) {
+    const u = users[i];
+    let jabatan = await db.MasterJabatan.findOne({
+      where: {
+        id_jabatan: u.id_jabatan,
+      },
+    });
+    let atasan = await db.MasterUser.findOne({
+      where: {
+        id_user: u.id_atasan,
+      },
+    });
+    temp.push({
+      id_user: u.id_user,
+      id_jabatan: u.id_jabatan,
+      nama_jabatan: jabatan.nama_jabatan,
+      username: u.username,
+      id_atasan: atasan.id_user,
+      nama_atasan: atasan.username,
+      email: u.email,
+      password: u.password,
+      no_handphone: u.no_handphone,
+      alamat: u.alamat,
+      tanggal_masuk: u.tanggal_masuk,
+      foto: u.foto,
+      target_sekarang: u.target_sekarang,
+      absen_user: u.absen_user,
+      no_rekening: u.no_rekening,
+      status: u.status_user
+    })
+  }
+  return res.status(200).send(temp);
+});

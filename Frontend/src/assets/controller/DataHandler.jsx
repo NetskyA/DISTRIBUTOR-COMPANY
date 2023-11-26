@@ -429,6 +429,30 @@ const getDataToko = async () => {
   });
 };
 
+const loadAtasan = async () => {
+  if (!localStorage.loggedData) {
+    return redirect("/");
+  }
+  let temp = JSON.parse(localStorage.loggedData);
+  if (temp.jabatan !== "Admin Website") {
+    return redirect(`/${temp.replace(/\s/g, "")}`);
+  }
+
+
+  let supervisor = await client.get(
+    `/api/listSupervisor`
+  );
+
+  let ksupervisor = await client.get(
+    `/api/listKsupervisor`
+  );
+
+  return ({
+    supervisor: supervisor.data,
+    ksupervisor: ksupervisor.data,
+  });
+};
+
 export default {
   getDataCatalog,
   getDataProfileSalesman,
@@ -450,4 +474,5 @@ export default {
   getHeaderTransaksi,
   getHistoryGaji,
   getDataToko,
+  loadAtasan,
 };
