@@ -160,8 +160,8 @@ export default function RegisterUser() {
                     </div>
                     <div className="MngSales flex mt-5 text-primary  text-2xl">
                         <p className="pt-3 w-52 pr-2">Foto : </p>
-                        {/* <FileUploader className="ms-10 bottom-2 border-primary"></FileUploader> */}
-                        <input type="file" className="border-2 h-14 w-72 border-primary bg-white rounded-xl" onChange={handleFileChange} />
+                        <FileUploader className="ms-8 bottom-2 border-primary"></FileUploader>
+                        {/* <input type="file" className="border-2 h-14 w-72 border-primary bg-white rounded-xl" onChange={handleFileChange} /> */}
                     </div>
                     <div className="flex text-primary text-2xl float-right">
                         <button className="bg-primary w-52 m-4 h-14 rounded-xl text-2xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4" onClick={() => register()}>
