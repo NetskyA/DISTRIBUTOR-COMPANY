@@ -70,7 +70,12 @@ app.use(express.urlencoded({ extended: true }));
 // POST TAMBAH BRAND  => LINE 1562
 // PUT EDIT STATUS BRAND => LINE 1584
 // GET DATA LIST BRAND KEYWORD => LINE 1603
-// PUT EDIT BARANG => LINE 1627
+// PUT EDIT BRAND => LINE 1627
+// GET DATA LIST JABATAN
+// POST TAMBAH JABATAN
+// PUT EDIT STATUS JABATAN
+// GET DATA LIST JABATAN KEYWORD
+// PUT EDIT JABATAN
 
 //========================== KIRIM GAJI ==========================//
 const sendGaji = async (subtotal, email, date, username) => {
@@ -1598,7 +1603,7 @@ app.put("/api/editStatusBrand", async (req, res) => {
     }
   );
 
-  return res.status(201).send("Done");
+  return res.status(200).send("Done");
 });
 
 //========================== GET DATA LIST BRAND KEYWORD ==========================//
@@ -1640,5 +1645,83 @@ app.put("/api/editBrand", async (req, res) => {
     }
   );
 
+  return res.status(200).send("Done");
+});
+
+//========================== GET DATA LIST JABATAN ==========================//
+app.get("/api/getListJabatan", async (req, res) => {
+  let jabatan = await db.MasterJabatan.findAll();
+
+  return res.status(200).send(jabatan);
+});
+
+//========================== POST TAMBAH JABATAN ==========================//
+app.post("/api/jabatan", async (req, res) => {
+  let { nama_jabatan } = req.body;
+
+  await db.MasterJabatan.create({
+    nama_jabatan: nama_jabatan,
+    status_jabatan: 1,
+  });
+
   return res.status(201).send("Done");
+});
+
+//========================== PUT EDIT STATUS JABATAN ==========================//
+app.put("/api/editStatusJabatan", async (req, res) => {
+  let { id_jabatan, status_jabatan } = req.body;
+
+  await db.MasterJabatan.update(
+    {
+      status_jabatan: status_jabatan,
+    },
+    {
+      where: {
+        id_jabatan: id_jabatan,
+      },
+    }
+  );
+
+  return res.status(200).send("Done");
+});
+
+//========================== GET DATA LIST JABATAN KEYWORD ==========================//
+app.get("/api/getListJabatan/:keyword", async (req, res) => {
+  const { keyword } = req.params;
+  const key = `%${keyword}%`;
+  let jabatan = await db.MasterJabatan.findAll({
+    where: {
+      [Op.or]: [
+        {
+          id_jabatan: {
+            [Op.like]: key,
+          },
+        },
+        {
+          nama_jabatan: {
+            [Op.like]: key,
+          },
+        },
+      ],
+    },
+  });
+  return res.status(200).send(jabatan);
+});
+
+//========================== PUT EDIT JABATAN ==========================//
+app.put("/api/editJabatan", async (req, res) => {
+  let { id_jabatan, nama_jabatan } = req.body;
+
+  await db.MasterJabatan.update(
+    {
+      nama_jabatan: nama_jabatan,
+    },
+    {
+      where: {
+        id_jabatan: id_jabatan,
+      },
+    }
+  );
+
+  return res.status(200).send("Done");
 });

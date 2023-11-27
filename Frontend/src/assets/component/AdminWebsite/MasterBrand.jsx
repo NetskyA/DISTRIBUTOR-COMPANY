@@ -38,7 +38,7 @@ export default function MasterBrand() {
           nama_brand: data.nama_brand,
         });
         reset();
-        let brand = await client.get(`/api/getListbrands`);
+        let brand = await client.get(`/api/getListBrands`);
         setBrand(brand.data);
       }
     
@@ -48,7 +48,7 @@ export default function MasterBrand() {
           id_brand: id,
           nama_brand: nama_brand,
         });
-        let brand = await client.get(`/api/getListbrands`);
+        let brand = await client.get(`/api/getListBrands`);
         setBrand(brand.data);
         alert("Berhasil Update Brand " + id);
       }
@@ -58,7 +58,7 @@ export default function MasterBrand() {
           id_brand: id,
           status_brand: status,
         });
-        let brand = await client.get(`/api/getListbrands`);
+        let brand = await client.get(`/api/getListBrands`);
         setBrand(brand.data);
       }
     

@@ -500,10 +500,15 @@ const loadSemuaData = async () => {
     `/api/getListBrands`
   );
 
+  let jabatan = await client.get(
+    `/api/getListJabatan`
+  );
+
   return ({
     barang: barang.data,
     brand: brand.data,
-    brands: brands.data
+    brands: brands.data,
+    jabatan: jabatan.data,
   });
 };
 
