@@ -76,6 +76,7 @@ app.use(express.urlencoded({ extended: true }));
 // PUT EDIT STATUS JABATAN
 // GET DATA LIST JABATAN KEYWORD
 // PUT EDIT JABATAN
+// test
 
 //========================== KIRIM GAJI ==========================//
 const sendGaji = async (subtotal, email, date, username) => {
