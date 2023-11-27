@@ -495,10 +495,15 @@ const loadSemuaData = async () => {
   let brand = await client.get(
     `/api/getListBrand`
   );
+  
+  let brands = await client.get(
+    `/api/getListBrands`
+  );
 
   return ({
     barang: barang.data,
     brand: brand.data,
+    brands: brands.data
   });
 };
 

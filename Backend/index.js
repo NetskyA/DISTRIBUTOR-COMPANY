@@ -63,9 +63,14 @@ app.use(express.urlencoded({ extended: true }));
 // GET DATA LIST USER => LINE 1362
 // GET DATA LIST BARANG => LINE 1406
 // GET DATA LIST BARANG KEYWORD => LINE 1413
-// GET DATA LIST BRAND => LINE 1438
-// GET EDIT BARAN => LINE 1485
+// GET DATA LIST BRAND AKTIF=> LINE 1438
+// GET EDIT BARANG => LINE 1485
 // PUT EDIT STATUS BARANG => LINE 1469
+// GET DATA LIST BRAND => LINE 1556
+// POST TAMBAH BRAND  => LINE 1562
+// PUT EDIT STATUS BRAND => LINE 1584
+// GET DATA LIST BRAND KEYWORD => LINE 1603
+// PUT EDIT BARANG => LINE 1627
 
 //========================== KIRIM GAJI ==========================//
 const sendGaji = async (subtotal, email, date, username) => {
@@ -1451,11 +1456,10 @@ app.get("/api/getListBarang/:keyword", async (req, res) => {
       ],
     },
   });
-  console.log(barang);
   return res.status(200).send(barang);
 });
 
-//========================== GET DATA LIST BRAND ==========================//
+//========================== GET DATA LIST BRAND AKTIF ==========================//
 app.get("/api/getListBrand", async (req, res) => {
   let brand = await db.MasterBrand.findAll({
     where: {
@@ -1504,7 +1508,7 @@ app.put("/api/editStatusBarang", async (req, res) => {
   return res.status(201).send("Done");
 });
 
-//========================== GET EDIT BARANG ==========================//
+//========================== PUT EDIT BARANG ==========================//
 app.put("/api/editBarang", async (req, res) => {
   let { id_barang, nama_barang, harga_pcs, harga_karton, id_brand } = req.body;
 
@@ -1550,3 +1554,91 @@ app.post("/api/cekDuplicateEmail",async (req,res)=>{
   }
   return res.send(false)
 })
+
+//========================== GET DATA LIST BRAND ==========================//
+app.get("/api/getListBrands", async (req, res) => {
+  let brand = await db.MasterBrand.findAll();
+
+  return res.status(200).send(brand);
+});
+
+//========================== POST TAMBAH BRAND ==========================//
+app.post("/api/brand", async (req, res) => {
+  let { nama_brand } = req.body;
+
+  const now = new Date();
+  const date =
+    now.getDate().toString().padStart(2, "0") +
+    "-" +
+    (now.getMonth() + 1).toString().padStart(2, "0") +
+    "-" +
+    now.getFullYear().toString().padStart(4, "0");
+
+  await db.MasterBrand.create({
+    nama_brand: nama_brand,
+    tanggal_masuk_brand: date,
+    status_brand: 1,
+  });
+
+  return res.status(201).send("Done");
+});
+
+//========================== PUT EDIT STATUS BRAND ==========================//
+app.put("/api/editStatusBrand", async (req, res) => {
+  let { id_brand, status_brand } = req.body;
+
+  await db.MasterBrand.update(
+    {
+      status_brand: status_brand,
+    },
+    {
+      where: {
+        id_brand: id_brand,
+      },
+    }
+  );
+
+  return res.status(201).send("Done");
+});
+
+//========================== GET DATA LIST BRAND KEYWORD ==========================//
+app.get("/api/getListBrands/:keyword", async (req, res) => {
+  const { keyword } = req.params;
+  console.log(keyword)
+  const key = `%${keyword}%`;
+  let brand = await db.MasterBrand.findAll({
+    where: {
+      [Op.or]: [
+        {
+          id_brand: {
+            [Op.like]: key,
+          },
+        },
+        {
+          nama_brand: {
+            [Op.like]: key,
+          },
+        },
+      ],
+    },
+  });
+  return res.status(200).send(brand);
+});
+
+//========================== PUT EDIT BARANG ==========================//
+app.put("/api/editBrand", async (req, res) => {
+  let { id_brand, nama_brand } = req.body;
+
+  await db.MasterBrand.update(
+    {
+      nama_brand: nama_brand,
+    },
+    {
+      where: {
+        id_brand: id_brand,
+      },
+    }
+  );
+
+  return res.status(201).send("Done");
+});
