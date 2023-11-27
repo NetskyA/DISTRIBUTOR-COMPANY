@@ -3,11 +3,16 @@ const app = express();
 const { Sequelize, Op } = require("sequelize");
 const { getDB } = require("./sequelize");
 const conn = getDB();
-const port = 3000;
-const db = require("./src/models");
+const port = 3000; 
+const db = require("./src/models"); 
 const axios = require("axios");
-var cors = require("cors");
+var cors = require("cors"); 
+const multer = require('multer');
+const fs = require("fs");
+app.use("/uploads", express.static("uploads")); 
+const upload = multer({ dest: "./uploads", });
 app.use(cors());
+ 
 const initApp = async () => {
   console.log("Testing database connection");
   try {
@@ -16,7 +21,7 @@ const initApp = async () => {
     app.listen(port, () => console.log(`App listening on port ${port}!`));
   } catch (error) {
     console.error("Failure database connection : ", error.original);
-  }
+  } 
 };
 initApp();
 app.use(express.json());
@@ -86,7 +91,7 @@ const sendGaji = async (subtotal, email, date, username) => {
       currency: "IDR",
       receipt_notification: {
         email_to: [`${email}`],
-        email_cc: ["alvinbwiyono@gmail.com"],
+        email_cc: ["darrellfikoalexander@gmail.com"],
       },
     },
   };
@@ -113,10 +118,24 @@ app.post("/api/login", async (req, res) => {
       id_jabatan: data.dataValues.id_jabatan,
     },
   });
+  let targets = await db.MasterTarget.findOne({
+    where: {
+      id_user: data.dataValues.id_user,
+    },
+    order: [["id_target", "desc"]],
+  });
+  let target = 0;
+  if (targets) {
+    target = targets.dataValues.target;
+  } else {
+      target= 0
+  }
+  console.log(target)
   delete data.dataValues.id_jabatan;
   let datauser = {
     ...data.dataValues,
     jabatan: jabatan.dataValues.nama_jabatan,
+    target:target
   };
   return res.status(200).send({
     user: datauser,
@@ -1331,8 +1350,9 @@ app.post("/api/register", async (req, res) => {
     id_jabatan,
     id_atasan,
     no_rekening,
+    foto
   } = req.body;
-
+  fs.renameSync(`./uploads/temp.png`, `./uploads/${foto}`);
   const now = new Date();
   const date =
     now.getDate().toString().padStart(2, "0") +
@@ -1350,7 +1370,7 @@ app.post("/api/register", async (req, res) => {
     id_jabatan: Number(id_jabatan),
     id_atasan: Number(id_atasan),
     tanggal_masuk: date,
-    foto: "",
+    foto: foto,
     target_sekarang: 0,
     absen_user: 0,
     no_rekening: no_rekening,
@@ -1504,3 +1524,15 @@ app.put("/api/editBarang", async (req, res) => {
 
   return res.status(201).send("Done");
 });
+
+
+app.post('/upload', upload.single('image'), (req, res) => {
+  fs.renameSync(
+      `./uploads/${req.file.filename}`,
+      `./uploads/temp.png`
+    );
+// Handle the image storage here (e.g., save to disk, database, cloud storage, etc.)
+// For simplicity, this example just sends the image size in the response
+const imageSize = req.file ? req.file.size : 0;
+res.json({ imageSize });
+}); 

@@ -1,5 +1,5 @@
 import ControlTarget from "../../controller/ControlTarget";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import FileUploader from "./UploadFoto";
 import { useLoaderData } from "react-router";
 import client from "../../controller/client";
@@ -31,6 +31,9 @@ export default function RegisterUser() {
     setSelectedFile(file);
   };
 
+  const [foto,setFoto] = useState()
+  const errorFoto = useRef(false)
+
   const handleUpload = () => {
     // Di sini Anda dapat menangani pengunggahan file, misalnya mengirimnya ke server.
     // Untuk contoh ini, kita hanya menampilkan informasi file yang dipilih.
@@ -46,6 +49,10 @@ export default function RegisterUser() {
   }, [newUser]);
 
   const handleRegister = async (data) => {
+    if(!foto){
+      errorFoto.current=true;
+      return
+    }
     // const username = document.getElementById("username").value;
     // const password = document.getElementById("password").value;
     // const alamat = document.getElementById("alamat").value;
@@ -55,6 +62,9 @@ export default function RegisterUser() {
     const salesman = document.getElementById("salesman").checked;
     const supervisor = document.getElementById("supervisor").checked;
     const ksupervisor = document.getElementById("ksupervisor").checked;
+    if(!salesman && !supervisor && !ksupervisor){
+      document.getElementById("salesman").focus();
+    }
     // const atasan = document.getElementById("atasan").value;
 
     const username = data.username;
@@ -63,9 +73,25 @@ export default function RegisterUser() {
     const nohp = data.nohp;
     const email = data.email;
     const rekening = data.rekening;
+    if(username===""){
+      document.getElementById("username").focus();
+      return
+    }
+    if(password===""){
+      document.getElementById("password").focus();
+      return
+    }
+    if(alamat===""){
+      document.getElementById("alamat").focus();
+      return
+    }
+    if(email===""){
+      document.getElementById("email").focus();
+      return
+    }
     // const jabatan = data.jabatan;
     const atasan = data.atasan;
-
+    const namaFile = username.replace(/\s/g, "")+".png"
     let idJabatan = 0;
     // alert(atasan);
     if (salesman) {
@@ -78,7 +104,12 @@ export default function RegisterUser() {
       //   alert("ksupervisor");
       idJabatan = 3;
     }
-
+    console.log(atasan);
+    if(idJabatan!==3 && parseInt(atasan)===0){
+      console.log(atasan)
+      document.getElementById("atasan").focus()
+      return
+    }
     const user = await client.post(`/api/register/`, {
       username: username,
       password: password,
@@ -88,10 +119,22 @@ export default function RegisterUser() {
       id_jabatan: idJabatan,
       id_atasan: atasan,
       no_rekening: rekening,
+      foto:namaFile
     });
 
     console.log(user.data);
     // const user = await client.get(`/api/user`)
+    setFoto(null);
+    document.getElementById("username").value="";
+    document.getElementById("password").value="";
+    document.getElementById("alamat").value="";
+    document.getElementById("email").value=null;
+    document.getElementById("nohp").value=null;
+    document.getElementById("rekening").value=null;
+    document.getElementById("salesman").checked=false;
+    document.getElementById("supervisor").checked=false;
+    document.getElementById("ksupervisor").checked=false;
+    document.getElementById("atasan").value=0;
     setNewUser(user.data);
   };
 
@@ -257,7 +300,7 @@ export default function RegisterUser() {
                 className="whitespace-nowrap w-60 border-0 h-16 text-2xl px-6 py-4 font-medium"
                 {...register("atasan")}
               >
-                <option key={0} value={-1} className="text-2xl">
+                <option key={0} value={0} className="text-2xl">
                   -- Pilih Atasan --
                 </option>
                 {atasan.map((a, idx) => {
@@ -271,7 +314,9 @@ export default function RegisterUser() {
             </div>
             <div className="MngSales flex mt-5 text-primary  text-2xl">
               <p className="pt-3 w-52 pr-2">Foto : </p>
-              <FileUploader className="ms-8 bottom-2 border-primary"></FileUploader>
+              <FileUploader className="ms-8 bottom-2 border-primary" setFoto={setFoto} errorFoto={errorFoto}>                
+              </FileUploader>
+              {(errorFoto.current)&&<span className="ps-2 pt-2 text-md" style={{color:"red"}}>Masukkan Foto</span>}
               {/* <input type="file" className="border-2 h-14 w-72 border-primary bg-white rounded-xl" onChange={handleFileChange} /> */}
             </div>
             <div className="flex text-primary text-2xl float-right">
@@ -323,7 +368,7 @@ export default function RegisterUser() {
         {/* menampilakan foto karyawan */}
         <div className="row m-1 bg-gray-300 rounded-xl w-1/5">
           <div className="noId">
-            <img className="w-72 m-2 mx-auto" alt="foto profile" />
+            {newUser ?  <img className="w-72 m-2 mx-auto" src={`http://localhost:3000/uploads/${newUser.foto}`} alt="foto profile" />: <img className="w-72 m-2 mx-auto"/>}
           </div>
         </div>
         {/* menampilakan foto karyawan */}

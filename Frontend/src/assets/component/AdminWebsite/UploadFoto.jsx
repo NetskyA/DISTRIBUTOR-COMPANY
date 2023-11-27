@@ -1,23 +1,27 @@
 // FileUploader.js
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-
-const FileUploader = () => {
-    const onDrop = useCallback((acceptedFiles) => {
+import client from '../../controller/client';
+const FileUploader = ({setFoto,errorFoto}) => {
+    const onDrop = async (acceptedFiles) => {
         // Do something with the files
-        console.log(acceptedFiles);
-        acceptedFiles.forEach((file) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-              // Use the reader.result, which is a base64-encoded string
-              console.log('File Content:', reader.result);
-      
-              // You can save the file content or perform other actions here
-              // For example, you can send the file to a server using an API
-            };
-            reader.readAsDataURL(file);
+        let data = acceptedFiles[0]
+        setFoto(data); 
+        errorFoto.current = false;     
+        const formData = new FormData();
+        formData.append('image', data);
+        try {
+          const response = await client.post('/upload', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
           });
-    }, []);
+    
+          console.log('Image uploaded successfully:', response.data);
+        } catch (error) {
+          console.error('Error uploading image:', error);
+        }
+    };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
        onDrop,
@@ -30,11 +34,11 @@ const FileUploader = () => {
      },});
 
     return (
-        <div {...getRootProps()} className={`dropzone ${isDragActive ? 'active' : ''} text-2xl border-2 h-12 w-52 border-dashed border-primary rounded-lg ms-4`}>
+        <div {...getRootProps()} className={`dropzone ${isDragActive ? 'active' : ''} text-2xl border-2 h-12 w-20 border-dashed border-primary rounded-lg ms-4`}>
             <div className="cover items-center mx-auto justify-center">
-                <input {...getInputProps()} className="m-2" />
+                <input {...getInputProps()} className="m-2"/>
             </div>
-            <p>{isDragActive ? <p className="text-center">Click</p> : <p className="text-2xl pt-1 text-center">+ Add photo</p>}</p>
+            <p>{isDragActive ? <p className="text-center">Click</p> : <p className="text-2xl pt-1 text-center">+</p>}</p>
         </div>
     );
 };
