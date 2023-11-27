@@ -41,7 +41,7 @@ const Catalog = () => {
     //   document.getElementById("isi").appendChild(block)
     // })
     table = new $('#example').DataTable({
-      dom: '<"top"lf>rt<"bottom"pi>', // Include the buttons in the DOM
+      dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
       data: data,
       'columnDefs'        : [         // see https://datatables.net/reference/option/columns.searchable
                 { 

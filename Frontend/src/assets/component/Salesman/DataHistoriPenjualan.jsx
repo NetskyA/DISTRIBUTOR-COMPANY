@@ -47,7 +47,7 @@ export default function DataHistoriPenjualan() {
     useEffect(() => {
         // Initialize DataTables within the component
         table = new $("#example").DataTable({
-            dom: '<"top"lf>rt<"bottom"pi>',
+            dom: '<"top"lf>rt<"bottom"Bpi>',
             data: data.history,
             // 'columnDefs'        : [         // see https://datatables.net/reference/option/columns.searchable
             //     { 

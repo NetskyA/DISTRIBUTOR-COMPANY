@@ -5,6 +5,7 @@ import "datatables.net-dt/css/jquery.dataTables.min.css";
 import LogoPrint from "../../images/image-navbar/printer.png"
 import { useLoaderData } from "react-router";
 import formatter from "../../controller/formatter";
+import LogoPerusahaan from "../../images/image-login/icon.png"
 
 export default function ReturnBarang() {
     const dataSupervisor = useLoaderData();
@@ -14,7 +15,7 @@ export default function ReturnBarang() {
     const [dateEnd, setDateEnd] = useState(null)
 
     const toggleVisibility = () => {
-        if(dateStart!=null && dateEnd!=null){
+        if (dateStart != null && dateEnd != null) {
             // console.log(dateStart)
             // console.log(dateEnd.day + " - " + dateEnd.month + " - " + dateEnd.year)
 
@@ -22,13 +23,13 @@ export default function ReturnBarang() {
             let temp = dataSupervisor.target;
             for (let i = 0; i < temp.length; i++) {
                 const t = temp[i];
-                
+
                 const tempDate = t.tanggal_target.split("-");
                 const day = tempDate[0];
                 const month = tempDate[1];
                 const year = tempDate[2];
                 const result = year + "-" + month + "-" + day
-                if(dateStart<=result && dateEnd>=result){
+                if (dateStart <= result && dateEnd >= result) {
                     tempTargetSalesman.push(t);
                 }
             }
@@ -38,24 +39,24 @@ export default function ReturnBarang() {
 
     const extractDate = (id) => {
         const date = document.getElementById(id).value;
-    
+
         if (date) {
-          const tempDate = date.split("-");
-          const year = tempDate[0];
-          const month = tempDate[1];
-          const day = tempDate[2];
-    
-          if (id == "dateStart") {
-            setDateStart(year + "-" + month + "-" + day);
-          } else {
-            setDateEnd(year + "-" + month + "-" + day);
-          }
+            const tempDate = date.split("-");
+            const year = tempDate[0];
+            const month = tempDate[1];
+            const day = tempDate[2];
+
+            if (id == "dateStart") {
+                setDateStart(year + "-" + month + "-" + day);
+            } else {
+                setDateEnd(year + "-" + month + "-" + day);
+            }
         } else {
-          if (id == "dateStart") {
-            setDateStart();
-          } else {
-            setDateEnd();
-          }
+            if (id == "dateStart") {
+                setDateStart();
+            } else {
+                setDateEnd();
+            }
         }
     };
 
@@ -113,7 +114,7 @@ export default function ReturnBarang() {
                     {/* <button className="bg-primary m-4 w-full h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                         Supervisor
                     </button> */}
-                    <button onClick={()=>toggleVisibility()} className="bg-primary w-1/4 m-4 h-14 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                    <button onClick={() => toggleVisibility()} className="bg-primary w-1/4 m-4 h-14 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                         Cari
                     </button>
                 </div>
@@ -122,7 +123,10 @@ export default function ReturnBarang() {
             <div className="w-full mt-16 mx-auto border-2 rounded-xl" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                 {isVisible &&
                     <div id="NotaCetak" className="cover m-5">
-                        <p className="pt-4 text-4xl font-semibold text-center text-primary">Laporan Target Salesman</p>
+                        <div className="flex mx-auto items-center justify-center">
+                            <p className="pt-4 text-4xl font-semibold text-center text-primary">Laporan Target Salesman</p>
+                            <img src={LogoPerusahaan} className="w-32 h-32 mt-4" alt="logo perusahaan" />
+                        </div>
                         <table className="text-left text-2xl mt-5 font-light border rounded-xl w-full" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                             <thead className="border-b font-medium dark:border-neutral-500">
                                 <tr>

@@ -7,6 +7,7 @@ import LogoPrint from "../../images/image-navbar/printer.png";
 import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import formatter from "../../controller/formatter";
+import LogoPerusahaan from "../../images/image-login/icon.png"
 
 export default function Laporan() {
   const dataKoor = useLoaderData();
@@ -288,9 +289,12 @@ export default function Laporan() {
       >
         {isVisibleSuper == true && (
           <div id="NotaCetakSuper" className="cover m-5">
+
+            <div className="flex mx-auto items-center justify-center">
             <p className="pt-4 text-4xl font-semibold text-center text-primary">
               Laporan Target Supervisor
-            </p>
+            </p>                            <img src={LogoPerusahaan} className="w-32 h-32 mt-4" alt="logo perusahaan" />
+                        </div>
             <table
               className="text-left text-2xl mt-5 font-light border rounded-xl w-full"
               style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
