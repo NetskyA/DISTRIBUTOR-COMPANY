@@ -85,7 +85,8 @@ export default function RegisterUser() {
       document.getElementById("alamat").focus();
       return
     }
-    if(email===""){
+
+    if(email==="" || (await client.post("/api/cekDuplicateEmail",{email:email})).data){
       document.getElementById("email").focus();
       return
     }

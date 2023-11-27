@@ -1536,3 +1536,17 @@ app.post('/upload', upload.single('image'), (req, res) => {
 const imageSize = req.file ? req.file.size : 0;
 res.json({ imageSize });
 }); 
+ 
+app.post("/api/cekDuplicateEmail",async (req,res)=>{
+  let {email} = req.body;
+  console.log(email); 
+  let duplicateEmail = await db.MasterUser.findOne({
+    where:{
+      email:email
+    }
+  })
+  if(duplicateEmail){
+    return res.send(true)
+  }
+  return res.send(false)
+})
