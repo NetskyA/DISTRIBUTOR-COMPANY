@@ -3,7 +3,7 @@ import LogoPrint from "../../images/image-navbar/printer.png";
 import { useLoaderData } from "react-router-dom";
 
 export default function DataOrderanMasuk() {
-  const data = useLoaderData();
+  const dataOrder = useLoaderData();
 
   const [visibleData, setVisibleData] = useState(null);
 
@@ -46,14 +46,14 @@ export default function DataOrderanMasuk() {
   //     setIsVisible8(!isVisible8);
   //   };
 
-  const toggleVisibility = (data) => {
-    alert("change: " + data);
-    if (visibleData == data) {
+  const toggleVisibility = (id_kel) => {
+    alert("change: " + id_kel);
+    if (visibleData == id_kel) {
       setVisibleData(null);
       return;
     }
 
-    setVisibleData(data);
+    setVisibleData(id_kel);
   };
 
   return (
@@ -78,8 +78,8 @@ export default function DataOrderanMasuk() {
           </p>
           <div className="w-full\ items-center mx-auto m-6">
             <div className="grid grid-cols-6 lg:grid-cols-8 text-primary text-2xl">
-              {data.kelurahan &&
-                data.kelurahan.map((kel, index) => (
+              {dataOrder.kelurahan &&
+                dataOrder.kelurahan.map((kel, index) => (
                   <button
                     key={index}
                     onClick={() => toggleVisibility(kel.id_kelurahan)}
