@@ -523,6 +523,13 @@ const loadDataVerifikasi = async () => {
   };
 };
 
+const getKinerja = async () =>{
+  const kinerja = await client.get(`/api/kinerja`);
+  return {
+    kinerja: kinerja.data
+  }
+}
+
 export default {
   getDataCatalog,
   getDataProfileSalesman,
@@ -548,4 +555,5 @@ export default {
   loadAtasan,
   loadSemuaData,
   loadDataVerifikasi,
+  getKinerja,
 };

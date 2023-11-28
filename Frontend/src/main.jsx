@@ -58,6 +58,7 @@ const {
   loadAtasan,
   loadSemuaData,
   loadDataVerifikasi,
+  getKinerja,
 } = DataHandler;
 
 const router = createBrowserRouter([
@@ -216,6 +217,7 @@ const router = createBrowserRouter([
       {
         path: "Laporan-Kinerja",
         element: <LaporanKinerja />,
+        loader: getKinerja,
       },
       {
         path: "Laporan-Target",
