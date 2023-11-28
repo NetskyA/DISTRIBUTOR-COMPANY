@@ -1,59 +1,61 @@
-import { useEffect, useState, useRef } from "react";
-import LogoPrint from "../../images/image-navbar/printer.png";
+import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
+import formatter from "../../controller/formatter";
 
 export default function DataOrderanMasuk() {
   const dataOrder = useLoaderData();
 
   const [visibleData, setVisibleData] = useState(null);
+  const [dataKelurahan, setDataKelurahan] = useState(null);
+  const [refresh, setRefresh] = useState(true);
 
-  //   const [isVisible, setIsVisible] = useState(true);
-  //   const toggleVisibility = () => {
-  //     setIsVisible(!isVisible);
-  //   };
-
-  //   const [isVisible2, setIsVisible2] = useState(true);
-  //   const toggleVisibility2 = () => {
-  //     setIsVisible2(!isVisible2);
-  //   };
-
-  //   const [isVisible3, setIsVisible3] = useState(true);
-  //   const toggleVisibility3 = () => {
-  //     setIsVisible3(!isVisible3);
-  //   };
-
-  //   const [isVisible4, setIsVisible4] = useState(true);
-  //   const toggleVisibility4 = () => {
-  //     setIsVisible4(!isVisible4);
-  //   };
-
-  //   const [isVisible5, setIsVisible5] = useState(true);
-  //   const toggleVisibility5 = () => {
-  //     setIsVisible5(!isVisible5);
-  //   };
-
-  //   const [isVisible6, setIsVisible6] = useState(true);
-  //   const toggleVisibility6 = () => {
-  //     setIsVisible6(!isVisible6);
-  //   };
-
-  //   const [isVisible7, setIsVisible7] = useState(true);
-  //   const toggleVisibility7 = () => {
-  //     setIsVisible7(!isVisible7);
-  //   };
-  //   const [isVisible8, setIsVisible8] = useState(true);
-  //   const toggleVisibility8 = () => {
-  //     setIsVisible8(!isVisible8);
-  //   };
+  useEffect(() => {
+    setRefresh(!refresh);
+  }, [visibleData, dataKelurahan]);
 
   const toggleVisibility = (id_kel) => {
-    alert("change: " + id_kel);
-    if (visibleData == id_kel) {
-      setVisibleData(null);
-      return;
+    let resultData = [];
+
+    const kelurahan = dataOrder.kelurahan.find(
+      (kel) => kel.id_kelurahan == id_kel
+    );
+
+    setDataKelurahan(kelurahan);
+
+    const listToko = dataOrder.toko.filter((t) => t.id_kelurahan == id_kel);
+
+    const listHeaderTransaksi = dataOrder.headerTransaksi.filter(
+      (h) => h.status_transaksi == 0
+    );
+
+    for (let i = 0; i < listHeaderTransaksi.length; i++) {
+      const header = listHeaderTransaksi[i];
+      const salesman = dataOrder.user.find((u) => u.id_user == header.id_user);
+
+      for (let j = 0; j < listToko.length; j++) {
+        const toko = listToko[j];
+        if (header.id_toko == toko.id_toko) {
+          const newData = {
+            idOrder: header.id_transaksi,
+            namaPelanggan: toko.nama_konsumen,
+            namaToko: toko.nama_toko,
+            namaSalesman: salesman.username,
+            tanggal: header.tanggal_transaksi,
+            subtotal: header.subtotal,
+            status: header.status_transaksi,
+            idKel: id_kel,
+          };
+
+          resultData.push(newData);
+        }
+      }
     }
 
-    setVisibleData(id_kel);
+    if (visibleData != null && kelurahan == dataKelurahan) {
+      setVisibleData(null);
+    } else {
+      setVisibleData(resultData);
+    }
   };
 
   return (
@@ -101,7 +103,7 @@ export default function DataOrderanMasuk() {
       {visibleData != null && (
         <div className="mt-5 bg-gray-200 shadow-2xl rounded-xl">
           <p className="text-2xl ps-5 pt-2 font-semibold text-primary">
-            SUB NAMA KELURAHAN
+            SUB {dataKelurahan && dataKelurahan.nama_kelurahan.toUpperCase()}
           </p>
           <div className="cover m-5">
             <table
@@ -142,235 +144,42 @@ export default function DataOrderanMasuk() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b dark:border-neutral-500">
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <input
-                      type="checkbox"
-                      name="selectAll"
-                      id="all"
-                      className="border-2 border-primary w-7 h-7 rounded-lg"
-                    />
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-medium">
-                    ORD0001
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">bude ayu</td>
-                  <td className="whitespace-nowrap px-6 py-4">Hypermart</td>
-                  <td className="whitespace-nowrap px-6 py-4">Alvin</td>
-                  <td className="whitespace-nowrap px-6 py-4">11/11/2023</td>
-                  <td className="whitespace-nowrap px-6 py-4">Rp. 1.230.000</td>
-                  <td className="whitespace-nowrap px-6 py-4 text-primary">
-                    Menunggu
-                  </td>
-                </tr>
-                <tr className="border-b dark:border-neutral-500">
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <input
-                      type="checkbox"
-                      name="selectAll"
-                      id="all"
-                      className="border-2 border-primary w-7 h-7 rounded-lg"
-                    />
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-medium">
-                    ORD0001
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">bude ayu</td>
-                  <td className="whitespace-nowrap px-6 py-4">Hypermart</td>
-                  <td className="whitespace-nowrap px-6 py-4">Alvin</td>
-                  <td className="whitespace-nowrap px-6 py-4">11/11/2023</td>
-                  <td className="whitespace-nowrap px-6 py-4">Rp. 1.230.000</td>
-                  <td className="whitespace-nowrap px-6 py-4 text-primary">
-                    Menunggu
-                  </td>
-                </tr>
+                {visibleData.map((v, index) => (
+                  <tr key={index} className="border-b dark:border-neutral-500">
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <input
+                        type="checkbox"
+                        name="selectAll"
+                        id="all"
+                        className="border-2 border-primary w-7 h-7 rounded-lg"
+                      />
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 font-medium">
+                      {v.idOrder}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4">
+                      {v.namaPelanggan}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4">
+                      {v.namaToko}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4">
+                      {v.namaSalesman}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4">{v.tanggal}</td>
+                    <td className="whitespace-nowrap px-6 py-4">
+                      {formatter.format(v.subtotal)}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-primary">
+                      {v.status == 0 && "Menunggu"}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </div>
       )}
-      {/* {!isVisible3 && (
-        <div className="mt-5 bg-gray-200 shadow-2xl rounded-xl">
-          <p className="text-2xl ps-5 pt-2 font-semibold text-primary">
-            SUB DARMO
-          </p>
-          <div className="cover m-5">
-            <table
-              className="text-left text-2xl mb-12 font-light border rounded-xl w-full"
-              style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
-            >
-              <thead className="border-b font-medium dark:border-neutral-500">
-                <tr>
-                  <th scope="col" className="px-6 py-2 w-5">
-                    <input
-                      type="checkbox"
-                      name="selectAll"
-                      id="all"
-                      className="border-2 border-primary w-7 h-7 rounded-lg"
-                    />
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    ID Order
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Nama
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Nama Toko
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Nama Salesman
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Tanggal
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Subtotal
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b dark:border-neutral-500">
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <input
-                      type="checkbox"
-                      name="selectAll"
-                      id="all"
-                      className="border-2 border-primary w-7 h-7 rounded-lg"
-                    />
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-medium">
-                    ORD0001
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">bude ayu</td>
-                  <td className="whitespace-nowrap px-6 py-4">Hypermart</td>
-                  <td className="whitespace-nowrap px-6 py-4">Alvin</td>
-                  <td className="whitespace-nowrap px-6 py-4">11/11/2023</td>
-                  <td className="whitespace-nowrap px-6 py-4">Rp. 1.230.000</td>
-                  <td className="whitespace-nowrap px-6 py-4 text-primary">
-                    Menunggu
-                  </td>
-                </tr>
-                <tr className="border-b dark:border-neutral-500">
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <input
-                      type="checkbox"
-                      name="selectAll"
-                      id="all"
-                      className="border-2 border-primary w-7 h-7 rounded-lg"
-                    />
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-medium">
-                    ORD0001
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">bude ayu</td>
-                  <td className="whitespace-nowrap px-6 py-4">Hypermart</td>
-                  <td className="whitespace-nowrap px-6 py-4">Alvin</td>
-                  <td className="whitespace-nowrap px-6 py-4">11/11/2023</td>
-                  <td className="whitespace-nowrap px-6 py-4">Rp. 1.230.000</td>
-                  <td className="whitespace-nowrap px-6 py-4 text-primary">
-                    Menunggu
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-      {!isVisible2 && (
-        <div className="mt-5 bg-gray-200 shadow-2xl rounded-xl">
-          <p className="text-2xl ps-5 pt-2 font-semibold text-primary">
-            SUB KUTISARI
-          </p>
-          <div className="cover m-5">
-            <table
-              className="text-left text-2xl mb-12 font-light border rounded-xl w-full"
-              style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
-            >
-              <thead className="border-b font-medium dark:border-neutral-500">
-                <tr>
-                  <th scope="col" className="px-6 py-2 w-5">
-                    <input
-                      type="checkbox"
-                      name="selectAll"
-                      id="all"
-                      className="border-2 border-primary w-7 h-7 rounded-lg"
-                    />
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    ID Order
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Nama
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Nama Toko
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Nama Salesman
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Tanggal
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Subtotal
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="border-b dark:border-neutral-500">
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <input
-                      type="checkbox"
-                      name="selectAll"
-                      id="all"
-                      className="border-2 border-primary w-7 h-7 rounded-lg"
-                    />
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-medium">
-                    ORD0001
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">bude ayu</td>
-                  <td className="whitespace-nowrap px-6 py-4">Hypermart</td>
-                  <td className="whitespace-nowrap px-6 py-4">Alvin</td>
-                  <td className="whitespace-nowrap px-6 py-4">11/11/2023</td>
-                  <td className="whitespace-nowrap px-6 py-4">Rp. 1.230.000</td>
-                  <td className="whitespace-nowrap px-6 py-4 text-primary">
-                    Menunggu
-                  </td>
-                </tr>
-                <tr className="border-b dark:border-neutral-500">
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <input
-                      type="checkbox"
-                      name="selectAll"
-                      id="all"
-                      className="border-2 border-primary w-7 h-7 rounded-lg"
-                    />
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-medium">
-                    ORD0001
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">bude ayu</td>
-                  <td className="whitespace-nowrap px-6 py-4">Hypermart</td>
-                  <td className="whitespace-nowrap px-6 py-4">Alvin</td>
-                  <td className="whitespace-nowrap px-6 py-4">11/11/2023</td>
-                  <td className="whitespace-nowrap px-6 py-4">Rp. 1.230.000</td>
-                  <td className="whitespace-nowrap px-6 py-4 text-primary">
-                    Menunggu
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )} */}
       <div className="prints">
         <div className="m-4">
           <div className="noId flex text-primary text-2xl">
