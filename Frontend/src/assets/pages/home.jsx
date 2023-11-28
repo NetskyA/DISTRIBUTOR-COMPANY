@@ -71,7 +71,7 @@ function Home({ role }) {
                         <DataNavbarAtas />
                     </div>
                     <div className="w-full" style={{ height: "71vh" }}>
-                        <div className="cover mb-36 max-h-full mt-10" style={{ width: "100%" }}>
+                        <div className="cover mb-36 max-h-full mt-10" style={{ width: "100%"}}>
                             {/* {dataMenu} */}
                             <Outlet />
                         </div>

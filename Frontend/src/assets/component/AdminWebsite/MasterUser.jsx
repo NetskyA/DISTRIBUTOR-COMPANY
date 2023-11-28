@@ -24,7 +24,7 @@ export default function MasterJabatan() {
     // }
     let data = useLoaderData();
     let table;
-    const tableRef = useRef(null);
+    let jabatan = [{id:1,nama:"Jabatan 1"},{id:2,nama:"Jabatan 2"},{id:3,nama:"Jabatan 3"}]
     const ExportExcel = () => {
         let Heading = [['ID User', 'Nama Principle', 'Nama Barang', 'Stok Karton', 'Stok Pcs', 'Harga Karton', 'Harga Pcs', 'HA. Karton', 'HA. Pcs', 'Expired']];
         const wb = XLSX.utils.book_new();
@@ -42,25 +42,40 @@ export default function MasterJabatan() {
 
         table = new $('#example').DataTable({
             dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
-            data: data,
-            'columnDefs': [         // see https://datatables.net/reference/option/columns.searchable
-                {
-                    'searchable': false,
-                    'targets': [2, 3, 4, 5]
-                },
-            ],
+            data: [{id_user:1,id_jabatan:2,username:"temp",password:"temp",no_handphone:"123",alamat:"halo",foto:"1.png",no_rekening:"12314",id_atasan:2}],
+            // 'columnDefs': [         // see https://datatables.net/reference/option/columns.searchable
+            //     {
+            //         'searchable': false,
+            //         'targets': [2, 3, 4, 5]
+            //     },
+            // ],
             columns: [
-                {
-                    target: 0,
-                    visible: false,
-                    searchable: false
-                },
                 { title: "ID User", data: "id_user" },
-                { title: "ID Jabatan", data: "id_kelurahan" },
-                { title: "ID Atasan", data: "id_kota" },
+                {title:"Jabatan",
+            data:"id_jabatan",
+            render: function (data, type, row) {
+                if (type === 'display') {
+                    // Render an input text data with the data
+                    let a = [];
+                    {jabatan.forEach((br, idx) => {
+                        console.log(data)
+                        console.log(br)
+                        data === br.id ? 
+                        a.push(`<option selected="selected" value="${br.id}">${br.nama}</option>`) : 
+                        a.push(`<option value="${br.id}">${br.nama}</option>`) 
+                      
+                    })}
+                    console.log(a)
+                    return  '<select>'+a+'</select>'
+                    return `<input type="number" value="0" min="0" data-row-id="${row.id_barang}" class="data-input-karton"/>`
+                }
+                return data;
+            },   
+            }, 
+                { title: "ID Atasan", data: "id_atasan" },
                 // { title: "Email", data: "nama_konsumen" },
-                { title: "Username", data: "alamat_toko" },
-                { title: "Password", data: "no_handphone1" },
+                { title: "Username", data: "username" },
+                { title: "Password", data: "password" },
                 { title: "No Hp", data: "no_handphone" },
                 { title: "Alamat", data: "alamat" },
                 // { title: "Tanggal Masuk", data: "tanggal_masuk" },
@@ -69,8 +84,8 @@ export default function MasterJabatan() {
                 // { title: "Absen", data: "absen_user" },
                 { title: "No Rekening", data: "no_rekening" },
                 // { title: "Status User", data:"status_user" },
-                { title: "Edit", },
-                { title: "Status", },
+                { title: "Edit", data:null},
+                { title: "Status", data:null},
             ],
             destroy: true,
             "bDestroy": true,
@@ -89,12 +104,12 @@ export default function MasterJabatan() {
 
     return (
         <>
-            <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
-                <div className="flex">
+            <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{width: "97%",boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" ,overflowX:"scroll"}}>
+                {/* <div className="flex">
                     <div className="flex text-primary text-2xl">
                        
                     </div>
-                </div>
+                </div> */}
                 {/* {!isTambah &&
                     <div className="selectdisable border-2 ms-4 mt-1 mb-4 border-gray-300 rounded-2xl w-1/3 h-full" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                         <div className="row ms-4 m-4 w-full" >
@@ -193,14 +208,177 @@ export default function MasterJabatan() {
                         </div>
                     </div>
                 } */}
-                <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
+                <table 
+                      className="text-left text-2xl mt-5 font-light border rounded-xl w-full"
+                      style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px"}}
+                    >
+                      <thead className="border-b font-medium dark:border-neutral-500">
+                        <tr>
+                          <th scope="col" className="px-6 py-4">
+                            Id User
+                          </th>
+                          <th scope="col" className="px-6 py-4">
+                            Jabatan
+                          </th>
+                          <th scope="col" className="px-6 py-4">
+                            username
+                          </th>
+                          <th scope="col" className="px-6 py-4">
+                           password
+                          </th>
+                          <th scope="col" className="px-6 py-4">
+                            No hp
+                          </th>
+                          <th scope="col" className="px-6 py-4">
+                            Alamat
+                          </th>
+                          <th scope="col" className="px-6 py-4">
+                           Foto
+                          </th>
+                          <th scope="col" className="px-6 py-4">
+                            No rekening
+                          </th>
+                          <th scope="col" className="px-6 py-4">
+                            Edit
+                          </th>
+                          <th scope="col" className="px-6 py-4">
+                            Status
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {/* {barang.map((b, idx) => { */}
+                          {/* return ( */}
+                            <tr
+                            //   key={idx}
+                              className="border-b dark:border-neutral-500"
+                            >
+                              <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                {/* <p>{b.id_barang}</p> */}
+                              </td>
+                              <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                <div>
+                                  <select
+                                    name="brandId"
+                                    // id={`id_brand${b.id_barang}`}
+                                    className="w-60 text-primary border-primary rounded-lg h-12 text-2xl"
+                                  >
+                                    {/* {data.brand.map((br, idx) => {
+                                      return b.id_brand == br.id_brand ? (
+                                        <option
+                                          key={idx}
+                                          value={br.id_brand}
+                                          selected="selected"
+                                        >
+                                          {br.nama_brand}
+                                        </option>
+                                      ) : (
+                                        <option key={idx} value={br.id_brand}>
+                                          {br.nama_brand}
+                                        </option>
+                                      );
+                                    })} */}
+                                  </select>
+                                </div>
+                              </td>
+                              <td className="whitespace-nowrap px-6 py-4">
+                                <p>
+                                  <input
+                                    type="text"
+                                    name=""
+                                    className="border-primary rounded-lg text-2xl"
+                                    // id={`nama_barang${b.id_barang}`}
+                                    // value={b.nama_barang}
+                                    // onChange={(e) =>
+                                    //   handleInputChange(
+                                    //     e,
+                                    //     b.id_barang,
+                                    //     "nama_barang"
+                                    //   )
+                                    // }
+                                  />
+                                </p>
+                              </td>
+                              <td className="whitespace-nowrap px-6 py-4">
+                                <p>
+                                  <input
+                                    type="text"
+                                    name=""
+                                    className="border-primary rounded-lg text-2xl"
+                                    // id={`harga_pcs${b.id_barang}`}
+                                    // value={b.harga_pcs}
+                                    // onChange={(e) =>
+                                    //   handleInputChange(
+                                    //     e,
+                                    //     b.id_barang,
+                                    //     "harga_pcs"
+                                    //   )
+                                    // }
+                                  />
+                                </p>
+                              </td>
+                              <td className="whitespace-nowrap px-6 py-4">
+                                <p>
+                                  <input
+                                    type="text"
+                                    name=""
+                                    className="border-primary rounded-lg text-2xl"
+                                    // id={`harga_karton${b.id_barang}`}
+                                    // value={b.harga_karton}
+                                    // onChange={(e) =>
+                                    //   handleInputChange(
+                                    //     e,
+                                    //     b.id_barang,
+                                    //     "harga_karton"
+                                    //   )
+                                    // }
+                                  />
+                                </p>
+                              </td>
+                              <td className="whitespace-nowrap px-6 py-4">
+                                <button
+                                //   onClick={() => editBarang(b.id_barang)}
+                                  className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                >
+                                  Edit
+                                </button>
+                              </td>
+                              <td className="whitespace-nowrap px-6 py-4">
+                                {/* {b.status_barang == 0 ? (
+                                  <button
+                                    // onClick={() => statusBarang(b.id_barang, 1)}
+                                    className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                  >
+                                    Aktif
+                                  </button>
+                                ) : (
+                                  <button
+                                    // onClick={() => statusBarang(b.id_barang, 0)}
+                                    className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                  >
+                                    Non Aktif
+                                  </button>
+                                )} */}
+                                                                  <button
+                                    // onClick={() => statusBarang(b.id_barang, 0)}
+                                    className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                  >
+                                    Non Aktif
+                                  </button>
+                              </td>
+                            </tr>
+                          {/* ); */}
+                        {/* })} */}
+                      </tbody>
+                    </table>
+                {/* <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                     <div className="flex mx-auto items-center justify-center">
                         <p className="pt-5 text-4xl font-semibold text-center text-primary">Data User</p>
                         <img src={LogoPerusahaan} className="w-32 h-32 mt-4" alt="logo perusahaan" />
                     </div>
                     <div className="cover mb-28">
                         <div className="covertable m-2">
-                            <table ref={tableRef} id="example" className="border-2 border-gray rounded-lg">
+                            <table id="example" className="border-2 border-gray rounded-lg"> */}
                                 {/* <thead>
                   <tr>
                     <th>ID User</th>
@@ -214,10 +392,10 @@ export default function MasterJabatan() {
                 </thead>
                 <tbody id="isi">
                 </tbody> */}
-                            </table>
+                            {/* </table>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
             <hr className="h-px my-8 rounded-xl mb-28" />
         </>

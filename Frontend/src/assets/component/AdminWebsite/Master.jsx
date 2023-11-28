@@ -51,7 +51,8 @@ export default function Master() {
 
 
     return (
-        <>
+        <>  <div className="cover" style={{marginLeft:(!isUser)?"5.7vw":"0vh"}}>
+
             <div className="cover selectdisable flex">
                 <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
                     <p>Master</p>
@@ -125,9 +126,12 @@ export default function Master() {
             {!isToko &&
                 <MasterToko />
             }
+           
             {!isUser &&
                 <MasterUser />
             }
+        </div>
+   
         </>
     )
 }
