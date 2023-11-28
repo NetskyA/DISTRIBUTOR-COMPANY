@@ -25,7 +25,7 @@ export default function DataOrderanMasuk() {
     const listToko = dataOrder.toko.filter((t) => t.id_kelurahan == id_kel);
 
     const listHeaderTransaksi = dataOrder.headerTransaksi.filter(
-      (h) => h.status_transaksi == 0
+      (h) => h.status_transaksi == 1
     );
 
     for (let i = 0; i < listHeaderTransaksi.length; i++) {
@@ -171,7 +171,7 @@ export default function DataOrderanMasuk() {
                       {formatter.format(v.subtotal)}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-primary">
-                      {v.status == 0 && "Menunggu"}
+                      {v.status == 1 && "Menunggu"}
                     </td>
                   </tr>
                 ))}
