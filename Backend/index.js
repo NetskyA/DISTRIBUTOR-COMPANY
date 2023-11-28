@@ -102,7 +102,7 @@ const sendGaji = async (subtotal, email, date, username) => {
       currency: "IDR",
       receipt_notification: {
         email_to: [`${email}`],
-        email_cc: ["darrellfikoalexander@gmail.com"],
+        email_cc: ["alvinbwiyono@gmail.com"],
       },
     },
   };
@@ -797,6 +797,11 @@ app.post("/api/kirimGaji", async (req, res) => {
     "-" +
     now.getFullYear().toString().padStart(4, "0");
   for (let i = 0; i < listUser.length; i++) {
+    listUser[i].gaji_komisi+= 10 - (listUser[i].gaji_komisi%10);
+
+    if(listUser[i].target_sekarang<listUser[i].target){
+      listUser[i].gaji_komisi-=5
+    }
     await db.MasterUser.update(
       {
         absen_user: 0,
@@ -808,6 +813,7 @@ app.post("/api/kirimGaji", async (req, res) => {
         },
       }
     );
+
 
     await db.HistoryGaji.create({
       id_gaji: listUser[i].id_gaji,
