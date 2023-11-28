@@ -496,6 +496,8 @@ const loadSemuaData = async () => {
   let jabatan = await client.get(`/api/getListJabatan`);
 
   let kota = await client.get(`/api/getListKota`);
+  
+  let kelurahan = await client.get(`/api/getListKelurahan`);
 
   return {
     barang: barang.data,
@@ -503,6 +505,7 @@ const loadSemuaData = async () => {
     brands: brands.data,
     jabatan: jabatan.data,
     kota: kota.data,
+    kelurahan: kelurahan.data,
   };
 };
 

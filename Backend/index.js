@@ -1814,3 +1814,87 @@ app.put("/api/editKota", async (req, res) => {
 
   return res.status(200).send("Done");
 });
+
+//========================== GET DATA LIST KELURAHAN ==========================//
+app.get("/api/getListKelurahan", async (req, res) => {
+  let kelurahan = await db.MasterKelurahan.findAll();
+
+  return res.status(200).send(kelurahan);
+});
+
+//========================== POST TAMBAH KELURAHAN ==========================//
+app.post("/api/kelurahan", async (req, res) => {
+  let { id_kota, nama_kelurahan } = req.body;
+
+  let kelurahan = await db.MasterKelurahan.findAll();
+  const id_kelurahan = "KLR" + (kelurahan.length + 1).toString().padStart(5, "0");
+
+  await db.MasterKelurahan.create({
+    id_kelurahan: id_kelurahan,
+    id_kota: id_kota,
+    nama_kelurahan: nama_kelurahan,
+    status_kelurahan: 1,
+  });
+
+  return res.status(201).send("Done");
+});
+
+//========================== PUT EDIT STATUS KELURAHAN ==========================//
+app.put("/api/editStatusKelurahan", async (req, res) => {
+  let { id_kelurahan, status_kelurahan } = req.body;
+
+  await db.MasterKelurahan.update(
+    {
+      status_kelurahan: status_kelurahan,
+    },
+    {
+      where: {
+        id_kelurahan: id_kelurahan,
+      },
+    }
+  );
+
+  return res.status(200).send("Done");
+});
+
+//========================== GET DATA LIST KELURAHAN KEYWORD ==========================//
+app.get("/api/getListKelurahan/:keyword", async (req, res) => {
+  const { keyword } = req.params;
+  const key = `%${keyword}%`;
+  let kelurahan = await db.MasterKelurahan.findAll({
+    where: {
+      [Op.or]: [
+        {
+          id_kelurahan: {
+            [Op.like]: key,
+          },
+        },
+        {
+          nama_kelurahan: {
+            [Op.like]: key,
+          },
+        },
+      ],
+    },
+  });
+  return res.status(200).send(kelurahan);
+});
+
+//========================== PUT EDIT KELURAHAN ==========================//
+app.put("/api/editKelurahan", async (req, res) => {
+  let { id_kelurahan, id_kota, nama_kelurahan } = req.body;
+
+  await db.MasterKelurahan.update(
+    {
+      id_kota: id_kota,
+      nama_kelurahan: nama_kelurahan,
+    },
+    {
+      where: {
+        id_kelurahan: id_kelurahan,
+      },
+    }
+  );
+
+  return res.status(200).send("Done");
+});

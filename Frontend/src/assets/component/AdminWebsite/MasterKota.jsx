@@ -186,20 +186,20 @@ export default function MasterJabatan() {
                                                             </button>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-                                                        {k.status_kota == 0 ? (
-                                                            <button
-                                                                onClick={() => statusKota(k.id_kota, 1)}
-                                                                className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
-                                                            >
-                                                                Aktif
-                                                            </button>
-                                                            ) : (
-                                                            <button
-                                                                onClick={() =>  statusKota(k.id_kota, 0)}
-                                                                className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
-                                                            >
-                                                                Non Aktif
-                                                            </button>
+                                                            {k.status_kota == 0 ? (
+                                                                <button
+                                                                    onClick={() => statusKota(k.id_kota, 1)}
+                                                                    className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                                                >
+                                                                    Aktif
+                                                                </button>
+                                                                ) : (
+                                                                <button
+                                                                    onClick={() =>  statusKota(k.id_kota, 0)}
+                                                                    className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                                                >
+                                                                    Non Aktif
+                                                                </button>
                                                             )}
                                                         </td>
                                                     </tr>
