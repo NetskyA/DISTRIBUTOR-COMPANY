@@ -33,28 +33,28 @@ export default function MasterKota() {
         reset,
         formState: { errors },
     } = useForm();
-    
+
     async function addJabatan(data) {
         await client.post(`/api/jabatan`, {
-          nama_jabatan: data.nama_jabatan,
+            nama_jabatan: data.nama_jabatan,
         });
         reset();
         let jabatan = await client.get(`/api/getListJabatan`);
         setJabatan(jabatan.data);
     }
-    
+
     async function editJabatan(id) {
         const nama_jabatan = document.getElementById(`nama_jabatan${id}`).value;
         await client.put(`/api/editJabatan`, {
-          id_jabatan: id,
-          nama_jabatan: nama_jabatan,
+            id_jabatan: id,
+            nama_jabatan: nama_jabatan,
         });
-       
+
         let jabatan = await client.get(`/api/getListJabatan`);
         setJabatan(jabatan.data);
         alert("Berhasil Update Jabatan " + id);
     }
-    
+
     async function statusJabatan(id, status) {
         await client.put(`/api/editStatusJabatan`, {
             id_jabatan: id,
@@ -63,7 +63,7 @@ export default function MasterKota() {
         let jabatan = await client.get(`/api/getListJabatan`);
         setJabatan(jabatan.data);
     }
-    
+
     async function cari() {
         let keyword = document.getElementById("keyword").value;
         let jabatan = await client.get(`/api/getListJabatan/${keyword}`);
@@ -71,7 +71,7 @@ export default function MasterKota() {
     }
     const handleInputChange = (e, id, field) => {
         const updatedJabatan = jabatan.map((j) =>
-          j.id_jabatan === id ? { ...j, [field]: e.target.value } : j
+            j.id_jabatan === id ? { ...j, [field]: e.target.value } : j
         );
         setJabatan(updatedJabatan);
     };
@@ -106,7 +106,7 @@ export default function MasterKota() {
                                         name="Nama jabatan"
                                         className="border-primary rounded-lg w-60 text-2xl h-10"
                                         placeholder="Nama jabatan"
-                                        required="text" {...register("nama_jabatan")}/>
+                                        required="text" {...register("nama_jabatan")} />
                                 </div>
                                 <div className="flex float-right mr-4">
                                     <button type="submit" className="bg-primary w-40 m-4 h-14 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
@@ -131,12 +131,12 @@ export default function MasterKota() {
                                     id="keyword"
                                     className="border-primary text-xl rounded-lg"
                                     onChange={() => cari()}
-                                    />
+                                />
                                 <button
-                                className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
-                                onClick={() => cari()}
+                                    className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                    onClick={() => cari()}
                                 >
-                                Cari
+                                    Cari
                                 </button>
                             </div>
                             <div className="covertable m-2">
@@ -160,7 +160,7 @@ export default function MasterKota() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {jabatan.map((j)=>{
+                                                {jabatan.map((j) => {
                                                     return <tr className="border-b dark:border-neutral-500" >
                                                         <td className="whitespace-nowrap px-6 py-4 font-medium" >
                                                             <p>
@@ -170,36 +170,36 @@ export default function MasterKota() {
                                                         <td className="whitespace-nowrap px-6 py-4 font-medium">
                                                             <p>
                                                                 <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`nama_jabatan${j.id_jabatan}`}
-                                                                value={j.nama_jabatan}
-                                                                onChange={(e) =>
-                                                                handleInputChange(
-                                                                    e,
-                                                                    j.id_jabatan,
-                                                                    "nama_jabatan"
-                                                                )
-                                                                }/>
+                                                                    value={j.nama_jabatan}
+                                                                    onChange={(e) =>
+                                                                        handleInputChange(
+                                                                            e,
+                                                                            j.id_jabatan,
+                                                                            "nama_jabatan"
+                                                                        )
+                                                                    } />
                                                             </p>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-                                                            <button onClick={()=>editJabatan(j.id_jabatan)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                                            <button onClick={() => editJabatan(j.id_jabatan)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                                                                 Edit
                                                             </button>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-                                                        {j.status_jabatan == 0 ? (
-                                                            <button
-                                                                onClick={() => statusJabatan(j.id_jabatan, 1)}
-                                                                className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
-                                                            >
-                                                                Aktif
-                                                            </button>
+                                                            {j.status_jabatan == 0 ? (
+                                                                <button
+                                                                    onClick={() => statusJabatan(j.id_jabatan, 1)}
+                                                                    className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                                                >
+                                                                    Aktif
+                                                                </button>
                                                             ) : (
-                                                            <button
-                                                                onClick={() => statusJabatan(j.id_jabatan, 0)}
-                                                                className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
-                                                            >
-                                                                Non Aktif
-                                                            </button>
+                                                                <button
+                                                                    onClick={() => statusJabatan(j.id_jabatan, 0)}
+                                                                    className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                                                >
+                                                                    Non Aktif
+                                                                </button>
                                                             )}
                                                         </td>
                                                     </tr>
@@ -214,6 +214,7 @@ export default function MasterKota() {
                 }
 
             </div>
+            <hr className="h-px my-10 mt-18 mb-24" />
         </>
     )
 }

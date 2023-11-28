@@ -1,12 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLoaderData } from "react-router-dom";
 import { useState } from "react";
-import $ from "jquery";
-import DataTables from "datatables.net";
-import ControlTarget from "../../controller/ControlTarget"
-import "datatables.net-dt/css/jquery.dataTables.min.css";
-import dataSet from "../../component/Salesman/DataSet";
-import * as XLSX from "xlsx";
 import "datatables.net";
 import "datatables.net-buttons";
 import "datatables.net-buttons-dt";
@@ -16,100 +10,13 @@ import "datatables.net-buttons/js/buttons.print.min.js";
 import LogoPerusahaan from "../../images/image-login/icon.png"
 
 export default function MasterJabatan() {
-
-
-  // const [isTambah, setIsTambah] = useState(true);
-  // const toggleTambah = () => {
-  //     setIsTambah(!isTambah);
-  // }
-  let data = useLoaderData();
-  let table;
-  let jabatan = [{ id: 1, nama: "Jabatan 1" }, { id: 2, nama: "Jabatan 2" }, { id: 3, nama: "Jabatan 3" }];
+  // let data = useLoaderData();
+  // let table;
+  // let jabatan = [{ id: 1, nama: "Jabatan 1" }, { id: 2, nama: "Jabatan 2" }, { id: 3, nama: "Jabatan 3" }];
   const [isMasterBarang, setIsMasterBarang] = useState(true);
   const toggleMasterBarang = () => {
     setIsMasterBarang(!isMasterBarang);
   };
-
-  const ExportExcel = () => {
-    let Heading = [['ID User', 'Nama Principle', 'Nama Barang', 'Stok Karton', 'Stok Pcs', 'Harga Karton', 'Harga Pcs', 'HA. Karton', 'HA. Pcs', 'Expired']];
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(dataSet);
-    XLSX.utils.sheet_add_aoa(ws, Heading);
-
-    //Starting in the second row to avoid overriding and skipping headers
-    XLSX.utils.sheet_add_json(ws, dataSet, { origin: 'A2', skipHeader: true });
-
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    XLSX.writeFile(wb, 'filename.xlsx');
-  };
-  useEffect(() => {
-
-    table = new $('#example').DataTable({
-      dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
-      data: [{ id_user: 1, id_jabatan: 2, username: "temp", password: "temp", no_handphone: "123", alamat: "halo", foto: "1.png", no_rekening: "12314", id_atasan: 2 }],
-      // 'columnDefs': [         // see https://datatables.net/reference/option/columns.searchable
-      //     {
-      //         'searchable': false,
-      //         'targets': [2, 3, 4, 5]
-      //     },
-      // ],
-      columns: [
-        { title: "ID User", data: "id_user" },
-        {
-          title: "Jabatan",
-          data: "id_jabatan",
-          render: function (data, type, row) {
-            if (type === 'display') {
-              // Render an input text data with the data
-              let a = [];
-              {
-                jabatan.forEach((br, idx) => {
-                  console.log(data)
-                  console.log(br)
-                  data === br.id ?
-                    a.push(`<option selected="selected" value="${br.id}">${br.nama}</option>`) :
-                    a.push(`<option value="${br.id}">${br.nama}</option>`)
-
-                })
-              }
-              console.log(a)
-              return '<select>' + a + '</select>'
-              return `<input type="number" value="0" min="0" data-row-id="${row.id_barang}" class="data-input-karton"/>`
-            }
-            return data;
-          },
-        },
-        { title: "ID Atasan", data: "id_atasan" },
-        // { title: "Email", data: "nama_konsumen" },
-        { title: "Username", data: "username" },
-        { title: "Password", data: "password" },
-        { title: "No Hp", data: "no_handphone" },
-        { title: "Alamat", data: "alamat" },
-        // { title: "Tanggal Masuk", data: "tanggal_masuk" },
-        { title: "Foto", data: "foto" },
-        // { title: "Target Sekarang", data: "target_sekarang" },
-        // { title: "Absen", data: "absen_user" },
-        { title: "No Rekening", data: "no_rekening" },
-        // { title: "Status User", data:"status_user" },
-        { title: "Edit", data: null },
-        { title: "Status", data: null },
-      ],
-      destroy: true,
-      "bDestroy": true,
-      buttons: [
-        "copy",
-        "csv",
-        {
-          text: "Ecxel",
-          action: ExportExcel,
-        },
-        "pdf",
-        "print", // Specify which buttons to include
-      ],
-    });
-  }, []);
-
 
   return (
     <>
@@ -232,10 +139,8 @@ export default function MasterJabatan() {
             </div>
           </>
         }
-
       </div>
-
-      <hr className="h-px my-8 rounded-xl mb-28" />
+      <hr className="h-px my-10 mt-18 mb-24" />
     </>
   )
 }

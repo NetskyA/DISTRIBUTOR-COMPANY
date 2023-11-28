@@ -193,7 +193,7 @@ export default function MasterBrand() {
               />
               
             </div>
-            <div className="cover mb-28">
+            <div className="cover mb-32">
               <p className="text-primary text-2xl pt-1 ps-4">Search :</p>
               <div className="flex ms-4">
                 <input
@@ -367,6 +367,7 @@ export default function MasterBrand() {
           </>
         )}
       </div>
+      <hr className="h-px my-10 mt-18 mb-24" />
     </>
   );
 }
