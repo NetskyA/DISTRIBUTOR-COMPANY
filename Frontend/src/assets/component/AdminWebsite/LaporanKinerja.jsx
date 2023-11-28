@@ -44,13 +44,50 @@ export default function LaporanKinerja() {
                 },
             ],
             columns: [
-                { title: "Id Karyawan", data: "id_karyawan"},
+                { title: "Id Karyawan", data: "id_karyawan" },
                 { title: "Nama Karyawan", data: "nama_karyawan" },
                 { title: "Jabatan", data: "jabatan" },
                 { title: "Tanggal", data: "tanggal" },
-                { title: "Absen", data: "absen" },
-                { title: "Gaji Pokok", data: "gaji" },
-                { title: "Potongan", data: "potongan" },
+                { title: "Absen", data: "absen", render: function (data, type) {
+                    var number = $.fn.dataTable.render
+                        .number('.', '.', 0, '')
+                        .display(data);
+
+                    if (type === 'display') {
+
+                        return `<span>${number} Hari</span>`;
+                    }
+
+                    return number;
+                } },
+                {
+                    title: "Gaji Pokok", data: "gaji", render: function (data, type) {
+                        var number = $.fn.dataTable.render
+                            .number('.', '.', 0, 'Rp. ')
+                            .display(data);
+
+                        if (type === 'display') {
+
+                            return `<span>${number}</span>`;
+                        }
+
+                        return number;
+                    }
+                },
+                {
+                    title: "Potongan", data: "potongan", render: function (data, type) {
+                        var number = $.fn.dataTable.render
+                            .number('.', '.', 0, 'Rp. ')
+                            .display(data);
+
+                        if (type === 'display') {
+
+                            return `<span>${number}</span>`;
+                        }
+
+                        return number;
+                    }
+                },
             ],
             destroy: true,
             "bDestroy": true,
@@ -84,7 +121,7 @@ export default function LaporanKinerja() {
                 <div className="cover mb-28">
                     <div className="covertable m-2">
                         <table ref={tableRef} id="example" className="border-2 border-gray rounded-lg">
-                            
+
                         </table>
                     </div>
                 </div>

@@ -93,7 +93,7 @@ export default function LaporanGaji() {
                 { title: "Jabatan", data: "jabatan" },
                 { title: "Gaji Pokok", data: "gaji_pokok", render: function (data, type) {
                     var number = $.fn.dataTable.render
-                        .number('.', '.', 0, 'Rp ')
+                        .number('.', '.', 0, 'Rp. ')
                         .display(data);
 
                     if (type === 'display') {
@@ -105,7 +105,7 @@ export default function LaporanGaji() {
                 }},
                 { title: "Komisi", data: "komisi", render: function (data, type) {
                     var number = $.fn.dataTable.render
-                        .number('.', '.', 0, 'Rp ')
+                        .number('.', '.', 0, 'Rp. ')
                         .display(data);
 
                     if (type === 'display') {
@@ -118,7 +118,7 @@ export default function LaporanGaji() {
                 { title: "Tanggal Gaji", data: "tanggal_gaji" },
                 { title: "Total Gaji", data: "total_gaji", render: function (data, type) {
                     var number = $.fn.dataTable.render
-                        .number('.', '.', 0, 'Rp ')
+                        .number('.', '.', 0, 'Rp. ')
                         .display(data);
 
                     if (type === 'display') {

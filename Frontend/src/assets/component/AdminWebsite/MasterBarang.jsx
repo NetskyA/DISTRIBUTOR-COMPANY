@@ -84,6 +84,11 @@ export default function MasterBrand() {
     );
     setBarang(updatedBarang);
   };
+
+  function formatNumber(number) {
+    // Menggunakan fungsi toLocaleString() untuk memformat angka dengan pemisah ribuan
+    return number.toLocaleString();
+  }
   return (
     <>
       {console.log(barang)}
@@ -281,7 +286,7 @@ export default function MasterBrand() {
                                   <input
                                     type="text"
                                     name=""
-                                    className="border-primary rounded-lg text-2xl"
+                                    className="border-primary rounded-lg w-96 text-2xl"
                                     id={`nama_barang${b.id_barang}`}
                                     value={b.nama_barang}
                                     onChange={(e) =>
@@ -295,7 +300,7 @@ export default function MasterBrand() {
                                 </p>
                               </td>
                               <td className="whitespace-nowrap px-6 py-4">
-                                <p>
+                                <p className="flex">
                                   <input
                                     type="text"
                                     name=""

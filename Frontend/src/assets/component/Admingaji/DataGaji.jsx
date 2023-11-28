@@ -52,7 +52,7 @@ export default function DataGaji() {
         table = new $("#example").DataTable({
             data: listGaji.current,
             columns: [
-              { title: "Id User", data: "id_user" },
+              { title: "Id User", data: "id_user",  },
               { title: "Nama", data: "username" },
               { title: "Email", data: "email" },
               { title: "Jabatan", data: null,render:()=>{
@@ -63,7 +63,7 @@ export default function DataGaji() {
                 data: "target",
                 render: function (data, type) {
                   var number = $.fn.dataTable.render
-                    .number(".", ".", 0, "Rp ")
+                    .number(".", ".", 0, "Rp. ")
                     .display(data);
       
                   if (type === "display") {
@@ -78,7 +78,7 @@ export default function DataGaji() {
                 data: "target_sekarang",
                 render: function (data, type,row) {
                   var number = $.fn.dataTable.render
-                    .number(".", ".", 0, "Rp ")
+                    .number(".", ".", 0, "Rp. ")
                     .display(data);
                   if (type === "display") {
                     let color = 'limegreen';
@@ -99,7 +99,7 @@ export default function DataGaji() {
                   data: "gaji_pokok",
                   render: function (data, type) {
                     var number = $.fn.dataTable.render
-                      .number(".", ".", 0, "Rp ")
+                      .number(".", ".", 0, "Rp. ")
                       .display(data);
         
                     if (type === "display") {
@@ -114,7 +114,7 @@ export default function DataGaji() {
                   data: "komisi",
                   render: function (data, type) {
                     var number = $.fn.dataTable.render
-                      .number(".", ".", 0, "Rp ")
+                      .number(".", ".", 0, "Rp. ")
                       .display(data);
         
                     if (type === "display") {
@@ -129,7 +129,7 @@ export default function DataGaji() {
                   data: "potongan",
                   render: function (data, type) {
                     var number = $.fn.dataTable.render
-                      .number(".", ".", 0, "Rp ")
+                      .number(".", ".", 0, "Rp. ")
                       .display(data);
         
                     if (type === "display") {
@@ -144,7 +144,7 @@ export default function DataGaji() {
                   data: "subtotal",
                   render: function (data, type) {
                     var number = $.fn.dataTable.render
-                      .number(".", ".", 0, "Rp ")
+                      .number(".", ".", 0, "Rp. ")
                       .display(data);
         
                     if (type === "display") {

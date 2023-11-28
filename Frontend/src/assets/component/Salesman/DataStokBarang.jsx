@@ -64,7 +64,7 @@ const Catalog = () => {
  
                 if (type === 'display') {
  
-                    return `<span>${number}</span>`;
+                    return `<span>${number} Karton</span>`;
                 }
  
                 return number;
@@ -76,7 +76,7 @@ const Catalog = () => {
  
                 if (type === 'display') {
  
-                    return `<span>${number}</span>`;
+                    return `<span>${number} Pcs</span>`;
                 }
  
                 return number;

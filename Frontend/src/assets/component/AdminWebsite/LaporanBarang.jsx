@@ -54,7 +54,7 @@ const LaporanBarang = () => {
 
                         if (type === 'display') {
 
-                            return `<span>${number}</span>`;
+                            return `<span>${number} Karton</span>`;
                         }
 
                         return number;
@@ -63,12 +63,12 @@ const LaporanBarang = () => {
                 {
                     title: "Stok Pcs", data: "stok_pcs", render: function (data, type) {
                         var number = $.fn.dataTable.render
-                            .number('.', '.', 0, '')
+                            .number('.', '.', 0,)
                             .display(data);
 
                         if (type === 'display') {
 
-                            return `<span>${number}</span>`;
+                            return `<span>${number} Pcs</span>`;
                         }
 
                         return number;
@@ -77,7 +77,7 @@ const LaporanBarang = () => {
                 {
                     title: "Harga Karton", data: "harga_karton", render: function (data, type) {
                         var number = $.fn.dataTable.render
-                            .number('.', '.', 0, 'Rp ')
+                            .number('.', '.', 0, 'Rp. ')
                             .display(data);
 
                         if (type === 'display') {
@@ -91,7 +91,7 @@ const LaporanBarang = () => {
                 {
                     title: "Harga Pcs", data: "harga_pcs", render: function (data, type) {
                         var number = $.fn.dataTable.render
-                            .number('.', '.', 0, 'Rp ')
+                            .number('.', '.', 0, 'Rp. ')
                             .display(data);
 
                         if (type === 'display') {
