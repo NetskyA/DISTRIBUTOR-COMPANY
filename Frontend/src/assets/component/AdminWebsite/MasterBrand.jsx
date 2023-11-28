@@ -169,9 +169,9 @@ export default function MasterBrand() {
                                                                 {b.id_brand}
                                                             </p>
                                                         </td>
-                                                        <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                                        <td className="whitespace-nowrap px-6 py-4 w-1/3 font-medium">
                                                             <p>
-                                                                <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`nama_brand${b.id_brand}`}
+                                                                <input type="text" name="" className="border-primary w-3/5 rounded-lg text-2xl" id={`nama_brand${b.id_brand}`}
                                                                 value={b.nama_brand}
                                                                 onChange={(e) =>
                                                                 handleInputChange(
