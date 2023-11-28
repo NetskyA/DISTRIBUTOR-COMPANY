@@ -254,8 +254,8 @@ export default function MasterJabatan() {
                         </div>
                     </>
                 }
-
             </div>
+            <hr className="h-px my-10 mt-18 mb-24" />
         </>
     )
 }

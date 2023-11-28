@@ -1,12 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useLoaderData } from "react-router-dom";
 import { useState } from "react";
-import $ from "jquery";
-import DataTables from "datatables.net";
-import ControlTarget from "../../controller/ControlTarget"
-import "datatables.net-dt/css/jquery.dataTables.min.css";
-import dataSet from "../../component/Salesman/DataSet";
-import * as XLSX from "xlsx";
 import "datatables.net";
 import "datatables.net-buttons";
 import "datatables.net-buttons-dt";
@@ -24,67 +18,6 @@ export default function MasterJabatan() {
     const toggleMasterToko = () => {
         setIsMasterToko(!isMasterToko);
     }
-    let data = useLoaderData();
-    let table;
-    const tableRef = useRef(null);
-    const ExportExcel = () => {
-        let Heading = [['ID Barang', 'Nama Principle', 'Nama Barang', 'Stok Karton', 'Stok Pcs', 'Harga Karton', 'Harga Pcs', 'HA. Karton', 'HA. Pcs', 'Expired']];
-        const wb = XLSX.utils.book_new();
-        const ws = XLSX.utils.json_to_sheet(dataSet);
-        XLSX.utils.sheet_add_aoa(ws, Heading);
-
-        //Starting in the second row to avoid overriding and skipping headers
-        XLSX.utils.sheet_add_json(ws, dataSet, { origin: 'A2', skipHeader: true });
-
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-        XLSX.writeFile(wb, 'filename.xlsx');
-    };
-    useEffect(() => {
-
-        table = new $('#example').DataTable({
-            dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
-            data: data,
-            'columnDefs': [         // see https://datatables.net/reference/option/columns.searchable
-                {
-                    'searchable': false,
-                    'targets': [2, 3, 4, 5]
-                },
-            ],
-            columns: [
-                {
-                    target: 0,
-                    visible: false,
-                    searchable: false
-                },
-                { title: "ID Toko ", data: "id_toko" },
-                { title: "ID Kelurahan", data: "id_kelurahan" },
-                { title: "ID Kota", data: "id_kota" },
-                { title: "Nama Toko", data: "nama_toko" },
-                { title: "Nama Konsumen", data: "nama_konsumen" },
-                { title: "Alamat Toko", data: "alamat_toko" },
-                { title: "No Hp 1", data: "no_handphone1" },
-                { title: "No Hp 2", data: "no_handphone2" },
-                { title: "Status Kelurahan", data: "status_kelurahan" },
-                { title: "Tanggal Masuk", data: "tanggal_masuk" },
-                { title: "Edit", },
-                { title: "Status" },
-            ],
-            destroy: true,
-            "bDestroy": true,
-            buttons: [
-                "copy",
-                "csv",
-                {
-                    text: "Ecxel",
-                    action: ExportExcel,
-                },
-                "pdf",
-                "print", // Specify which buttons to include
-            ],
-        });
-    }, []);
-
     return (
         <>
             <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
@@ -312,7 +245,7 @@ export default function MasterJabatan() {
                     </>
                 }
             </div>
-            <hr className="h-px my-8 rounded-xl mb-28" />
+            <hr className="h-px my-10 mt-18 mb-24" />
         </>
     )
 }

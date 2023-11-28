@@ -221,6 +221,8 @@ export default function MasterBrand() {
                 }
 
             </div>
+                  <hr className="h-px my-10 mt-18 mb-24" />
+
         </>
     )
 }
