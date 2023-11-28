@@ -1873,3 +1873,47 @@ app.get("/api/toko", async (req, res) => {
   let toko = await db.MasterToko.findAll();
   return res.status(200).send(toko);
 });
+
+//========================== GET LAPORAN KINERJA ==========================//
+app.get("/api/kinerja", async (req, res) => {
+  let historyGaji = await db.HistoryGaji.findAll();
+  let gaji = await db.MasterGaji.findAll();
+  let karyawan = await db.MasterUser.findAll();
+  let jabatan = await db.MasterJabatan.findAll();
+  
+  let kinerja = [];
+
+  historyGaji.forEach(h => {
+    const tempGaji = gaji.find((e) => e.id_gaji == h.id_gaji);
+    const tempKaryawan = karyawan.find((e) => e.id_user == tempGaji.id_user);
+    const tempJabatan = jabatan.find((e) => e.id_jabatan == tempKaryawan.id_jabatan);
+
+    let absen = 0;
+    let potongan = 0;
+
+    if(tempJabatan.nama_jabatan=="Koordinator Supervisor"){
+      potongan = (9000000 - h.gaji_pokok);
+      absen = potongan/300000;
+    }else if(tempJabatan.nama_jabatan=="Supervisor"){
+      potongan = (6000000 - h.gaji_pokok);
+      absen = potongan/200000;
+    }else if(tempJabatan.nama_jabatan=="Salesman"){
+      potongan = (3000000 - h.gaji_pokok);
+      absen = potongan/100000;
+    }
+
+    kinerja.push({
+      id_karyawan: tempKaryawan.id_user,
+      nama_karyawan: tempKaryawan.username,
+      jabatan: tempJabatan.nama_jabatan,
+      tanggal: h.tanggal_gaji,
+      absen: absen,
+      gaji: h.gaji_pokok,
+      potongan: potongan,
+    })
+
+  });
+  
+
+  return res.status(200).send(kinerja);
+});

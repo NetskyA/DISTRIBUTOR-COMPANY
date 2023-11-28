@@ -20,13 +20,13 @@ export default function LaporanKinerja() {
     let table;
     const tableRef = useRef(null);
     const ExportExcel = () => {
-        let Heading = [['ID Barang', 'Nama Principle', 'Nama Barang', 'Stok Karton', 'Stok Pcs', 'Harga Karton', 'Harga Pcs', 'HA. Karton', 'HA. Pcs', 'Expired']];
+        let Heading = [['Id Karyawan', 'Nama Karyawan', 'Jabatan', 'Tanggal', 'Absen', 'Gaji Pokok', 'Potongan']];
         const wb = XLSX.utils.book_new();
-        const ws = XLSX.utils.json_to_sheet(dataSet);
+        const ws = XLSX.utils.json_to_sheet(data.kinerja);
         XLSX.utils.sheet_add_aoa(ws, Heading);
 
         //Starting in the second row to avoid overriding and skipping headers
-        XLSX.utils.sheet_add_json(ws, dataSet, { origin: 'A2', skipHeader: true });
+        XLSX.utils.sheet_add_json(ws, data.kinerja, { origin: 'A2', skipHeader: true });
 
         XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
@@ -36,7 +36,7 @@ export default function LaporanKinerja() {
 
         table = new $('#example').DataTable({
             dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
-            data: data,
+            data: data.kinerja,
             'columnDefs': [         // see https://datatables.net/reference/option/columns.searchable
                 {
                     'searchable': false,
@@ -44,22 +44,12 @@ export default function LaporanKinerja() {
                 },
             ],
             columns: [
-                {
-                    target: 0,
-                    visible: false,
-                    searchable: false
-                },
-                { title: "Id Karyawan", data: "id_karyawan", render: function (data, type, row) {
-                    if (type === 'display') {
-                        // Render an input text data with the data
-                        return `<input type="number" value="0" min="0" data-row-id="${row.id_barang}" class="data-input-karton"/>`
-                    }
-                    return data;
-                },},
+                { title: "Id Karyawan", data: "id_karyawan"},
                 { title: "Nama Karyawan", data: "nama_karyawan" },
                 { title: "Jabatan", data: "jabatan" },
                 { title: "Tanggal", data: "tanggal" },
                 { title: "Absen", data: "absen" },
+                { title: "Gaji Pokok", data: "gaji" },
                 { title: "Potongan", data: "potongan" },
             ],
             destroy: true,
@@ -94,19 +84,7 @@ export default function LaporanKinerja() {
                 <div className="cover mb-28">
                     <div className="covertable m-2">
                         <table ref={tableRef} id="example" className="border-2 border-gray rounded-lg">
-                            {/* <thead>
-                  <tr>
-                    <th>ID Barang</th>
-                    <th>Nama Barang</th>
-                    <th>Stok Karton</th>
-                    <th>Stok Pcs</th>
-                    <th>Harga Karton</th>
-                    <th>Harga Pcs</th>
-                    <th>Expired</th>
-                  </tr>
-                </thead>
-                <tbody id="isi">
-                </tbody> */}
+                            
                         </table>
                     </div>
                 </div>
