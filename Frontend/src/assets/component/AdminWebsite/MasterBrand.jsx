@@ -150,6 +150,9 @@ export default function MasterBrand() {
                                                     <th scope="col" className="px-6 py-4">
                                                         Nama Brand
                                                     </th>
+                                                    <th scope="col" className="px-6 py-4">
+                                                        Tanggal Masuk Brand
+                                                    </th>
                                                     <th scope="col" className="px-6 w-2/12 py-4">
                                                         Edit
                                                     </th>
@@ -177,6 +180,11 @@ export default function MasterBrand() {
                                                                     "nama_brand"
                                                                 )
                                                                 }/>
+                                                            </p>
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-6 py-4 font-medium" >
+                                                            <p>
+                                                                {b.tanggal_masuk_brand}
                                                             </p>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
