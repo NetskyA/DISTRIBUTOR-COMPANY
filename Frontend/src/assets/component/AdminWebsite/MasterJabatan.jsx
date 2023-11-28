@@ -32,18 +32,18 @@ export default function MasterKota() {
         handleSubmit,
         reset,
         formState: { errors },
-      } = useForm();
+    } = useForm();
     
-      async function addJabatan(data) {
+    async function addJabatan(data) {
         await client.post(`/api/jabatan`, {
           nama_jabatan: data.nama_jabatan,
         });
         reset();
         let jabatan = await client.get(`/api/getListJabatan`);
         setJabatan(jabatan.data);
-      }
+    }
     
-      async function editJabatan(id) {
+    async function editJabatan(id) {
         const nama_jabatan = document.getElementById(`nama_jabatan${id}`).value;
         await client.put(`/api/editJabatan`, {
           id_jabatan: id,
@@ -53,28 +53,28 @@ export default function MasterKota() {
         let jabatan = await client.get(`/api/getListJabatan`);
         setJabatan(jabatan.data);
         alert("Berhasil Update Jabatan " + id);
-      }
+    }
     
-      async function statusJabatan(id, status) {
+    async function statusJabatan(id, status) {
         await client.put(`/api/editStatusJabatan`, {
             id_jabatan: id,
             status_jabatan: status,
         });
         let jabatan = await client.get(`/api/getListJabatan`);
         setJabatan(jabatan.data);
-      }
+    }
     
-      async function cari() {
+    async function cari() {
         let keyword = document.getElementById("keyword").value;
         let jabatan = await client.get(`/api/getListJabatan/${keyword}`);
         setJabatan(jabatan.data);
-      }
-      const handleInputChange = (e, id, field) => {
+    }
+    const handleInputChange = (e, id, field) => {
         const updatedJabatan = jabatan.map((j) =>
           j.id_jabatan === id ? { ...j, [field]: e.target.value } : j
         );
         setJabatan(updatedJabatan);
-      };
+    };
 
     return (
         <>

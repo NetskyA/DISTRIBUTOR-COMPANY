@@ -504,11 +504,16 @@ const loadSemuaData = async () => {
     `/api/getListJabatan`
   );
 
+  let kota = await client.get(
+    `/api/getListKota`
+  );
+
   return ({
     barang: barang.data,
     brand: brand.data,
     brands: brands.data,
     jabatan: jabatan.data,
+    kota: kota.data,
   });
 };
 

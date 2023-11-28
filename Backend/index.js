@@ -1726,3 +1726,85 @@ app.put("/api/editJabatan", async (req, res) => {
 
   return res.status(200).send("Done");
 });
+
+//========================== GET DATA LIST KOTA ==========================//
+app.get("/api/getListKota", async (req, res) => {
+  let kota = await db.MasterKota.findAll();
+
+  return res.status(200).send(kota);
+});
+
+//========================== POST TAMBAH KOTA ==========================//
+app.post("/api/kota", async (req, res) => {
+  let { nama_kota } = req.body;
+
+  let kota = await db.MasterKota.findAll();
+  const id_kota = "KTA" + (kota.length + 1).toString().padStart(5, "0");
+
+  await db.MasterKota.create({
+    id_kota: id_kota,
+    nama_kota: nama_kota,
+    status_kota: 1,
+  });
+
+  return res.status(201).send("Done");
+});
+
+//========================== PUT EDIT STATUS KOTA ==========================//
+app.put("/api/editStatusKota", async (req, res) => {
+  let { id_kota, status_kota } = req.body;
+
+  await db.MasterKota.update(
+    {
+      status_kota: status_kota,
+    },
+    {
+      where: {
+        id_kota: id_kota,
+      },
+    }
+  );
+
+  return res.status(200).send("Done");
+});
+
+//========================== GET DATA LIST KOTA KEYWORD ==========================//
+app.get("/api/getListKota/:keyword", async (req, res) => {
+  const { keyword } = req.params;
+  const key = `%${keyword}%`;
+  let kota = await db.MasterKota.findAll({
+    where: {
+      [Op.or]: [
+        {
+          id_kota: {
+            [Op.like]: key,
+          },
+        },
+        {
+          nama_kota: {
+            [Op.like]: key,
+          },
+        },
+      ],
+    },
+  });
+  return res.status(200).send(kota);
+});
+
+//========================== PUT EDIT KOTA ==========================//
+app.put("/api/editKota", async (req, res) => {
+  let { id_kota, nama_kota } = req.body;
+
+  await db.MasterKota.update(
+    {
+      nama_kota: nama_kota,
+    },
+    {
+      where: {
+        id_kota: id_kota,
+      },
+    }
+  );
+
+  return res.status(200).send("Done");
+});
