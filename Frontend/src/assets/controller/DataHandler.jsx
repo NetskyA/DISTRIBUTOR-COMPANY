@@ -496,7 +496,7 @@ const loadSemuaData = async () => {
   let jabatan = await client.get(`/api/getListJabatan`);
 
   let kota = await client.get(`/api/getListKota`);
-  
+
   let kelurahan = await client.get(`/api/getListKelurahan`);
 
   return {
@@ -510,9 +510,16 @@ const loadSemuaData = async () => {
 };
 
 const loadDataVerifikasi = async () => {
-  let kelurahan = await client.get(`/api/kelurahan`);
+  let kelurahan = await client.get(`/api/getListKelurahan`);
+  let headerTransaksi = await client.get(`/api/headertransaksi`);
+  let toko = await client.get(`/api/toko`);
+  let user = await client.get(`/api/user`);
+
   return {
     kelurahan: kelurahan.data,
+    headerTransaksi: headerTransaksi.data,
+    toko: toko.data,
+    user: user.data,
   };
 };
 

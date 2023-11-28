@@ -3,16 +3,16 @@ const app = express();
 const { Sequelize, Op } = require("sequelize");
 const { getDB } = require("./sequelize");
 const conn = getDB();
-const port = 3000; 
-const db = require("./src/models"); 
+const port = 3000;
+const db = require("./src/models");
 const axios = require("axios");
-var cors = require("cors"); 
-const multer = require('multer');
+var cors = require("cors");
+const multer = require("multer");
 const fs = require("fs");
-app.use("/uploads", express.static("uploads")); 
-const upload = multer({ dest: "./uploads", });
+app.use("/uploads", express.static("uploads"));
+const upload = multer({ dest: "./uploads" });
 app.use(cors());
- 
+
 const initApp = async () => {
   console.log("Testing database connection");
   try {
@@ -21,7 +21,7 @@ const initApp = async () => {
     app.listen(port, () => console.log(`App listening on port ${port}!`));
   } catch (error) {
     console.error("Failure database connection : ", error.original);
-  } 
+  }
 };
 initApp();
 app.use(express.json());
@@ -60,7 +60,7 @@ app.use(express.urlencoded({ extended: true }));
 // GET DATA KATALOG => LINE 1264
 // GET DATA LIST SUPERVISOR => LINE 1301
 // GET DATA K. SUEPERVISOR => LINE 1312
-// GET DATA LIST USER => LINE 1362
+// GET ALL USER => LINE 1362
 // GET DATA LIST BARANG => LINE 1406
 // GET DATA LIST BARANG KEYWORD => LINE 1413
 // GET DATA LIST BRAND AKTIF=> LINE 1438
@@ -76,7 +76,8 @@ app.use(express.urlencoded({ extended: true }));
 // PUT EDIT STATUS JABATAN
 // GET DATA LIST JABATAN KEYWORD
 // PUT EDIT JABATAN
-// test
+// GET ALL HEADER TRANSAKSI
+// GET ALL TOKO
 
 //========================== KIRIM GAJI ==========================//
 const sendGaji = async (subtotal, email, date, username) => {
@@ -139,14 +140,14 @@ app.post("/api/login", async (req, res) => {
   if (targets) {
     target = targets.dataValues.target;
   } else {
-      target= 0
+    target = 0;
   }
-  console.log(target)
+  console.log(target);
   delete data.dataValues.id_jabatan;
   let datauser = {
     ...data.dataValues,
     jabatan: jabatan.dataValues.nama_jabatan,
-    target:target
+    target: target,
   };
   return res.status(200).send({
     user: datauser,
@@ -797,10 +798,10 @@ app.post("/api/kirimGaji", async (req, res) => {
     "-" +
     now.getFullYear().toString().padStart(4, "0");
   for (let i = 0; i < listUser.length; i++) {
-    listUser[i].gaji_komisi+= 10 - (listUser[i].gaji_komisi%10);
+    listUser[i].gaji_komisi += 10 - (listUser[i].gaji_komisi % 10);
 
-    if(listUser[i].target_sekarang<listUser[i].target){
-      listUser[i].gaji_komisi-=5
+    if (listUser[i].target_sekarang < listUser[i].target) {
+      listUser[i].gaji_komisi -= 5;
     }
     await db.MasterUser.update(
       {
@@ -813,7 +814,6 @@ app.post("/api/kirimGaji", async (req, res) => {
         },
       }
     );
-
 
     await db.HistoryGaji.create({
       id_gaji: listUser[i].id_gaji,
@@ -1367,7 +1367,7 @@ app.post("/api/register", async (req, res) => {
     id_jabatan,
     id_atasan,
     no_rekening,
-    foto
+    foto,
   } = req.body;
   fs.renameSync(`./uploads/temp.png`, `./uploads/${foto}`);
   const now = new Date();
@@ -1396,48 +1396,14 @@ app.post("/api/register", async (req, res) => {
   return res.status(201).send(result);
 });
 
-//========================== GET DATA LIST USER ==========================//
+//========================== GET ALL USER ==========================//
 app.get("/api/user", async (req, res) => {
   let users = await db.MasterUser.findAll({
     where: {
       status_user: 1,
     },
   });
-
-  let temp = [];
-
-  for (let i = 0; i < users.length; i++) {
-    const u = users[i];
-    let jabatan = await db.MasterJabatan.findOne({
-      where: {
-        id_jabatan: u.id_jabatan,
-      },
-    });
-    let atasan = await db.MasterUser.findOne({
-      where: {
-        id_user: u.id_atasan,
-      },
-    });
-    temp.push({
-      id_user: u.id_user,
-      id_jabatan: u.id_jabatan,
-      nama_jabatan: jabatan.nama_jabatan,
-      username: u.username,
-      id_atasan: atasan.id_user,
-      nama_atasan: atasan.username,
-      email: u.email,
-      password: u.password,
-      no_handphone: u.no_handphone,
-      alamat: u.alamat,
-      tanggal_masuk: u.tanggal_masuk,
-      foto: u.foto,
-      target_sekarang: u.target_sekarang,
-      absen_user: u.absen_user,
-      no_rekening: u.no_rekening,
-      status: u.status_user,
-    });
-  }
-  return res.status(200).send(temp);
+  return res.status(200).send(users);
 });
 
 //========================== GET DATA LIST BARANG ==========================//
@@ -1541,31 +1507,27 @@ app.put("/api/editBarang", async (req, res) => {
   return res.status(201).send("Done");
 });
 
+app.post("/upload", upload.single("image"), (req, res) => {
+  fs.renameSync(`./uploads/${req.file.filename}`, `./uploads/temp.png`);
+  // Handle the image storage here (e.g., save to disk, database, cloud storage, etc.)
+  // For simplicity, this example just sends the image size in the response
+  const imageSize = req.file ? req.file.size : 0;
+  res.json({ imageSize });
+});
 
-app.post('/upload', upload.single('image'), (req, res) => {
-  fs.renameSync(
-      `./uploads/${req.file.filename}`,
-      `./uploads/temp.png`
-    );
-// Handle the image storage here (e.g., save to disk, database, cloud storage, etc.)
-// For simplicity, this example just sends the image size in the response
-const imageSize = req.file ? req.file.size : 0;
-res.json({ imageSize });
-}); 
- 
-app.post("/api/cekDuplicateEmail",async (req,res)=>{
-  let {email} = req.body;
-  console.log(email); 
+app.post("/api/cekDuplicateEmail", async (req, res) => {
+  let { email } = req.body;
+  console.log(email);
   let duplicateEmail = await db.MasterUser.findOne({
-    where:{
-      email:email
-    }
-  })
-  if(duplicateEmail){
-    return res.send(true)
+    where: {
+      email: email,
+    },
+  });
+  if (duplicateEmail) {
+    return res.send(true);
   }
-  return res.send(false)
-})
+  return res.send(false);
+});
 
 //========================== GET DATA LIST BRAND ==========================//
 app.get("/api/getListBrands", async (req, res) => {
@@ -1616,7 +1578,7 @@ app.put("/api/editStatusBrand", async (req, res) => {
 //========================== GET DATA LIST BRAND KEYWORD ==========================//
 app.get("/api/getListBrands/:keyword", async (req, res) => {
   const { keyword } = req.params;
-  console.log(keyword)
+  console.log(keyword);
   const key = `%${keyword}%`;
   let brand = await db.MasterBrand.findAll({
     where: {
@@ -1827,7 +1789,8 @@ app.post("/api/kelurahan", async (req, res) => {
   let { id_kota, nama_kelurahan } = req.body;
 
   let kelurahan = await db.MasterKelurahan.findAll();
-  const id_kelurahan = "KLR" + (kelurahan.length + 1).toString().padStart(5, "0");
+  const id_kelurahan =
+    "KLR" + (kelurahan.length + 1).toString().padStart(5, "0");
 
   await db.MasterKelurahan.create({
     id_kelurahan: id_kelurahan,
@@ -1897,4 +1860,16 @@ app.put("/api/editKelurahan", async (req, res) => {
   );
 
   return res.status(200).send("Done");
+});
+
+//========================== GET ALL HEADER TRANSAKSI ==========================//
+app.get("/api/headertransaksi", async (req, res) => {
+  let headerTransaksi = await db.HeaderTransaksi.findAll();
+  return res.status(200).send(headerTransaksi);
+});
+
+//========================== GET ALL TOKO ==========================//
+app.get("/api/toko", async (req, res) => {
+  let toko = await db.MasterToko.findAll();
+  return res.status(200).send(toko);
 });
