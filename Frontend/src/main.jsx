@@ -25,13 +25,13 @@ import LaporanOrderOrderan from "./assets/component/Adminpenjualan/DataLaporanOr
 import GajiKaryawan from "./assets/component/Admingaji/DataGaji";
 import KomisiKaryawan from "./assets/component/Admingaji/DataKomisi";
 import LaporanGajiKaryawan from "./assets/component/Admingaji/DataLaporanGaji";
-import LaporanBarang from "./assets/component/AdminWebsite/LaporanBarang"
-import LaporanGaji from "./assets/component/AdminWebsite/LaporanGaji"
-import LaporanKinerja from "./assets/component/AdminWebsite/LaporanKinerja"
-import LaporanSales from "./assets/component/AdminWebsite/LaporanSales"
-import LaporanTarget from "./assets/component/AdminWebsite/LaporanTarget"
-import Master from "./assets/component/AdminWebsite/Master"
-import RegisterUser from "./assets/component/AdminWebsite/DaftarUser"
+import LaporanBarang from "./assets/component/AdminWebsite/LaporanBarang";
+import LaporanGaji from "./assets/component/AdminWebsite/LaporanGaji";
+import LaporanKinerja from "./assets/component/AdminWebsite/LaporanKinerja";
+import LaporanSales from "./assets/component/AdminWebsite/LaporanSales";
+import LaporanTarget from "./assets/component/AdminWebsite/LaporanTarget";
+import Master from "./assets/component/AdminWebsite/Master";
+import RegisterUser from "./assets/component/AdminWebsite/DaftarUser";
 import DataHandler from "./assets/controller/DataHandler";
 
 const {
@@ -57,6 +57,7 @@ const {
   getDataToko,
   loadAtasan,
   loadSemuaData,
+  loadDataVerifikasi,
 } = DataHandler;
 
 const router = createBrowserRouter([
@@ -97,17 +98,17 @@ const router = createBrowserRouter([
       {
         path: "History",
         element: <HistoriPenjualanSales />,
-        loader:cekHistory
+        loader: cekHistory,
       },
       {
         path: "Retur",
         element: <ReturBarang />,
-        loader:getRetur
+        loader: getRetur,
       },
       {
         path: "Detail-History/:id",
         element: <DetailHistoriPenjualanSales />,
-        loader:cekDetailHistory
+        loader: cekDetailHistory,
       },
     ],
   },
@@ -159,6 +160,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        loader: loadDataVerifikasi,
         element: <OrderanVerifikasi />,
       },
       {
@@ -178,17 +180,17 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <GajiKaryawan />,
-        loader:getJabatan
+        loader: getJabatan,
       },
       {
         path: "Komisi-Karyawan",
         element: <KomisiKaryawan />,
-        loader:getJabatan
+        loader: getJabatan,
       },
       {
         path: "Laporan-Gaji-Karyawan",
         element: <LaporanGajiKaryawan />,
-        loader:getLaporanHistoryGaji
+        loader: getLaporanHistoryGaji,
       },
     ],
   },
@@ -213,11 +215,11 @@ const router = createBrowserRouter([
       },
       {
         path: "Laporan-Kinerja",
-        element: <LaporanKinerja />
+        element: <LaporanKinerja />,
       },
       {
         path: "Laporan-Target",
-        element: <LaporanTarget />
+        element: <LaporanTarget />,
       },
       {
         path: "Register-User",
@@ -229,8 +231,8 @@ const router = createBrowserRouter([
         element: <Master />,
         loader: loadSemuaData,
       },
-    ]
-  }
+    ],
+  },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <RouterProvider router={router} />

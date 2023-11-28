@@ -487,34 +487,30 @@ const loadSemuaData = async () => {
     return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
   }
 
+  let barang = await client.get(`/api/getListBarang`);
 
-  let barang = await client.get(
-    `/api/getListBarang`
-  );
+  let brand = await client.get(`/api/getListBrand`);
 
-  let brand = await client.get(
-    `/api/getListBrand`
-  );
-  
-  let brands = await client.get(
-    `/api/getListBrands`
-  );
+  let brands = await client.get(`/api/getListBrands`);
 
-  let jabatan = await client.get(
-    `/api/getListJabatan`
-  );
+  let jabatan = await client.get(`/api/getListJabatan`);
 
-  let kota = await client.get(
-    `/api/getListKota`
-  );
+  let kota = await client.get(`/api/getListKota`);
 
-  return ({
+  return {
     barang: barang.data,
     brand: brand.data,
     brands: brands.data,
     jabatan: jabatan.data,
     kota: kota.data,
-  });
+  };
+};
+
+const loadDataVerifikasi = async () => {
+  let kelurahan = await client.get(`/api/kelurahan`);
+  return {
+    kelurahan: kelurahan.data,
+  };
 };
 
 export default {
@@ -541,4 +537,5 @@ export default {
   getDataToko,
   loadAtasan,
   loadSemuaData,
+  loadDataVerifikasi,
 };
