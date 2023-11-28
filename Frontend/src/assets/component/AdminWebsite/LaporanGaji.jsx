@@ -145,7 +145,7 @@ export default function LaporanGaji() {
     }, [gaji]);
     return (
         <>
-            < div className="cover selectdisable flex" > <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
+            <div className="cover selectdisable flex" > <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
                 <p>Laporan Gaji Karyawan</p>
             </div>
             </div>

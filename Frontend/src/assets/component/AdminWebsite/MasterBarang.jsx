@@ -191,6 +191,7 @@ export default function MasterBrand() {
                 className="w-32 h-32 mt-4"
                 alt="logo perusahaan"
               />
+              
             </div>
             <div className="cover mb-28">
               <p className="text-primary text-2xl pt-1 ps-4">Search :</p>
