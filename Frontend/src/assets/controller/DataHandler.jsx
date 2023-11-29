@@ -505,6 +505,21 @@ const loadSemuaData = async () => {
 
   let dbarang = await client.get(`/api/getListDbarang`);
 
+  let tempDbarang = [];
+
+  dbarang.data.map((d)=>{
+    const tempDate = d.tanggal_expired.split("-");
+    let expired = tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0];
+    tempDbarang.push({
+      id_detail_barang: d.id_detail_barang,
+      id_barang: d.id_barang,
+      jumlah_pcs: d.jumlah_pcs,
+      jumlah_karton: d.jumlah_karton,
+      tanggal_expired: expired,
+
+    })
+  })
+
   return {
     barang: barang.data,
     brand: brand.data,
@@ -514,7 +529,7 @@ const loadSemuaData = async () => {
     kelurahan: kelurahan.data,
     toko: toko.data,
     user: user.data,
-    dbarang: dbarang.data,
+    dbarang: tempDbarang,
   };
 };
 
