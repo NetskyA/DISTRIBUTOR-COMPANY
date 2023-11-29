@@ -124,7 +124,6 @@ export default function DataOrderanMasuk() {
   };
 
   const handleSubmit = async () => {
-    alert("Submit");
     let checkboxes = document.getElementsByName("orderBox");
 
     let orders = [];
@@ -144,8 +143,12 @@ export default function DataOrderanMasuk() {
 
     let detailTransaksi = tempdetailTransaksi.data;
 
+    let totalUang = 0;
+
     for (let i = 0; i < orders.length; i++) {
       const order = orders[i];
+
+      totalUang += order.subtotal;
 
       // Update Status Transaksi
       let updateStatusOrder = await client.put(
@@ -170,7 +173,6 @@ export default function DataOrderanMasuk() {
         let detailBarang = tempDetailBarang.data;
 
         if (dO.jumlah_barang_pcs) {
-          alert("PCS");
           let updateStok = await client.put(
             `/api/updateDetailBarang/${detailBarang.id_detail_barang}`,
             {
@@ -178,7 +180,6 @@ export default function DataOrderanMasuk() {
             }
           );
         } else if (dO.jumlah_barang_karton) {
-          alert("KARTON");
           let updateStok = await client.put(
             `/api/updateDetailBarang/${detailBarang.id_detail_barang}`,
             {
@@ -196,6 +197,11 @@ export default function DataOrderanMasuk() {
         }
       );
     }
+
+    // Insert Master Keuangan
+    let updateKeuangan = await client.post(`/api/orderKeuangan`, {
+      uangMasuk: totalUang,
+    });
 
     updateData();
   };

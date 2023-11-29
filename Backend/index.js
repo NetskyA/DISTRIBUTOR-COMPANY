@@ -2104,7 +2104,7 @@ app.post("/api/dbarang", async (req, res) => {
   const dbarang = await db.DetailBarang.findAll();
 
   await db.DetailBarang.create({
-    id_detail_barang: dbarang.length+1,
+    id_detail_barang: dbarang.length + 1,
     id_barang: id_barang,
     jumlah_karton: jumlah_karton,
     jumlah_pcs: jumlah_pcs,
@@ -2119,13 +2119,11 @@ app.post("/api/dbarang", async (req, res) => {
 app.put("/api/dbarang", async (req, res) => {
   let { id_detail_barang } = req.body;
 
-  await db.DetailBarang.destroy(
-    {
-      where: {
-        id_detail_barang: id_detail_barang,
-      },
-    }
-  );
+  await db.DetailBarang.destroy({
+    where: {
+      id_detail_barang: id_detail_barang,
+    },
+  });
 
   return res.status(200).send("Done");
 });
@@ -2156,7 +2154,13 @@ app.get("/api/getListBrands/:keyword", async (req, res) => {
 
 //========================== PUT EDIT DETAIL BARANG ==========================//
 app.put("/api/editDbarang", async (req, res) => {
-  let { id_detail_barang, id_barang, jumlah_karton, jumlah_pcs, tanggal_expired } = req.body;
+  let {
+    id_detail_barang,
+    id_barang,
+    jumlah_karton,
+    jumlah_pcs,
+    tanggal_expired,
+  } = req.body;
 
   await db.DetailBarang.update(
     {
@@ -2173,4 +2177,35 @@ app.put("/api/editDbarang", async (req, res) => {
   );
 
   return res.status(200).send("Done");
+});
+
+//========================== POST KEUANGAN ORDER ==========================//
+app.post("/api/orderKeuangan", async (req, res) => {
+  let { uangMasuk } = req.body;
+
+  let tempKeuangan = await db.MasterKeuangan.findOne({
+    order: [["id_keuangan", "desc"]],
+  });
+
+  let newID = tempKeuangan.id_keuangan + 1;
+
+  let jumlahUang = tempKeuangan.jumlah_uang + Number(uangMasuk);
+
+  let today = new Date();
+
+  let dd = String(today.getDate()).padStart(2, "0");
+  let mm = String(today.getMonth() + 1).padStart(2, "0");
+  let yyyy = today.getFullYear();
+
+  today = dd + "-" + mm + "-" + yyyy;
+
+  let result = await db.MasterKeuangan.create({
+    id_keuangan: newID,
+    jumlah_uang: jumlahUang,
+    uang_masuk: Number(uangMasuk),
+    uang_keluar: 0,
+    tanggal_perpindahan: today,
+  });
+
+  return res.status(201).send(result);
 });

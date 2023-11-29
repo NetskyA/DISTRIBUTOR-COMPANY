@@ -60,6 +60,7 @@ const {
   loadDataVerifikasi,
   getKinerja,
   loadDataNota,
+  loadDataLaporan,
 } = DataHandler;
 
 const router = createBrowserRouter([
@@ -172,6 +173,7 @@ const router = createBrowserRouter([
       },
       {
         path: "Laporan-Orderan-Penjualan",
+        loader: loadDataLaporan,
         element: <LaporanOrderOrderan />,
       },
     ],
