@@ -1,6 +1,6 @@
 // import { useState } from 'react';
 import DateControl from "./ControlTanggal"
-import LogoPerusahaan from "../images/image-login/icon.png"
+import LogoPerusahaan from "../images/image-login/icon3.png"
 // import ModalExit from "../controller/ModalExit"
 
 export default function NavBarUp() {
@@ -22,7 +22,7 @@ export default function NavBarUp() {
                     <DateControl />
                 </div>
                 <div className="logo">
-                    <img src={LogoPerusahaan} className="w-16 h-16 mt-2 mr-2" alt="" />
+                    <img src={LogoPerusahaan} className="w-12 h-12 mt-2 mr-2" alt="" />
                 </div>
                 {/* untuk memanggil function controller target salesman */}
             </div>
