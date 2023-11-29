@@ -507,7 +507,7 @@ const loadSemuaData = async () => {
 
   let tempDbarang = [];
 
-  dbarang.data.map((d)=>{
+  dbarang.data.map((d) => {
     const tempDate = d.tanggal_expired.split("-");
     let expired = tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0];
     tempDbarang.push({
@@ -516,9 +516,8 @@ const loadSemuaData = async () => {
       jumlah_pcs: d.jumlah_pcs,
       jumlah_karton: d.jumlah_karton,
       tanggal_expired: expired,
-
-    })
-  })
+    });
+  });
 
   return {
     barang: barang.data,
@@ -551,13 +550,26 @@ const loadDataNota = async () => {
   let kelurahan = await client.get(`/api/getListKelurahan`);
   let headerTransaksi = await client.get(`/api/headertransaksi`);
   let toko = await client.get(`/api/toko`);
-  // let user = await client.get(`/api/user`);
 
   return {
     kelurahan: kelurahan.data,
     headerTransaksi: headerTransaksi.data,
     toko: toko.data,
-    // user: user.data,
+  };
+};
+
+const loadDataLaporan = async () => {
+  let kelurahan = await client.get(`/api/getListKelurahan`);
+  let headerTransaksi = await client.get(`/api/headertransaksi`);
+  let toko = await client.get(`/api/toko`);
+  let user = await client.get(`/api/user`);
+  let target = await client.get(`/api/target`);
+  return {
+    kelurahan: kelurahan.data,
+    headerTransaksi: headerTransaksi.data,
+    toko: toko.data,
+    user: user.data,
+    target: target.data,
   };
 };
 
@@ -595,4 +607,5 @@ export default {
   loadDataVerifikasi,
   getKinerja,
   loadDataNota,
+  loadDataLaporan,
 };
