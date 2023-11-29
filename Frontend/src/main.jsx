@@ -61,6 +61,7 @@ const {
   getKinerja,
   loadDataNota,
   loadDataLaporan,
+  getLaporanTarget,
 } = DataHandler;
 
 const router = createBrowserRouter([
@@ -225,6 +226,7 @@ const router = createBrowserRouter([
       },
       {
         path: "Laporan-Target",
+        loader: getLaporanTarget,
         element: <LaporanTarget />,
       },
       {

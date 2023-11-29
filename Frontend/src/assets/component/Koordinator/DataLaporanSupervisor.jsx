@@ -104,77 +104,7 @@ export default function Laporan() {
         });
       }
     }
-
-    // let newSuper = [];
-
-    // let trimmedSuper = [];
-    // for (let i = 0; i < listSuper.length; i++) {
-    //   const tempSuper = listSuper[i];
-    //   trimmedSuper.push(tempSuper.id_user);
-    // }
-    // trimmedSuper = [...new Set(trimmedSuper)];
-
-    // for (let i = 0; i < trimmedSuper.length; i++) {
-    //   const tempi = dataTarget.find((t) => t.id_user == trimmedSuper[i]);
-
-    //   let totalTarget = tempi.target;
-
-    //   const tempUser = supervisors.find((s) => s.id_user == tempi.id_user);
-    //   const filtered = listSuper.filter(
-    //     (s) => s.id_user == tempi.id_user && s.id_target != tempi.id_target
-    //   );
-
-    //   for (let j = 0; j < filtered.length; j++) {
-    //     const tempj = filtered[j];
-    //     totalTarget += tempj.target;
-    //   }
-
-    //   newSuper.push({
-    //     id_user: tempi.id_user,
-    //     id_target: tempi.id_target,
-    //     username: tempUser.username,
-    //     realisasiTarget: tempUser.target_sekarang,
-    //     target: totalTarget,
-    //     tanggal_target: tempi.tanggal_target,
-    //   });
-    // }
-
-    // let newSales = [];
-
-    // let trimmedSales = [];
-    // for (let i = 0; i < listSales.length; i++) {
-    //   const tempSales = listSales[i];
-    //   trimmedSales.push(tempSales.id_user);
-    // }
-    // trimmedSales = [...new Set(trimmedSales)];
-
-    // for (let i = 0; i < trimmedSales.length; i++) {
-    //   const tempi = targets.find((t) => t.id_user == trimmedSales[i]);
-
-    //   let totalTarget = tempi.target;
-
-    //   const tempUser = salesmans.find((s) => s.id_user == tempi.id_user);
-
-    //   for (let j = 0; j < listSales.length; j++) {
-    //     const tempj = listSales[j];
-
-    //     if (
-    //       tempi.id_user == tempj.id_user &&
-    //       tempi.id_target != tempj.id_target
-    //     ) {
-    //       totalTarget += tempj.target;
-    //     }
-    //   }
-
-    //   newSales.push({
-    //     id_user: tempi.id_user,
-    //     id_target: tempi.id_target,
-    //     username: tempUser.username,
-    //     realisasiTarget: tempUser.target_sekarang,
-    //     target: totalTarget,
-    //     tanggal_target: tempi.tanggal_target,
-    //   });
-    // }
+    
     setListSupervisor(listSuper);
     setListSalesman(listSales);
   }, [dateStart, dateEnd]);

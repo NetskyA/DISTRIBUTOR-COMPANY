@@ -82,6 +82,7 @@ app.use(express.urlencoded({ extended: true }));
 // GET ALL DETAIL BARANG
 // GET ALL DETAIL TRANSAKSI
 // GET DATA DETAIL BARANG BY ID
+// GET DATA LIST SALESMAN
 
 //========================== KIRIM GAJI ==========================//
 const sendGaji = async (subtotal, email, date, username) => {
@@ -1342,6 +1343,7 @@ app.get("/api/getKatalogToko", async (req, res) => {
 app.get("/api/listSupervisor", async (req, res) => {
   let supervisor = await db.MasterUser.findAll({
     where: {
+      status_user: 1,
       id_jabatan: 2,
     },
   });
@@ -2136,7 +2138,7 @@ app.get("/api/getListDbarang/:keyword", async (req, res) => {
     where: {
       nama_barang: {
         [Op.like]: key,
-      }
+      },
     },
   });
 
@@ -2150,7 +2152,7 @@ app.get("/api/getListDbarang/:keyword", async (req, res) => {
       },
     });
     for (let j = 0; j < t.length; j++) {
-      temp.push(t[j]);      
+      temp.push(t[j]);
     }
   }
 
@@ -2217,7 +2219,14 @@ app.post("/api/orderKeuangan", async (req, res) => {
 
 //========================== POST TAMBAH TOKO ==========================//
 app.post("/api/toko", async (req, res) => {
-  let { id_kelurahan, nama_toko , nama_konsumen, alamat_toko, no_handphone1, no_handphone2,  } = req.body;
+  let {
+    id_kelurahan,
+    nama_toko,
+    nama_konsumen,
+    alamat_toko,
+    no_handphone1,
+    no_handphone2,
+  } = req.body;
 
   const now = new Date();
   const date =
@@ -2235,14 +2244,14 @@ app.post("/api/toko", async (req, res) => {
 
   let kota = await db.MasterKota.findOne({
     where: {
-      id_kota: kelurahan.id_kota
-    }
-  })
+      id_kota: kelurahan.id_kota,
+    },
+  });
 
   let toko = await db.MasterToko.findAll();
 
   await db.MasterToko.create({
-    id_toko: toko.length+1,
+    id_toko: toko.length + 1,
     id_kota: kota.id_kota,
     id_kelurahan: kelurahan.id_kelurahan,
     nama_toko: nama_toko,
@@ -2310,8 +2319,16 @@ app.get("/api/toko/:keyword", async (req, res) => {
 
 //========================== PUT EDIT TOKO ==========================//
 app.put("/api/editToko", async (req, res) => {
-  let { id_toko, id_kelurahan, nama_toko , nama_konsumen, alamat_toko, no_handphone1, no_handphone2,  } = req.body;
-  
+  let {
+    id_toko,
+    id_kelurahan,
+    nama_toko,
+    nama_konsumen,
+    alamat_toko,
+    no_handphone1,
+    no_handphone2,
+  } = req.body;
+
   let kelurahan = await db.MasterKelurahan.findOne({
     where: {
       id_kelurahan: id_kelurahan,
@@ -2320,9 +2337,9 @@ app.put("/api/editToko", async (req, res) => {
 
   let kota = await db.MasterKota.findOne({
     where: {
-      id_kota: kelurahan.id_kota
-    }
-  })
+      id_kota: kelurahan.id_kota,
+    },
+  });
 
   await db.MasterToko.update(
     {
@@ -2397,7 +2414,16 @@ app.get("/api/user/:keyword", async (req, res) => {
 
 //========================== PUT EDIT USER ==========================//
 app.put("/api/editUser", async (req, res) => {
-  let { id_user, id_jabatan, id_atasan , username, email, password, alamat, no_rekening } = req.body;
+  let {
+    id_user,
+    id_jabatan,
+    id_atasan,
+    username,
+    email,
+    password,
+    alamat,
+    no_rekening,
+  } = req.body;
 
   await db.MasterUser.update(
     {
@@ -2417,4 +2443,16 @@ app.put("/api/editUser", async (req, res) => {
   );
 
   return res.status(200).send("Done");
+});
+
+//========================== GET DATA LIST SALESMAN ==========================//
+app.get("/api/listSalesman", async (req, res) => {
+  let salesman = await db.MasterUser.findAll({
+    where: {
+      status_user: 1,
+      id_jabatan: 1,
+    },
+  });
+
+  return res.status(200).send(salesman);
 });

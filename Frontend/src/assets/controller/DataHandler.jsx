@@ -586,6 +586,26 @@ const getKinerja = async () => {
   };
 };
 
+const getLaporanTarget = async () => {
+  if (!localStorage.loggedData) {
+    return redirect("/");
+  }
+  let temp = JSON.parse(localStorage.loggedData);
+  if (temp.jabatan !== "Admin Website") {
+    return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
+  }
+
+  let getSupervisor = await client.get(`/api/listSupervisor`);
+  let getSalesman = await client.get(`/api/listSalesman`);
+  let getTarget = await client.get(`/api/target`);
+
+  return {
+    supervisor: getSupervisor.data,
+    salesman: getSalesman.data,
+    target: getTarget.data,
+  };
+};
+
 export default {
   getDataCatalog,
   getDataProfileSalesman,
@@ -614,4 +634,5 @@ export default {
   getKinerja,
   loadDataNota,
   loadDataLaporan,
+  getLaporanTarget,
 };
