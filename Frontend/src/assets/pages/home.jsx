@@ -80,7 +80,7 @@ function Home({ role }) {
             </header>
             <div className="footer w-full">
                 <div className="coverfooter h-11 w-full">
-                    <p className="font-semibold text-2xl text-white float-left mt-2 ms-5">CV. LAJU JAYA CEMERLANG</p>
+                    <p className="font-semibold text-2xl text-white float-left mt-2 ms-5">CV. BORNEO ABADI SELALU</p>
                     <div className="footerleft float-right mt-2">
                         <div className="watch flex">
                             <div className="text-2xl mr-6 z-10 text-white font-semibold">
