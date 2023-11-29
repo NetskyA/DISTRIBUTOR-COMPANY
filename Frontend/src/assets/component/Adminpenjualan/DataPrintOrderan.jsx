@@ -340,7 +340,7 @@ export default function DataPrintOrderan() {
               style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
             >
               {visibleData.map((data, index) => (
-                <div key={index} className="m-3 mb-80">
+                <div key={index} className="m-3 mb-60">
                   <div className="kopNota flex">
                     <div className="kiri w-full text-base">
                       <div className="flex m-4">
@@ -478,13 +478,13 @@ export default function DataPrintOrderan() {
                         <p className="w-44" style={{ fontSize: "15px" }}>
                           Hormat Kami,{" "}
                         </p>
-                        <p className="mt-36 ms-9">...........</p>
+                        <p className="mt-20 ms-9">...........</p>
                       </div>
                     </div>
                     <div className="kanan w-2/5">
                       <div className="m-2">
                         <p className="w-44">Pelanggan, </p>
-                        <p className="mt-36 ms-5">...........</p>
+                        <p className="mt-20 ms-5">...........</p>
                       </div>
                     </div>
                   </div>

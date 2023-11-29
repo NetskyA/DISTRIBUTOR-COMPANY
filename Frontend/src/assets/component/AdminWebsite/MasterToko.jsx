@@ -339,6 +339,7 @@ export default function MasterJabatan() {
                                                                         Edit
                                                                     </button>
                                                                 </td>
+                                                                <td className="whitespace-nowrap px-6 py-4">
                                                                 {t.status_toko == 0 ? (
                                                                     <button
                                                                         onClick={() => statusToko(t.id_toko, 1)}
@@ -354,6 +355,7 @@ export default function MasterJabatan() {
                                                                         Non Aktif
                                                                     </button>
                                                                 )}
+                                                                </td>
                                                             </tr>
                                                         </>
                                                     )
