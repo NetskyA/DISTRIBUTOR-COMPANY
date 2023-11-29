@@ -18,9 +18,16 @@ export default function MasterJabatan() {
     setIsMasterBarang(!isMasterBarang);
   };
 
+  const handleInputChange = (e, id, field) => {
+    const updatedUser = user.map((u) =>
+        u.id_user === id ? { ...u, [field]: e.target.value } : u
+    );
+    setUser(updatedUser);
+  };
+
   return (
     <>
-      {console.log(user)}
+      {/* {console.log(user)} */}
       <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
         <div className="flex">
           <div className="flex text-primary text-2xl">
@@ -32,7 +39,7 @@ export default function MasterJabatan() {
         {!isMasterBarang &&
           <>
             <div className="flex mx-auto items-center justify-center">
-              <p className="pt-5 text-4xl font-semibold text-center text-primary">Master Detail Barang</p>
+              <p className="pt-5 text-4xl font-semibold text-center text-primary">Master User</p>
               <img src={LogoPerusahaan} className="w-32 h-32 mt-4" alt="logo perusahaan" />
             </div>
             <div className="cover mb-28">
@@ -79,59 +86,135 @@ export default function MasterJabatan() {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr className="border-b dark:border-neutral-500">
-                          <td className="whitespace-nowrap px-6 py-4 font-medium">
-                            <div>
-                              <select name="brandId" className=" text-primary w-52 border-primary rounded-lg h-12 text-2xl">
-                              </select>
-                            </div>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4 font-medium">
-                            <div>
-                              <select name="brandId" className=" text-primary w-52 border-primary rounded-lg h-12 text-2xl"   >
-                              </select>
-                            </div>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <p>
-                              <input type="text" name="" className="border-primary w-52 rounded-lg text-2xl" />
-                            </p>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <p>
-                              <input type="text" name="" className="border-primary w-52 rounded-lg text-2xl"
-                              />
-                            </p>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <p>
-                              <input type="text" name="" className="border-primary w-52 rounded-lg text-2xl"
-                              />
-                            </p>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <p>
-                              <input type="text" name="" className="border-primary w-52 rounded-lg text-2xl"
-                              />
-                            </p>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <p>
-                              <input type="text" name="" className="border-primary w-52 rounded-lg text-2xl"
-                              />
-                            </p>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <button className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
-                              Edit
-                            </button>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <button className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
-                              Non Aktif
-                            </button>
-                          </td>
-                        </tr>
+                        {user.map((u)=>{
+                          return <tr className="border-b dark:border-neutral-500">
+                            <td className="whitespace-nowrap px-6 py-4 font-medium">
+                              <div>
+                                <select
+                                  name="jabatan"
+                                  id={`id_jabatan${u.id_user}`}
+                                  className="w-60 text-primary border-primary rounded-lg h-12 text-2xl"
+                                >
+                                  {data.jabatan.map((j, idx) => {
+                                    return u.id_jabatan == j.id_jabatan ? (
+                                      <option 
+                                        key={idx}
+                                        value={j.id_jabatan}
+                                        selected="selected"
+                                      >
+                                        {j.nama_jabatan}
+                                      </option>
+                                    ) : (
+                                      <option key={idx} value={j.id_jabatan}>
+                                        {j.nama_jabatan}
+                                      </option>
+                                    );
+                                  })}
+                                </select>
+                              </div>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4 font-medium">
+                              <div>
+                                <select
+                                  name="atasan"
+                                  id={`id_atasan${u.id_user}`}
+                                  className="w-60 text-primary border-primary rounded-lg h-12 text-2xl"
+                                >
+                                  {data.user.map((a, idx) => {
+                                    return a.id_user == u.id_atasan ? (
+                                      <option 
+                                        key={idx}
+                                        value={a.id_user}
+                                        selected="selected"
+                                      >
+                                        {a.username}
+                                      </option>
+                                    ) : (
+                                      <option key={idx} value={a.id_user}>
+                                        {a.username}
+                                      </option>
+                                    );
+                                  })}
+                                </select>
+                              </div>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <p>
+                              <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`email${u.id_user}`}
+                                value={u.email}
+                                onChange={(e) =>
+                                    handleInputChange(
+                                        e,
+                                        u.id_user,
+                                        "email"
+                                    )
+                                } />
+                              </p>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <p>
+                              <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`username${u.id_user}`}
+                                value={u.username}
+                                onChange={(e) =>
+                                    handleInputChange(
+                                        e,
+                                        u.id_user,
+                                        "username"
+                                    )
+                                } />  
+                              </p>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <p>
+                              <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`password${u.id_user}`}
+                                value={u.password}
+                                onChange={(e) =>
+                                    handleInputChange(
+                                        e,
+                                        u.id_user,
+                                        "password"
+                                    )
+                                } /> 
+                              </p>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <p>
+                              <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`alamat${u.id_user}`}
+                                value={u.alamat}
+                                onChange={(e) =>
+                                    handleInputChange(
+                                        e,
+                                        u.id_user,
+                                        "alamat"
+                                    )
+                                } />
+                              </p>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <p>
+                              <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`no_rekening${u.id_user}`}
+                                value={u.no_rekening}
+                                onChange={(e) =>
+                                    handleInputChange(
+                                        e,
+                                        u.id_user,
+                                        "no_rekening"
+                                    )
+                                } />
+                              </p>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <button className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                Edit
+                              </button>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <button className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                Non Aktif
+                              </button>
+                            </td>
+                          </tr>
+                        })}
                       </tbody>
                     </table>
                   </div>
