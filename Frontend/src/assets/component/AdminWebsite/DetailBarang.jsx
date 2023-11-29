@@ -1,7 +1,11 @@
+import { useLoaderData } from "react-router-dom";
 import LogoPerusahaan from "../../images/image-login/icon.png"
 import { useState } from "react";
 
 export default function DetailBarang() {
+    let data = useLoaderData();
+    const [dbarang, setDbarang] = useState(data.dbarang);
+
     const [isTambah, setIsTambah] = useState(true);
     const toggleTambah = () => {
         setIsTambah(!isTambah);
@@ -19,6 +23,7 @@ export default function DetailBarang() {
 
     return (
         <>
+        {console.log(dbarang)}
             <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                 <div className="flex">
                     <div className="flex text-primary text-2xl">

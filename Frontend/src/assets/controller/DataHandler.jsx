@@ -499,6 +499,12 @@ const loadSemuaData = async () => {
 
   let kelurahan = await client.get(`/api/getListKelurahan`);
 
+  let toko = await client.get(`/api/toko`);
+
+  let user = await client.get(`/api/user`);
+
+  let dbarang = await client.get(`/api/getListDbarang`);
+
   return {
     barang: barang.data,
     brand: brand.data,
@@ -506,6 +512,9 @@ const loadSemuaData = async () => {
     jabatan: jabatan.data,
     kota: kota.data,
     kelurahan: kelurahan.data,
+    toko: toko.data,
+    user: user.data,
+    dbarang: dbarang.data,
   };
 };
 

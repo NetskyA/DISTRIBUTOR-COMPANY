@@ -1398,11 +1398,7 @@ app.post("/api/register", async (req, res) => {
 
 //========================== GET ALL USER ==========================//
 app.get("/api/user", async (req, res) => {
-  let users = await db.MasterUser.findAll({
-    where: {
-      status_user: 1,
-    },
-  });
+  let users = await db.MasterUser.findAll();
   return res.status(200).send(users);
 });
 
@@ -1917,3 +1913,10 @@ app.get("/api/kinerja", async (req, res) => {
 
   return res.status(200).send(kinerja);
 });
+
+//========================== GET ALL DETAIL BARANG ==========================//
+app.get("/api/getListDbarang", async (req, res) => {
+  let dbarang = await db.DetailBarang.findAll();
+  return res.status(200).send(dbarang);
+});
+

@@ -10,9 +10,9 @@ import "datatables.net-buttons/js/buttons.print.min.js";
 import LogoPerusahaan from "../../images/image-login/icon.png"
 
 export default function MasterJabatan() {
-  // let data = useLoaderData();
-  // let table;
-  // let jabatan = [{ id: 1, nama: "Jabatan 1" }, { id: 2, nama: "Jabatan 2" }, { id: 3, nama: "Jabatan 3" }];
+  let data = useLoaderData();
+  const [user, setUser] = useState(data.user);
+  
   const [isMasterBarang, setIsMasterBarang] = useState(true);
   const toggleMasterBarang = () => {
     setIsMasterBarang(!isMasterBarang);
@@ -20,6 +20,7 @@ export default function MasterJabatan() {
 
   return (
     <>
+      {console.log(user)}
       <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
         <div className="flex">
           <div className="flex text-primary text-2xl">
