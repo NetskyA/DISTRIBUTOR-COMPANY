@@ -21,6 +21,13 @@ export default function DetailBarang() {
         setIsEdit(!isEdit);
     }
 
+    const handleInputChange = (e, id, field) => {
+        const updatedToko = toko.map((t) =>
+            t.id_toko === id ? { ...t, [field]: e.target.value } : t
+        );
+        setToko(updatedToko);
+    };
+
     return (
         <>
         {console.log(dbarang)}
@@ -121,7 +128,7 @@ export default function DetailBarang() {
                                                         ID Detail
                                                     </th>
                                                     <th scope="col" className="px-6 py-4">
-                                                        ID Barang
+                                                        Nama Barang
                                                     </th>
                                                     <th scope="col" className="px-6 py-4">
                                                         Jumlah Pcs
@@ -130,10 +137,7 @@ export default function DetailBarang() {
                                                         Jumlah Karton
                                                     </th>
                                                     <th scope="col" className="px-6 py-4">
-                                                        Tanggal Masuk
-                                                    </th>
-                                                    <th scope="col" className="px-6 py-4">
-                                                        Tanggal Expires
+                                                        Tanggal Expired
                                                     </th>
                                                     <th scope="col" className="px-6 py-4">
                                                         Edit
@@ -144,54 +148,89 @@ export default function DetailBarang() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr className="border-b dark:border-neutral-500" >
-                                                    <td className="whitespace-nowrap px-6 py-4 font-medium" >
-                                                        <p>
-                                                            <input type="text" name="" className="border-primary w-52 rounded-lg text-2xl" id="" placeholder="ID Detail" />
-                                                        </p>
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4 font-medium">
-                                                        <p>
-                                                            <select name="brandId" id="selectIdbrand" className="w-60 h-12 text-primary border-primary rounded-lg">
-                                                                <option value="id1">BRA00001</option>
-                                                                <option value="id2">2</option>
-                                                                <option value="id3">3</option>
-                                                                <option value="id4">4</option>
-                                                                <option value="id5">5</option>
-                                                            </select>
-                                                        </p>
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">
-                                                        <p>
-                                                            <input type="text" name="" className="border-primary w-52 rounded-lg text-2xl" id="" placeholder="Jumlah Pcs" />
-                                                        </p>
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">
-                                                        <p>
-                                                            <input type="text" name="" className="border-primary w-52 rounded-lg text-2xl" id="" placeholder="Jumlah Karton" />
-                                                        </p>
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">
-                                                        <p>
-                                                            <input type="text" name="" className="border-primary w-52 rounded-lg text-2xl" id="" placeholder="Jumlah Karton" />
-                                                        </p>
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">
-                                                        <p>
-                                                            <input type="text" name="" className="border-primary w-52 rounded-lg text-2xl" id="" placeholder="Jumlah Karton" />
-                                                        </p>
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">
-                                                        <button onClick={toggleEdit} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
-                                                            Edit
-                                                        </button>
-                                                    </td>
-                                                    <td className="whitespace-nowrap px-6 py-4">
-                                                        <button className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
-                                                            Delete
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                                {dbarang.map((d)=>{
+                                                    return <tr className="border-b dark:border-neutral-500" >
+                                                        <td className="whitespace-nowrap px-6 py-4 font-medium" >
+                                                            <p>
+                                                                {d.id_detail_barang}
+                                                            </p>
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                                            <p>
+                                                                <select
+                                                                name="id_barang"
+                                                                id={`id_barang${d.id_detail_barang}`}
+                                                                className="w-60 text-primary border-primary rounded-lg h-12 text-2xl"
+                                                                >
+                                                                {data.barang.map((b, idx) => {
+                                                                    return d.id_barang == b.id_barang ? (
+                                                                    <option 
+                                                                        key={idx}
+                                                                        value={b.id_barang}
+                                                                        selected="selected"
+                                                                    >
+                                                                        {b.nama_barang}
+                                                                    </option>
+                                                                    ) : (
+                                                                    <option key={idx} value={b.id_barang}>
+                                                                        {b.nama_barang}
+                                                                    </option>
+                                                                    );
+                                                                })}
+                                                                </select>
+                                                            </p>
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-6 py-4">
+                                                            <p>
+                                                                <input type="number" name="" className="border-primary rounded-lg text-2xl" id={`jumlah_pcs${d.id_detail_barang}`}
+                                                                value={d.jumlah_pcs}
+                                                                onChange={(e) =>
+                                                                    handleInputChange(
+                                                                        e,
+                                                                        d.id_detail_barang,
+                                                                        "jumlah_pcs"
+                                                                    )
+                                                                } /> 
+                                                            </p>
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-6 py-4">
+                                                            <p>
+                                                                <input type="number" name="" className="border-primary rounded-lg text-2xl" id={`jumlah_karton${d.id_detail_barang}`}
+                                                                value={d.jumlah_karton}
+                                                                onChange={(e) =>
+                                                                    handleInputChange(
+                                                                        e,
+                                                                        d.id_detail_barang,
+                                                                        "jumlah_karton"
+                                                                    )
+                                                                } /> 
+                                                            </p>
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-6 py-4">
+                                                            <p>
+                                                                <input type="date" name="" className="border-primary rounded-lg text-2xl" id={`tanggal_expired${d.id_detail_barang}`}
+                                                                value={d.tanggal_expired}
+                                                                onChange={(e) =>
+                                                                    handleInputChange(
+                                                                        e,
+                                                                        d.id_detail_barang,
+                                                                        "tanggal_expired"
+                                                                    )
+                                                                } /> 
+                                                            </p>
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-6 py-4">
+                                                            <button onClick={toggleEdit} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                                                Edit
+                                                            </button>
+                                                        </td>
+                                                        <td className="whitespace-nowrap px-6 py-4">
+                                                            <button className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                                                Delete
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                })}
                                             </tbody>
                                         </table>
                                     </div>
