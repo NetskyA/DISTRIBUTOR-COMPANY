@@ -51,13 +51,17 @@ export default function MasterJabatan() {
     let user = await client.get(`/api/user`);
     setUser(user.data);
     alert("Berhasil Update User " + id);
-}
+  }
 
   async function cari() {
     let keyword = document.getElementById("keyword").value;
     let user = await client.get(`/api/user/${keyword}`);
     setUser(user.data);
-}
+  }
+
+  function test(){
+    alert("hallo")
+  }
 
   const handleInputChange = (e, id, field) => {
     const updatedUser = user.map((u) =>
@@ -144,6 +148,7 @@ export default function MasterJabatan() {
                                       name="jabatan"
                                       id={`id_jabatan${u.id_user}`}
                                       className="w-44 text-primary border-primary rounded-lg h-12 text-xl"
+                                      onChange={()=>test()}
                                     >
                                       {data.jabatan.map((j, idx) => {
                                         return u.id_jabatan == j.id_jabatan ? (
