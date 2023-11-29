@@ -59,10 +59,6 @@ export default function MasterJabatan() {
     setUser(user.data);
   }
 
-  function test(){
-    alert("hallo")
-  }
-
   const handleInputChange = (e, id, field) => {
     const updatedUser = user.map((u) =>
       u.id_user === id ? { ...u, [field]: e.target.value } : u
@@ -70,6 +66,20 @@ export default function MasterJabatan() {
     setUser(updatedUser);
   };
 
+  const jabatan = (e,id)=>{
+    let currValue = e.target.value;
+    let listAtasan = user.filter(e=>e.id_jabatan===parseInt(currValue));
+    var outletOptions = document.querySelector(`#id_atasan${id}`);
+    Array.from(outletOptions).forEach((option) => {
+      outletOptions.removeChild(option)
+    })
+    listAtasan.map((optionData) => {
+      var opt = document.createElement('option')
+      opt.appendChild(document.createTextNode(optionData.username));
+      opt.value = optionData.id_user
+      outletOptions.appendChild(opt);
+    })
+  }
   return (
     <>
       <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
@@ -148,7 +158,7 @@ export default function MasterJabatan() {
                                       name="jabatan"
                                       id={`id_jabatan${u.id_user}`}
                                       className="w-44 text-primary border-primary rounded-lg h-12 text-xl"
-                                      onChange={()=>test()}
+                                      onChange={(e)=>jabatan(e,u.id_user)}
                                     >
                                       {data.jabatan.map((j, idx) => {
                                         return u.id_jabatan == j.id_jabatan ? (
@@ -185,7 +195,7 @@ export default function MasterJabatan() {
                                           >
                                             {a.username}
                                           </option>
-                                        ) : (
+                                        ) : u.id_jabatan === a.id_jabatan &&( 
                                           <option key={idx} value={a.id_user}>
                                             {a.username}
                                           </option>
