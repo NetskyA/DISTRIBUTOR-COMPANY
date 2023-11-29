@@ -2214,3 +2214,132 @@ app.post("/api/orderKeuangan", async (req, res) => {
 
   return res.status(201).send(result);
 });
+
+//========================== POST TAMBAH TOKO ==========================//
+app.post("/api/toko", async (req, res) => {
+  let { id_kelurahan, nama_toko , nama_konsumen, alamat_toko, no_handphone1, no_handphone2,  } = req.body;
+
+  const now = new Date();
+  const date =
+    now.getDate().toString().padStart(2, "0") +
+    "-" +
+    (now.getMonth() + 1).toString().padStart(2, "0") +
+    "-" +
+    now.getFullYear().toString().padStart(4, "0");
+
+  let kelurahan = await db.MasterKelurahan.findOne({
+    where: {
+      id_kelurahan: id_kelurahan,
+    },
+  });
+
+  let kota = await db.MasterKota.findOne({
+    where: {
+      id_kota: kelurahan.id_kota
+    }
+  })
+
+  let toko = await db.MasterToko.findAll();
+
+  await db.MasterToko.create({
+    id_toko: toko.length+1,
+    id_kota: kota.id_kota,
+    id_kelurahan: kelurahan.id_kelurahan,
+    nama_toko: nama_toko,
+    nama_konsumen: nama_konsumen,
+    alamat_toko: alamat_toko,
+    no_handphone1: no_handphone1,
+    no_handphone2: no_handphone2,
+    tanggal_masuk: date,
+    status_toko: 1,
+  });
+
+  return res.status(201).send("Done");
+});
+
+//========================== PUT EDIT STATUS TOKO ==========================//
+app.put("/api/editStatusToko", async (req, res) => {
+  let { id_toko, status_toko } = req.body;
+
+  await db.MasterToko.update(
+    {
+      status_toko: status_toko,
+    },
+    {
+      where: {
+        id_toko: id_toko,
+      },
+    }
+  );
+
+  return res.status(200).send("Done");
+});
+
+//========================== GET DATA LIST KELURAHAN KEYWORD ==========================//
+app.get("/api/toko/:keyword", async (req, res) => {
+  const { keyword } = req.params;
+  const key = `%${keyword}%`;
+  let toko = await db.MasterToko.findAll({
+    where: {
+      [Op.or]: [
+        {
+          id_toko: {
+            [Op.like]: key,
+          },
+        },
+        {
+          nama_toko: {
+            [Op.like]: key,
+          },
+        },
+        {
+          nama_konsumen: {
+            [Op.like]: key,
+          },
+        },
+        {
+          alamat_toko: {
+            [Op.like]: key,
+          },
+        },
+      ],
+    },
+  });
+  return res.status(200).send(toko);
+});
+
+//========================== PUT EDIT TOKO ==========================//
+app.put("/api/editToko", async (req, res) => {
+  let { id_toko, id_kelurahan, nama_toko , nama_konsumen, alamat_toko, no_handphone1, no_handphone2,  } = req.body;
+  
+  let kelurahan = await db.MasterKelurahan.findOne({
+    where: {
+      id_kelurahan: id_kelurahan,
+    },
+  });
+
+  let kota = await db.MasterKota.findOne({
+    where: {
+      id_kota: kelurahan.id_kota
+    }
+  })
+
+  await db.MasterToko.update(
+    {
+      id_kota: kota.id_kota,
+      id_kelurahan: kelurahan.id_kelurahan,
+      nama_toko: nama_toko,
+      nama_konsumen: nama_konsumen,
+      alamat_toko: alamat_toko,
+      no_handphone1: no_handphone1,
+      no_handphone2: no_handphone2,
+    },
+    {
+      where: {
+        id_toko: id_toko,
+      },
+    }
+  );
+
+  return res.status(200).send("Done");
+});
