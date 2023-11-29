@@ -2088,3 +2088,89 @@ app.put("/api/realisasi/:idSales", async (req, res) => {
 
   return res.status(201).send("Success!");
 });
+
+//========================== POST TAMBAH DETAIL BARANG ==========================//
+app.post("/api/dbarang", async (req, res) => {
+  let { id_barang, jumlah_karton, jumlah_pcs, tanggal_expired } = req.body;
+
+  const now = new Date();
+  const date =
+    now.getDate().toString().padStart(2, "0") +
+    "-" +
+    (now.getMonth() + 1).toString().padStart(2, "0") +
+    "-" +
+    now.getFullYear().toString().padStart(4, "0");
+
+  const dbarang = await db.DetailBarang.findAll();
+
+  await db.DetailBarang.create({
+    id_detail_barang: dbarang.length+1,
+    id_barang: id_barang,
+    jumlah_karton: jumlah_karton,
+    jumlah_pcs: jumlah_pcs,
+    tanggal_masuk: date,
+    tanggal_expired: tanggal_expired,
+  });
+
+  return res.status(201).send("Done");
+});
+
+//========================== DELETE DETAIL BARANG ==========================//
+app.put("/api/dbarang", async (req, res) => {
+  let { id_detail_barang } = req.body;
+
+  await db.DetailBarang.destroy(
+    {
+      where: {
+        id_detail_barang: id_detail_barang,
+      },
+    }
+  );
+
+  return res.status(200).send("Done");
+});
+
+//========================== GET DATA LIST BRAND KEYWORD ==========================//
+app.get("/api/getListBrands/:keyword", async (req, res) => {
+  const { keyword } = req.params;
+  console.log(keyword);
+  const key = `%${keyword}%`;
+  let brand = await db.MasterBrand.findAll({
+    where: {
+      [Op.or]: [
+        {
+          id_brand: {
+            [Op.like]: key,
+          },
+        },
+        {
+          nama_brand: {
+            [Op.like]: key,
+          },
+        },
+      ],
+    },
+  });
+  return res.status(200).send(brand);
+});
+
+//========================== PUT EDIT DETAIL BARANG ==========================//
+app.put("/api/editDbarang", async (req, res) => {
+  let { id_detail_barang, id_barang, jumlah_karton, jumlah_pcs, tanggal_expired } = req.body;
+
+  await db.DetailBarang.update(
+    {
+      id_barang: id_barang,
+      jumlah_karton: jumlah_karton,
+      jumlah_pcs: jumlah_pcs,
+      tanggal_expired: tanggal_expired,
+    },
+    {
+      where: {
+        id_detail_barang: id_detail_barang,
+      },
+    }
+  );
+
+  return res.status(200).send("Done");
+});

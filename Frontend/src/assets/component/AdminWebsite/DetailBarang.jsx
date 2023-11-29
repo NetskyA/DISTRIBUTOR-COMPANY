@@ -1,10 +1,19 @@
 import { useLoaderData } from "react-router-dom";
 import LogoPerusahaan from "../../images/image-login/icon.png"
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import client from "../../controller/client";
 
 export default function DetailBarang() {
     let data = useLoaderData();
     const [dbarang, setDbarang] = useState(data.dbarang);
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm();
 
     const [isTambah, setIsTambah] = useState(true);
     const toggleTambah = () => {
@@ -20,17 +29,81 @@ export default function DetailBarang() {
     const toggleEdit = () => {
         setIsEdit(!isEdit);
     }
+    
+    async function ambilData(){
+        let dbarang = await client.get(`/api/getListDbarang`);
+
+        let tempDbarang = [];
+
+        dbarang.data.map((d)=>{
+            const tempDate = d.tanggal_expired.split("-");
+            let expired = tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0];
+            tempDbarang.push({
+                id_detail_barang: d.id_detail_barang,
+                id_barang: d.id_barang,
+                jumlah_pcs: d.jumlah_pcs,
+                jumlah_karton: d.jumlah_karton,
+                tanggal_expired: expired,
+            })
+        })
+
+        setDbarang(tempDbarang);
+    }
+
+    async function addDetailBarang(data){
+        console.log(data)
+        let expired = data.tanggal_expired;
+        const ambilDate = expired.split("T");
+        // alert(ambilDate[1])
+        const tempDate = ambilDate[0].split("-");
+        expired = tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0];
+        await client.post(`/api/dbarang`, {
+            id_barang: data.id_barang,
+            jumlah_pcs: data.jumlah_pcs,
+            jumlah_karton: data.jumlah_karton,
+            tanggal_expired: expired,
+        });
+        reset();
+        ambilData();
+    }
+
+    async function editDbarang(id) {
+        const nama_barang = document.getElementById(`id_barang${id}`).value;
+        const jumlah_pcs = document.getElementById(`jumlah_pcs${id}`).value;
+        const jumlah_karton = document.getElementById(`jumlah_karton${id}`).value;
+        let tanggal_expired = document.getElementById(`tanggal_expired${id}`).value;
+        const tempDate = tanggal_expired.split("-");
+        tanggal_expired = tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0];
+        // console.log(nama_barang + " - " + jumlah_pcs + " - " + jumlah_karton + " - " + tanggal_expired + " - ")
+
+        await client.put(`/api/editDbarang`, {
+          id_detail_barang: id,
+          id_barang: nama_barang,
+          jumlah_pcs: jumlah_pcs,
+          jumlah_karton: jumlah_karton,
+          tanggal_expired: tanggal_expired,
+        });
+       
+        ambilData();
+        alert("Berhasil Update Detail Barang " + id);
+    }
+
+    async function deleteDbarang(id) {
+        await client.put(`/api/dbarang?`, {
+            id_detail_barang: id,
+        });
+        ambilData();
+    }
 
     const handleInputChange = (e, id, field) => {
-        const updatedToko = toko.map((t) =>
-            t.id_toko === id ? { ...t, [field]: e.target.value } : t
+        const updatedDbarang = dbarang.map((d) =>
+            d.id_detail_barang === id ? { ...d, [field]: e.target.value } : d
         );
-        setToko(updatedToko);
+        setDbarang(updatedDbarang);
     };
 
     return (
         <>
-        {console.log(dbarang)}
             <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                 <div className="flex">
                     <div className="flex text-primary text-2xl">
@@ -51,56 +124,43 @@ export default function DetailBarang() {
                 {!isTambah &&
                     <div className="selectdisable border-2 ms-4 mt-1 mb-4 border-gray-300 rounded-2xl w-1/3 h-full" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                         <div className="row ms-4 m-4 w-full" >
-                            <div className="flex text-primary text-2xl">
-                                <p className="pt-1 pr-2 w-48">ID Detail : </p>
-                                <input
-                                    type="text"
-                                    name="id barang"
-                                    className="border-primary rounded-lg w-60 text-2xl h-10"
-                                    placeholder="Id Barang "
-                                    required="text" />
-                            </div>
-                            <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-1 pr-2 w-48">ID Barang : </p>
-                                <select name="brandId" id="selectIdbrand" className="w-60 border-primary rounded-lg">
-                                    <option value="id1">BRA00001</option>
-                                    <option value="id2">2</option>
-                                    <option value="id3">3</option>
-                                    <option value="id4">4</option>
-                                    <option value="id5">5</option>
-                                </select>
-                            </div>
-                            <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-1 pr-2 w-48">Jumlah Pcs : </p>
-                                <input
-                                    type="text"
-                                    name="Jumlah Pcs"
-                                    className="border-primary rounded-lg w-60 text-2xl h-10"
-                                    placeholder="Jumlah Pcs"
-                                    required="text" />
-                            </div>
-                            <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-1 pr-2 w-48">Jumlah Karton : </p>
-                                <input
-                                    type="text"
-                                    name="Jumlah Karton"
-                                    className="border-primary rounded-lg w-60 text-2xl h-10"
-                                    placeholder="Jumlah Karton"
-                                    required="text" />
-                            </div>
-                            <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-1 pr-2 w-48">Tanggal Masuk : </p>
-                                <input type="datetime-local" name="" id="" className="border-primary rounded-lg w-60 text-2xl h-10" />
-                            </div>
-                            <div className="flex text-primary mt-3 text-2xl">
-                                <p className="pt-1 pr-2 w-48">Tanggal Expired: </p>
-                                <input type="datetime-local" name="" id="" className="border-primary rounded-lg w-60 text-2xl h-10" />
-                            </div>
-                            <div className="flex float-right mr-4">
-                                <button className="bg-primary w-40 m-4 h-14 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
-                                    Simpan
-                                </button>
-                            </div>
+                            <form onSubmit={handleSubmit(addDetailBarang)}>
+                                <div className="flex text-primary mt-3 text-2xl">
+                                    <p className="pt-2 pr-2 w-52">ID Barang : </p>
+                                    <select name="brandId" id="selectIdbarang" className="w-60 text-primary border-primary rounded-lg h-12 text-2xl" {...register("id_barang")}>
+                                        {data.barang.map((b)=>{
+                                            return <option value={b.id_barang}>{b.nama_barang}</option>
+                                        })}
+                                    </select>
+                                </div>
+                                <div className="flex text-primary mt-3 text-2xl">
+                                    <p className="pt-1 pr-2 w-52">Jumlah Pcs: </p>
+                                    <input
+                                        type="number"
+                                        name="jumlah pcs"
+                                        className="border-primary rounded-lg w-60 text-2xl h-10"
+                                        placeholder="Jumlah Pcs"
+                                        min={0} required="number" {...register("jumlah_pcs")}/>
+                                </div>
+                                <div className="flex text-primary mt-3 text-2xl">
+                                    <p className="pt-1 pr-2 w-52">Jumlah Karton: </p>
+                                    <input
+                                        type="number"
+                                        name="jumlah karton"
+                                        className="border-primary rounded-lg w-60 text-2xl h-10"
+                                        placeholder="Jumlah Karton"
+                                        min={0} required="number" {...register("jumlah_karton")}/>
+                                </div>
+                                <div className="flex text-primary mt-3 text-2xl">
+                                    <p className="pt-1 pr-2 w-52">Tanggal Expired: </p>
+                                    <input type="datetime-local" name="" id="" className="border-primary rounded-lg w-60 text-2xl h-10" required="datetime-local" {...register("tanggal_expired")}/>
+                                </div>
+                                <div className="flex float-right mr-4">
+                                    <button type="submit" className="bg-primary w-40 m-4 h-14 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                        Simpan
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 }
@@ -220,12 +280,12 @@ export default function DetailBarang() {
                                                             </p>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-                                                            <button onClick={toggleEdit} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                                            <button onClick={()=>editDbarang(d.id_detail_barang)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                                                                 Edit
                                                             </button>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-                                                            <button className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                                            <button onClick={()=>deleteDbarang(d.id_detail_barang)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                                                                 Delete
                                                             </button>
                                                         </td>
