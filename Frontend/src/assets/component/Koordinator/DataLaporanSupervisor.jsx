@@ -7,7 +7,7 @@ import LogoPrint from "../../images/image-navbar/printer.png";
 import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import formatter from "../../controller/formatter";
-import LogoPerusahaan from "../../images/image-login/icon.png"
+import LogoPerusahaan from "../../images/image-login/icon.png";
 
 export default function Laporan() {
   const dataKoor = useLoaderData();
@@ -87,6 +87,7 @@ export default function Laporan() {
           username: supervisor.username,
           target: t.target,
           id_target: t.id_target,
+          realisasiTarget: supervisor.target_sekarang,
           tanggal_target: t.tanggal_target,
         });
       }
@@ -98,83 +99,84 @@ export default function Laporan() {
           username: salesman.username,
           target: t.target,
           id_target: t.id_target,
+          realisasiTarget: salesman.target_sekarang,
           tanggal_target: t.tanggal_target,
         });
       }
     }
 
-    let newSuper = [];
+    // let newSuper = [];
 
-    let trimmedSuper = [];
-    for (let i = 0; i < listSuper.length; i++) {
-      const tempSuper = listSuper[i];
-      trimmedSuper.push(tempSuper.id_user);
-    }
-    trimmedSuper = [...new Set(trimmedSuper)];
+    // let trimmedSuper = [];
+    // for (let i = 0; i < listSuper.length; i++) {
+    //   const tempSuper = listSuper[i];
+    //   trimmedSuper.push(tempSuper.id_user);
+    // }
+    // trimmedSuper = [...new Set(trimmedSuper)];
 
-    for (let i = 0; i < trimmedSuper.length; i++) {
-      const tempi = dataTarget.find((t) => t.id_user == trimmedSuper[i]);
+    // for (let i = 0; i < trimmedSuper.length; i++) {
+    //   const tempi = dataTarget.find((t) => t.id_user == trimmedSuper[i]);
 
-      let totalTarget = tempi.target;
+    //   let totalTarget = tempi.target;
 
-      const tempUser = supervisors.find((s) => s.id_user == tempi.id_user);
-      const filtered = listSuper.filter(
-        (s) => s.id_user == tempi.id_user && s.id_target != tempi.id_target
-      );
+    //   const tempUser = supervisors.find((s) => s.id_user == tempi.id_user);
+    //   const filtered = listSuper.filter(
+    //     (s) => s.id_user == tempi.id_user && s.id_target != tempi.id_target
+    //   );
 
-      for (let j = 0; j < filtered.length; j++) {
-        const tempj = filtered[j];
-        totalTarget += tempj.target;
-      }
+    //   for (let j = 0; j < filtered.length; j++) {
+    //     const tempj = filtered[j];
+    //     totalTarget += tempj.target;
+    //   }
 
-      newSuper.push({
-        id_user: tempi.id_user,
-        id_target: tempi.id_target,
-        username: tempUser.username,
-        realisasiTarget: tempUser.target_sekarang,
-        target: totalTarget,
-        tanggal_target: tempi.tanggal_target,
-      });
-    }
+    //   newSuper.push({
+    //     id_user: tempi.id_user,
+    //     id_target: tempi.id_target,
+    //     username: tempUser.username,
+    //     realisasiTarget: tempUser.target_sekarang,
+    //     target: totalTarget,
+    //     tanggal_target: tempi.tanggal_target,
+    //   });
+    // }
 
-    let newSales = [];
+    // let newSales = [];
 
-    let trimmedSales = [];
-    for (let i = 0; i < listSales.length; i++) {
-      const tempSales = listSales[i];
-      trimmedSales.push(tempSales.id_user);
-    }
-    trimmedSales = [...new Set(trimmedSales)];
+    // let trimmedSales = [];
+    // for (let i = 0; i < listSales.length; i++) {
+    //   const tempSales = listSales[i];
+    //   trimmedSales.push(tempSales.id_user);
+    // }
+    // trimmedSales = [...new Set(trimmedSales)];
 
-    for (let i = 0; i < trimmedSales.length; i++) {
-      const tempi = targets.find((t) => t.id_user == trimmedSales[i]);
+    // for (let i = 0; i < trimmedSales.length; i++) {
+    //   const tempi = targets.find((t) => t.id_user == trimmedSales[i]);
 
-      let totalTarget = tempi.target;
+    //   let totalTarget = tempi.target;
 
-      const tempUser = salesmans.find((s) => s.id_user == tempi.id_user);
+    //   const tempUser = salesmans.find((s) => s.id_user == tempi.id_user);
 
-      for (let j = 0; j < listSales.length; j++) {
-        const tempj = listSales[j];
+    //   for (let j = 0; j < listSales.length; j++) {
+    //     const tempj = listSales[j];
 
-        if (
-          tempi.id_user == tempj.id_user &&
-          tempi.id_target != tempj.id_target
-        ) {
-          totalTarget += tempj.target;
-        }
-      }
+    //     if (
+    //       tempi.id_user == tempj.id_user &&
+    //       tempi.id_target != tempj.id_target
+    //     ) {
+    //       totalTarget += tempj.target;
+    //     }
+    //   }
 
-      newSales.push({
-        id_user: tempi.id_user,
-        id_target: tempi.id_target,
-        username: tempUser.username,
-        realisasiTarget: tempUser.target_sekarang,
-        target: totalTarget,
-        tanggal_target: tempi.tanggal_target,
-      });
-    }
-    setListSupervisor(newSuper);
-    setListSalesman(newSales);
+    //   newSales.push({
+    //     id_user: tempi.id_user,
+    //     id_target: tempi.id_target,
+    //     username: tempUser.username,
+    //     realisasiTarget: tempUser.target_sekarang,
+    //     target: totalTarget,
+    //     tanggal_target: tempi.tanggal_target,
+    //   });
+    // }
+    setListSupervisor(listSuper);
+    setListSalesman(listSales);
   }, [dateStart, dateEnd]);
 
   const Print = () => {
@@ -289,12 +291,16 @@ export default function Laporan() {
       >
         {isVisibleSuper == true && (
           <div id="NotaCetakSuper" className="cover m-5">
-
             <div className="flex mx-auto items-center justify-center">
-            <p className="pt-4 text-4xl font-semibold text-center text-primary">
-              Laporan Target Supervisor
-            </p>                            <img src={LogoPerusahaan} className="w-32 h-32 mt-4" alt="logo perusahaan" />
-                        </div>
+              <p className="pt-4 text-4xl font-semibold text-center text-primary">
+                Laporan Target Supervisor
+              </p>{" "}
+              <img
+                src={LogoPerusahaan}
+                className="w-32 h-32 mt-4"
+                alt="logo perusahaan"
+              />
+            </div>
             <table
               className="text-left text-2xl mt-5 font-light border rounded-xl w-full"
               style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
