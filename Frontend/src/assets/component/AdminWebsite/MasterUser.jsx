@@ -12,7 +12,7 @@ import LogoPerusahaan from "../../images/image-login/icon.png"
 export default function MasterJabatan() {
   let data = useLoaderData();
   const [user, setUser] = useState(data.user);
-  
+
   const [isMasterBarang, setIsMasterBarang] = useState(true);
   const toggleMasterBarang = () => {
     setIsMasterBarang(!isMasterBarang);
@@ -20,7 +20,7 @@ export default function MasterJabatan() {
 
   const handleInputChange = (e, id, field) => {
     const updatedUser = user.map((u) =>
-        u.id_user === id ? { ...u, [field]: e.target.value } : u
+      u.id_user === id ? { ...u, [field]: e.target.value } : u
     );
     setUser(updatedUser);
   };
@@ -50,170 +50,174 @@ export default function MasterJabatan() {
                   Cari
                 </button>
               </div>
-              <div className="covertable m-2">
+              <div className="covertable m-4">
                 <div className="cover mb-28">
-                  <div className="covertable m-2 w-full">
+                  <div className="covertable w-full">
                     <table className="text-left text-2xl mt-5 font-light border rounded-xl w-full" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                       <thead className="border-b font-medium dark:border-neutral-500">
                         <tr>
-                          <th scope="col" className="px-6 py-4">
+                          <th scope="col" className="px-6 py-4 text-xl">
                             Jabatan
                           </th>
-                          <th scope="col" className="px-6 py-4">
+                          <th scope="col" className="px-6 py-4 text-xl">
                             Atasan
                           </th>
-                          <th scope="col" className="px-6 py-4">
+                          <th scope="col" className="px-6 py-4 text-xl">
                             Email
                           </th>
-                          <th scope="col" className="px-6 py-4">
+                          <th scope="col" className="px-6 py-4 text-xl">
                             username
                           </th>
-                          <th scope="col" className="px-6 py-4">
+                          <th scope="col" className="px-6 py-4 text-xl">
                             password
                           </th>
-                          <th scope="col" className="px-6 py-4">
+                          <th scope="col" className="px-6 py-4 text-xl">
                             Alamat
                           </th>
-                          <th scope="col" className="px-6 py-4">
+                          <th scope="col" className="px-6 py-4 text-xl">
                             No rekening
                           </th>
-                          <th scope="col" className="px-6 py-4">
+                          <th scope="col" className="px-6 py-4 text-xl">
                             Edit
                           </th>
-                          <th scope="col" className="px-6 py-4">
+                          <th scope="col" className="px-6 py-4 text-xl">
                             Status
                           </th>
                         </tr>
                       </thead>
                       <tbody>
-                        {user.map((u)=>{
-                          return <tr className="border-b dark:border-neutral-500">
-                            <td className="whitespace-nowrap px-6 py-4 font-medium">
-                              <div>
-                                <select
-                                  name="jabatan"
-                                  id={`id_jabatan${u.id_user}`}
-                                  className="w-60 text-primary border-primary rounded-lg h-12 text-2xl"
-                                >
-                                  {data.jabatan.map((j, idx) => {
-                                    return u.id_jabatan == j.id_jabatan ? (
-                                      <option 
-                                        key={idx}
-                                        value={j.id_jabatan}
-                                        selected="selected"
-                                      >
-                                        {j.nama_jabatan}
-                                      </option>
-                                    ) : (
-                                      <option key={idx} value={j.id_jabatan}>
-                                        {j.nama_jabatan}
-                                      </option>
-                                    );
-                                  })}
-                                </select>
-                              </div>
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4 font-medium">
-                              <div>
-                                <select
-                                  name="atasan"
-                                  id={`id_atasan${u.id_user}`}
-                                  className="w-60 text-primary border-primary rounded-lg h-12 text-2xl"
-                                >
-                                  {data.user.map((a, idx) => {
-                                    return a.id_user == u.id_atasan ? (
-                                      <option 
-                                        key={idx}
-                                        value={a.id_user}
-                                        selected="selected"
-                                      >
-                                        {a.username}
-                                      </option>
-                                    ) : (
-                                      <option key={idx} value={a.id_user}>
-                                        {a.username}
-                                      </option>
-                                    );
-                                  })}
-                                </select>
-                              </div>
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                              <p>
-                              <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`email${u.id_user}`}
-                                value={u.email}
-                                onChange={(e) =>
-                                    handleInputChange(
-                                        e,
-                                        u.id_user,
-                                        "email"
-                                    )
-                                } />
-                              </p>
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                              <p>
-                              <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`username${u.id_user}`}
-                                value={u.username}
-                                onChange={(e) =>
-                                    handleInputChange(
-                                        e,
-                                        u.id_user,
-                                        "username"
-                                    )
-                                } />  
-                              </p>
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                              <p>
-                              <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`password${u.id_user}`}
-                                value={u.password}
-                                onChange={(e) =>
-                                    handleInputChange(
-                                        e,
-                                        u.id_user,
-                                        "password"
-                                    )
-                                } /> 
-                              </p>
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                              <p>
-                              <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`alamat${u.id_user}`}
-                                value={u.alamat}
-                                onChange={(e) =>
-                                    handleInputChange(
-                                        e,
-                                        u.id_user,
-                                        "alamat"
-                                    )
-                                } />
-                              </p>
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                              <p>
-                              <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`no_rekening${u.id_user}`}
-                                value={u.no_rekening}
-                                onChange={(e) =>
-                                    handleInputChange(
-                                        e,
-                                        u.id_user,
-                                        "no_rekening"
-                                    )
-                                } />
-                              </p>
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                              <button className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
-                                Edit
-                              </button>
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                              <button className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
-                                Non Aktif
-                              </button>
-                            </td>
-                          </tr>
+                        {user.map((u) => {
+                          return (
+                            <>
+                              <tr className="border-b dark:border-neutral-500">
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                  <div>
+                                    <select
+                                      name="jabatan"
+                                      id={`id_jabatan${u.id_user}`}
+                                      className="w-44 text-primary border-primary rounded-lg h-12 text-xl"
+                                    >
+                                      {data.jabatan.map((j, idx) => {
+                                        return u.id_jabatan == j.id_jabatan ? (
+                                          <option
+                                            key={idx}
+                                            value={j.id_jabatan}
+                                            selected="selected"
+                                          >
+                                            {j.nama_jabatan}
+                                          </option>
+                                        ) : (
+                                          <option key={idx} value={j.id_jabatan}>
+                                            {j.nama_jabatan}
+                                          </option>
+                                        );
+                                      })}
+                                    </select>
+                                  </div>
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4 font-medium">
+                                  <div>
+                                    <select
+                                      name="atasan"
+                                      id={`id_atasan${u.id_user}`}
+                                      className="w-44 text-primary border-primary rounded-lg h-12 text-xl"
+                                    >
+                                      {data.user.map((a, idx) => {
+                                        return a.id_user == u.id_atasan ? (
+                                          <option
+                                            key={idx}
+                                            value={a.id_user}
+                                            selected="selected"
+                                          >
+                                            {a.username}
+                                          </option>
+                                        ) : (
+                                          <option key={idx} value={a.id_user}>
+                                            {a.username}
+                                          </option>
+                                        );
+                                      })}
+                                    </select>
+                                  </div>
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                  <p>
+                                    <input type="text" name="" className="border-primary w-72 rounded-lg text-xl" id={`email${u.id_user}`}
+                                      value={u.email}
+                                      onChange={(e) =>
+                                        handleInputChange(
+                                          e,
+                                          u.id_user,
+                                          "email"
+                                        )
+                                      } />
+                                  </p>
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                  <p>
+                                    <input type="text" name="" className="border-primary w-44 rounded-lg text-xl" id={`username${u.id_user}`}
+                                      value={u.username}
+                                      onChange={(e) =>
+                                        handleInputChange(
+                                          e,
+                                          u.id_user,
+                                          "username"
+                                        )
+                                      } />
+                                  </p>
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                  <p>
+                                    <input type="text" name="" className="border-primary w-36 rounded-lg text-xl" id={`password${u.id_user}`}
+                                      value={u.password}
+                                      onChange={(e) =>
+                                        handleInputChange(
+                                          e,
+                                          u.id_user,
+                                          "password"
+                                        )
+                                      } />
+                                  </p>
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                  <p>
+                                    <textarea type="text" name="" className="border-primary h-28 rounded-lg text-xl" id={`alamat${u.id_user}`}
+                                      value={u.alamat}
+                                      onChange={(e) =>
+                                        handleInputChange(
+                                          e,
+                                          u.id_user,
+                                          "alamat"
+                                        )
+                                      } />
+                                  </p>
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                  <p>
+                                    <input type="text" name="" className="border-primary w-40 rounded-lg text-xl" id={`no_rekening${u.id_user}`}
+                                      value={u.no_rekening}
+                                      onChange={(e) =>
+                                        handleInputChange(
+                                          e,
+                                          u.id_user,
+                                          "no_rekening"
+                                        )
+                                      } />
+                                  </p>
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                  <button className="bg-primary w-32 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                    Edit
+                                  </button>
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                  <button className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                    Non Aktif
+                                  </button>
+                                </td>
+                              </tr>
+                            </>
+                          )
                         })}
                       </tbody>
                     </table>
