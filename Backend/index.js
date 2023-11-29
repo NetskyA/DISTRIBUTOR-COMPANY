@@ -78,6 +78,10 @@ app.use(express.urlencoded({ extended: true }));
 // PUT EDIT JABATAN
 // GET ALL HEADER TRANSAKSI
 // GET ALL TOKO
+// GET LAPORAN KINERJA
+// GET ALL DETAIL BARANG
+// GET ALL DETAIL TRANSAKSI
+// GET DATA DETAIL BARANG BY ID
 
 //========================== KIRIM GAJI ==========================//
 const sendGaji = async (subtotal, email, date, username) => {
@@ -1876,26 +1880,28 @@ app.get("/api/kinerja", async (req, res) => {
   let gaji = await db.MasterGaji.findAll();
   let karyawan = await db.MasterUser.findAll();
   let jabatan = await db.MasterJabatan.findAll();
-  
+
   let kinerja = [];
 
-  historyGaji.forEach(h => {
+  historyGaji.forEach((h) => {
     const tempGaji = gaji.find((e) => e.id_gaji == h.id_gaji);
     const tempKaryawan = karyawan.find((e) => e.id_user == tempGaji.id_user);
-    const tempJabatan = jabatan.find((e) => e.id_jabatan == tempKaryawan.id_jabatan);
+    const tempJabatan = jabatan.find(
+      (e) => e.id_jabatan == tempKaryawan.id_jabatan
+    );
 
     let absen = 0;
     let potongan = 0;
 
-    if(tempJabatan.nama_jabatan=="Koordinator Supervisor"){
-      potongan = (9000000 - h.gaji_pokok);
-      absen = potongan/300000;
-    }else if(tempJabatan.nama_jabatan=="Supervisor"){
-      potongan = (6000000 - h.gaji_pokok);
-      absen = potongan/200000;
-    }else if(tempJabatan.nama_jabatan=="Salesman"){
-      potongan = (3000000 - h.gaji_pokok);
-      absen = potongan/100000;
+    if (tempJabatan.nama_jabatan == "Koordinator Supervisor") {
+      potongan = 9000000 - h.gaji_pokok;
+      absen = potongan / 300000;
+    } else if (tempJabatan.nama_jabatan == "Supervisor") {
+      potongan = 6000000 - h.gaji_pokok;
+      absen = potongan / 200000;
+    } else if (tempJabatan.nama_jabatan == "Salesman") {
+      potongan = 3000000 - h.gaji_pokok;
+      absen = potongan / 100000;
     }
 
     kinerja.push({
@@ -1906,10 +1912,8 @@ app.get("/api/kinerja", async (req, res) => {
       absen: absen,
       gaji: h.gaji_pokok,
       potongan: potongan,
-    })
-
+    });
   });
-  
 
   return res.status(200).send(kinerja);
 });
@@ -1920,3 +1924,167 @@ app.get("/api/getListDbarang", async (req, res) => {
   return res.status(200).send(dbarang);
 });
 
+//========================== GET ALL DETAIL TRANSAKSI ==========================//
+app.get("/api/getAllDetailTransaksi", async (req, res) => {
+  let detailTransaksi = await db.DetailTransaksi.findAll();
+  return res.status(200).send(detailTransaksi);
+});
+
+//========================== GET DATA DETAIL BARANG BY ID ==========================//
+app.post("/api/detailBarang/:id", async (req, res) => {
+  let { id } = req.params;
+
+  let detailBarang = await db.DetailBarang.findOne({
+    where: {
+      id_detail_barang: id,
+    },
+  });
+
+  let barang = await db.MasterBarang.findOne({
+    where: {
+      id_barang: detailBarang.id_barang,
+    },
+  });
+
+  let brand = await db.MasterBrand.findOne({
+    where: {
+      id_brand: barang.id_brand,
+    },
+  });
+
+  let result = {
+    id_detail_barang: detailBarang.id_detail_barang,
+    id_barang: detailBarang.id_barang,
+    nama_brand: brand.nama_brand,
+    nama_barang: barang.nama_barang,
+    stok_karton: detailBarang.jumlah_karton,
+    stok_pcs: detailBarang.jumlah_pcs,
+    harga_karton: barang.harga_karton,
+    harga_pcs: barang.harga_pcs,
+    tanggal_masuk: detailBarang.tanggal_masuk,
+    expired: detailBarang.tanggal_expired,
+  };
+
+  return res.status(200).send(result);
+});
+
+//========================== PUT UPDATE STATUS HEADER TRANSAKSI BY ID ==========================//
+app.put("/api/updateHeaderTransaksi/:id", async (req, res) => {
+  let { id } = req.params;
+  let { status } = req.body;
+
+  let update = await db.HeaderTransaksi.update(
+    {
+      status_transaksi: status,
+    },
+    {
+      where: {
+        id_transaksi: id,
+      },
+    }
+  );
+
+  return res.status(201).send(update);
+});
+
+//========================== PUT UPDATE DETAIL BARANG BY ID ==========================//
+app.put("/api/updateDetailBarang/:id", async (req, res) => {
+  let { id } = req.params;
+  let { stok_pcs, stok_karton } = req.body;
+
+  let barang = await db.DetailBarang.findOne({
+    where: {
+      id_detail_barang: id,
+    },
+  });
+
+  if (stok_pcs && stok_karton) {
+    // Both
+    let newStockPCS = barang.jumlah_pcs - Number(stok_pcs);
+    let newStockKarton = barang.jumlah_karton - Number(stok_karton);
+
+    let updateStock = await db.DetailBarang.update(
+      {
+        jumlah_pcs: newStockPCS,
+        jumlah_karton: newStockKarton,
+      },
+      {
+        where: {
+          id_detail_barang: id,
+        },
+      }
+    );
+
+    return res.status(201).send(updateStock);
+  } else if (stok_pcs) {
+    // PCS
+    let newStockPCS = barang.jumlah_pcs - Number(stok_pcs);
+
+    let updateStock = await db.DetailBarang.update(
+      {
+        jumlah_pcs: newStockPCS,
+      },
+      {
+        where: {
+          id_detail_barang: id,
+        },
+      }
+    );
+
+    return res.status(201).send(updateStock);
+  } else if (stok_karton) {
+    // KARTON
+    let newStockKarton = barang.jumlah_karton - Number(stok_karton);
+
+    let updateStock = await db.DetailBarang.update(
+      {
+        jumlah_karton: newStockKarton,
+      },
+      {
+        where: {
+          id_detail_barang: id,
+        },
+      }
+    );
+
+    return res.status(201).send(updateStock);
+  }
+});
+
+//========================== PUT UPDATE REALISASI ==========================//
+app.put("/api/realisasi/:idSales", async (req, res) => {
+  let { idSales } = req.params;
+  let { subtotal } = req.body;
+
+  // Realisasi Saleman
+  let salesman = await db.MasterUser.findByPk(idSales);
+  let newRealisasiSalesman = salesman.target_sekarang + Number(subtotal);
+  // console.log(newRealisasiSalesman);
+  let updateSalesman = await db.MasterUser.update(
+    {
+      target_sekarang: newRealisasiSalesman,
+    },
+    {
+      where: {
+        id_user: salesman.id_user,
+      },
+    }
+  );
+
+  // Realisasi Supervisor
+  let supervisor = await db.MasterUser.findByPk(salesman.id_atasan);
+  let newRealisasiSupervisor = supervisor.target_sekarang + Number(subtotal);
+  // console.log(newRealisasiSupervisor);
+  let updateSupervisor = await db.MasterUser.update(
+    {
+      target_sekarang: newRealisasiSupervisor,
+    },
+    {
+      where: {
+        id_user: supervisor.id_user,
+      },
+    }
+  );
+
+  return res.status(201).send("Success!");
+});

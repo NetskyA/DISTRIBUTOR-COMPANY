@@ -1,36 +1,94 @@
 import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import formatter from "../../controller/formatter";
+import client from "../../controller/client";
 
 export default function DataOrderanMasuk() {
   const dataOrder = useLoaderData();
 
+  const [kelurahan, setKelurahan] = useState(dataOrder.kelurahan);
+  const [headerTransaksi, setHeaderTransaksi] = useState(
+    dataOrder.headerTransaksi
+  );
+  const [toko, setToko] = useState(dataOrder.toko);
+  const [user, setUser] = useState(dataOrder.user);
+
   const [visibleData, setVisibleData] = useState(null);
   const [dataKelurahan, setDataKelurahan] = useState(null);
   const [refresh, setRefresh] = useState(true);
+  const [submit, setSubmit] = useState(false);
+
+  const forceRefresh = () => {
+    setRefresh(!refresh);
+  };
 
   useEffect(() => {
-    setRefresh(!refresh);
+    forceRefresh();
   }, [visibleData, dataKelurahan]);
+
+  const updateData = async () => {
+    let tempHeaderTransaksi = await client.get(`/api/headertransaksi`);
+    setHeaderTransaksi(tempHeaderTransaksi.data);
+    setSubmit(true);
+    forceRefresh();
+  };
+
+  useEffect(() => {
+    if (visibleData) {
+      let resultData = [];
+
+      const listToko = toko.filter(
+        (t) => t.id_kelurahan == dataKelurahan.id_kel
+      );
+
+      const listHeaderTransaksi = headerTransaksi.filter(
+        (h) => h.status_transaksi == 1
+      );
+
+      for (let i = 0; i < listHeaderTransaksi.length; i++) {
+        const header = listHeaderTransaksi[i];
+        const salesman = user.find((u) => u.id_user == header.id_user);
+
+        for (let j = 0; j < listToko.length; j++) {
+          const toko = listToko[j];
+          if (header.id_toko == toko.id_toko) {
+            const newData = {
+              idOrder: header.id_transaksi,
+              namaPelanggan: toko.nama_konsumen,
+              namaToko: toko.nama_toko,
+              namaSalesman: salesman.username,
+              tanggal: header.tanggal_transaksi,
+              subtotal: header.subtotal,
+              status: header.status_transaksi,
+              idKel: dataKelurahan.id_kel,
+            };
+
+            resultData.push(newData);
+          }
+        }
+      }
+
+      setVisibleData(resultData);
+      setSubmit(false);
+    }
+  }, [submit]);
 
   const toggleVisibility = (id_kel) => {
     let resultData = [];
 
-    const kelurahan = dataOrder.kelurahan.find(
-      (kel) => kel.id_kelurahan == id_kel
-    );
+    const tempKelurahan = kelurahan.find((kel) => kel.id_kelurahan == id_kel);
 
-    setDataKelurahan(kelurahan);
+    setDataKelurahan(tempKelurahan);
 
-    const listToko = dataOrder.toko.filter((t) => t.id_kelurahan == id_kel);
+    const listToko = toko.filter((t) => t.id_kelurahan == id_kel);
 
-    const listHeaderTransaksi = dataOrder.headerTransaksi.filter(
+    const listHeaderTransaksi = headerTransaksi.filter(
       (h) => h.status_transaksi == 1
     );
 
     for (let i = 0; i < listHeaderTransaksi.length; i++) {
       const header = listHeaderTransaksi[i];
-      const salesman = dataOrder.user.find((u) => u.id_user == header.id_user);
+      const salesman = user.find((u) => u.id_user == header.id_user);
 
       for (let j = 0; j < listToko.length; j++) {
         const toko = listToko[j];
@@ -51,11 +109,95 @@ export default function DataOrderanMasuk() {
       }
     }
 
-    if (visibleData != null && kelurahan == dataKelurahan) {
+    if (visibleData != null && tempKelurahan == dataKelurahan) {
       setVisibleData(null);
     } else {
       setVisibleData(resultData);
     }
+  };
+
+  const toogleSelect = (source) => {
+    let checkboxes = document.getElementsByName("orderBox");
+    for (let i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].checked = source.checked;
+    }
+  };
+
+  const handleSubmit = async () => {
+    alert("Submit");
+    let checkboxes = document.getElementsByName("orderBox");
+
+    let orders = [];
+    for (let i = 0; i < checkboxes.length; i++) {
+      const cb = checkboxes[i];
+
+      if (cb.checked == true) {
+        let tempHeaderTransaksi = headerTransaksi.find(
+          (h) => h.id_transaksi == cb.value
+        );
+
+        orders.push(tempHeaderTransaksi);
+      }
+    }
+
+    let tempdetailTransaksi = await client.get(`/api/getAllDetailTransaksi`);
+
+    let detailTransaksi = tempdetailTransaksi.data;
+
+    for (let i = 0; i < orders.length; i++) {
+      const order = orders[i];
+
+      // Update Status Transaksi
+      let updateStatusOrder = await client.put(
+        `/api/updateHeaderTransaksi/${order.id_transaksi}`,
+        {
+          status: 2,
+        }
+      );
+
+      // Update Stock Barang
+      const detailOrder = detailTransaksi.filter(
+        (dT) => dT.id_transaksi == order.id_transaksi
+      );
+
+      for (let j = 0; j < detailOrder.length; j++) {
+        const dO = detailOrder[j];
+
+        let tempDetailBarang = await client.post(
+          `/api/detailBarang/${dO.id_detail_barang}`
+        );
+
+        let detailBarang = tempDetailBarang.data;
+
+        if (dO.jumlah_barang_pcs) {
+          alert("PCS");
+          let updateStok = await client.put(
+            `/api/updateDetailBarang/${detailBarang.id_detail_barang}`,
+            {
+              stok_pcs: dO.jumlah_barang_pcs,
+            }
+          );
+        } else if (dO.jumlah_barang_karton) {
+          alert("KARTON");
+          let updateStok = await client.put(
+            `/api/updateDetailBarang/${detailBarang.id_detail_barang}`,
+            {
+              stok_karton: dO.jumlah_barang_karton,
+            }
+          );
+        }
+      }
+
+      // Update Realisasi User
+      let updateRealisasi = await client.put(
+        `/api/realisasi/${order.id_user}`,
+        {
+          subtotal: order.subtotal,
+        }
+      );
+    }
+
+    updateData();
   };
 
   return (
@@ -80,8 +222,8 @@ export default function DataOrderanMasuk() {
           </p>
           <div className="w-full\ items-center mx-auto m-6">
             <div className="grid grid-cols-6 lg:grid-cols-8 text-primary text-2xl">
-              {dataOrder.kelurahan &&
-                dataOrder.kelurahan.map((kel, index) => (
+              {kelurahan &&
+                kelurahan.map((kel, index) => (
                   <button
                     key={index}
                     onClick={() => toggleVisibility(kel.id_kelurahan)}
@@ -93,7 +235,6 @@ export default function DataOrderanMasuk() {
             </div>
           </div>
         </div>
-        {/* berisi form retur */}
       </div>
       <div className="w w-full mt-2 mb-2">
         <p className="pr-2 pt-4 text-md italic text-primary">
@@ -118,6 +259,7 @@ export default function DataOrderanMasuk() {
                       name="selectAll"
                       id="all"
                       className="border-2 border-primary w-7 h-7 rounded-lg"
+                      onClick={(e) => toogleSelect(e.target)}
                     />
                   </th>
                   <th scope="col" className="px-6 py-4">
@@ -149,7 +291,8 @@ export default function DataOrderanMasuk() {
                     <td className="whitespace-nowrap px-6 py-4">
                       <input
                         type="checkbox"
-                        name="selectAll"
+                        name="orderBox"
+                        value={v.idOrder}
                         id="all"
                         className="border-2 border-primary w-7 h-7 rounded-lg"
                       />
@@ -183,7 +326,10 @@ export default function DataOrderanMasuk() {
       <div className="prints">
         <div className="m-4">
           <div className="noId flex text-primary text-2xl">
-            <button className="w-52 h-14 m-2 items-end bg-primary rounded-xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4">
+            <button
+              className="w-52 h-14 m-2 items-end bg-primary rounded-xl hover:bg-gray-300 text-white hover:text-primary font-bold py-2 px-4"
+              onClick={handleSubmit}
+            >
               Submit
             </button>
           </div>
