@@ -2275,7 +2275,7 @@ app.put("/api/editStatusToko", async (req, res) => {
   return res.status(200).send("Done");
 });
 
-//========================== GET DATA LIST KELURAHAN KEYWORD ==========================//
+//========================== GET DATA LIST TOKO KEYWORD ==========================//
 app.get("/api/toko/:keyword", async (req, res) => {
   const { keyword } = req.params;
   const key = `%${keyword}%`;
@@ -2337,6 +2337,81 @@ app.put("/api/editToko", async (req, res) => {
     {
       where: {
         id_toko: id_toko,
+      },
+    }
+  );
+
+  return res.status(200).send("Done");
+});
+
+//========================== PUT EDIT STATUS USER ==========================//
+app.put("/api/editStatusUser", async (req, res) => {
+  let { id_user, status_user } = req.body;
+
+  await db.MasterUser.update(
+    {
+      status_user: status_user,
+    },
+    {
+      where: {
+        id_user: id_user,
+      },
+    }
+  );
+
+  return res.status(200).send("Done");
+});
+
+//========================== GET DATA LIST USER KEYWORD ==========================//
+app.get("/api/user/:keyword", async (req, res) => {
+  const { keyword } = req.params;
+  const key = `%${keyword}%`;
+  let user = await db.MasterUser.findAll({
+    where: {
+      [Op.or]: [
+        {
+          id_user: {
+            [Op.like]: key,
+          },
+        },
+        {
+          username: {
+            [Op.like]: key,
+          },
+        },
+        {
+          email: {
+            [Op.like]: key,
+          },
+        },
+        {
+          alamat: {
+            [Op.like]: key,
+          },
+        },
+      ],
+    },
+  });
+  return res.status(200).send(user);
+});
+
+//========================== PUT EDIT USER ==========================//
+app.put("/api/editUser", async (req, res) => {
+  let { id_user, id_jabatan, id_atasan , username, email, password, alamat, no_rekening } = req.body;
+
+  await db.MasterUser.update(
+    {
+      id_jabatan: id_jabatan,
+      id_atasan: id_atasan,
+      username: username,
+      email: email,
+      password: password,
+      alamat: alamat,
+      no_rekening: no_rekening,
+    },
+    {
+      where: {
+        id_user: id_user,
       },
     }
   );

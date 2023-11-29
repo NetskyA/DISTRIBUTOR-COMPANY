@@ -8,6 +8,7 @@ import "datatables.net-buttons-dt/css/buttons.dataTables.min.css";
 import "datatables.net-buttons/js/buttons.html5.min.js";
 import "datatables.net-buttons/js/buttons.print.min.js";
 import LogoPerusahaan from "../../images/image-login/icon.png"
+import client from "../../controller/client";
 
 export default function MasterJabatan() {
   let data = useLoaderData();
@@ -18,6 +19,46 @@ export default function MasterJabatan() {
     setIsMasterBarang(!isMasterBarang);
   };
 
+  async function statusUser(id, status) {
+    await client.put(`/api/editStatusUser`, {
+        id_user: id,
+        status_user: status,
+    });
+    let user = await client.get(`/api/user`);
+    setUser(user.data);
+  }
+
+  async function editUser(id) {
+    const id_jabatan = document.getElementById(`id_jabatan${id}`).value;
+    const id_atasan = document.getElementById(`id_atasan${id}`).value;
+    const username = document.getElementById(`username${id}`).value;
+    let email = document.getElementById(`email${id}`).value;
+    let password = document.getElementById(`password${id}`).value;
+    let alamat = document.getElementById(`alamat${id}`).value;
+    let no_rekening = document.getElementById(`no_rekening${id}`).value;
+
+    await client.put(`/api/editUser`, {
+      id_user: id,
+      id_jabatan: id_jabatan,
+      id_atasan: id_atasan,
+      username: username,
+      email: email,
+      password: password,
+      alamat: alamat,
+      no_rekening: no_rekening,
+    });
+   
+    let user = await client.get(`/api/user`);
+    setUser(user.data);
+    alert("Berhasil Update User " + id);
+}
+
+  async function cari() {
+    let keyword = document.getElementById("keyword").value;
+    let user = await client.get(`/api/user/${keyword}`);
+    setUser(user.data);
+}
+
   const handleInputChange = (e, id, field) => {
     const updatedUser = user.map((u) =>
       u.id_user === id ? { ...u, [field]: e.target.value } : u
@@ -27,7 +68,6 @@ export default function MasterJabatan() {
 
   return (
     <>
-      {/* {console.log(user)} */}
       <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
         <div className="flex">
           <div className="flex text-primary text-2xl">
@@ -45,9 +85,17 @@ export default function MasterJabatan() {
             <div className="cover mb-28">
               <p className="text-primary text-2xl pt-1 ps-4">Search :</p>
               <div className="flex ms-4">
-                <input type="text" className="border-primary text-xl rounded-lg" />
-                <button className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
-                  Cari
+                <input
+                    type="text"
+                    id="keyword"
+                    className="border-primary text-xl rounded-lg"
+                    onChange={() => cari()}
+                    />
+                <button
+                className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                onClick={() => cari()}
+                >
+                    Cari
                 </button>
               </div>
               <div className="covertable m-4">
@@ -89,7 +137,7 @@ export default function MasterJabatan() {
                         {user.map((u) => {
                           return (
                             <>
-                              <tr className="border-b dark:border-neutral-500">
+                              <tr key={u.id_user} className="border-b dark:border-neutral-500">
                                 <td className="whitespace-nowrap px-6 py-4 font-medium">
                                   <div>
                                     <select
@@ -103,6 +151,7 @@ export default function MasterJabatan() {
                                             key={idx}
                                             value={j.id_jabatan}
                                             selected="selected"
+                                           
                                           >
                                             {j.nama_jabatan}
                                           </option>
@@ -122,7 +171,7 @@ export default function MasterJabatan() {
                                       id={`id_atasan${u.id_user}`}
                                       className="w-44 text-primary border-primary rounded-lg h-12 text-xl"
                                     >
-                                      {data.user.map((a, idx) => {
+                                      {user.map((a, idx) => {
                                         return a.id_user == u.id_atasan ? (
                                           <option
                                             key={idx}
@@ -206,14 +255,26 @@ export default function MasterJabatan() {
                                   </p>
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4">
-                                  <button className="bg-primary w-32 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                  <button onClick={()=>editUser(u.id_user)} className="bg-primary w-32 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                                     Edit
                                   </button>
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4">
-                                  <button className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
-                                    Non Aktif
-                                  </button>
+                                  {u.status_user == 0 ? (
+                                    <button
+                                        onClick={() => statusUser(u.id_user, 1)}
+                                        className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                    >
+                                        Aktif
+                                    </button>
+                                    ) : (
+                                    <button
+                                        onClick={() => statusUser(u.id_user, 0)}
+                                        className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                    >
+                                        Non Aktif
+                                    </button>
+                                  )}
                                 </td>
                               </tr>
                             </>

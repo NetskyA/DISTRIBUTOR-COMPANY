@@ -505,6 +505,10 @@ const loadSemuaData = async () => {
 
   let dbarang = await client.get(`/api/getListDbarang`);
 
+  let supervisor = await client.get(`/api/listSupervisor`);
+
+  let ksupervisor = await client.get(`/api/listKsupervisor`);
+
   let tempDbarang = [];
 
   dbarang.data.map((d) => {
@@ -529,6 +533,8 @@ const loadSemuaData = async () => {
     toko: toko.data,
     user: user.data,
     dbarang: tempDbarang,
+    supervisor: supervisor.data,
+    ksupervisor: ksupervisor.data,
   };
 };
 
