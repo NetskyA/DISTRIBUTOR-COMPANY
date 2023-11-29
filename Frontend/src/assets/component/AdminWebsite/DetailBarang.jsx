@@ -95,6 +95,26 @@ export default function DetailBarang() {
         ambilData();
     }
 
+    async function cari() {
+        let keyword = document.getElementById("keyword").value;
+        let dbarang = await client.get(`/api/getListDbarang/${keyword}`);
+
+        let tempDbarang = [];
+        dbarang.data.map((d)=>{
+            const tempDate = d.tanggal_expired.split("-");
+            let expired = tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0];
+            tempDbarang.push({
+                id_detail_barang: d.id_detail_barang,
+                id_barang: d.id_barang,
+                jumlah_pcs: d.jumlah_pcs,
+                jumlah_karton: d.jumlah_karton,
+                tanggal_expired: expired,
+            })
+        })
+
+        setDbarang(tempDbarang);
+    }
+
     const handleInputChange = (e, id, field) => {
         const updatedDbarang = dbarang.map((d) =>
             d.id_detail_barang === id ? { ...d, [field]: e.target.value } : d
@@ -173,8 +193,16 @@ export default function DetailBarang() {
                         <div className="cover mb-28">
                             <p className="text-primary text-2xl pt-1 ps-4">Search :</p>
                             <div className="flex ms-4">
-                                <input type="text" className="border-primary text-xl rounded-lg" />
-                                <button className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                <input
+                                    type="text"
+                                    id="keyword"
+                                    className="border-primary text-xl rounded-lg"
+                                    onChange={() => cari()}
+                                    />
+                                <button
+                                className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                onClick={() => cari()}
+                                >
                                     Cari
                                 </button>
                             </div>

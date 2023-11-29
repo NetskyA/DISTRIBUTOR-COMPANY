@@ -2131,27 +2131,32 @@ app.put("/api/dbarang", async (req, res) => {
 });
 
 //========================== GET DATA LIST BRAND KEYWORD ==========================//
-app.get("/api/getListBrands/:keyword", async (req, res) => {
+app.get("/api/getListDbarang/:keyword", async (req, res) => {
   const { keyword } = req.params;
-  console.log(keyword);
   const key = `%${keyword}%`;
-  let brand = await db.MasterBrand.findAll({
+  let barang = await db.MasterBarang.findAll({
     where: {
-      [Op.or]: [
-        {
-          id_brand: {
-            [Op.like]: key,
-          },
-        },
-        {
-          nama_brand: {
-            [Op.like]: key,
-          },
-        },
-      ],
+      nama_barang: {
+        [Op.like]: key,
+      }
     },
   });
-  return res.status(200).send(brand);
+
+  let temp = [];
+
+  for (let i = 0; i < barang.length; i++) {
+    const b = barang[i];
+    let t = await db.DetailBarang.findAll({
+      where: {
+        id_barang: b.id_barang,
+      },
+    });
+    for (let j = 0; j < t.length; j++) {
+      temp.push(t[j]);      
+    }
+  }
+
+  return res.status(200).send(temp);
 });
 
 //========================== PUT EDIT DETAIL BARANG ==========================//
