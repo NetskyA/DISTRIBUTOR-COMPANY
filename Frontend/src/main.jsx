@@ -59,6 +59,7 @@ const {
   loadSemuaData,
   loadDataVerifikasi,
   getKinerja,
+  loadDataNota,
 } = DataHandler;
 
 const router = createBrowserRouter([
@@ -166,6 +167,7 @@ const router = createBrowserRouter([
       },
       {
         path: "Print-Orderan-Penjualan",
+        loader: loadDataNota,
         element: <PrintOrderPenjualan />,
       },
       {

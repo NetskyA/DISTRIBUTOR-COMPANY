@@ -532,12 +532,26 @@ const loadDataVerifikasi = async () => {
   };
 };
 
-const getKinerja = async () =>{
+const loadDataNota = async () => {
+  let kelurahan = await client.get(`/api/getListKelurahan`);
+  let headerTransaksi = await client.get(`/api/headertransaksi`);
+  let toko = await client.get(`/api/toko`);
+  // let user = await client.get(`/api/user`);
+
+  return {
+    kelurahan: kelurahan.data,
+    headerTransaksi: headerTransaksi.data,
+    toko: toko.data,
+    // user: user.data,
+  };
+};
+
+const getKinerja = async () => {
   const kinerja = await client.get(`/api/kinerja`);
   return {
-    kinerja: kinerja.data
-  }
-}
+    kinerja: kinerja.data,
+  };
+};
 
 export default {
   getDataCatalog,
@@ -565,4 +579,5 @@ export default {
   loadSemuaData,
   loadDataVerifikasi,
   getKinerja,
+  loadDataNota,
 };
