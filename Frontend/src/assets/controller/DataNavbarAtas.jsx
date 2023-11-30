@@ -5,14 +5,14 @@ import LogoPerusahaan from "../images/image-login/icon3.png"
 
 export default function NavBarUp() {
     let nama = JSON.parse(localStorage.loggedData).username;
-    let jabatan =  JSON.parse(localStorage.loggedData).jabatan;
+    let jabatan = JSON.parse(localStorage.loggedData).jabatan;
     return (
         <>
             <div className="mt-2 font-semibold text-sm text-gray-500 flex float-right">
                 {/* nanti digunakan memanggil nama sesuai akun*/}
                 <div>
                     <p className="text-3xl mr-5 mt-4 font-semibold">
-                        {`${nama} (${jabatan})`} 
+                        {`${nama} (${jabatan})`}
                     </p>
                 </div>
                 {/* nanti digunakan memanggil nama sesuai akun */}
