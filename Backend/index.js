@@ -1164,7 +1164,7 @@ app.get("/api/getBawahanSupervisor", async (req, res) => {
 
   salesmans.forEach((s) => {
     const tempTarget = targets.find((e) => e.id_user == s.id_user);
-    const salesmanTarget = tempTarget.dataValues;
+    const salesmanTarget = tempTarget.dataValues; 
 
     const kel = wilayah.find(
       (e) => e.id_kelurahan == salesmanTarget.id_wilayah
