@@ -334,10 +334,9 @@ export default function ReturnBarang() {
       radio[0].disabled = true;
       radio[1].disabled = true;
       try {
-        console.log(user);
         let dataDetail = await client.post("/api/getDetail", {
           id: id,
-          idSales: user.id_user,
+          idSales: user.user.id_user,
         });
         console.log(dataDetail.data);
         setdata({
@@ -386,7 +385,7 @@ export default function ReturnBarang() {
           <p>Retur</p>
         </div>
         <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-          <ControlTarget />
+        <ControlTarget current={user.targetSekarang} target={user.currtarget}/>
         </div>
         {/* untuk memanggil function controller target salesman */}
       </div>

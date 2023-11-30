@@ -11,6 +11,7 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { useForm } from "react-hook-form";
 import formatter from "../../controller/formatter";
 import client from "../../controller/client";
+import ControlTarget from "../../controller/ControlTarget";
 export default function Table() {
     useEffect(() => {
         // Disable text selection for elements
@@ -69,7 +70,7 @@ export default function Table() {
                     <p>Target Salesman</p>
                 </div>
                 <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-                    {/* <DataTarget /> */}
+                <ControlTarget current={dataSupervisor.targetSekarang} target={dataSupervisor.currtarget}/>
                 </div>
                 {/* untuk memanggil function controller target salesman */}
             </div>

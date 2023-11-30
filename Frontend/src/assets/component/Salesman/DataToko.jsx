@@ -57,7 +57,7 @@ export default function DataToko() {
                     <p>List Toko</p>
                 </div>
                 <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-                    <ControlTarget />
+                    <ControlTarget current={data.targetSekarang} target={data.currtarget}/>
                 </div>
                 {/* untuk memanggil function controller target salesman */}
             </div>

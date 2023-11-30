@@ -68,17 +68,29 @@ export default function MasterJabatan() {
 
   const jabatan = (e,id)=>{
     let currValue = e.target.value;
-    let listAtasan = user.filter(e=>e.id_jabatan===parseInt(currValue));
     var outletOptions = document.querySelector(`#id_atasan${id}`);
     Array.from(outletOptions).forEach((option) => {
       outletOptions.removeChild(option)
     })
-    listAtasan.map((optionData) => {
-      var opt = document.createElement('option')
-      opt.appendChild(document.createTextNode(optionData.username));
-      opt.value = optionData.id_user
-      outletOptions.appendChild(opt);
-    })
+    if(currValue==1||currValue==2){
+      currValue++;
+      let listAtasan = user.filter(e=>e.id_jabatan===parseInt(currValue));
+      listAtasan.map((optionData) => {
+        var opt = document.createElement('option')
+        opt.appendChild(document.createTextNode(optionData.username));
+        opt.value = optionData.id_user
+        outletOptions.appendChild(opt);
+      })
+    }
+    else{
+        var opt = document.createElement('option')
+        opt.appendChild(document.createTextNode(""));
+        opt.value = 0
+        outletOptions.appendChild(opt);
+    }
+
+
+
   }
   return (
     <>
@@ -187,7 +199,7 @@ export default function MasterJabatan() {
                                       className="w-44 text-primary border-primary rounded-lg h-12 text-xl"
                                     >
                                       {user.map((a, idx) => {
-                                        return a.id_user == u.id_atasan ? (
+                                        return (a.id_user == u.id_atasan) ? (
                                           <option
                                             key={idx}
                                             value={a.id_user}
@@ -195,7 +207,7 @@ export default function MasterJabatan() {
                                           >
                                             {a.username}
                                           </option>
-                                        ) : u.id_jabatan === a.id_jabatan &&( 
+                                        ) : ((u.id_jabatan+1==a.id_jabatan)&&(u.id_jabatan+1<=3 && u.id_jabatan!==0)) &&( 
                                           <option key={idx} value={a.id_user}>
                                             {a.username}
                                           </option>

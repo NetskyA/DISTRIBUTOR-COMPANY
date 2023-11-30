@@ -42,7 +42,7 @@ const Catalog = () => {
     // })
     table = new $('#example').DataTable({
       dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
-      data: data,
+      data: data.data,
       'columnDefs'        : [         // see https://datatables.net/reference/option/columns.searchable
                 { 
                     'searchable'    : false, 
@@ -129,7 +129,7 @@ const Catalog = () => {
           <p>Katalog</p>
         </div>
         <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-          <ControlTarget />
+        <ControlTarget current={data.targetSekarang} target={data.currtarget}/>
         </div>
       </div>
       <div className="cover mt-12 border-2 mb-28 rounded-xl" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>

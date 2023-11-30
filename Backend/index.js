@@ -2456,3 +2456,26 @@ app.get("/api/listSalesman", async (req, res) => {
 
   return res.status(200).send(salesman);
 });
+
+app.post("/api/getOneUser",async(req,res)=>{
+  let {id} = req.body;
+  console.log(id)
+  let data = await db.MasterUser.findOne({
+    where:{ 
+      id_user:id
+    }
+  })
+  return res.send({target:data.dataValues.target_sekarang})
+})
+
+app.post("/api/getTargetSekarang",async(req,res)=>{
+  let {id} = req.body;
+  console.log(id)
+  let data = await db.MasterTarget.findOne({
+    where:{ 
+      id_user:id
+    },
+    order:[["id_target","desc"]]
+  })
+  return res.send({target:data.dataValues.target})
+})

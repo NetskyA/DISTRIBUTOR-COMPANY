@@ -6,6 +6,7 @@ import LogoPrint from "../../images/image-navbar/printer.png";
 import { useLoaderData } from "react-router";
 import formatter from "../../controller/formatter";
 import LogoPerusahaan from "../../images/image-login/icon.png";
+import ControlTarget from "../../controller/ControlTarget";
 
 export default function ReturnBarang() {
   const dataSupervisor = useLoaderData();
@@ -78,7 +79,7 @@ export default function ReturnBarang() {
           <p>Laporan Target Salesman</p>
         </div>
         <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-          {/* <DataTarget /> */}
+        <ControlTarget current={dataSupervisor.targetSekarang} target={dataSupervisor.currtarget}/>
         </div>
         {/* untuk memanggil function controller target salesman */}
       </div>

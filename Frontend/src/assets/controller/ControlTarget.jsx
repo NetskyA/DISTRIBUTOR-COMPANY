@@ -1,9 +1,9 @@
 /* eslint-disable*/
 
+import client from "./client";
 import formatter from "./formatter";
 
-function targetData() {
-    let temp = JSON.parse(localStorage.loggedData);
+function targetData({target,current}) {
     return(
         <>
             <div className="header float-right flex text-2xl font-semibold m-2">
@@ -12,10 +12,10 @@ function targetData() {
                     Target bulanan
                 </div>
                 <div className="ms-4 text-gray-600">
-                    ( {formatter.format(temp.target_sekarang)}
+                    ( {formatter.format(current)}
                 </div>
                 <div className="text-primary">
-                    / {formatter.format(temp.target)} )
+                    / {formatter.format(target)} )
                 </div>
                 {/* berisi target bulanan yang diambil dari total penjulan sales pribadi*/}
             </div>

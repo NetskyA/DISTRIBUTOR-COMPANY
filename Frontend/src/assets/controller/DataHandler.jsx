@@ -8,8 +8,16 @@ const getDataCatalog = async () => {
   if (temp !== "Salesman") {
     return redirect(`/${temp.replace(/\s/g, "")}`);
   }
+  let temp2 = JSON.parse(localStorage.loggedData);
   let data = await client.get("/api/barang");
-  return data.data;
+  let dataUser = await client.post("/api/getOneUser",{
+    id:temp2.id_user
+})
+let target = await client.post("/api/getTargetSekarang",{
+  id:temp2.id_user
+})
+  return {data:data.data,targetSekarang:dataUser.data.target,
+    currtarget:target.data.target};
 };
 
 const getDataProfileSalesman = async () => {
@@ -24,6 +32,12 @@ const getDataProfileSalesman = async () => {
   let atasan = await client.post("/api/atasan", {
     id_user: temp2.id_atasan,
   });
+  let dataUser = await client.post("/api/getOneUser",{
+      id:temp2.id_user
+  })
+  let target = await client.post("/api/getTargetSekarang",{
+    id:temp2.id_user
+  })
   let dataSales = {
     nama: temp2.username,
     email: temp2.email,
@@ -31,6 +45,8 @@ const getDataProfileSalesman = async () => {
     alamat: temp2.alamat,
     atasan: atasan.data,
     foto: temp2.foto,
+    targetSekarang:dataUser.data.target,
+    currtarget:target.data.target
   };
   return dataSales;
 };
@@ -47,6 +63,12 @@ const getDataProfileSupervisor = async () => {
   let atasan = await client.post("/api/atasan", {
     id_user: temp2.id_atasan,
   });
+  let dataUser = await client.post("/api/getOneUser",{
+    id:temp2.id_user
+})
+let target = await client.post("/api/getTargetSekarang",{
+  id:temp2.id_user
+})
   let dataSales = {
     nama: temp2.username,
     email: temp2.email,
@@ -54,6 +76,8 @@ const getDataProfileSupervisor = async () => {
     alamat: temp2.alamat,
     atasan: atasan.data,
     foto: temp2.foto,
+    targetSekarang:dataUser.data.target,
+    currtarget:target.data.target
   };
   return dataSales;
 };
@@ -108,6 +132,12 @@ const cekOrder = async () => {
       qty_pcs: 0,
     });
   }
+  let dataUser = await client.post("/api/getOneUser",{
+    id:temp2.id_user
+})
+let target = await client.post("/api/getTargetSekarang",{
+  id:temp2.id_user
+})
   let dataSales = {
     id_user: temp2.id_user,
     nama: temp2.username,
@@ -116,7 +146,8 @@ const cekOrder = async () => {
     alamat: temp2.alamat,
     foto: temp2.foto,
   };
-  return { sales: dataSales, barang: barang };
+  return { sales: dataSales, barang: barang, targetSekarang:dataUser.data.target,
+    currtarget:target.data.target};
 };
 
 const cekPost = async () => {
@@ -131,6 +162,12 @@ const cekPost = async () => {
   let getPost = await client.post("/api/post", {
     sales: temp2.id_user,
   });
+  let dataUser = await client.post("/api/getOneUser",{
+    id:temp2.id_user
+})
+let target = await client.post("/api/getTargetSekarang",{
+  id:temp2.id_user
+})
   let dataSales = {
     nama: temp2.username,
     email: temp2.email,
@@ -138,7 +175,8 @@ const cekPost = async () => {
     alamat: temp2.alamat,
     foto: temp2.foto,
   };
-  return { sales: dataSales, post: getPost.data };
+  return { sales: dataSales, post: getPost.data ,targetSekarang:dataUser.data.target,
+    currtarget:target.data.target};
 };
 
 const cekHistory = async () => {
@@ -154,7 +192,14 @@ const cekHistory = async () => {
     sales: temp2.id_user,
   });
   console.log(getHistory.data);
-  return { history: getHistory.data, sales: temp2 };
+  let dataUser = await client.post("/api/getOneUser",{
+    id:temp2.id_user
+})
+let target = await client.post("/api/getTargetSekarang",{
+  id:temp2.id_user
+})
+  return { history: getHistory.data, sales: temp2,targetSekarang:dataUser.data.target,
+    currtarget:target.data.target };
 };
 
 const cekDetailHistory = async (data) => {
@@ -179,6 +224,12 @@ const cekDetailHistory = async (data) => {
   let hasilQuery = hasil.data;
   console.log(hasilQuery);
   let dataDetail = mergeDetail(hasilQuery);
+  let dataUser = await client.post("/api/getOneUser",{
+    id:temp2.id_user
+})
+let target = await client.post("/api/getTargetSekarang",{
+  id:temp2.id_user
+})
   // let dataRetur = dataDetail.filter(e=>e.status!==0);
   // let dataDetailTransaksi = dataDetail.filter(e=>e.status===0);
   return {
@@ -186,6 +237,8 @@ const cekDetailHistory = async (data) => {
     detailTransaksi: dataDetail,
     sales: temp2,
     transaksi: hasilQuery,
+    targetSekarang:dataUser.data.target,
+    currtarget:target.data.target
   };
 };
 
@@ -257,7 +310,15 @@ const getRetur = async () => {
     return redirect(`/${temp.replace(/\s/g, "")}`);
   }
   let temp2 = JSON.parse(localStorage.loggedData);
-  return temp2;
+  let dataUser = await client.post("/api/getOneUser",{
+    id:temp2.id_user
+})
+let target = await client.post("/api/getTargetSekarang",{
+  id:temp2.id_user
+})
+  return {user:temp2,targetSekarang:dataUser.data.target,
+    currtarget:target.data.target};
+
 };
 
 const getJabatan = async () => {
@@ -344,10 +405,19 @@ const getDataSupervisor = async () => {
   let getKelurahan = await client.get("/api/kelurahan");
   let getTarget = await client.get(`/api/target`);
 
+  let dataUser = await client.post("/api/getOneUser",{
+    id:temp.id_user
+})
+let target = await client.post("/api/getTargetSekarang",{
+  id:temp.id_user
+})
+
   return {
     salesman: getSalesman.data,
     kelurahan: getKelurahan.data,
     target: getTarget.data,
+    targetSekarang:dataUser.data.target,
+    currtarget:target.data.target
   };
 };
 
@@ -388,10 +458,17 @@ const getSales = async () => {
       }
     }
   }
-
+  let dataUser = await client.post("/api/getOneUser",{
+    id:temp.id_user
+})
+let target = await client.post("/api/getTargetSekarang",{
+  id:temp.id_user
+})
   return {
     salesman: getSalesman.data,
     target: tempTarget,
+    targetSekarang:dataUser.data.target,
+    currtarget:target.data.target
   };
 };
 
@@ -453,9 +530,17 @@ const getDataToko = async () => {
   }
 
   let getKatalogToko = await client.get(`/api/getKatalogToko`);
-
+  let temp2 = JSON.parse(localStorage.loggedData);
+  let dataUser = await client.post("/api/getOneUser",{
+    id:temp2.id_user
+})
+let target = await client.post("/api/getTargetSekarang",{
+  id:temp2.id_user
+})
   return {
     katalogToko: getKatalogToko.data,
+    targetSekarang:dataUser.data.target,
+    currtarget:target.data.target
   };
 };
 

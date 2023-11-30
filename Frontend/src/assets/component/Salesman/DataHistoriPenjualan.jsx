@@ -107,7 +107,7 @@ export default function DataHistoriPenjualan() {
                     <p>Histori Penjualan</p>
                 </div>
                 <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-                    <ControlTarget />
+                <ControlTarget current={data.targetSekarang} target={data.currtarget}/>
                 </div>
             </div>
 
