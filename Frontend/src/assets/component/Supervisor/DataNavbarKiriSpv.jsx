@@ -3,6 +3,7 @@ import LogoProfile from "../../images/image-navbar/staff.png"
 import LogoLogout from "../../images/image-navbar/logout2.png"
 import LogoCatalog from "../../images/image-navbar/writing.png"
 import LogoLaporan from "../../images/image-navbar/laporan.png"
+import LogoToko from "../../images/image-navbar/toko.png"
 
 
 // untuk looping navabr kiri
@@ -10,6 +11,7 @@ function LoopMenu() {
     let a = [];
     a.push(<DataNavbar img={LogoProfile} title="Profil" link="/Supervisor" />)
     a.push(<DataNavbar img={LogoCatalog} title="Target" link="Target" />)
+    a.push(<DataNavbar img={LogoToko} title="Toko" link="Toko" />)
     a.push(<DataNavbar img={LogoLaporan} title="Laporan " link="Laporan" />)
     a.push(<DataNavbar img={LogoLogout} title="Keluar" link="/" />)
 

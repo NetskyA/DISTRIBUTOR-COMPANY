@@ -15,6 +15,7 @@ import PostKeranjang from "./assets/component/Salesman/DataPostKeranjang";
 import DetailHistoriPenjualanSales from "./assets/component/Salesman/DataDetailHistori";
 import DataProfileSupervisor from "./assets/component/Supervisor/DataProfileSupervisor";
 import DataTargetSupervisor from "./assets/component/Supervisor/DataTargetSupervisor";
+import DataTokoSupervisor from "./assets/component/Supervisor/DataToko";
 import DataLaporanSalesman from "./assets/component/Supervisor/DataLaporanSalesman";
 import ProfileKoordinator from "./assets/component/Koordinator/DataProfileKoordinator";
 import TargetKoordinatorToSupervisor from "./assets/component/Koordinator/DataTargetKoordinator";
@@ -62,6 +63,7 @@ const {
   loadDataNota,
   loadDataLaporan,
   getLaporanTarget,
+  getDataTokoSupervisor
 } = DataHandler;
 
 const router = createBrowserRouter([
@@ -129,6 +131,11 @@ const router = createBrowserRouter([
         path: "Target",
         element: <DataTargetSupervisor />,
         loader: getDataSupervisor,
+      },
+      {
+        path: "Toko",
+        element: <DataTokoSupervisor />,
+        loader:   getDataTokoSupervisor,
       },
       {
         path: "Laporan",

@@ -691,6 +691,31 @@ const getLaporanTarget = async () => {
   };
 };
 
+const getDataTokoSupervisor = async () => {
+  if (!localStorage.loggedData) {
+    return redirect("/");
+  }
+  let temp = JSON.parse(localStorage.loggedData);
+  if (temp.jabatan !== "Supervisor") {
+    return redirect(`/${temp.jabatan.replace(/\s/g, "")}`);
+  }
+
+  let getKatalogToko = await client.get(`/api/getKatalogToko`);
+  let temp2 = JSON.parse(localStorage.loggedData);
+  let dataUser = await client.post("/api/getOneUser",{
+    id:temp2.id_user
+})
+let target = await client.post("/api/getTargetSekarang",{
+  id:temp2.id_user
+})
+  return {
+    katalogToko: getKatalogToko.data,
+    targetSekarang:dataUser.data.target,
+    currtarget:target.data.target
+  };
+};
+
+
 export default {
   getDataCatalog,
   getDataProfileSalesman,
@@ -720,4 +745,5 @@ export default {
   loadDataNota,
   loadDataLaporan,
   getLaporanTarget,
+  getDataTokoSupervisor
 };
