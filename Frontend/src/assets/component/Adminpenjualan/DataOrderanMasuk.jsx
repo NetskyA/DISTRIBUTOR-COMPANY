@@ -158,37 +158,6 @@ export default function DataOrderanMasuk() {
         }
       );
 
-      // Update Stock Barang
-      const detailOrder = detailTransaksi.filter(
-        (dT) => dT.id_transaksi == order.id_transaksi
-      );
-
-      for (let j = 0; j < detailOrder.length; j++) {
-        const dO = detailOrder[j];
-
-        let tempDetailBarang = await client.post(
-          `/api/detailBarang/${dO.id_detail_barang}`
-        );
-
-        let detailBarang = tempDetailBarang.data;
-
-        if (dO.jumlah_barang_pcs) {
-          let updateStok = await client.put(
-            `/api/updateDetailBarang/${detailBarang.id_detail_barang}`,
-            {
-              stok_pcs: dO.jumlah_barang_pcs,
-            }
-          );
-        } else if (dO.jumlah_barang_karton) {
-          let updateStok = await client.put(
-            `/api/updateDetailBarang/${detailBarang.id_detail_barang}`,
-            {
-              stok_karton: dO.jumlah_barang_karton,
-            }
-          );
-        }
-      }
-
       // Update Realisasi User
       let updateRealisasi = await client.put(
         `/api/realisasi/${order.id_user}`,
