@@ -158,7 +158,7 @@ export default function RegisterUser() {
     <>
       {console.log(isLoading)}
       {isLoading == true &&
-        <div className="flex items-center h-screen">
+        <div className="flex items-center bg-slate-200 rounded-xl h-screen">
           <span className="loader"></span>
         </div>
       }

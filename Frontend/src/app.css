@@ -55,12 +55,13 @@ body {
 
 .loader {
     width: 16px;
+    background-color: transparent;
     height: 16px;
     border-radius: 50%;
     display: block;
     margin:15px auto;
     position: relative;
-    background: #FFF;
+    background: rgba(255, 255, 255, 0.273)454;
     box-shadow: -24px 0 #FFF, 24px 0 #FFF;
     box-sizing: border-box;
     animation: shadowPulse 2s linear;
@@ -68,15 +69,15 @@ body {
   
   @keyframes shadowPulse {
     33% {
-      background: #FFF;
-      box-shadow: -24px 0 #FF3D00, 24px 0 #FFF;
+        background: rgba(255, 255, 255, 0.273)454;
+        box-shadow: -24px 0 #FF3D00, 24px 0 #FFF;
     }
     66% {
       background: #FF3D00;
-      box-shadow: -24px 0 #FFF, 24px 0 #FFF;
+      box-shadow: -24px 0 #909090, 24px 0 #FFF;
     }
     100% {
-      background: #FFF;
-      box-shadow: -24px 0 #FFF, 24px 0 #FF3D00;
+      background: #6c6c6c;
+      box-shadow: -24px 0 #909090, 24px 0 #FF3D00;
     }
   }

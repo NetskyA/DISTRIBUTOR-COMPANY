@@ -116,7 +116,7 @@ export default function PostKeranjang() {
     return (
         <>
             {isLoading == true &&
-                <div className="flex items-center h-screen">
+                <div className="flex items-center bg-slate-200 rounded-xl h-screen">
                     <span className="loader"></span>
                 </div>
             }
@@ -129,7 +129,7 @@ export default function PostKeranjang() {
                             <p>Post Keranjang</p>
                         </div>
                         <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-                            <ControlTarget current={tempData.targetSekarang} target={tempData.currtarget}/>
+                            <ControlTarget current={tempData.targetSekarang} target={tempData.currtarget} />
                         </div>
                         {/* untuk memanggil function controller target salesman */}
                     </div>
