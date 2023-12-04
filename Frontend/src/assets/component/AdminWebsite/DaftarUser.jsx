@@ -147,7 +147,6 @@ export default function RegisterUser() {
       foto: namaFile,
     });
 
-    console.log(user.data);
     // const user = await client.get(`/api/user`)
     setFoto(null);
     reset();
