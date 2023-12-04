@@ -3,7 +3,7 @@ import LogoPerusahaan from "../../images/image-login/icon.png"
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import client from "../../controller/client";
-
+import FotoBerhasil from "../../images/image-modal/berhasil.png"
 export default function MasterJabatan() {
     let data = useLoaderData();
     const [kota, setKota] = useState(data.kota);
@@ -11,6 +11,15 @@ export default function MasterJabatan() {
     const toggleTambah = () => {
         setIsTambah(!isTambah);
     }
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
 
     const [isMasterKota, setisMasterKota] = useState(true);
     const toggleMasterKota = () => {
@@ -33,28 +42,28 @@ export default function MasterJabatan() {
         reset,
         formState: { errors },
     } = useForm();
-    
+
     async function addKota(data) {
         await client.post(`/api/kota`, {
-          nama_kota: data.nama_kota,
+            nama_kota: data.nama_kota,
         });
         reset();
         let kota = await client.get(`/api/getListKota`);
         setKota(kota.data);
     }
-    
+
     async function editKota(id) {
         const nama_kota = document.getElementById(`nama_kota${id}`).value;
         await client.put(`/api/editKota`, {
-          id_kota: id,
-          nama_kota: nama_kota,
+            id_kota: id,
+            nama_kota: nama_kota,
         });
-       
+
         let kota = await client.get(`/api/getListKota`);
         setKota(kota.data);
-        alert("Berhasil Update Kota " + id);
+        handleOpenModal()
     }
-    
+
     async function statusKota(id, status) {
         await client.put(`/api/editStatusKota`, {
             id_kota: id,
@@ -63,7 +72,7 @@ export default function MasterJabatan() {
         let kota = await client.get(`/api/getListKota`);
         setKota(kota.data);
     }
-    
+
     async function cari() {
         let keyword = document.getElementById("keyword").value;
         let kota = await client.get(`/api/getListKota/${keyword}`);
@@ -71,7 +80,7 @@ export default function MasterJabatan() {
     }
     const handleInputChange = (e, id, field) => {
         const updateKota = kota.map((k) =>
-          k.id_kota === id ? { ...k, [field]: e.target.value } : k
+            k.id_kota === id ? { ...k, [field]: e.target.value } : k
         );
         setKota(updateKota);
     };
@@ -106,7 +115,7 @@ export default function MasterJabatan() {
                                         name="Nama kota"
                                         className="border-primary rounded-lg w-60 text-2xl h-10"
                                         placeholder="Nama Kota"
-                                        required="text" {...register("nama_kota")}/>
+                                        required="text" {...register("nama_kota")} />
                                 </div>
                                 <div className="flex float-right mr-4">
                                     <button type="submit" className="bg-primary w-40 m-4 h-14 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
@@ -131,12 +140,12 @@ export default function MasterJabatan() {
                                     id="keyword"
                                     className="border-primary text-xl rounded-lg"
                                     onChange={() => cari()}
-                                    />
+                                />
                                 <button
-                                className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
-                                onClick={() => cari()}
+                                    className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                    onClick={() => cari()}
                                 >
-                                Cari
+                                    Cari
                                 </button>
                             </div>
                             <div className="covertable m-2">
@@ -160,7 +169,7 @@ export default function MasterJabatan() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {kota.map((k)=>{
+                                                {kota.map((k) => {
                                                     return <tr className="border-b dark:border-neutral-500" >
                                                         <td className="whitespace-nowrap px-6 py-4 font-medium" >
                                                             <p>
@@ -170,18 +179,18 @@ export default function MasterJabatan() {
                                                         <td className="whitespace-nowrap px-6 py-4 font-medium">
                                                             <p>
                                                                 <input type="text" name="" className="border-primary rounded-lg text-2xl" id={`nama_kota${k.id_kota}`}
-                                                                value={k.nama_kota}
-                                                                onChange={(e) =>
-                                                                handleInputChange(
-                                                                    e,
-                                                                    k.id_kota,
-                                                                    "nama_kota"
-                                                                )
-                                                                }/>
+                                                                    value={k.nama_kota}
+                                                                    onChange={(e) =>
+                                                                        handleInputChange(
+                                                                            e,
+                                                                            k.id_kota,
+                                                                            "nama_kota"
+                                                                        )
+                                                                    } />
                                                             </p>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-                                                            <button onClick={()=>editKota(k.id_kota)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                                            <button onClick={() => editKota(k.id_kota)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                                                                 Edit
                                                             </button>
                                                         </td>
@@ -193,9 +202,9 @@ export default function MasterJabatan() {
                                                                 >
                                                                     Aktif
                                                                 </button>
-                                                                ) : (
+                                                            ) : (
                                                                 <button
-                                                                    onClick={() =>  statusKota(k.id_kota, 0)}
+                                                                    onClick={() => statusKota(k.id_kota, 0)}
                                                                     className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
                                                                 >
                                                                     Non Aktif
@@ -210,10 +219,29 @@ export default function MasterJabatan() {
                                 </div>
                             </div>
                         </div>
+
                     </>
                 }
             </div>
             <hr className="h-px my-10 mt-18 mb-24" />
+            <div className="cover">
+                {isModalOpen && (
+                    <div className="modal">
+                        <div className="modal-content h-72 w-80">
+                            <span className="close" onClick={handleCloseModal}>&times;</span>
+                            <h2 className="text-center text-2xl">Berhasil Diupdate</h2>
+                            <img src={FotoBerhasil} alt="" className="w-20 mx-auto m-6 h-20" />
+                            <div className="flex items-center mx-auto justify-center">
+                                <button className="bg-primary hover:bg-gray-400 m-2 w-32 rounded-lg" onClick={handleCloseModal}>
+                                    <p className="text-xl p-2">
+                                        Ok
+                                    </p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
         </>
     )
 }

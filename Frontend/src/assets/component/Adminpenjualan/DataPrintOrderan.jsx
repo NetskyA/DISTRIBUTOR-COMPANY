@@ -101,7 +101,6 @@ export default function DataPrintOrderan() {
         }
         dataHeaderTransaksi = temp;
       } else if (tempDateStart == "" && tempDateEnd == "") {
-        alert("NOTHING");
         dataHeaderTransaksi = listHeaderTransaksi;
       }
 

@@ -3,6 +3,7 @@ import LogoPerusahaan from "../../images/image-login/icon.png"
 import { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import client from "../../controller/client";
+import FotoModal from "../../images/image-modal/berhasil.png"
 
 export default function MasterBrand() {
     let data = useLoaderData();
@@ -11,7 +12,14 @@ export default function MasterBrand() {
     const toggleTambah = () => {
         setIsTambah(!isTambah);
     }
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
     const [isMasterBarang, setIsMasterBarang] = useState(true);
     const toggleMasterBarang = () => {
         setIsMasterBarang(!isMasterBarang);
@@ -31,48 +39,48 @@ export default function MasterBrand() {
         handleSubmit,
         reset,
         formState: { errors },
-      } = useForm();
-    
-      async function addBrand(data) {
+    } = useForm();
+
+    async function addBrand(data) {
         await client.post(`/api/brand`, {
-          nama_brand: data.nama_brand,
+            nama_brand: data.nama_brand,
         });
         reset();
         let brand = await client.get(`/api/getListBrands`);
         setBrand(brand.data);
-      }
-    
-      async function editBrand(id) {
+    }
+
+    async function editBrand(id) {
         const nama_brand = document.getElementById(`nama_brand${id}`).value;
         await client.put(`/api/editBrand`, {
-          id_brand: id,
-          nama_brand: nama_brand,
+            id_brand: id,
+            nama_brand: nama_brand,
         });
         let brand = await client.get(`/api/getListBrands`);
         setBrand(brand.data);
-        alert("Berhasil Update Brand " + id);
-      }
-    
-      async function statusBrand(id, status) {
+        handleOpenModal()
+    }
+
+    async function statusBrand(id, status) {
         await client.put(`/api/editStatusBrand`, {
-          id_brand: id,
-          status_brand: status,
+            id_brand: id,
+            status_brand: status,
         });
         let brand = await client.get(`/api/getListBrands`);
         setBrand(brand.data);
-      }
-    
-      async function cari() {
+    }
+
+    async function cari() {
         let keyword = document.getElementById("keyword").value;
         let brand = await client.get(`/api/getListBrands/${keyword}`);
         setBrand(brand.data);
-      }
-      const handleInputChange = (e, id, field) => {
+    }
+    const handleInputChange = (e, id, field) => {
         const updatedBrand = brand.map((b) =>
-          b.id_brand === id ? { ...b, [field]: e.target.value } : b
+            b.id_brand === id ? { ...b, [field]: e.target.value } : b
         );
         setBrand(updatedBrand);
-      };
+    };
 
     return (
         <>
@@ -105,7 +113,7 @@ export default function MasterBrand() {
                                         name="Nama Barang"
                                         className="border-primary rounded-lg w-60 text-2xl h-10"
                                         placeholder="Nama brand"
-                                        required="text" {...register("nama_brand")}/>
+                                        required="text" {...register("nama_brand")} />
                                 </div>
                                 <div className="flex float-right mr-4">
                                     <button type="submit" className="bg-primary w-40 m-4 h-14 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
@@ -130,12 +138,12 @@ export default function MasterBrand() {
                                     id="keyword"
                                     className="border-primary text-xl rounded-lg"
                                     onChange={() => cari()}
-                                    />
+                                />
                                 <button
-                                className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
-                                onClick={() => cari()}
+                                    className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                    onClick={() => cari()}
                                 >
-                                Cari
+                                    Cari
                                 </button>
                             </div>
                             <div className="covertable m-2">
@@ -162,7 +170,7 @@ export default function MasterBrand() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {brand.map((b)=>{
+                                                {brand.map((b) => {
                                                     return <tr className="border-b dark:border-neutral-500" >
                                                         <td className="whitespace-nowrap px-6 py-4 font-medium" >
                                                             <p>
@@ -172,14 +180,14 @@ export default function MasterBrand() {
                                                         <td className="whitespace-nowrap px-6 py-4 w-1/3 font-medium">
                                                             <p>
                                                                 <input type="text" name="" className="border-primary w-3/5 rounded-lg text-2xl" id={`nama_brand${b.id_brand}`}
-                                                                value={b.nama_brand}
-                                                                onChange={(e) =>
-                                                                handleInputChange(
-                                                                    e,
-                                                                    b.id_brand,
-                                                                    "nama_brand"
-                                                                )
-                                                                }/>
+                                                                    value={b.nama_brand}
+                                                                    onChange={(e) =>
+                                                                        handleInputChange(
+                                                                            e,
+                                                                            b.id_brand,
+                                                                            "nama_brand"
+                                                                        )
+                                                                    } />
                                                             </p>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4 font-medium" >
@@ -188,25 +196,25 @@ export default function MasterBrand() {
                                                             </p>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-                                                            <button onClick={()=>editBrand(b.id_brand)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                                            <button onClick={() => editBrand(b.id_brand)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                                                                 Edit
                                                             </button>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-                                                        {b.status_brand == 0 ? (
-                                                            <button
-                                                                onClick={() => statusBrand(b.id_brand, 1)}
-                                                                className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
-                                                            >
-                                                                Aktif
-                                                            </button>
+                                                            {b.status_brand == 0 ? (
+                                                                <button
+                                                                    onClick={() => statusBrand(b.id_brand, 1)}
+                                                                    className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                                                >
+                                                                    Aktif
+                                                                </button>
                                                             ) : (
-                                                            <button
-                                                                onClick={() => statusBrand(b.id_brand, 0)}
-                                                                className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
-                                                            >
-                                                                Non Aktif
-                                                            </button>
+                                                                <button
+                                                                    onClick={() => statusBrand(b.id_brand, 0)}
+                                                                    className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                                                >
+                                                                    Non Aktif
+                                                                </button>
                                                             )}
                                                         </td>
                                                     </tr>
@@ -221,8 +229,26 @@ export default function MasterBrand() {
                 }
 
             </div>
-                  <hr className="h-px my-10 mt-18 mb-24" />
-
+            <hr className="h-px my-10 mt-18 mb-24" />
+            <div className="cover">
+                {isModalOpen && (
+                    <div className="modal">
+                        <div className="modal-content h-80 w-96">
+                            <span className="close" onClick={handleCloseModal}>&times;</span>
+                            <h2 className="text-center text-2xl">Master Brand</h2>
+                            <h2 className="text-center text-2xl">Berhasil Diupdate</h2>
+                            <img src={FotoModal} alt="" className="w-24 mx-auto m-6 h-24" />
+                            <div className="flex items-center mx-auto justify-center">
+                                <button className="bg-primary hover:bg-gray-400 m-1 w-36 rounded-lg" onClick={handleCloseModal}>
+                                    <p className="text-2xl p-2">
+                                        Ok
+                                    </p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
         </>
     )
 }

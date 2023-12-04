@@ -107,21 +107,15 @@ export default function RegisterUser() {
     const atasan = data.atasan;
     const namaFile = username.replace(/\s/g, "") + ".png";
     let idJabatan = 0;
-    // alert(atasan);
     if (salesman) {
-      //   alert("salesman");
       idJabatan = 1;
     } else if (supervisor) {
-      //   alert("supervisor");
       idJabatan = 2;
     } else if (ksupervisor) {
-      //   alert("ksupervisor");
       idJabatan = 3;
     } else if (adminpenjualan) {
-      // alert("adminpenjualan");
       idJabatan = 4;
     } else if (admingaji) {
-      // alert("admingaji");
       idJabatan = 5;
     }
     console.log("atasan: " + atasan);
@@ -162,13 +156,10 @@ export default function RegisterUser() {
     const supervisor = document.getElementById("supervisor").checked;
     // const ksupervisor = document.getElementById("ksupervisor").checked;
     if (salesman) {
-      // alert("salesman");
       setAtasan(data.supervisor);
     } else if (supervisor) {
-      // alert("supervisor")
       setAtasan(data.ksupervisor);
     } else {
-      // alert("ksupervisor")
       setAtasan([]);
     }
   }

@@ -3,11 +3,19 @@ import LogoPerusahaan from "../../images/image-login/icon.png"
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import client from "../../controller/client";
+import FotoModal from "../../images/image-modal/berhasil.png"
 
 export default function MasterJabatan() {
     let data = useLoaderData();
     const [kelurahan, setKelurahan] = useState(data.kelurahan);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
     const {
         register,
         handleSubmit,
@@ -35,28 +43,30 @@ export default function MasterJabatan() {
         setIsStatus(!isStatus);
     }
 
-    async function addKelurahan(data){
+    async function addKelurahan(data) {
         await client.post(`/api/kelurahan`, {
             id_kota: data.id_kota,
             nama_kelurahan: data.nama_kelurahan
-          });
-          reset();
-          let kelurahan = await client.get(`/api/getListKelurahan`);
-          setKelurahan(kelurahan.data);
+        });
+        reset();
+        let kelurahan = await client.get(`/api/getListKelurahan`);
+        setKelurahan(kelurahan.data);
     }
 
     async function editKelurahan(id) {
         const nama_kelurahan = document.getElementById(`nama_kelurahan${id}`).value;
         const id_kota = document.getElementById(`id_kota${id}`).value;
         await client.put(`/api/editKelurahan`, {
-          id_kelurahan: id,
-          id_kota: id_kota,
-          nama_kelurahan: nama_kelurahan,
+            id_kelurahan: id,
+            id_kota: id_kota,
+            nama_kelurahan: nama_kelurahan,
         });
-       
+
         let kelurahan = await client.get(`/api/getListKelurahan`);
         setKelurahan(kelurahan.data);
         alert("Berhasil Update Kelurahan " + id);
+        handleOpenModal()
+
     }
 
     async function statusKelurahan(id, status) {
@@ -76,7 +86,7 @@ export default function MasterJabatan() {
 
     const handleInputChange = (e, id, field) => {
         const updateKelurahan = kelurahan.map((k) =>
-          k.id_kelurahan === id ? { ...k, [field]: e.target.value } : k
+            k.id_kelurahan === id ? { ...k, [field]: e.target.value } : k
         );
         setKelurahan(updateKelurahan);
     };
@@ -107,7 +117,7 @@ export default function MasterJabatan() {
                                 <div className="flex text-primary mt-3 text-2xl">
                                     <p className="pt-2 pr-2 w-52">ID Kota : </p>
                                     <select name="brandId" id="selectIdbrand" className="w-60 text-primary border-primary rounded-lg h-12 text-2xl" {...register("id_kota")}>
-                                        {data.kota.map((k)=>{
+                                        {data.kota.map((k) => {
                                             return <option value={k.id_kota}>{k.nama_kota}</option>
                                         })}
                                     </select>
@@ -119,7 +129,7 @@ export default function MasterJabatan() {
                                         name="nama kelurahan"
                                         className="border-primary rounded-lg w-60 text-2xl h-10"
                                         placeholder="Nama Kelurahan"
-                                        required="text" {...register("nama_kelurahan")}/>
+                                        required="text" {...register("nama_kelurahan")} />
                                 </div>
                                 <div className="flex float-right mr-4">
                                     <button type="submit" className="bg-primary w-40 m-4 h-14 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
@@ -144,10 +154,10 @@ export default function MasterJabatan() {
                                     id="keyword"
                                     className="border-primary text-xl rounded-lg"
                                     onChange={() => cari()}
-                                    />
+                                />
                                 <button
-                                className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
-                                onClick={() => cari()}
+                                    className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                    onClick={() => cari()}
                                 >
                                     Cari
                                 </button>
@@ -176,7 +186,7 @@ export default function MasterJabatan() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {kelurahan.map((k)=>{
+                                                {kelurahan.map((k) => {
                                                     return <tr className="border-b dark:border-neutral-500" >
                                                         <td className="whitespace-nowrap px-6 py-4 font-medium" >
                                                             <p>
@@ -186,44 +196,44 @@ export default function MasterJabatan() {
                                                         <td className="whitespace-nowrap px-6 py-4 font-medium" >
                                                             <div>
                                                                 <select name="brandId" className="w-60 text-primary border-primary rounded-lg h-12 text-2xl" id={`id_kota${k.id_kelurahan}`}>
-                                                                    {data.kota.map((kota, idx)=>{
+                                                                    {data.kota.map((kota, idx) => {
                                                                         return k.id_kota == kota.id_kota ? (
                                                                             <option
-                                                                              key={idx}
-                                                                              value={kota.id_kota}
-                                                                              selected="selected"
+                                                                                key={idx}
+                                                                                value={kota.id_kota}
+                                                                                selected="selected"
                                                                             >
-                                                                              {kota.nama_kota}
+                                                                                {kota.nama_kota}
                                                                             </option>
-                                                                          ) : (
+                                                                        ) : (
                                                                             <option key={idx} value={kota.id_kota}>
-                                                                              {kota.nama_kota}
+                                                                                {kota.nama_kota}
                                                                             </option>
-                                                                          );
+                                                                        );
                                                                     })}
                                                                 </select>
                                                             </div>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4 font-medium">
                                                             <p>
-                                                            <input
-                                                                type="text"
-                                                                name=""
-                                                                className="border-primary rounded-lg text-2xl"
-                                                                id={`nama_kelurahan${k.id_kelurahan}`}
-                                                                value={k.nama_kelurahan}
-                                                                onChange={(e) =>
-                                                                handleInputChange(
-                                                                    e,
-                                                                    k.id_kelurahan,
-                                                                    "nama_kelurahan"
-                                                                )
-                                                                }
-                                                            />
+                                                                <input
+                                                                    type="text"
+                                                                    name=""
+                                                                    className="border-primary rounded-lg text-2xl"
+                                                                    id={`nama_kelurahan${k.id_kelurahan}`}
+                                                                    value={k.nama_kelurahan}
+                                                                    onChange={(e) =>
+                                                                        handleInputChange(
+                                                                            e,
+                                                                            k.id_kelurahan,
+                                                                            "nama_kelurahan"
+                                                                        )
+                                                                    }
+                                                                />
                                                             </p>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-                                                            <button onClick={()=>editKelurahan(k.id_kelurahan)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                                            <button onClick={() => editKelurahan(k.id_kelurahan)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                                                                 Edit
                                                             </button>
                                                         </td>
@@ -235,7 +245,7 @@ export default function MasterJabatan() {
                                                                 >
                                                                     Aktif
                                                                 </button>
-                                                                ) : (
+                                                            ) : (
                                                                 <button
                                                                     onClick={() => statusKelurahan(k.id_kelurahan, 0)}
                                                                     className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
@@ -256,6 +266,25 @@ export default function MasterJabatan() {
                 }
             </div>
             <hr className="h-px my-10 mt-18 mb-24" />
+            <div className="cover">
+                {isModalOpen && (
+                    <div className="modal">
+                        <div className="modal-content h-80 w-96">
+                            <span className="close" onClick={handleCloseModal}>&times;</span>
+                            <h2 className="text-center text-2xl">Master Kelurahan</h2>
+                            <h2 className="text-center text-2xl">Berhasil Diupdate</h2>
+                            <img src={FotoModal} alt="" className="w-24 mx-auto m-6 h-24" />
+                            <div className="flex items-center mx-auto justify-center">
+                                <button className="bg-primary hover:bg-gray-400 m-1 w-36 rounded-lg" onClick={handleCloseModal}>
+                                    <p className="text-2xl p-2">
+                                        Ok
+                                    </p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
         </>
     )
 }

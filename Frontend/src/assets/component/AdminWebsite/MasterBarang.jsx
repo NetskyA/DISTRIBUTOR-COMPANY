@@ -2,7 +2,7 @@ import LogoPerusahaan from "../../images/image-login/icon.png";
 import { useState } from "react";
 import Joi from "joi";
 import { joiResolver } from "@hookform/resolvers/joi";
-
+import FotoModal from "../../images/image-modal/berhasil.png"
 import { useForm } from "react-hook-form";
 import client from "../../controller/client";
 import { useLoaderData } from "react-router";
@@ -13,7 +13,14 @@ export default function MasterBrand() {
   const toggleTambah = () => {
     setIsTambah(!isTambah);
   };
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   const [isMasterBarang, setIsMasterBarang] = useState(true);
   const toggleMasterBarang = () => {
     setIsMasterBarang(!isMasterBarang);
@@ -61,7 +68,7 @@ export default function MasterBrand() {
     });
     let barang = await client.get(`/api/getListBarang`);
     setBarang(barang.data);
-    alert("Berhasil Update Barang " + id);
+    handleOpenModal()
   }
 
   async function statusBarang(id, status) {
@@ -196,7 +203,7 @@ export default function MasterBrand() {
                 className="w-32 h-32 mt-4"
                 alt="logo perusahaan"
               />
-              
+
             </div>
             <div className="cover mb-32">
               <p className="text-primary text-2xl pt-1 ps-4">Search :</p>
@@ -373,6 +380,25 @@ export default function MasterBrand() {
         )}
       </div>
       <hr className="h-px my-10 mt-18 mb-24" />
+      <div className="cover">
+        {isModalOpen && (
+          <div className="modal">
+            <div className="modal-content h-80 w-96">
+              <span className="close" onClick={handleCloseModal}>&times;</span>
+              <h2 className="text-center text-2xl">Master Barang</h2>
+              <h2 className="text-center text-2xl">Berhasil Diupdate</h2>
+              <img src={FotoModal} alt="" className="w-24 mx-auto m-6 h-24" />
+              <div className="flex items-center mx-auto justify-center">
+                <button className="bg-primary hover:bg-gray-400 m-1 w-36 rounded-lg" onClick={handleCloseModal}>
+                  <p className="text-2xl p-2">
+                    Ok
+                  </p>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 }

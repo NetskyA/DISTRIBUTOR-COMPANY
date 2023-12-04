@@ -3,10 +3,19 @@ import LogoPerusahaan from "../../images/image-login/icon.png"
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import client from "../../controller/client";
-
+import FotoModal from "../../images/image-modal/berhasil.png"
 export default function DetailBarang() {
     let data = useLoaderData();
     const [dbarang, setDbarang] = useState(data.dbarang);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
 
     const {
         register,
@@ -29,13 +38,13 @@ export default function DetailBarang() {
     const toggleEdit = () => {
         setIsEdit(!isEdit);
     }
-    
-    async function ambilData(){
+
+    async function ambilData() {
         let dbarang = await client.get(`/api/getListDbarang`);
 
         let tempDbarang = [];
 
-        dbarang.data.map((d)=>{
+        dbarang.data.map((d) => {
             const tempDate = d.tanggal_expired.split("-");
             let expired = tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0];
             tempDbarang.push({
@@ -50,11 +59,10 @@ export default function DetailBarang() {
         setDbarang(tempDbarang);
     }
 
-    async function addDetailBarang(data){
+    async function addDetailBarang(data) {
         console.log(data)
         let expired = data.tanggal_expired;
         const ambilDate = expired.split("T");
-        // alert(ambilDate[1])
         const tempDate = ambilDate[0].split("-");
         expired = tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0];
         await client.post(`/api/dbarang`, {
@@ -74,18 +82,15 @@ export default function DetailBarang() {
         let tanggal_expired = document.getElementById(`tanggal_expired${id}`).value;
         const tempDate = tanggal_expired.split("-");
         tanggal_expired = tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0];
-        // console.log(nama_barang + " - " + jumlah_pcs + " - " + jumlah_karton + " - " + tanggal_expired + " - ")
-
         await client.put(`/api/editDbarang`, {
-          id_detail_barang: id,
-          id_barang: nama_barang,
-          jumlah_pcs: jumlah_pcs,
-          jumlah_karton: jumlah_karton,
-          tanggal_expired: tanggal_expired,
+            id_detail_barang: id,
+            id_barang: nama_barang,
+            jumlah_pcs: jumlah_pcs,
+            jumlah_karton: jumlah_karton,
+            tanggal_expired: tanggal_expired,
         });
-       
         ambilData();
-        alert("Berhasil Update Detail Barang " + id);
+        handleOpenModal()
     }
 
     async function deleteDbarang(id) {
@@ -100,7 +105,7 @@ export default function DetailBarang() {
         let dbarang = await client.get(`/api/getListDbarang/${keyword}`);
 
         let tempDbarang = [];
-        dbarang.data.map((d)=>{
+        dbarang.data.map((d) => {
             const tempDate = d.tanggal_expired.split("-");
             let expired = tempDate[2] + "-" + tempDate[1] + "-" + tempDate[0];
             tempDbarang.push({
@@ -148,7 +153,7 @@ export default function DetailBarang() {
                                 <div className="flex text-primary mt-3 text-2xl">
                                     <p className="pt-2 pr-2 w-52">ID Barang : </p>
                                     <select name="brandId" id="selectIdbarang" className="w-60 text-primary border-primary rounded-lg h-12 text-2xl" {...register("id_barang")}>
-                                        {data.barang.map((b)=>{
+                                        {data.barang.map((b) => {
                                             return <option value={b.id_barang}>{b.nama_barang}</option>
                                         })}
                                     </select>
@@ -160,7 +165,7 @@ export default function DetailBarang() {
                                         name="jumlah pcs"
                                         className="border-primary rounded-lg w-60 text-2xl h-10"
                                         placeholder="Jumlah Pcs"
-                                        min={0} required="number" {...register("jumlah_pcs")}/>
+                                        min={0} required="number" {...register("jumlah_pcs")} />
                                 </div>
                                 <div className="flex text-primary mt-3 text-2xl">
                                     <p className="pt-1 pr-2 w-52">Jumlah Karton: </p>
@@ -169,11 +174,11 @@ export default function DetailBarang() {
                                         name="jumlah karton"
                                         className="border-primary rounded-lg w-60 text-2xl h-10"
                                         placeholder="Jumlah Karton"
-                                        min={0} required="number" {...register("jumlah_karton")}/>
+                                        min={0} required="number" {...register("jumlah_karton")} />
                                 </div>
                                 <div className="flex text-primary mt-3 text-2xl">
                                     <p className="pt-1 pr-2 w-52">Tanggal Expired: </p>
-                                    <input type="datetime-local" name="" id="" className="border-primary rounded-lg w-60 text-2xl h-10" required="datetime-local" {...register("tanggal_expired")}/>
+                                    <input type="datetime-local" name="" id="" className="border-primary rounded-lg w-60 text-2xl h-10" required="datetime-local" {...register("tanggal_expired")} />
                                 </div>
                                 <div className="flex float-right mr-4">
                                     <button type="submit" className="bg-primary w-40 m-4 h-14 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
@@ -198,10 +203,10 @@ export default function DetailBarang() {
                                     id="keyword"
                                     className="border-primary text-xl rounded-lg"
                                     onChange={() => cari()}
-                                    />
+                                />
                                 <button
-                                className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
-                                onClick={() => cari()}
+                                    className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                    onClick={() => cari()}
                                 >
                                     Cari
                                 </button>
@@ -236,7 +241,7 @@ export default function DetailBarang() {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {dbarang.map((d)=>{
+                                                {dbarang.map((d) => {
                                                     return <tr className="border-b dark:border-neutral-500" >
                                                         <td className="whitespace-nowrap px-6 py-4 font-medium" >
                                                             <p>
@@ -246,74 +251,74 @@ export default function DetailBarang() {
                                                         <td className="whitespace-nowrap px-6 py-4 font-medium">
                                                             <p>
                                                                 <select
-                                                                name="id_barang"
-                                                                id={`id_barang${d.id_detail_barang}`}
-                                                                className="w-60 text-primary border-primary rounded-lg h-12 text-2xl"
+                                                                    name="id_barang"
+                                                                    id={`id_barang${d.id_detail_barang}`}
+                                                                    className="w-60 text-primary border-primary rounded-lg h-12 text-2xl"
                                                                 >
-                                                                {data.barang.map((b, idx) => {
-                                                                    return d.id_barang == b.id_barang ? (
-                                                                    <option 
-                                                                        key={idx}
-                                                                        value={b.id_barang}
-                                                                        selected="selected"
-                                                                    >
-                                                                        {b.nama_barang}
-                                                                    </option>
-                                                                    ) : (
-                                                                    <option key={idx} value={b.id_barang}>
-                                                                        {b.nama_barang}
-                                                                    </option>
-                                                                    );
-                                                                })}
+                                                                    {data.barang.map((b, idx) => {
+                                                                        return d.id_barang == b.id_barang ? (
+                                                                            <option
+                                                                                key={idx}
+                                                                                value={b.id_barang}
+                                                                                selected="selected"
+                                                                            >
+                                                                                {b.nama_barang}
+                                                                            </option>
+                                                                        ) : (
+                                                                            <option key={idx} value={b.id_barang}>
+                                                                                {b.nama_barang}
+                                                                            </option>
+                                                                        );
+                                                                    })}
                                                                 </select>
                                                             </p>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
                                                             <p>
                                                                 <input type="number" name="" className="border-primary rounded-lg text-2xl" id={`jumlah_pcs${d.id_detail_barang}`}
-                                                                value={d.jumlah_pcs}
-                                                                onChange={(e) =>
-                                                                    handleInputChange(
-                                                                        e,
-                                                                        d.id_detail_barang,
-                                                                        "jumlah_pcs"
-                                                                    )
-                                                                } /> 
+                                                                    value={d.jumlah_pcs}
+                                                                    onChange={(e) =>
+                                                                        handleInputChange(
+                                                                            e,
+                                                                            d.id_detail_barang,
+                                                                            "jumlah_pcs"
+                                                                        )
+                                                                    } />
                                                             </p>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
                                                             <p>
                                                                 <input type="number" name="" className="border-primary rounded-lg text-2xl" id={`jumlah_karton${d.id_detail_barang}`}
-                                                                value={d.jumlah_karton}
-                                                                onChange={(e) =>
-                                                                    handleInputChange(
-                                                                        e,
-                                                                        d.id_detail_barang,
-                                                                        "jumlah_karton"
-                                                                    )
-                                                                } /> 
+                                                                    value={d.jumlah_karton}
+                                                                    onChange={(e) =>
+                                                                        handleInputChange(
+                                                                            e,
+                                                                            d.id_detail_barang,
+                                                                            "jumlah_karton"
+                                                                        )
+                                                                    } />
                                                             </p>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
                                                             <p>
                                                                 <input type="date" name="" className="border-primary rounded-lg text-2xl" id={`tanggal_expired${d.id_detail_barang}`}
-                                                                value={d.tanggal_expired}
-                                                                onChange={(e) =>
-                                                                    handleInputChange(
-                                                                        e,
-                                                                        d.id_detail_barang,
-                                                                        "tanggal_expired"
-                                                                    )
-                                                                } /> 
+                                                                    value={d.tanggal_expired}
+                                                                    onChange={(e) =>
+                                                                        handleInputChange(
+                                                                            e,
+                                                                            d.id_detail_barang,
+                                                                            "tanggal_expired"
+                                                                        )
+                                                                    } />
                                                             </p>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-                                                            <button onClick={()=>editDbarang(d.id_detail_barang)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                                            <button onClick={() => editDbarang(d.id_detail_barang)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                                                                 Edit
                                                             </button>
                                                         </td>
                                                         <td className="whitespace-nowrap px-6 py-4">
-                                                            <button onClick={()=>deleteDbarang(d.id_detail_barang)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                                            <button onClick={() => deleteDbarang(d.id_detail_barang)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                                                                 Delete
                                                             </button>
                                                         </td>
@@ -327,7 +332,24 @@ export default function DetailBarang() {
                         </div>
                     </>
                 }
-
+            </div>
+            <div className="cover">
+                {isModalOpen && (
+                    <div className="modal">
+                        <div className="modal-content h-72 w-80">
+                            <span className="close" onClick={handleCloseModal}>&times;</span>
+                            <h2 className="text-center text-2xl">Berhasil Diupdate</h2>
+                            <img src={FotoModal} alt="" className="w-20 mx-auto m-6 h-20" />
+                            <div className="flex items-center mx-auto justify-center">
+                                <button className="bg-primary hover:bg-gray-400 m-2 w-32 rounded-lg" onClick={handleCloseModal}>
+                                    <p className="text-xl p-2">
+                                        Ok
+                                    </p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     )

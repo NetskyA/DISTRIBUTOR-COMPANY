@@ -1,11 +1,37 @@
 import { useEffect, useState } from "react";
+import * as React from 'react';
 import { useLoaderData } from "react-router-dom";
 import formatter from "../../controller/formatter";
 import client from "../../controller/client";
-
+import FotoModal from "../../images/image-modal/berhasil.png"
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 export default function DataOrderanMasuk() {
   const dataOrder = useLoaderData();
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // const handleOpenModal = () => {
+  //   setIsModalOpen(true);
+  // };
+  // const handleCloseModal = () => {
+  //   setIsModalOpen(false);
+  // };
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 250,
+    borderRadius: '16px',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+  };
   const [kelurahan, setKelurahan] = useState(dataOrder.kelurahan);
   const [headerTransaksi, setHeaderTransaksi] = useState(
     dataOrder.headerTransaksi
@@ -171,8 +197,8 @@ export default function DataOrderanMasuk() {
     let updateKeuangan = await client.post(`/api/orderKeuangan`, {
       uangMasuk: totalUang,
     });
-
     updateData();
+    handleOpen()
   };
 
   return (
@@ -316,6 +342,29 @@ export default function DataOrderanMasuk() {
         </p>
       </div>
       <hr className="h-px my-10 mt-18 mb-52" />
+      <div className="cover">
+        {/* {isModalOpen && ( */}
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <h2 className="text-center text-2xl">Master Barang</h2>
+            <h2 className="text-center text-2xl">Berhasil Diupdate</h2>
+            <img src={FotoModal} alt="" className="w-24 mx-auto m-6 h-24" />
+            <div className="flex items-center mx-auto justify-center">
+              <button className="bg-primary hover:bg-gray-400 m-1 w-36 rounded-lg" onClick={handleClose}>
+                <p className="text-2xl p-2">
+                  Ok
+                </p>
+              </button>
+            </div>
+          </Box>
+        </Modal>
+        {/* )} */}
+      </div>
     </>
   );
 }

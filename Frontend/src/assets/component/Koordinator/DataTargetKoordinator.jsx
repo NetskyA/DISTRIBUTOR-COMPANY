@@ -4,13 +4,7 @@ import { Radio } from "@material-tailwind/react";
 import React, { useEffect, useRef, useState } from "react";
 import dataSet from "../../component/Salesman/DataRetur";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
-import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
-  Button,
-} from "@nextui-org/react";
+import FotoModal from "../../images/image-modal/berhasil.png"
 import $ from "jquery";
 import { useLoaderData } from "react-router-dom";
 import formatter from "../../controller/formatter";
@@ -20,7 +14,14 @@ export default function Table() {
   const dataKoor = useLoaderData();
   const supervisors = dataKoor.supervisor;
   const listKota = dataKoor.kota;
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   const [submit, setSubmit] = useState(false);
   const [refresh, setRefresh] = useState(true);
   const [dataSupervisor, setDataSupervisor] = useState(supervisors);
@@ -69,8 +70,6 @@ export default function Table() {
   }, [dataSupervisor]);
 
   const handleTarget = () => {
-    alert("Submit");
-
     const inputKota = document.getElementsByName("inputKota");
 
     let tempKota = [];
@@ -106,6 +105,7 @@ export default function Table() {
 
     setDataSupervisor(newSupervisor);
     setSubmit(true);
+    handleOpenModal()
   };
 
   return (
@@ -231,8 +231,25 @@ export default function Table() {
         </div>
       </div>
       <hr className="h-px my-8 rounded-xl bg-gray-400 border" />
-      {/* <DataDetailHistori/> */}
-      {/* <hr className="h-px my-8 mt-10 mb-10 rounded-xl bg-gray-400 border" /> */}
+      <div className="cover">
+        {isModalOpen && (
+          <div className="modal">
+            <div className="modal-content h-80 w-96">
+              <span className="close" onClick={handleCloseModal}>&times;</span>
+              <h2 className="text-center text-2xl">Target Supervisor</h2>
+              <h2 className="text-center text-2xl">Berhasil Diupdate</h2>
+              <img src={FotoModal} alt="" className="w-24 mx-auto m-6 h-24" />
+              <div className="flex items-center mx-auto justify-center">
+                <button className="bg-primary hover:bg-gray-400 m-1 w-36 rounded-lg" onClick={handleCloseModal}>
+                  <p className="text-2xl p-2">
+                    Ok
+                  </p>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 }

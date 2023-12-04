@@ -10,11 +10,19 @@ import "datatables.net-buttons/js/buttons.print.min.js";
 import LogoPerusahaan from "../../images/image-login/icon.png"
 import { useForm } from "react-hook-form";
 import client from "../../controller/client";
+import FotoModal from "../../images/image-modal/berhasil.png"
 
 export default function MasterJabatan() {
     let data = useLoaderData();
     const [toko, setToko] = useState(data.toko);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
     const {
         register,
         handleSubmit,
@@ -31,7 +39,7 @@ export default function MasterJabatan() {
         setIsMasterToko(!isMasterToko);
     }
 
-    async function addToko(data){
+    async function addToko(data) {
         await client.post(`/api/toko`, {
             id_kelurahan: data.id_kelurahan,
             nama_toko: data.nama_toko,
@@ -39,7 +47,7 @@ export default function MasterJabatan() {
             alamat_toko: data.alamat_toko,
             no_handphone1: data.no_handphone1,
             no_handphone2: data.no_handphone2,
-         });
+        });
         reset();
         let toko = await client.get(`/api/toko`);
         setToko(toko.data);
@@ -54,18 +62,18 @@ export default function MasterJabatan() {
         let no_handphone2 = document.getElementById(`no_handphone2${id}`).value;
 
         await client.put(`/api/editToko`, {
-          id_toko: id,
-          nama_toko: nama_toko,
-          id_kelurahan: id_kelurahan,
-          nama_konsumen: nama_konsumen,
-          alamat_toko: alamat_toko,
-          no_handphone1: no_handphone1,
-          no_handphone2: no_handphone2,
+            id_toko: id,
+            nama_toko: nama_toko,
+            id_kelurahan: id_kelurahan,
+            nama_konsumen: nama_konsumen,
+            alamat_toko: alamat_toko,
+            no_handphone1: no_handphone1,
+            no_handphone2: no_handphone2,
         });
-       
+
         let toko = await client.get(`/api/toko`);
         setToko(toko.data);
-        alert("Berhasil Update Toko " + id);
+        handleOpenModal()
     }
 
     async function statusToko(id, status) {
@@ -113,7 +121,7 @@ export default function MasterJabatan() {
                 {!isTambah &&
                     <div className="selectdisable border-2 ms-4 mt-1 mb-4 border-gray-300 rounded-2xl w-1/3 h-full" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
                         <div className="row ms-4 m-4 w-full" >
-                        <form onSubmit={handleSubmit(addToko)}>
+                            <form onSubmit={handleSubmit(addToko)}>
                                 <div className="flex text-primary text-2xl">
                                     <p className="pt-1 pr-2 w-52">Nama Toko: </p>
                                     <input
@@ -121,12 +129,12 @@ export default function MasterJabatan() {
                                         name="Nama Toko"
                                         className="border-primary rounded-lg w-60 text-2xl h-10"
                                         placeholder="Nama Toko"
-                                        required="text" {...register("nama_toko")}/>
+                                        required="text" {...register("nama_toko")} />
                                 </div>
                                 <div className="flex text-primary mt-3 text-2xl">
                                     <p className="pt-2 pr-2 w-52">Nama Kelurahan : </p>
                                     <select name="brandId" id="selectIdbarang" className="w-60 text-primary border-primary rounded-lg h-12 text-2xl" {...register("id_kelurahan")}>
-                                        {data.kelurahan.map((k)=>{
+                                        {data.kelurahan.map((k) => {
                                             return <option value={k.id_kelurahan}>{k.nama_kelurahan}</option>
                                         })}
                                     </select>
@@ -138,7 +146,7 @@ export default function MasterJabatan() {
                                         name="Nama Konsumen"
                                         className="border-primary rounded-lg w-60 text-2xl h-10"
                                         placeholder="Nama Konsumen"
-                                        required="text" {...register("nama_konsumen")}/>
+                                        required="text" {...register("nama_konsumen")} />
                                 </div>
                                 <div className="flex text-primary mt-3 text-2xl">
                                     <p className="pt-1 pr-2 w-52">Alamat Toko: </p>
@@ -147,7 +155,7 @@ export default function MasterJabatan() {
                                         name="Alamat Toko"
                                         className="border-primary rounded-lg w-60 text-2xl h-10"
                                         placeholder="Alamat Toko"
-                                        required="text" {...register("alamat_toko")}/>
+                                        required="text" {...register("alamat_toko")} />
                                 </div>
                                 <div className="flex text-primary mt-3 text-2xl">
                                     <p className="pt-1 pr-2 w-52">No Handphone 1: </p>
@@ -156,7 +164,7 @@ export default function MasterJabatan() {
                                         name="No Handphone 1"
                                         className="border-primary rounded-lg w-60 text-2xl h-10"
                                         placeholder="No Handphone 1"
-                                        required="number" {...register("no_handphone1")}/>
+                                        required="number" {...register("no_handphone1")} />
                                 </div>
                                 <div className="flex text-primary mt-3 text-2xl">
                                     <p className="pt-1 pr-2 w-52">No Handphone 2: </p>
@@ -165,7 +173,7 @@ export default function MasterJabatan() {
                                         name="No Handphone 2"
                                         className="border-primary rounded-lg w-60 text-2xl h-10"
                                         placeholder="No Handphone 2"
-                                        required="number" {...register("no_handphone2")}/>
+                                        required="number" {...register("no_handphone2")} />
                                 </div>
                                 <div className="flex float-right mt-3 mr-4">
                                     <button type="submit" className="bg-primary w-40 m-4 h-14 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
@@ -189,10 +197,10 @@ export default function MasterJabatan() {
                                     id="keyword"
                                     className="border-primary text-xl rounded-lg"
                                     onChange={() => cari()}
-                                    />
+                                />
                                 <button
-                                className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
-                                onClick={() => cari()}
+                                    className="bg-primary ms-3 w-40 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                    onClick={() => cari()}
                                 >
                                     Cari
                                 </button>
@@ -335,26 +343,26 @@ export default function MasterJabatan() {
                                                                     </p>
                                                                 </td>
                                                                 <td className="whitespace-nowrap px-6 py-4">
-                                                                    <button onClick={()=>editToko(t.id_toko)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
+                                                                    <button onClick={() => editToko(t.id_toko)} className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
                                                                         Edit
                                                                     </button>
                                                                 </td>
                                                                 <td className="whitespace-nowrap px-6 py-4">
-                                                                {t.status_toko == 0 ? (
-                                                                    <button
-                                                                        onClick={() => statusToko(t.id_toko, 1)}
-                                                                        className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
-                                                                    >
-                                                                        Aktif
-                                                                    </button>
+                                                                    {t.status_toko == 0 ? (
+                                                                        <button
+                                                                            onClick={() => statusToko(t.id_toko, 1)}
+                                                                            className="bg-primary w-36 h-12 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                                                        >
+                                                                            Aktif
+                                                                        </button>
                                                                     ) : (
-                                                                    <button
-                                                                        onClick={() => statusToko(t.id_toko, 0)}
-                                                                        className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
-                                                                    >
-                                                                        Non Aktif
-                                                                    </button>
-                                                                )}
+                                                                        <button
+                                                                            onClick={() => statusToko(t.id_toko, 0)}
+                                                                            className="bg-gray-300 w-36 h-12 rounded-xl text-gray-600 hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
+                                                                        >
+                                                                            Non Aktif
+                                                                        </button>
+                                                                    )}
                                                                 </td>
                                                             </tr>
                                                         </>
@@ -370,6 +378,25 @@ export default function MasterJabatan() {
                 }
             </div>
             <hr className="h-px my-10 mt-18 mb-24" />
+            <div className="cover">
+                {isModalOpen && (
+                    <div className="modal">
+                        <div className="modal-content h-80 w-96">
+                            <span className="close" onClick={handleCloseModal}>&times;</span>
+                            <h2 className="text-center text-2xl">Master Toko</h2>
+                            <h2 className="text-center text-2xl">Berhasil Diupdate</h2>
+                            <img src={FotoModal} alt="" className="w-24 mx-auto m-6 h-24" />
+                            <div className="flex items-center mx-auto justify-center">
+                                <button className="bg-primary hover:bg-gray-400 m-1 w-36 rounded-lg" onClick={handleCloseModal}>
+                                    <p className="text-2xl p-2">
+                                        Ok
+                                    </p>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
         </>
     )
 }

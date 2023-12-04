@@ -271,7 +271,6 @@ export default function DataLaporanOrderan() {
         }
         dataTarget = tempTarget;
       } else if (tempDateStart == "" && tempDateEnd == "") {
-        alert("NOTHING");
         dataHeaderTransaksi = listHeaderTransaksi;
         dataTarget = target;
       }
