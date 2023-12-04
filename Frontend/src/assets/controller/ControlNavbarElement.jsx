@@ -26,6 +26,7 @@ export default function DataNavigationMenu({ img, title, link }) {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 320,
+        border:0,
         borderRadius: '16px',
         bgcolor: 'background.paper',
         boxShadow: 24,
