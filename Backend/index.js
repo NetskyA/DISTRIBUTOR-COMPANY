@@ -1164,7 +1164,7 @@ app.get("/api/getBawahanSupervisor", async (req, res) => {
 
   salesmans.forEach((s) => {
     const tempTarget = targets.find((e) => e.id_user == s.id_user);
-    const salesmanTarget = tempTarget.dataValues; 
+    const salesmanTarget = tempTarget.dataValues;
 
     const kel = wilayah.find(
       (e) => e.id_kelurahan == salesmanTarget.id_wilayah
@@ -1403,11 +1403,11 @@ app.post("/api/register", async (req, res) => {
   const id_user = await db.MasterUser.findAll();
   let gaji_pokok = 9000000;
   // ADD MASTER TARGET
-  if(id_jabatan==1 || id_jabatan==2){
+  if (id_jabatan == 1 || id_jabatan == 2) {
     let id_wilayah = "KLR00001";
-    if(id_jabatan==1){
+    if (id_jabatan == 1) {
       gaji_pokok = 3000000;
-    }else{
+    } else {
       id_wilayah = "KTA00001";
       gaji_pokok = 6000000;
     }
@@ -1420,7 +1420,7 @@ app.post("/api/register", async (req, res) => {
   }
 
   // ADD MASTER GAJI
-  if(id_jabatan==1 || id_jabatan==2 || id_jabatan==3){
+  if (id_jabatan == 1 || id_jabatan == 2 || id_jabatan == 3) {
     await db.MasterGaji.create({
       id_user: id_user.length,
       gaji_pokok: gaji_pokok,
@@ -2486,25 +2486,25 @@ app.get("/api/listSalesman", async (req, res) => {
   return res.status(200).send(salesman);
 });
 
-app.post("/api/getOneUser",async(req,res)=>{
-  let {id} = req.body;
-  console.log(id)
+app.post("/api/getOneUser", async (req, res) => {
+  let { id } = req.body;
+  console.log(id);
   let data = await db.MasterUser.findOne({
-    where:{ 
-      id_user:id
-    }
-  })
-  return res.send({target:data.dataValues.target_sekarang})
-})
-
-app.post("/api/getTargetSekarang",async(req,res)=>{
-  let {id} = req.body;
-  console.log(id)
-  let data = await db.MasterTarget.findOne({
-    where:{ 
-      id_user:id
+    where: {
+      id_user: id,
     },
-    order:[["id_target","desc"]]
-  })
-  return res.send({target:data.dataValues.target})
-})
+  });
+  return res.send({ target: data.dataValues.target_sekarang });
+});
+
+app.post("/api/getTargetSekarang", async (req, res) => {
+  let { id } = req.body;
+  console.log(id);
+  let data = await db.MasterTarget.findOne({
+    where: {
+      id_user: id,
+    },
+    order: [["id_target", "desc"]],
+  });
+  return res.send({ target: data.dataValues.target });
+});

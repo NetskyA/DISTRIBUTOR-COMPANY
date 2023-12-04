@@ -6,7 +6,7 @@ import client from "../../controller/client";
 import { useForm } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
-import LogoPerusahaan from "../../images/image-login/icon2.png"
+import LogoPerusahaan from "../../images/image-login/icon2.png";
 
 export default function RegisterUser() {
   let data = useLoaderData();
@@ -15,10 +15,10 @@ export default function RegisterUser() {
   const {
     register,
     handleSubmit,
-    setError, reset,
+    setError,
+    reset,
     formState: { errors },
-  } = useForm({
-  });
+  } = useForm({});
 
   const [atasan, setAtasan] = useState([]);
   const [newUser, setNewUser] = useState();
@@ -30,8 +30,8 @@ export default function RegisterUser() {
     setSelectedFile(file);
   };
 
-  const [foto, setFoto] = useState()
-  const errorFoto = useRef(false)
+  const [foto, setFoto] = useState();
+  const errorFoto = useRef(false);
 
   const handleUpload = () => {
     // Di sini Anda dapat menangani pengunggahan file, misalnya mengirimnya ke server.
@@ -48,10 +48,10 @@ export default function RegisterUser() {
   }, [newUser]);
 
   const handleRegister = async (data) => {
-    setLoading(true)
+    setLoading(true);
     if (!foto) {
       errorFoto.current = true;
-      return
+      return;
     }
 
     // const username = document.getElementById("username").value;
@@ -63,7 +63,16 @@ export default function RegisterUser() {
     const salesman = document.getElementById("salesman").checked;
     const supervisor = document.getElementById("supervisor").checked;
     const ksupervisor = document.getElementById("ksupervisor").checked;
-    if (!salesman && !supervisor && !ksupervisor) {
+    const adminpenjualan = document.getElementById("adminpenjualan").checked;
+    const admingaji = document.getElementById("admingaji").checked;
+
+    if (
+      !salesman &&
+      !supervisor &&
+      !ksupervisor &&
+      !adminpenjualan &&
+      !admingaji
+    ) {
       document.getElementById("salesman").focus();
     }
     // const atasan = document.getElementById("atasan").value;
@@ -76,24 +85,27 @@ export default function RegisterUser() {
     const rekening = data.rekening;
     if (username === "") {
       document.getElementById("username").focus();
-      return
+      return;
     }
     if (password === "") {
       document.getElementById("password").focus();
-      return
+      return;
     }
     if (alamat === "") {
       document.getElementById("alamat").focus();
-      return
+      return;
     }
 
-    if (email === "" || (await client.post("/api/cekDuplicateEmail", { email: email })).data) {
+    if (
+      email === "" ||
+      (await client.post("/api/cekDuplicateEmail", { email: email })).data
+    ) {
       document.getElementById("email").focus();
-      return
+      return;
     }
     // const jabatan = data.jabatan;
     const atasan = data.atasan;
-    const namaFile = username.replace(/\s/g, "") + ".png"
+    const namaFile = username.replace(/\s/g, "") + ".png";
     let idJabatan = 0;
     // alert(atasan);
     if (salesman) {
@@ -105,12 +117,23 @@ export default function RegisterUser() {
     } else if (ksupervisor) {
       //   alert("ksupervisor");
       idJabatan = 3;
+    } else if (adminpenjualan) {
+      // alert("adminpenjualan");
+      idJabatan = 4;
+    } else if (admingaji) {
+      // alert("admingaji");
+      idJabatan = 5;
     }
-    console.log(atasan);
-    if (idJabatan !== 3 && parseInt(atasan) === 0) {
-      console.log(atasan)
-      document.getElementById("atasan").focus()
-      return
+    console.log("atasan: " + atasan);
+    if (
+      idJabatan !== 3 &&
+      idJabatan != 4 &&
+      idJabatan != 5 &&
+      parseInt(atasan) === 0
+    ) {
+      console.log(atasan);
+      document.getElementById("atasan").focus();
+      return;
     }
     const user = await client.post(`/api/register/`, {
       username: username,
@@ -121,7 +144,7 @@ export default function RegisterUser() {
       id_jabatan: idJabatan,
       id_atasan: atasan,
       no_rekening: rekening,
-      foto: namaFile
+      foto: namaFile,
     });
 
     console.log(user.data);
@@ -131,10 +154,8 @@ export default function RegisterUser() {
     setNewUser(user.data);
 
     setTimeout(() => {
-      setLoading(false),
-        setRefresh(!refresh)
-    }, 2000);
-
+      setLoading(false), setRefresh(!refresh);
+    }, 1000);
   };
 
   function gantiAtasan() {
@@ -153,16 +174,15 @@ export default function RegisterUser() {
     }
   }
 
-
   return (
     <>
       {console.log(isLoading)}
-      {isLoading == true &&
+      {isLoading == true && (
         <div className="flex items-center bg-slate-200 rounded-xl h-screen">
           <span className="loader"></span>
         </div>
-      }
-      {isLoading == false &&
+      )}
+      {isLoading == false && (
         <>
           <div className="cover selectdisable flex">
             <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
@@ -172,7 +192,10 @@ export default function RegisterUser() {
               {/* <ControlTarget /> */}
             </div>
           </div>
-          <div className="selectdisable w-2/5 border-2 mt-10 flex rounded-2xl h-full" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
+          <div
+            className="selectdisable w-2/5 border-2 mt-10 flex rounded-2xl h-full"
+            style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
+          >
             <div className="row ms-4 m-4 w-full">
               <form onSubmit={handleSubmit(handleRegister)}>
                 <div className="MSales flex text-primary  text-2xl">
@@ -255,7 +278,7 @@ export default function RegisterUser() {
                           id="salesman"
                           value="salesman"
                           onChange={() => gantiAtasan()}
-                        //   {...register("jabatan")}
+                          //   {...register("jabatan")}
                         />
                         <label
                           className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -272,7 +295,7 @@ export default function RegisterUser() {
                           id="supervisor"
                           value="supervisor"
                           onChange={() => gantiAtasan()}
-                        //   {...register("jabatan")}
+                          //   {...register("jabatan")}
                         />
                         <label
                           className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -289,7 +312,7 @@ export default function RegisterUser() {
                           id="ksupervisor"
                           value="ksupervisor"
                           onChange={() => gantiAtasan()}
-                        //   {...register("jabatan")}
+                          //   {...register("jabatan")}
                         />
                         <label
                           className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -301,14 +324,14 @@ export default function RegisterUser() {
                     </div>
                     <div className="bawah flex">
                       <div className="isi flex">
-                      <input
+                        <input
                           className="relative float-left -ml-[1.5rem] mr-1 h-9 w-9 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                           type="radio"
                           name="flexRadioDefault"
-                          id="salesman"
-                          value="salesman"
+                          id="admingaji"
+                          value="admingaji"
                           onChange={() => gantiAtasan()}
-                        //   {...register("jabatan")}
+                          //   {...register("jabatan")}
                         />
                         <label
                           className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -318,14 +341,14 @@ export default function RegisterUser() {
                         </label>
                       </div>
                       <div className="isi flex ms-7">
-                      <input
+                        <input
                           className="relative float-left -ml-[1.5rem] mr-1 h-9 w-9 appearance-none rounded-full border-2 border-solid border-neutral-300 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:border-neutral-600 dark:checked:border-primary dark:checked:after:border-primary dark:checked:after:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:border-primary dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
                           type="radio"
                           name="flexRadioDefault"
-                          id="salesman"
-                          value="salesman"
+                          id="adminpenjualan"
+                          value="adminpenjualan"
                           onChange={() => gantiAtasan()}
-                        //   {...register("jabatan")}
+                          //   {...register("jabatan")}
                         />
                         <label
                           className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -334,7 +357,6 @@ export default function RegisterUser() {
                           Admin Penjualan
                         </label>
                       </div>
-
                     </div>
                   </div>
                 </div>
@@ -350,7 +372,11 @@ export default function RegisterUser() {
                     </option>
                     {atasan.map((a, idx) => {
                       return (
-                        <option key={idx} value={a.id_user} className="text-2xl">
+                        <option
+                          key={idx}
+                          value={a.id_user}
+                          className="text-2xl"
+                        >
                           {a.username}
                         </option>
                       );
@@ -359,9 +385,19 @@ export default function RegisterUser() {
                 </div>
                 <div className="MngSales flex mt-5 text-primary  text-2xl">
                   <p className="pt-3 w-52 pr-2">Foto : </p>
-                  <FileUploader className="ms-8 bottom-2 border-primary" setFoto={setFoto} errorFoto={errorFoto}>
-                  </FileUploader>
-                  {(errorFoto.current) && <span className="ps-2 pt-2 text-md" style={{ color: "red" }}>Masukkan Foto</span>}
+                  <FileUploader
+                    className="ms-8 bottom-2 border-primary"
+                    setFoto={setFoto}
+                    errorFoto={errorFoto}
+                  ></FileUploader>
+                  {errorFoto.current && (
+                    <span
+                      className="ps-2 pt-2 text-md"
+                      style={{ color: "red" }}
+                    >
+                      Masukkan Foto
+                    </span>
+                  )}
                   {/* <input type="file" className="border-2 h-14 w-72 border-primary bg-white rounded-xl" onChange={handleFileChange} /> */}
                 </div>
                 <div className="flex text-primary text-2xl float-right">
@@ -375,17 +411,20 @@ export default function RegisterUser() {
               </form>
             </div>
           </div>
-          <div className="selectdisable border-2 mt-10 mb-36 flex border-gray-300 rounded-2xl w-full h-full" style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
+          <div
+            className="selectdisable border-2 mt-10 mb-36 flex border-gray-300 rounded-2xl w-full h-full"
+            style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
+          >
             {/* berisi biodata salesman */}
             <div className="row ms-6 m-4 w-full">
               {/* {console.log(newUser)} */}
               <div className="MSales flex mt-4 text-primary font-semibold text-2xl">
                 <p>Nama User : {newUser && newUser.username}</p>
-                <p className="ms-4">{ }</p>
+                <p className="ms-4">{}</p>
               </div>
               <div className="MSales flex mt-4 text-primary font-semibold text-2xl">
                 <p>Jabatan : {newUser && newUser.id_jabatan}</p>
-                <p className="ms-4">{ }</p>
+                <p className="ms-4">{}</p>
               </div>
               <div className="PhoneNumber flex mt-4 text-primary font-semibold text-2xl">
                 <p>No. Hp : {newUser && newUser.no_handphone}</p>
@@ -410,14 +449,22 @@ export default function RegisterUser() {
             {/* menampilakan foto karyawan */}
             <div className="row m-1 bg-gray-300 rounded-xl w-1/5">
               <div className="noId">
-                {newUser ? <img className="w-72 m-2 mx-auto" src={`http://localhost:3000/uploads/${newUser.foto}`} alt="foto profile" /> : <img src={LogoPerusahaan} className="w-72 m-2 mx-auto" />}
+                {newUser ? (
+                  <img
+                    className="w-72 m-2 mx-auto"
+                    src={`http://localhost:3000/uploads/${newUser.foto}`}
+                    alt="foto profile"
+                  />
+                ) : (
+                  <img src={LogoPerusahaan} className="w-72 m-2 mx-auto" />
+                )}
               </div>
             </div>
             {/* menampilakan foto karyawan */}
           </div>
           <hr className="h-px my-10 mt-18 mb-52" />
         </>
-      }
+      )}
     </>
   );
 }
