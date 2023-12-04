@@ -56,9 +56,9 @@ export default function DataNavigationMenu({ img, title, link }) {
                     aria-describedby="modal-modal-description"
                 >
                     <Box sx={style}>
-                        <h2 className="text-center text-2xl">Anda Yakin Akan Keluar Dari Sistem ?</h2>
-                        <img src={logoutModal} alt="" className="w-28 mx-auto m-6 h-28 " />
-                        <div className="flex items-center mx-auto justify-center">
+                        <h2 className="text-center text-2xl">Yakin Akan Keluar Dari Sistem ?</h2>
+                        <img src={logoutModal} alt="" className="w-28 m-9 mx-auto h-28 " />
+                        <div className="flex items-center mx-auto justify-center m-3">
                             <button className="bg-gray-400 hover:bg-gray-200 m-1 w-36 rounded-lg" onClick={handleClose}>
                                 <p className="text-2xl p-2">
                                     Tidak
