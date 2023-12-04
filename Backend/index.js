@@ -1399,6 +1399,35 @@ app.post("/api/register", async (req, res) => {
     no_rekening: no_rekening,
     status_user: 1,
   });
+
+  const id_user = await db.MasterUser.findAll();
+  let gaji_pokok = 9000000;
+  // ADD MASTER TARGET
+  if(id_jabatan==1 || id_jabatan==2){
+    let id_wilayah = "KLR00001";
+    if(id_jabatan==1){
+      gaji_pokok = 3000000;
+    }else{
+      id_wilayah = "KTA00001";
+      gaji_pokok = 6000000;
+    }
+    await db.MasterTarget.create({
+      id_user: id_user.length,
+      id_wilayah: id_wilayah,
+      target: 0,
+      tanggal_target: date,
+    });
+  }
+
+  // ADD MASTER GAJI
+  if(id_jabatan==1 || id_jabatan==2 || id_jabatan==3){
+    await db.MasterGaji.create({
+      id_user: id_user.length,
+      gaji_pokok: gaji_pokok,
+      gaji_komisi: 0,
+    });
+  }
+
   return res.status(201).send(result);
 });
 
