@@ -87,7 +87,7 @@ export default function Loginfunction() {
                             {/* //gambat login sebelah kiri */}
                             <div className="mb-12 md:mb-0 md:w-6/12 lg:w-6/12 float-left" style={{marginTop:"-40px"}} data-aos="fade-right" data-aos-duration="1500">
                                 <img src={LogoPerusahaan}
-                                    className="w-11/12 lg:mt-20"
+                                    className="w-11/12 rounded-3xl lg:mt-20"
                                     alt="logologin" />
                             </div>
                             {/* //gambat login sebelah kiri */}
