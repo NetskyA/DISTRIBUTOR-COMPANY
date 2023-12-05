@@ -64,7 +64,7 @@ export default function MasterJabatan() {
 
         let kelurahan = await client.get(`/api/getListKelurahan`);
         setKelurahan(kelurahan.data);
-        alert("Berhasil Update Kelurahan " + id);
+        // alert("Berhasil Update Kelurahan " + id);
         handleOpenModal()
 
     }

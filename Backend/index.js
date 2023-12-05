@@ -11,6 +11,7 @@ const multer = require("multer");
 const fs = require("fs");
 app.use("/uploads", express.static("uploads"));
 const upload = multer({ dest: "./uploads" });
+const bcrypt = require("bcrypt");
 app.use(cors());
 
 const initApp = async () => {
@@ -127,7 +128,7 @@ app.post("/api/login", async (req, res) => {
   if (!data) {
     return res.status(404).send("Email tidak terdaftar");
   }
-  if (data.dataValues.password !== password) {
+  if (!bcrypt.compareSync(password, data.dataValues.password)) {
     return res.status(401).send("Password Salah");
   }
   let jabatan = await db.MasterJabatan.findOne({
@@ -1386,7 +1387,7 @@ app.post("/api/register", async (req, res) => {
 
   const result = await db.MasterUser.create({
     username: username,
-    password: password,
+    password: bcrypt.hashSync(password, 12),
     alamat: alamat,
     no_handphone: no_handphone,
     email: email,
@@ -2460,7 +2461,7 @@ app.put("/api/editUser", async (req, res) => {
       id_atasan: id_atasan,
       username: username,
       email: email,
-      password: password,
+      password: bcrypt.hashSync(password, 12),
       alamat: alamat,
       no_rekening: no_rekening,
     },

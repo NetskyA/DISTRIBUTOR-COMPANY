@@ -37,27 +37,27 @@ export default function MasterJabatan() {
   }
 
   async function editUser(id) {
-    // const id_jabatan = document.getElementById(`id_jabatan${id}`).value;
-    // const id_atasan = document.getElementById(`id_atasan${id}`).value;
-    // const username = document.getElementById(`username${id}`).value;
-    // let email = document.getElementById(`email${id}`).value;
-    // let password = document.getElementById(`password${id}`).value;
-    // let alamat = document.getElementById(`alamat${id}`).value;
-    // let no_rekening = document.getElementById(`no_rekening${id}`).value;
+    const id_jabatan = document.getElementById(`id_jabatan${id}`).value;
+    const id_atasan = document.getElementById(`id_atasan${id}`).value;
+    const username = document.getElementById(`username${id}`).value;
+    let email = document.getElementById(`email${id}`).value;
+    let password = document.getElementById(`password${id}`).value;
+    let alamat = document.getElementById(`alamat${id}`).value;
+    let no_rekening = document.getElementById(`no_rekening${id}`).value;
 
-    // await client.put(`/api/editUser`, {
-    //   id_user: id,
-    //   id_jabatan: id_jabatan,
-    //   id_atasan: id_atasan,
-    //   username: username,
-    //   email: email,
-    //   password: password,
-    //   alamat: alamat,
-    //   no_rekening: no_rekening,
-    // });
+    await client.put(`/api/editUser`, {
+      id_user: id,
+      id_jabatan: id_jabatan,
+      id_atasan: id_atasan,
+      username: username,
+      email: email,
+      password: password,
+      alamat: alamat,
+      no_rekening: no_rekening,
+    });
 
-    // let user = await client.get(`/api/user`);
-    // setUser(user.data);
+    let user = await client.get(`/api/user`);
+    setUser(user.data);
     handleOpenModal()
   }
 
@@ -252,7 +252,7 @@ export default function MasterJabatan() {
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4">
                                   <p>
-                                    <input type="text" name="" className="border-primary w-36 rounded-lg text-xl" id={`password${u.id_user}`}
+                                    <input type="password" name="" className="border-primary w-36 rounded-lg text-xl" placeholder="Password" id={`password${u.id_user}`}
                                       value={u.password}
                                       onChange={(e) =>
                                         handleInputChange(
