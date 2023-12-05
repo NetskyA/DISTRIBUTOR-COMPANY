@@ -193,7 +193,7 @@ export default function RegisterUser() {
                   <input
                     type="text"
                     placeholder="Username"
-                    className="border border-primary rounded-lg w-1/2 text-xl h-10"
+                    className="border border-primary bg-gray-200 rounded-lg w-1/2 text-xl h-10"
                     name="username"
                     id="username"
                     {...register("username")}
@@ -204,7 +204,7 @@ export default function RegisterUser() {
                   <input
                     type="text"
                     placeholder="Password"
-                    className="border border-primary rounded-lg w-1/2 text-xl h-10"
+                    className="border border-primary bg-gray-200 rounded-lg w-1/2 text-xl h-10"
                     name="password"
                     id="password"
                     {...register("password")}
@@ -215,19 +215,19 @@ export default function RegisterUser() {
                   <input
                     type="text"
                     placeholder="Alamat"
-                    className="border border-primary rounded-lg w-1/2 text-xl h-10"
+                    className="border border-primary bg-gray-200 rounded-lg w-1/2 text-xl h-10"
                     name="alamat"
                     id="alamat"
                     {...register("alamat")}
                   />
                 </div>
-                <div className="PhoneNumber flex mt-3 text-primary  text-2xl">
+                <div className="PhoneNumber flex mt-3 text-primary text-2xl">
                   <p className="pt-1 w-52 pr-2">No. Hp : </p>
                   <input
                     type="text"
                     placeholder="No. Hp"
                     required="number"
-                    className="border border-primary rounded-lg w-64 text-xl h-10"
+                    className="border border-primary bg-gray-200 rounded-lg w-1/2 text-xl h-10"
                     name="nohp"
                     id="nohp"
                     {...register("nohp")}
@@ -238,7 +238,7 @@ export default function RegisterUser() {
                   <input
                     type="email"
                     placeholder="Email"
-                    className="border border-primary rounded-lg w-1/2 text-xl h-10"
+                    className="border border-primary bg-gray-200 rounded-lg w-1/2 text-xl h-10"
                     name="email"
                     id="email"
                     {...register("email")}
@@ -250,7 +250,7 @@ export default function RegisterUser() {
                     type="number"
                     placeholder="No. Rekening"
                     required="number"
-                    className="border border-primary rounded-lg w-64 text-xl h-10"
+                    className="border border-primary bg-gray-200 rounded-lg w-64 text-xl h-10"
                     name="rekening"
                     id="rekening"
                     {...register("rekening")}
@@ -402,38 +402,39 @@ export default function RegisterUser() {
             </div>
           </div>
           <div
-            className="selectdisable border-2 mt-10 mb-36 flex border-gray-300 rounded-2xl w-full h-full"
-            style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
-          >
+            className="selectdisable border-2 mt-10 mb-36 border-gray-300 rounded-2xl w-full h-full"
+            style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
+            <p className="pt-5 text-4xl font-semibold text-center text-primary">Data Karyawan</p>
             {/* berisi biodata salesman */}
+            <div className="flex mb-10">
             <div className="row ms-6 m-4 w-full">
               {/* {console.log(newUser)} */}
               <div className="MSales flex mt-4 text-primary font-semibold text-2xl">
                 <p>Nama User : {newUser && newUser.username}</p>
                 <p className="ms-4">{}</p>
               </div>
-              <div className="MSales flex mt-4 text-primary font-semibold text-2xl">
+              <div className="MSales flex mt-6 text-primary font-semibold text-2xl">
                 <p>Jabatan : {newUser && newUser.id_jabatan}</p>
                 <p className="ms-4">{}</p>
               </div>
-              <div className="PhoneNumber flex mt-4 text-primary font-semibold text-2xl">
+              <div className="PhoneNumber flex mt-6 text-primary font-semibold text-2xl">
                 <p>No. Hp : {newUser && newUser.no_handphone}</p>
                 <p className="ms-4"> </p>
                 {/* <p className="ms-4">/ 08346366464</p> */}
               </div>
-              <div className="Email flex mt-4 text-primary font-semibold text-2xl">
+              <div className="Email flex mt-6 text-primary font-semibold text-2xl">
                 <p>Email : {newUser && newUser.email}</p>
                 <p className="ms-4"></p>
               </div>
-              <div className="Adress flex mt-4 text-primary font-semibold text-2xl">
+              <div className="Adress flex mt-6 text-primary font-semibold text-2xl">
                 <p>Alamat : {newUser && newUser.alamat}</p>
                 <p className="ms-4"></p>
               </div>
-              <div className="MngSales flex mt-4 text-primary font-semibold text-2xl">
+              <div className="MngSales flex mt-6 text-primary font-semibold text-2xl">
                 <p>Atasan : {newUser && newUser.id_atasan}</p>
                 <p className="ms-4"></p>
               </div>
-            </div>
+            </div>  
             {/* berisi biodata salesman */}
 
             {/* menampilakan foto karyawan */}
@@ -451,6 +452,7 @@ export default function RegisterUser() {
               </div>
             </div>
             {/* menampilakan foto karyawan */}
+            </div>
           </div>
           <hr className="h-px my-10 mt-18 mb-52" />
         </>

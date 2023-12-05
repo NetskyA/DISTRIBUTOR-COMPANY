@@ -34,11 +34,15 @@ const FileUploader = ({setFoto,errorFoto}) => {
      },});
 
     return (
-        <div {...getRootProps()} className={`dropzone ${isDragActive ? 'active' : ''} text-2xl border-2 h-12 w-20 border-dashed border-primary rounded-lg ms-4`}>
+        <div {...getRootProps()} className={`dropzone ${isDragActive ? 'active' : ''} text-2xl border-2 h-14 w-52 border-dashed border-primary rounded-lg ms-4`}>
             <div className="cover items-center mx-auto justify-center">
                 <input {...getInputProps()} className="m-2"/>
             </div>
-            <p>{isDragActive ? <p className="text-center">Click</p> : <p className="text-2xl pt-1 text-center">+</p>}</p>
+            <p>{isDragActive ? <p className="text-center">Click</p> : 
+            <div className="cover">
+            <p className="text-2xl pt-3 text-center">Tambah Foto</p>
+            </div>
+            }</p>
         </div>
     );
 };
