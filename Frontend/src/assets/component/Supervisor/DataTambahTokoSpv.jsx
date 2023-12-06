@@ -167,46 +167,38 @@ export default function DataTambahToko() {
                                             <tr className="border-b dark:border-neutral-500">
                                                 <td className="whitespace-nowrap px-6 py-4 font-medium">
                                                     <div>
-                                                        <input type="text" name="" className="border-primary w-60 rounded-lg text-xl"
-                                                        />
-
+                                                        <p>test</p>
                                                     </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4 font-medium">
                                                     <div>
-                                                        <input type="text" name="" className="border-primary w-60 rounded-lg text-xl"
-                                                        />
+                                                        <p>test</p>
                                                     </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4">
-                                                    <p>
-                                                        <input type="text" name="" className="border-primary w-60 rounded-lg text-xl"
-                                                        />
-                                                    </p>
+                                                    <div>
+                                                        <p>test</p>
+                                                    </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4">
-                                                    <p>
-                                                        <input type="text" name="" className="border-primary w-40 rounded-lg text-xl"
-                                                        />
-                                                    </p>
+                                                    <div>
+                                                        <p>test</p>
+                                                    </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4">
-                                                    <p>
-                                                        <textarea type="text" name="" className="border-primary h-28 rounded-lg text-xl"
-                                                        />
-                                                    </p>
+                                                    <div>
+                                                        <p>test</p>
+                                                    </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4">
-                                                    <p>
-                                                        <input type="text" name="" className="border-primary w-44 rounded-lg text-xl"
-                                                        />
-                                                    </p>
+                                                    <div>
+                                                        <p>test</p>
+                                                    </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4">
-                                                    <p>
-                                                        <input type="text" name="" className="border-primary w-44 rounded-lg text-xl"
-                                                        />
-                                                    </p>
+                                                    <div>
+                                                        <p>test</p>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </>
