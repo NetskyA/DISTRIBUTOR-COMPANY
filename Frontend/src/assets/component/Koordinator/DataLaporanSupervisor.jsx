@@ -1,7 +1,3 @@
-// import DataTarget from "../../controller/ControlTarget"
-// import { Radio } from "@material-tailwind/react";
-// import React, { useEffect, useRef, useState } from "react";
-
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import LogoPrint from "../../images/image-navbar/printer.png";
 import { useEffect, useState } from "react";
@@ -16,7 +12,7 @@ export default function Laporan() {
   const targets = dataKoor.target;
 
   const [refresh, setRefresh] = useState(true);
-  const [isVisibleSuper, setIsVisibleSuper] = useState(true);
+  const [isVisibleSuper, setIsVisibleSuper] = useState(false);
   const [isVisibleSales, setIsVisibleSales] = useState(false);
   const [dateStart, setDateStart] = useState("-");
   const [dateEnd, setDateEnd] = useState("-");
@@ -268,9 +264,7 @@ export default function Laporan() {
                         {s.username}
                       </td>
                       <td className="whitespace-nowrap px-6 py-4">
-                        <span>{dateStart}</span>
-                        {" - "}
-                        <span>{dateEnd}</span>
+                        <span>{s.tanggal_target}</span>
                       </td>
                       <td className="whitespace-nowrap px-6 py-4">
                         {formatter.format(s.target)}
@@ -336,9 +330,7 @@ export default function Laporan() {
                         {s.username}
                       </td>
                       <td className="whitespace-nowrap px-6 py-4">
-                        <span>{dateStart}</span>
-                        {" - "}
-                        <span>{dateEnd}</span>
+                        <span>{s.tanggal_target}</span>
                       </td>
                       <td className="whitespace-nowrap px-6 py-4">
                         {formatter.format(s.target)}

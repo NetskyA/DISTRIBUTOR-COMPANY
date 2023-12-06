@@ -16,6 +16,7 @@ import "datatables.net-buttons-dt/css/buttons.dataTables.min.css";
 import client from "../../controller/client";
 
 export default function DataGaji() {
+  const navigate = useNavigate()
   let jabatan = useLoaderData()
   var now = new Date();
   let date = now.getDate();
@@ -32,7 +33,7 @@ export default function DataGaji() {
     setIsModalOpen(false);
   };
   let textJabatan = useRef("")
-  const handleTogglePassword = () => {
+  const handleTogglePassword = async () => {
     // if(date!==1){
     //     handleOpenModal()
     //     return
@@ -41,6 +42,10 @@ export default function DataGaji() {
       document.getElementById("divisi").focus()
       return
     }
+    await client.post("/api/kirimGaji",{
+      listUser:listGaji.current
+    })
+    navigate("/AdminGaji/Laporan-Gaji-Karyawan")
   };
   console.log(listGaji)
   const search = async () => {

@@ -7,6 +7,7 @@ import { useLoaderData } from "react-router";
 import formatter from "../../controller/formatter";
 import LogoPerusahaan from "../../images/image-login/icon.png";
 import ControlTarget from "../../controller/ControlTarget";
+import { data } from "jquery";
 
 export default function ReturnBarang() {
   const dataSupervisor = useLoaderData();
@@ -14,19 +15,14 @@ export default function ReturnBarang() {
   const [targetSalesman, setTargetSalesman] = useState(dataSupervisor.target);
   const [dateStart, setDateStart] = useState(null);
   const [dateEnd, setDateEnd] = useState(null);
-
   const toggleVisibility = () => {
     if (dateStart != null && dateEnd != null) {
-      // console.log(dateStart)
-      // console.log(dateEnd.day + " - " + dateEnd.month + " - " + dateEnd.year)
-
       let tempTargetSalesman = [];
       let temp = dataSupervisor.target;
       for (let i = 0; i < temp.length; i++) {
         const t = temp[i];
-
         const tempDate = t.tanggal_target.split("-");
-        const day = tempDate[0];
+        const day = tempDate[0].padStart(2,0);
         const month = tempDate[1];
         const year = tempDate[2];
         const result = year + "-" + month + "-" + day;
@@ -40,13 +36,11 @@ export default function ReturnBarang() {
 
   const extractDate = (id) => {
     const date = document.getElementById(id).value;
-
     if (date) {
       const tempDate = date.split("-");
       const year = tempDate[0];
       const month = tempDate[1];
       const day = tempDate[2];
-
       if (id == "dateStart") {
         setDateStart(year + "-" + month + "-" + day);
       } else {
@@ -62,7 +56,6 @@ export default function ReturnBarang() {
   };
 
   const Print = () => {
-    //console.log('print');
     let printContents = document.getElementById("NotaCetak").innerHTML;
     let originalContents = document.body.innerHTML;
     document.body.innerHTML = printContents;
@@ -70,6 +63,7 @@ export default function ReturnBarang() {
     document.body.innerHTML = originalContents;
     window.location.reload(false);
   };
+
   return (
     <>
       {console.log(targetSalesman)}
@@ -79,7 +73,7 @@ export default function ReturnBarang() {
           <p>Laporan Target Salesman</p>
         </div>
         <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-        <ControlTarget current={dataSupervisor.targetSekarang} target={dataSupervisor.currtarget}/>
+          <ControlTarget current={dataSupervisor.targetSekarang} target={dataSupervisor.currtarget} />
         </div>
         {/* untuk memanggil function controller target salesman */}
       </div>
@@ -114,9 +108,6 @@ export default function ReturnBarang() {
         </div>
         {/* berisi form retur */}
         <div className="items-center justify-center">
-          {/* <button className="bg-primary m-4 w-full h-16 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4">
-                        Supervisor
-                    </button> */}
           <button
             onClick={() => toggleVisibility()}
             className="bg-primary w-1/4 m-4 h-14 rounded-xl text-white hover:bg-gray-300 hover:text-primary font-bold py-2 px-4"
@@ -190,7 +181,11 @@ export default function ReturnBarang() {
                         {formatter.format(t.target)}
                       </td>
                       <td className="whitespace-nowrap px-6 py-4 text-red-500">
-                        {formatter.format(t.target)}
+                        {dataSupervisor.salesman.map((s) => {
+                          if (s.id_user == t.id_user) {
+                            return formatter.format(s.realisasiTarget)
+                          }
+                        })}
                       </td>
                     </tr>
                   );

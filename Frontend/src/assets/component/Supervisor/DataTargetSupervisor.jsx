@@ -85,7 +85,6 @@ export default function Table() {
   return (
     //PROFILE SALESMAN
     <>
-      {/* {console.log(dataSupervisor)} */}
       <div className="cover selectdisable flex">
         {/* nanti digunakan memanggil nama sesuai akun*/}
         <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
