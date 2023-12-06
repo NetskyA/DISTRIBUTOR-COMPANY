@@ -9,7 +9,7 @@ import FotoModal from "../../images/image-modal/berhasil.png"
 
 export default function DataTambahToko() {
     let data = useLoaderData();
-    const [toko, setToko] = useState(data.toko);
+    const [toko, setToko] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleOpenModal = () => {
@@ -38,7 +38,7 @@ export default function DataTambahToko() {
     } = useForm();
 
     async function addToko(data) {
-        await client.post(`/api/toko`, {
+        let toko = await client.post(`/api/toko`, {
             id_kelurahan: data.id_kelurahan,
             nama_toko: data.nama_toko,
             nama_konsumen: data.nama_konsumen,
@@ -47,12 +47,12 @@ export default function DataTambahToko() {
             no_handphone2: data.no_handphone2,
         });
         reset();
-        let toko = await client.get(`/api/toko`);
         setToko(toko.data);
     }
 
     return (
         <>
+            {/* {console.log(data)} */}
             <div className="cover selectdisable flex">
                 {/* nanti digunakan memanggil nama sesuai akun*/}
                 <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">
@@ -78,9 +78,9 @@ export default function DataTambahToko() {
                         <div className="flex text-primary mt-3 text-2xl">
                             <p className="pt-2 pr-2 w-52">Nama Kelurahan : </p>
                             <select name="brandId" id="selectIdbarang" className="w-60 text-primary border-primary rounded-lg h-12 text-2xl" {...register("id_kelurahan")}>
-                                {/* {data.kelurahan.map((k) => {
+                                {data.kelurahan.map((k) => {
                                     return <option value={k.id_kelurahan}>{k.nama_kelurahan}</option>
-                                })} */}
+                                })}
                             </select>
                         </div>
                         <div className="flex text-primary mt-3 text-2xl">
@@ -167,37 +167,41 @@ export default function DataTambahToko() {
                                             <tr className="border-b dark:border-neutral-500">
                                                 <td className="whitespace-nowrap px-6 py-4 font-medium">
                                                     <div>
-                                                        <p>test</p>
+                                                        <p>{toko.id_toko}</p>
                                                     </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4 font-medium">
                                                     <div>
-                                                        <p>test</p>
+                                                        {data.kelurahan.map((k)=>{
+                                                            if(k.id_kelurahan==toko.id_kelurahan){
+                                                                return <p>{k.nama_kelurahan}</p>
+                                                            }
+                                                        })}
                                                     </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4">
                                                     <div>
-                                                        <p>test</p>
+                                                        <p>{toko.nama_toko}</p>
                                                     </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4">
                                                     <div>
-                                                        <p>test</p>
+                                                        <p>{toko.nama_konsumen}</p>
                                                     </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4">
                                                     <div>
-                                                        <p>test</p>
+                                                        <p>{toko.alamat_toko}</p>
                                                     </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4">
                                                     <div>
-                                                        <p>test</p>
+                                                        <p>{toko.no_handphone1}</p>
                                                     </div>
                                                 </td>
                                                 <td className="whitespace-nowrap px-6 py-4">
                                                     <div>
-                                                        <p>test</p>
+                                                        <p>{toko.no_handphone1}</p>
                                                     </div>
                                                 </td>
                                             </tr>

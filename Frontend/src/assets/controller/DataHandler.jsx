@@ -708,10 +708,12 @@ const getDataTokoSupervisor = async () => {
 let target = await client.post("/api/getTargetSekarang",{
   id:temp2.id_user
 })
+let kelurahan = await client.get(`/api/getListKelurahan`);
   return {
     katalogToko: getKatalogToko.data,
     targetSekarang:dataUser.data.target,
-    currtarget:target.data.target
+    currtarget:target.data.target,
+    kelurahan: kelurahan.data
   };
 };
 

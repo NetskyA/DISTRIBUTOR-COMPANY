@@ -2280,7 +2280,7 @@ app.post("/api/toko", async (req, res) => {
 
   let toko = await db.MasterToko.findAll();
 
-  await db.MasterToko.create({
+  const hasil = await db.MasterToko.create({
     id_toko: toko.length + 1,
     id_kota: kota.id_kota,
     id_kelurahan: kelurahan.id_kelurahan,
@@ -2293,7 +2293,7 @@ app.post("/api/toko", async (req, res) => {
     status_toko: 1,
   });
 
-  return res.status(201).send("Done");
+  return res.status(201).send(hasil);
 });
 
 //========================== PUT EDIT STATUS TOKO ==========================//
