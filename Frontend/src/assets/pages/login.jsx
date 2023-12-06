@@ -143,7 +143,7 @@ export default function Loginfunction() {
                                 </div>
                             </div>
                             {/* //form untuk login ke landing page */}
-                            <p className="text-sm lg:text-base text-gray-500 text-center md:pt-4" style={{ marginTop: "64vh" }}>Version Beta</p>
+                            <p className="text-sm lg:text-base text-gray-500 text-center md:pt-4" style={{ marginTop: "64vh" }}>Version 12.6.23</p>
                         </div>
                     </div>
                 </section>
