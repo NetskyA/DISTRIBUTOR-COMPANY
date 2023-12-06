@@ -905,7 +905,14 @@ app.get("/api/dataGaji/:id_jabatan", async (req, res) => {
         target: 0,
       };
     }
-    let potongan = dataUser.absen_user * 100000;
+    let potongan = dataUser.absen_user;
+    if(parseInt(dataUser.id_jabatan)===1){
+      potongan*=100000;
+    }else if(parseInt(dataUser.id_jabatan)===2){
+      potongan*=200000;
+    }else{
+      potongan*=300000;
+    }
     let totalGaji = dataGajiUser.gaji_pokok;
     let komisi = 0;
     if (dataUser.target_sekarang >= target) {
