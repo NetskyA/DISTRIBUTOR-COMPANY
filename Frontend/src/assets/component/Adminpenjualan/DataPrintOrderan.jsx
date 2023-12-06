@@ -169,9 +169,6 @@ export default function DataPrintOrderan() {
           }
         }
       }
-
-      // console.log(resultData);
-
       setVisibleData(resultData);
     }
   };

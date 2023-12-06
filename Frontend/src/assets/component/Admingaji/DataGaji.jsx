@@ -2,14 +2,10 @@ import DateControl from "../../controller/ControlTanggal"
 import { useState, useRef, useEffect } from "react";
 import $ from "jquery";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
-import dataSet from "../../component/Salesman/DataSet";
 import ComModal from "../../controller/ControlModalKeluar"
 import Select from 'react-select';
 import { useLoaderData, useNavigate } from "react-router-dom";
 import FotoTolak from "../../images/image-modal/tolak.png"
-
-// import * as XLSX from "xlsx";
-
 import "datatables.net-buttons";
 import "datatables.net-buttons-dt";
 import "datatables.net-buttons-dt/css/buttons.dataTables.min.css";
@@ -214,19 +210,6 @@ export default function DataGaji() {
           <div className="cover mb-28">
             <div className="covertable m-2">
               <table id="example" className="border-2 border-gray rounded-lg">
-                {/* <thead>
-                                    <tr>
-                                        <th>ID Karyawan</th>
-                                        <th>Nama Karyawan</th>
-                                        <th>Email</th>
-                                        <th>Jabatan</th>
-                                        <th>Target Realisasi</th>
-                                        <th>Komisi</th>
-                                        <th>Potongan</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="isi">
-                                </tbody> */}
               </table>
             </div>
             <div className="flex text-primary m-4 float-right text-2xl">

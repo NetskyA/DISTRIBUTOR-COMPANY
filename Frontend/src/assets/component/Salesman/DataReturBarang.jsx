@@ -1,7 +1,6 @@
 import ControlTarget from "../../controller/ControlTarget";
 import { Radio } from "@material-tailwind/react";
 import React, { useEffect, useRef, useState } from "react";
-import dataSet from "../../component/Salesman/DataRetur";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import client from "../../controller/client";
 import { useLoaderData, useNavigate } from "react-router-dom";
@@ -184,8 +183,8 @@ export default function ReturnBarang() {
       const newValue = $(this).val();
       const rowId = $(this).data("row-id");
       let data = "Barang";
-      if(document.getElementsByName("flexRadioDefault")[0].checked){
-        data="Uang"
+      if (document.getElementsByName("flexRadioDefault")[0].checked) {
+        data = "Uang"
       }
       if (newValue < 0) {
         $(this).val(0);
@@ -199,10 +198,10 @@ export default function ReturnBarang() {
         dataTabel[dataTabel.findIndex((e) => e.id_barang === rowId)]
           .jumlah_barang_karton;
       let max = 0;
-      
-      if (jmlstok > jmlorder || data==="Uang") {
+
+      if (jmlstok > jmlorder || data === "Uang") {
         max = jmlorder;
-      } else if(data==="Barang"){
+      } else if (data === "Barang") {
         max = jmlstok;
       }
       if (newValue > max) {
@@ -215,8 +214,8 @@ export default function ReturnBarang() {
 
     $("#example").on("change", ".data-input-pcs", function () {
       let data = "Barang";
-      if(document.getElementsByName("flexRadioDefault")[0].checked){
-        data="Uang"
+      if (document.getElementsByName("flexRadioDefault")[0].checked) {
+        data = "Uang"
       }
       const newValue = $(this).val();
       const rowId = $(this).data("row-id");
@@ -231,9 +230,9 @@ export default function ReturnBarang() {
         dataTabel[dataTabel.findIndex((e) => e.id_barang === rowId)]
           .jumlah_barang_pcs;
       let max = 0;
-      if (jmlstok > jmlorder || data==="Uang") {
+      if (jmlstok > jmlorder || data === "Uang") {
         max = jmlorder;
-      } else if(data==="Barang"){
+      } else if (data === "Barang") {
         max = jmlstok;
       }
       if (newValue > max) {
@@ -310,8 +309,8 @@ export default function ReturnBarang() {
           status: (document.getElementsByName("flexRadioDefault")[0].checked) ? 2 : 1,
           tanggal_retur: hasilDate,
           id_barang: data.id_barang,
-          harga_pcs:data.harga_pcs,
-          harga_karton:data.harga_karton
+          harga_pcs: data.harga_pcs,
+          harga_karton: data.harga_karton
         }
       );
     });
@@ -327,7 +326,7 @@ export default function ReturnBarang() {
       let radio = document.getElementsByName("flexRadioDefault");
       if (!radio[0].checked && !radio[1].checked) {
         window.scrollTo(0, 0);
-  
+
         document.getElementsByName("flexRadioDefault")[0].focus();
         return;
       }
@@ -385,7 +384,7 @@ export default function ReturnBarang() {
           <p>Retur</p>
         </div>
         <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-        <ControlTarget current={user.targetSekarang} target={user.currtarget}/>
+          <ControlTarget current={user.targetSekarang} target={user.currtarget} />
         </div>
         {/* untuk memanggil function controller target salesman */}
       </div>
@@ -483,20 +482,7 @@ export default function ReturnBarang() {
             id="example"
             className="display border-2 border-gray rounded-lg"
           >
-            {/* <thead>
-                        <tr>
-                            <th>Id Barang</th>
-                            <th>Nama Barang</th>
-                            <th>Harga Pcs</th>
-                            <th>Harga Karton</th>
-                            <th>Qty Gudang</th>
-                            <th>Qty Pembelian</th>
-                            <th>Qty Retur</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <Tabel /> 
-                    </tbody> */}
+
           </table>
         </div>
       </div>
@@ -583,17 +569,8 @@ export default function ReturnBarang() {
           </button>
         </div>
         <div className="w w-52 ms-14 mt-10 mb-5 float-right">
-          {/* <button
-            onClick={() => {
-              setRefresh(!refresh);
-            }}
-            className="w-52 h-16 bg-gray-300 rounded-xl hover:bg-slate-400 text-gray-600 hover:text-white font-bold py-2 px-4"
-          >
-            Close
-          </button> */}
         </div>
       </div>
-
       <hr className="h-px my-8 rounded-xl bg-gray-400 border" />
     </>
   );

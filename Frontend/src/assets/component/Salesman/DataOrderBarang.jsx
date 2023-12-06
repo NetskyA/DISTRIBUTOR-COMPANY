@@ -28,7 +28,6 @@ export default function DataOrderBarang() {
         nohp2: "",
     })
     let [total, settotal] = useState(0);
-    // console.log(data)
     const {
         register,
         handleSubmit,
@@ -39,55 +38,7 @@ export default function DataOrderBarang() {
     });
     let table;
     let navigate = useNavigate();
-    // let j = 0;
-    // let k=1;
-    // const Row = ({ data }) => {
-    //     var temp = [];
-    //     for (let i = 0; i < 5; i++) {
-    //         temp.push(<td key={j}>{data[i]}</td>)
-    //         j++
-    //         k++;
-    //     }
-    //     temp.push(<td key={j}><input className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" type="number" onKeyUp={(e)=>{if(e.target.value<0){
-    //         e.target.value=0;
-    //     }else if(parseInt(e.target.value)>parseInt(data[1])) {e.target.value = data[1];}
-    //     }} min="0" max={data[1]} name={data[0]} defaultValue="0"/></td>)
-    //     temp.push(<td key={k}><input className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" type="number" min="0" onKeyUp={(e)=>{if(e.target.value<0){
-    //         e.target.value=0;
-    //     }else if(parseInt(e.target.value)>parseInt(data[3])) {e.target.value = data[3];}
-    //     }} max={data[3]} name={data[0]} defaultValue="0"/></td>)
-    //     return <>{temp}</>
-    // }
-
-    // const Tabel = () => {
-    //     var cetak = [];
-    //     let i = 0;
-    //     dataSet.map((e) => {
-    //         cetak.push(<tr key={i}><Row data={e} /></tr>)
-    //         i++;
-    //     })
-    //     return <>{cetak}</>;
-    // }
-    // const tableRef = useRef();
-    // var table;
-
-    // const test = ()=>{
-    //     var data = table.$('input').serialize()
-    //     console.log(data)
-    // }
     useEffect(() => {
-        // Initialize DataTables within the component
-
-        // table = new $('#example').DataTable({
-        //     columnDefs: [
-        //         {
-        //             orderable: false,
-        //             targets: [5],
-        //             searchable:false,
-        //             targets:[1,2,3,4],
-        //         }
-        //     ]
-        // });
         table = new $("#example").DataTable({
             dom: '<"top"lf>rt<"bottom"pi>',
             data: barang,
@@ -156,7 +107,6 @@ export default function DataOrderBarang() {
                         return number;
                     }
                 },
-                //   { title: "Qty", data:"qty" },
                 {
                     title: "Qty Karton",
                     data: null,
@@ -354,10 +304,6 @@ export default function DataOrderBarang() {
                         <p className="pt-1 pr-2 ps-2"> & </p>
                         <input type="number" value={temp.nohp2} className="border border-primary rounded-lg w-64 text-xl h-10" name="nohp" id="nohp" disabled />
                     </div>
-                    {/* <div className="Email flex mt-3 text-primary  text-2xl">
-                            <p className="pt-1 w-52 pr-2">Email : </p>
-                            <input type="email" placeholder="email" className="border border-primary rounded-lg w-1/2 text-xl h-10" name="email" id="email" />
-                        </div> */}
                     <div className="Email flex mt-3 bottom-0 text-primary text-2xl">
                         <p className="pt-1 w-52 pr-2">Tanggal : </p>
                         <input type="text" placeholder="tanggal" className="border border-primary rounded-lg 0 text-xl h-10" name="date" id="date" defaultValue={date} disabled />
@@ -390,27 +336,11 @@ export default function DataOrderBarang() {
             {/* form input order */}
 
             {/* datatable */}
-            {/* <form className="mb-16"> */}
             <div className="cover mt-16 border-2 rounded-xl mb-10" style={{ width: "100%", boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}>
-                {/* <table className="border-2 border-gray rounded-lg" ref={tableRef}></table> */}
                 <p className="pt-8 text-4xl font-semibold text-center text-primary">Data Barang</p>
                 <div className="cover m-2">
                     <table id="example" className="display border-2 border-gray rounded-lg">
-                        {/* <thead>
-                        <tr>
-                            <th>Nama Barang</th>
-                            <th>Stok Karton</th>
-                            <th>Harga Karton</th>
-                            <th>Stok Pcs</th>
-                            <th>Harga Pcs</th>
-                            <th>Qty Karton</th>
-                            <th>Qty PCS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <Tabel /> 
-                    </tbody> */}
-                    </table>
+                     </table>
                 </div>
             </div>
             {/* datatable */}
@@ -444,7 +374,6 @@ export default function DataOrderBarang() {
                     Submit
                 </button>
             </div>
-            {/* </form> */}
             {/* submit kirim kranjang */}
         </>
 

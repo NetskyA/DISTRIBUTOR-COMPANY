@@ -10,14 +10,6 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 export default function DataOrderanMasuk() {
   const dataOrder = useLoaderData();
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // const handleOpenModal = () => {
-  //   setIsModalOpen(true);
-  // };
-  // const handleCloseModal = () => {
-  //   setIsModalOpen(false);
-  // };
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -343,7 +335,6 @@ export default function DataOrderanMasuk() {
       </div>
       <hr className="h-px my-10 mt-18 mb-52" />
       <div className="cover">
-        {/* {isModalOpen && ( */}
         <Modal
           open={open}
           onClose={handleClose}
@@ -363,7 +354,6 @@ export default function DataOrderanMasuk() {
             </div>
           </Box>
         </Modal>
-        {/* )} */}
       </div>
     </>
   );

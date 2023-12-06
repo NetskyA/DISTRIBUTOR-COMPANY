@@ -25,7 +25,6 @@ export default function DataLaporanOrderan() {
   }, [totalTarget, averageSubtotal]);
 
   const Print = () => {
-    //console.log('print');
     let printContents = document.getElementById("CetakLaporan").innerHTML;
     let originalContents = document.body.innerHTML;
     document.body.innerHTML = printContents;
@@ -68,8 +67,6 @@ export default function DataLaporanOrderan() {
         }
       }
     }
-
-    // console.log(resultData);
 
     // Total Target
     const listTarget = target.filter((t) => t.id_wilayah == id_kel);
@@ -156,11 +153,8 @@ export default function DataLaporanOrderan() {
         countSubtotal++;
       }
     }
-    // console.log(grandtotal + " / " + countSubtotal);
 
     let averageSubtotal = grandtotal / countSubtotal;
-
-    // console.log(averageSubtotal);
 
     setAverageSubtotal(averageSubtotal);
 
@@ -199,8 +193,6 @@ export default function DataLaporanOrderan() {
         for (let i = 0; i < listHeaderTransaksi.length; i++) {
           const hT = listHeaderTransaksi[i];
 
-          //   console.log(createDate(hT.tanggal_transaksi).getTime());
-
           if (
             createDate(hT.tanggal_transaksi).getTime() >= dateStart.getTime() &&
             createDate(hT.tanggal_transaksi).getTime() <= dateEnd.getTime()
@@ -213,7 +205,6 @@ export default function DataLaporanOrderan() {
         let tempTarget = [];
         for (let i = 0; i < target.length; i++) {
           const t = target[i];
-          //   console.log(t.tanggal_target);
           if (
             createDate(t.tanggal_target).getTime() >= dateStart.getTime() &&
             createDate(t.tanggal_target).getTime() <= dateEnd.getTime()
@@ -228,8 +219,6 @@ export default function DataLaporanOrderan() {
         let tempHeader = [];
         for (let i = 0; i < listHeaderTransaksi.length; i++) {
           const hT = listHeaderTransaksi[i];
-
-          //   console.log(createDate(hT.tanggal_transaksi).getTime());
 
           if (
             createDate(hT.tanggal_transaksi).getTime() >= dateStart.getTime()
@@ -253,8 +242,6 @@ export default function DataLaporanOrderan() {
         let tempHeader = [];
         for (let i = 0; i < listHeaderTransaksi.length; i++) {
           const hT = listHeaderTransaksi[i];
-
-          //   console.log(createDate(hT.tanggal_transaksi).getTime());
 
           if (createDate(hT.tanggal_transaksi).getTime() <= dateEnd.getTime()) {
             tempHeader.push(hT);
@@ -303,8 +290,6 @@ export default function DataLaporanOrderan() {
           }
         }
       }
-
-      // console.log(resultData);
 
       // Total Target
       const listTarget = dataTarget.filter(
@@ -393,11 +378,8 @@ export default function DataLaporanOrderan() {
           countSubtotal++;
         }
       }
-      // console.log(grandtotal + " / " + countSubtotal);
 
       let averageSubtotal = grandtotal / countSubtotal;
-
-      // console.log(averageSubtotal);
 
       setAverageSubtotal(averageSubtotal);
 

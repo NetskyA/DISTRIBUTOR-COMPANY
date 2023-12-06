@@ -106,7 +106,6 @@ export default function Laporan() {
   }, [dateStart, dateEnd]);
 
   const Print = () => {
-    //console.log('print');
     if (isVisibleSales == true || isVisibleSuper == true) {
       let printContents = "";
       if (isVisibleSuper == true) {
@@ -125,8 +124,6 @@ export default function Laporan() {
 
   const extractDate = (id) => {
     const date = document.getElementById(id).value;
-
-    // console.log(date);
     if (date) {
       const tempDate = date.split("-");
       const year = tempDate[0];
@@ -152,7 +149,6 @@ export default function Laporan() {
 
   return (
     <>
-      {/* {console.log(targets)} */}
       <div className="cover selectdisable flex">
         {/* nanti digunakan memanggil nama sesuai akun*/}
         <div className="header lg:w-full md:w-1/2 text-primary text-4xl font-semibold">

@@ -55,10 +55,6 @@ export default function Table() {
                         <p>Alamat : </p>
                         <p className="ms-4">{data.alamat}</p>
                     </div>
-                    {/* <div className="MngSales flex mt-4 text-primary font-semibold text-2xl">
-                        <p>Manager Sales : </p>
-                        <p className="ms-4">.....</p>
-                    </div> */}
                 </div>
                 {/* berisi biodata salesman */}
 

@@ -2,7 +2,6 @@
 import DataTarget from "../../controller/ControlTarget";
 import { Radio } from "@material-tailwind/react";
 import React, { useEffect, useRef, useState } from "react";
-import dataSet from "../Salesman/DataRetur";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import {
   Dropdown,
@@ -78,7 +77,6 @@ export default function Table() {
         target: tempTarget[i],
       });
     }
-    // setReload(!reload);
     navigate("/Supervisor/Target");
   }
 

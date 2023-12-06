@@ -52,7 +52,6 @@ export default function Master() {
 
     return (
         <>  <div className="cover" 
-        // style={{marginLeft:(!isUser)?"5.7vw":"0vh"}}
         >
 
             <div className="cover selectdisable flex">

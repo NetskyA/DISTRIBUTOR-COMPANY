@@ -34,10 +34,6 @@ export default function Table() {
 
                 {/* berisi biodata salesman */}
                 <div className="row ms-6 m-4 w-full">
-                    {/* <div className="noId flex text-primary font-semibold text-2xl">
-                        <p>User id : </p>
-                        <p className="ms-4">S0001</p>
-                    </div> */}
                     <div className="MSales flex mt-4 text-primary font-semibold text-2xl">
                         <p>Nama User : </p>
                         <p className="ms-4">{data.nama}</p>
@@ -69,9 +65,7 @@ export default function Table() {
                     </div>
                 </div>
                 {/* menampilakan foto karyawan */}
-
             </div>
-
         </>
     );
 }

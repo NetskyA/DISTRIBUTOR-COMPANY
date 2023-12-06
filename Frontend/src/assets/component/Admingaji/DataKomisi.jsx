@@ -1,7 +1,6 @@
 import DateControl from "../../controller/ControlTanggal"
 import { Radio } from "@material-tailwind/react";
 import React, { useEffect, useRef,useState } from "react";
-import dataSet from "../../component/Salesman/DataRetur";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import FotoModal from "../../images/image-modal/berhasil.png"

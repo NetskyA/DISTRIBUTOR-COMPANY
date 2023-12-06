@@ -5,7 +5,6 @@ import LogoPerusahaan from "../../images/image-login/icon.png"
 import DataTables from "datatables.net";
 import ControlTarget from "../../controller/ControlTarget"
 import "datatables.net-dt/css/jquery.dataTables.min.css";
-import dataSet from "../../component/Salesman/DataSet";
 import * as XLSX from "xlsx";
 import "datatables.net";
 import "datatables.net-buttons";
@@ -13,13 +12,6 @@ import "datatables.net-buttons-dt";
 import "datatables.net-buttons-dt/css/buttons.dataTables.min.css";
 import "datatables.net-buttons/js/buttons.html5.min.js";
 import "datatables.net-buttons/js/buttons.print.min.js";
-// export default function LaporanSales() {
-//     const [isVisibleSales, setIsVisibleSales] = useState(false);
-//     const [dateStart, setDateStart] = useState("-");
-
-//     const toggleVisibilitySales = () => {
-//         setIsVisibleSales(!isVisibleSales);
-//     };
 
 export default function LaporanSales() {
     let data = useLoaderData();

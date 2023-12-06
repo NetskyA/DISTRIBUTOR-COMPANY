@@ -2,7 +2,6 @@ import ControlTarget from "../../controller/ControlTarget"
 import { Radio } from "@material-tailwind/react";
 import LogoShow from "../../images/image-modal/show.png"
 import React, { useEffect, useState, useRef } from "react";
-import dataSet from "../../component/Salesman/DataRetur";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import { useLoaderData, useRevalidator } from "react-router-dom";
 import formatter from "../../controller/formatter";
@@ -43,9 +42,7 @@ export default function PostKeranjang() {
                 let duplikat = false;
                 for (let j = 0; j < dataDetail.length; j++) {
                     let idbarang1 = (tempData.post.listbarang[(tempdataDetail[i].id_detail_barang - 1)]);
-                    // console.log(idbarang1);
                     let idbarang2 = (tempData.post.listbarang[dataDetail[j].id_detail_barang - 1]);
-                    // console.log(idbarang2);
                     if (idbarang1.id_barang === idbarang2.id_barang) {
                         duplikat = true;
                         dataDetail[j].jumlah_barang_pcs += tempdataDetail[i].jumlah_barang_pcs

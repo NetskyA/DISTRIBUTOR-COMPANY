@@ -96,9 +96,6 @@ export default function MasterJabatan() {
       opt.value = 0
       outletOptions.appendChild(opt);
     }
-
-
-
   }
   return (
     <>

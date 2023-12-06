@@ -2,7 +2,6 @@ import ControlTarget from "../../controller/ControlTarget"
 import { Radio } from "@material-tailwind/react";
 import React, { useEffect, useRef } from "react";
 import { useLoaderData,useNavigate} from "react-router-dom";
-import dataSet from "../../component/Salesman/DataRetur";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import $ from "jquery";
 import formatter from "../../controller/formatter";
@@ -10,58 +9,8 @@ import formatter from "../../controller/formatter";
 export default function DataDetailHistory (){
     let data = useLoaderData();
     let navigate = useNavigate()
-    console.log(data)
-    // let j = 0;
-    // const Row = ({ data }) => {
-    //     var temp = [];
-    //     for (let i = 0; i < 6; i++) {
-    //         temp.push(<td key={j}>{data[i]}</td>)
-    //         j++
-    //     }
-    //     temp.push(<td key={j}>
-    //         <input className="text-2xl text-primary border-0 bg-gray-200 rounded-lg" type="text" name={data[0]} defaultValue="0"/>
-    //         </td>)
-    //     return <>{temp}</>
-    // }
-
-    // const Tabel = () => {
-    //     var cetak = [];
-    //     let i = 0;
-    //     dataSet.map((e) => {
-    //         cetak.push(<tr key={i}><Row data={e} /></tr>)
-    //         i++;
-    //     })
-    //     return <>{cetak}</>;
-    // }
-    // const tableRef = useRef();
     var table;
-
-    // const test = ()=>{
-    //     var data = table.$('input').serialize()
-    //     console.log(data)
-    // }
-
     useEffect(() => {
-        // $(tableRef.current).DataTable({
-        //     data: dataSet,
-        //     columns: [
-        //         { title: "Id Barang", field: "idbarang" },
-        //         { title: "Nama Barang", field: "namabarang" },
-        //         { title: "Harga Pcs", field: "hargapcs" },
-        //         { title: "Harga Karton", field: "hargakarton" },
-        //         { title: "Qty Gudang", field: "qtygudang" },
-        //         { title: "Qty Pembelian", field: "qtypembelian" },
-        //         { title: "Qty Retur", field: "qtyretur" },
-        //     ],
-        // });
-        // table = new $('#example').DataTable({
-        //     columnDefs: [
-        //         {
-        //             orderable: false,
-        //             targets: [6]
-        //         }
-        //     ]
-        // });
         table = new $("#example").DataTable({
             dom: '<"top"lf>rt<"bottom"pi>',
             data: data.detailTransaksi,
@@ -215,20 +164,6 @@ export default function DataDetailHistory (){
                 {/* <table className="border-2 border-gray rounded-lg" ref={tableRef}></table> */}
                 <div className="cover m-2">
                 <table id="example" className="display border-2 border-gray rounded-lg">
-                    {/* <thead>
-                        <tr>
-                            <th>Id Barang</th>
-                            <th>Nama Barang</th>
-                            <th>Harga Pcs</th>
-                            <th>Harga Karton</th>
-                            <th>Qty Gudang</th>
-                            <th>Qty Pembelian</th>
-                            <th>Qty Retur</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <Tabel /> 
-                    </tbody> */}
                 </table>
                 </div>
             </div>

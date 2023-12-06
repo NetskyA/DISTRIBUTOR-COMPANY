@@ -53,13 +53,6 @@ export default function RegisterUser() {
       errorFoto.current = true;
       return;
     }
-
-    // const username = document.getElementById("username").value;
-    // const password = document.getElementById("password").value;
-    // const alamat = document.getElementById("alamat").value;
-    // const nohp = document.getElementById("nohp").value;
-    // const email = document.getElementById("email").value;
-    // const rekening = document.getElementById("rekening").value;
     const salesman = document.getElementById("salesman").checked;
     const supervisor = document.getElementById("supervisor").checked;
     const ksupervisor = document.getElementById("ksupervisor").checked;
@@ -103,7 +96,6 @@ export default function RegisterUser() {
       document.getElementById("email").focus();
       return;
     }
-    // const jabatan = data.jabatan;
     const atasan = data.atasan;
     const namaFile = username.replace(/\s/g, "") + ".png";
     let idJabatan = 0;
@@ -141,7 +133,6 @@ export default function RegisterUser() {
       foto: namaFile,
     });
 
-    // const user = await client.get(`/api/user`)
     setFoto(null);
     reset();
     setNewUser(user.data);
@@ -154,7 +145,6 @@ export default function RegisterUser() {
   function gantiAtasan() {
     const salesman = document.getElementById("salesman").checked;
     const supervisor = document.getElementById("supervisor").checked;
-    // const ksupervisor = document.getElementById("ksupervisor").checked;
     if (salesman) {
       setAtasan(data.supervisor);
     } else if (supervisor) {
@@ -268,7 +258,6 @@ export default function RegisterUser() {
                           id="salesman"
                           value="salesman"
                           onChange={() => gantiAtasan()}
-                          //   {...register("jabatan")}
                         />
                         <label
                           className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -285,7 +274,6 @@ export default function RegisterUser() {
                           id="supervisor"
                           value="supervisor"
                           onChange={() => gantiAtasan()}
-                          //   {...register("jabatan")}
                         />
                         <label
                           className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -302,7 +290,6 @@ export default function RegisterUser() {
                           id="ksupervisor"
                           value="ksupervisor"
                           onChange={() => gantiAtasan()}
-                          //   {...register("jabatan")}
                         />
                         <label
                           className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -321,7 +308,6 @@ export default function RegisterUser() {
                           id="admingaji"
                           value="admingaji"
                           onChange={() => gantiAtasan()}
-                          //   {...register("jabatan")}
                         />
                         <label
                           className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -338,7 +324,6 @@ export default function RegisterUser() {
                           id="adminpenjualan"
                           value="adminpenjualan"
                           onChange={() => gantiAtasan()}
-                          //   {...register("jabatan")}
                         />
                         <label
                           className="mt-2 ms-2 inline-block pl-[0.15rem] hover:cursor-pointer"
@@ -408,7 +393,6 @@ export default function RegisterUser() {
             {/* berisi biodata salesman */}
             <div className="flex mb-10">
             <div className="row ms-6 m-4 w-full">
-              {/* {console.log(newUser)} */}
               <div className="MSales flex mt-4 text-primary font-semibold text-2xl">
                 <p>Nama User : {newUser && newUser.username}</p>
                 <p className="ms-4">{}</p>
@@ -420,7 +404,6 @@ export default function RegisterUser() {
               <div className="PhoneNumber flex mt-6 text-primary font-semibold text-2xl">
                 <p>No. Hp : {newUser && newUser.no_handphone}</p>
                 <p className="ms-4"> </p>
-                {/* <p className="ms-4">/ 08346366464</p> */}
               </div>
               <div className="Email flex mt-6 text-primary font-semibold text-2xl">
                 <p>Email : {newUser && newUser.email}</p>

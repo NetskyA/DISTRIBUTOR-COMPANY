@@ -3,7 +3,6 @@ import $ from "jquery";
 import DataTables from "datatables.net";
 import ControlTarget from "../../controller/ControlTarget"
 import "datatables.net-dt/css/jquery.dataTables.min.css";
-import dataSet from "./DataSet2";
 import * as XLSX from "xlsx";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import "datatables.net-buttons";
@@ -176,7 +175,6 @@ export default function DataLaporanGaji() {
                 <div className="cover mb-28">
                     <div className="covertable m-2">
                         <table id="example" className="border-2 border-gray rounded-lg">
-                            
                         </table>
                     </div>
                 </div>

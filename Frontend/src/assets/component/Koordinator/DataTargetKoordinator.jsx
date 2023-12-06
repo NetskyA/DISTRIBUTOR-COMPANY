@@ -2,7 +2,6 @@
 import DataTarget from "../../controller/ControlTarget";
 import { Radio } from "@material-tailwind/react";
 import React, { useEffect, useRef, useState } from "react";
-import dataSet from "../../component/Salesman/DataRetur";
 import "datatables.net-dt/css/jquery.dataTables.min.css";
 import FotoModal from "../../images/image-modal/berhasil.png"
 import $ from "jquery";
@@ -48,16 +47,11 @@ export default function Table() {
   const updateDB = async () => {
     for (let i = 0; i < dataSupervisor.length; i++) {
       const supervisor = dataSupervisor[i];
-
-      // console.log(supervisor);
-
       let insert = await client.post(`/api/target/`, {
         id_user: supervisor.id_user,
         id_wilayah: supervisor.id_wilayah,
         target: supervisor.targetTerakhir,
       });
-
-      //   console.log(update);
     }
   };
 
@@ -100,8 +94,6 @@ export default function Table() {
 
       newSupervisor.push(newData);
     }
-
-    // console.log(newSupervisor);
 
     setDataSupervisor(newSupervisor);
     setSubmit(true);
@@ -204,7 +196,6 @@ export default function Table() {
                         name="inputTarget"
                         type="number"
                         className="text-2xl text-primary border-0 bg-gray-200 rounded-lg"
-                        // placeholder="0"
                         defaultValue={s.targetTerakhir}
                         min={0}
                       />

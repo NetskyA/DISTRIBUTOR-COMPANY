@@ -4,7 +4,6 @@ import $ from "jquery";
 import DataTables from "datatables.net";
 import ControlTarget from "../../controller/ControlTarget"
 import "datatables.net-dt/css/jquery.dataTables.min.css";
-import dataSet from "../../component/Salesman/DataSet";
 import * as XLSX from "xlsx";
 import "datatables.net";
 import "datatables.net-buttons";

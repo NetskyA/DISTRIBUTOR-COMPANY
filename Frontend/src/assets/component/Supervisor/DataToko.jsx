@@ -32,21 +32,11 @@ export default function DataToko() {
                 { title: "Kelurahan", data: "kelurahan" },
                 { title: "Nama Konsumen", data: "nama_konsumen" },
                 { title: "Alamat Toko", data: "alamat_toko" },
-                { title: "No Handphone 1", data: "no_handphone1"  },
-                { title: "No Handphone 2", data: "no_handphone2"  },
+                { title: "No Handphone 1", data: "no_handphone1" },
+                { title: "No Handphone 2", data: "no_handphone2" },
             ],
             destroy: true,
             "bDestroy": true
-            // buttons: [
-            //   "copy",
-            //   "csv",
-            //   {
-            //     text: "Ecxel",
-            //     action: ExportExcel,
-            //   },
-            //   "pdf",
-            //   "print", // Specify which buttons to include
-            // ],
         });
     }, []);
     return (
@@ -57,7 +47,7 @@ export default function DataToko() {
                     <p>List Toko</p>
                 </div>
                 <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-                    <ControlTarget current={data.targetSekarang} target={data.currtarget}/>
+                    <ControlTarget current={data.targetSekarang} target={data.currtarget} />
                 </div>
                 {/* untuk memanggil function controller target salesman */}
             </div>
