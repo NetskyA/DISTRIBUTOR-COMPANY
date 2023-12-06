@@ -16,6 +16,7 @@ import DetailHistoriPenjualanSales from "./assets/component/Salesman/DataDetailH
 import DataProfileSupervisor from "./assets/component/Supervisor/DataProfileSupervisor";
 import DataTargetSupervisor from "./assets/component/Supervisor/DataTargetSupervisor";
 import DataTokoSupervisor from "./assets/component/Supervisor/DataToko";
+import DataTambahTokoSpv from "./assets/component/Supervisor/DataTambahTokoSpv";
 import DataLaporanSalesman from "./assets/component/Supervisor/DataLaporanSalesman";
 import ProfileKoordinator from "./assets/component/Koordinator/DataProfileKoordinator";
 import TargetKoordinatorToSupervisor from "./assets/component/Koordinator/DataTargetKoordinator";
@@ -135,7 +136,12 @@ const router = createBrowserRouter([
       {
         path: "Toko",
         element: <DataTokoSupervisor />,
-        loader:   getDataTokoSupervisor,
+        loader: getDataTokoSupervisor,
+      },
+      {
+        path: "Tambah-Toko",
+        element: <DataTambahTokoSpv />,
+        loader: getDataTokoSupervisor,
       },
       {
         path: "Laporan",
