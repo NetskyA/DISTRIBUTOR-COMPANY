@@ -113,7 +113,7 @@ export default function DataOrderBarang() {
                     render: function (data, type, row) {
                         if (type === 'display') {
                             // Render an input text data with the data
-                            return `<input type="number" value="0" min="0" data-row-id="${row.id_barang}" class="data-input-karton text-xl"/>`
+                            return `<input type="number" value="0" min="0" data-row-id="${row.id_barang}" class="data-input-karton w-40 text-xl"/>`
                         }
                         return data;
                     },
@@ -124,7 +124,7 @@ export default function DataOrderBarang() {
                     render: function (data, type, row) {
                         if (type === 'display') {
                             // Render an input text data with the data
-                            return `<input type="number" value="0" min="0" data-row-id="${row.id_barang}" class="data-input-pcs text-xl" />`
+                            return `<input type="number" value="0" min="0" data-row-id="${row.id_barang}" class="data-input-pcs w-40 text-xl" />`
                         }
                         return data;
                     },
@@ -300,7 +300,7 @@ export default function DataOrderBarang() {
                     </div>
                     <div className="PhoneNumber flex mt-3 text-primary  text-2xl">
                         <p className="pt-1 w-52 pr-2">No. Hp : </p>
-                        <input type="number" value={temp.nohp1} required="number" className="border border-primary rounded-lg w-64 text-xl h-10" name="nohp" id="nohp" disabled />
+                        <input type="number" value={temp.nohp1} required="number" className="border border-primary rounded-lg w-60 text-xl h-10" name="nohp" id="nohp" disabled />
                         <p className="pt-1 pr-2 ps-2"> & </p>
                         <input type="number" value={temp.nohp2} className="border border-primary rounded-lg w-64 text-xl h-10" name="nohp" id="nohp" disabled />
                     </div>
