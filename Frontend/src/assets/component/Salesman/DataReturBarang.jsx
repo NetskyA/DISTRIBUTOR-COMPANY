@@ -151,7 +151,7 @@ export default function ReturnBarang() {
           render: function (data, type, row) {
             if (type === "display") {
               // Render an input text data with the data
-              return `<input type="number" value="0" min="0" data-row-id="${row.id_barang}" class="data-input-karton"/>`;
+              return `<input type="number" value="0" min="0" data-row-id="${row.id_barang}" class="data-input-karton w-32"/>`;
             }
             return data;
           },
@@ -162,7 +162,7 @@ export default function ReturnBarang() {
           render: function (data, type, row) {
             if (type === "display") {
               // Render an input text data with the data
-              return `<input type="number" value="0" min="0" data-row-id="${row.id_barang}" class="data-input-pcs" />`;
+              return `<input type="number" value="0" min="0" data-row-id="${row.id_barang}" class="data-input-pcs w-32" />`;
             }
             return data;
           },
@@ -480,7 +480,7 @@ export default function ReturnBarang() {
         <div className="cover m-2">
           <table
             id="example"
-            className="display border-2 border-gray rounded-lg"
+            className="display border-2 border-gray text-xl rounded-lg"
           >
 
           </table>
@@ -497,7 +497,7 @@ export default function ReturnBarang() {
             className="text-left text-2xl font-light border rounded-xl w-full"
             style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px" }}
           >
-            <thead className="border-b font-medium dark:border-neutral-500">
+            <thead className="border-b font-medium text-xl dark:border-neutral-500">
               <tr>
                 <th scope="col" className="px-6 py-4">
                   Id Barang
@@ -528,7 +528,7 @@ export default function ReturnBarang() {
                   return (
                     <tr
                       key={index}
-                      className="border-b dark:border-neutral-500"
+                      className="border-b text-xl dark:border-neutral-500"
                     >
                       <td className="whitespace-nowrap px-6 py-4 font-medium">
                         {e.id_barang}

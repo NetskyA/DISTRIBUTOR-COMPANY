@@ -278,7 +278,7 @@ export default function DataOrderBarang() {
                     <p>Order</p>
                 </div>
                 <div className="rounded-xl lg:w-1/2 float-right mr-0 mx-auto text-2xl font-semibold">
-                    <ControlTarget current={data.targetSekarang} target={data.currtarget}/>
+                    <ControlTarget current={data.targetSekarang} target={data.currtarget} />
                 </div>
             </div>
             {/* navbaratas */}
@@ -300,9 +300,9 @@ export default function DataOrderBarang() {
                     </div>
                     <div className="PhoneNumber flex mt-3 text-primary  text-2xl">
                         <p className="pt-1 w-52 pr-2">No. Hp : </p>
-                        <input type="number" value={temp.nohp1} required="number" className="border border-primary rounded-lg w-60 text-xl h-10" name="nohp" id="nohp" disabled />
+                        <input type="number" value={temp.nohp1} required="number" className="border border-primary rounded-lg lg:w-64 text-xl h-10 sm:w-40" name="nohp" id="nohp" disabled />
                         <p className="pt-1 pr-2 ps-2"> & </p>
-                        <input type="number" value={temp.nohp2} className="border border-primary rounded-lg w-64 text-xl h-10" name="nohp" id="nohp" disabled />
+                        <input type="number" value={temp.nohp2} className="border border-primary rounded-lg lg:w-64 text-xl h-10 sm:w-40" name="nohp" id="nohp" disabled />
                     </div>
                     <div className="Email flex mt-3 bottom-0 text-primary text-2xl">
                         <p className="pt-1 w-52 pr-2">Tanggal : </p>
@@ -340,7 +340,7 @@ export default function DataOrderBarang() {
                 <p className="pt-8 text-4xl font-semibold text-center text-primary">Data Barang</p>
                 <div className="cover m-2">
                     <table id="example" className="display border-2 border-gray rounded-lg">
-                     </table>
+                    </table>
                 </div>
             </div>
             {/* datatable */}
