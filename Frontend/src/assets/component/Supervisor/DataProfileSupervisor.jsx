@@ -61,7 +61,7 @@ export default function Table() {
                 {/* menampilakan foto karyawan */}
                 <div className="row m-1 bg-gray-300 rounded-xl w-1/5">
                     <div className="noId">
-                        <img className="w-72 m-2 mx-auto" src={`http://localhost:3000/uploads/${data.foto}`} alt="foto profile" />
+                        <img className="w-72 m-2 mx-auto" src={`https://dcbasborneoabadiselalu.glitch.me/uploads/${data.foto}`} alt="foto profile" />
                     </div>
                 </div>
                 {/* menampilakan foto karyawan */}

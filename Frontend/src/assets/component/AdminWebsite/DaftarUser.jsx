@@ -426,7 +426,7 @@ export default function RegisterUser() {
                 {newUser ? (
                   <img
                     className="w-72 m-2 mx-auto"
-                    src={`http://localhost:3000/uploads/${newUser.foto}`}
+                    src={`https://dcbasborneoabadiselalu.glitch.me/uploads/${newUser.foto}`}
                     alt="foto profile"
                   />
                 ) : (
