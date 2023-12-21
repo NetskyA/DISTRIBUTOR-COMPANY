@@ -35,6 +35,8 @@ import LaporanTarget from "./assets/component/AdminWebsite/LaporanTarget";
 import Master from "./assets/component/AdminWebsite/Master";
 import RegisterUser from "./assets/component/AdminWebsite/DaftarUser";
 import DataHandler from "./assets/controller/DataHandler";
+import { Provider } from 'react-redux'
+import store from './assets/controller/store'
 
 const {
   getDataCatalog,
@@ -256,7 +258,9 @@ const router = createBrowserRouter([
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router} />
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
 );
 
 // ReactDOM.createRoot(document.getElementById('root')).render(

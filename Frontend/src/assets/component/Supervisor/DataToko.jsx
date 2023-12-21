@@ -12,13 +12,17 @@ import "datatables.net-buttons-dt";
 import "datatables.net-buttons-dt/css/buttons.dataTables.min.css";
 import "datatables.net-buttons/js/buttons.html5.min.js";
 import "datatables.net-buttons/js/buttons.print.min.js";
+
+import { useSelector } from "react-redux";
+
 export default function DataToko() {
     let data = useLoaderData();
+    const listToko = useSelector((state)=>state.data.listToko);
     let table;
     useEffect(() => {
         table = new $('#example').DataTable({
             dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
-            data: data.katalogToko,
+            data: listToko,
             'columnDefs': [         // see https://datatables.net/reference/option/columns.searchable
                 {
                     'searchable': true,

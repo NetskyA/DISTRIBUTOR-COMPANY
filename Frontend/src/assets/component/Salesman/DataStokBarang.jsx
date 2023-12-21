@@ -11,14 +11,16 @@ import "datatables.net-buttons-dt";
 import "datatables.net-buttons-dt/css/buttons.dataTables.min.css";
 import "datatables.net-buttons/js/buttons.html5.min.js";
 import "datatables.net-buttons/js/buttons.print.min.js";
+import { useSelector } from "react-redux";
 
 const Catalog = () => {
+  const listBarang = useSelector((state)=>state.data.listBarang);
   let data = useLoaderData();
   let table;
   useEffect(() => {
     table = new $('#example').DataTable({
       dom: '<"top"lf>rt<"bottom"Bpi>', // Include the buttons in the DOM
-      data: data.data,
+      data: listBarang,
       'columnDefs': [         // see https://datatables.net/reference/option/columns.searchable
         {
           'searchable': false,
