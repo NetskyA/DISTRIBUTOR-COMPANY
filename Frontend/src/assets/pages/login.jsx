@@ -85,7 +85,7 @@ export default function Loginfunction() {
                     <div className="h-full px-6 py-24">
                         <div className="g-6 container w-full h-full flex-wrap items-center justify-center lg:justify-between">
                             {/* //gambat login sebelah kiri */}
-                            <div className="mb-12 md:mb-0 md:w-6/12 lg:w-6/12 float-left" style={{marginTop:"-40px"}} data-aos="fade-right" data-aos-duration="1500">
+                            <div className="mb-12 md:mb-0 md:w-6/12 lg:w-6/12 float-left" style={{ marginTop: "-40px" }} data-aos="fade-right" data-aos-duration="1500">
                                 <img src={LogoPerusahaan}
                                     className="w-11/12 rounded-3xl lg:mt-20"
                                     alt="logologin" />
@@ -143,7 +143,7 @@ export default function Loginfunction() {
                                 </div>
                             </div>
                             {/* //form untuk login ke landing page */}
-                            <p className="text-sm lg:text-base text-gray-500 text-center md:pt-4" style={{ marginTop: "64vh" }}>Version 12.6.23</p>
+                            <p className="text-sm lg:text-base text-gray-500 text-center md:pt-4" style={{ marginTop: "64vh" }}>Version 2.8.23</p>
                         </div>
                     </div>
                 </section>

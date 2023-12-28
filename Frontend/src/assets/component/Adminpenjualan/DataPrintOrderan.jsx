@@ -365,7 +365,7 @@ export default function DataPrintOrderan() {
                     <div className="kanan w-2/4">
                       <div className="m-2">
                         <p className="text-2xl text-end font-bold">
-                          CV. LAJU JAYA CEMERLANG
+                          CV. BORNEO ABADI SELALU
                         </p>
                       </div>
                       <div className="m-2">
